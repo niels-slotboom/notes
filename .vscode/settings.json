@@ -1,0 +1,21 @@
+{
+    "cSpell.enabled": true,
+    "cSpell.enabledFileTypes": {
+        "typst": true
+    },
+    "cSpell.languageSettings": [
+    {
+        "languageId": "typst",
+        "includeRegExpList": ["/[\\w']+/g"]
+    }
+    ],
+    "files.associations": {
+        "*.typ": "typst"
+    },
+    "cSpell.words": [
+        "codimension",
+        "Riemannian",
+        "submanifold",
+        "Submanifolds"
+    ]
+}
