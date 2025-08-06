@@ -1746,7 +1746,7 @@ The fact that this is the correct expression can also be checked by inserting @m
 \ \
 *Remark* The @ChristoffelSymbols[Christoffel symbols] above are the coefficients of the so-called _Levi-Civita connection_, which is the _unique_ connection that is both torsion-free and metric-compatible.
 
-== Induced Connection on Foliations
+== Induced Connection on Foliations <sectionDefInducedConnection>
 
 The goal of this section is to define an affine connection on the submanifolds constituting a foliation $Sigma$ of a (pseudo-)Riemannian manifold $cal(M)$. Just as with the ambient metric and the choice of induced metric on submanifolds, one is, in principle, free to assign any connection to these submanifolds. However, if $cal(M)$ is already equipped with an affine connection $nabla$, it is natural to study a connection _induced_ by this ambient structure, rather than constructing one from scratch. We begin by developing an intuitive, geometric picture of how such an induced connection should behave, before proceeding to formalise it in a precise definition.
 
@@ -2399,11 +2399,51 @@ However, this is _not_ the case. There are (at least) two ways to see this---fir
 
   This is a good point to take a step back and generalise the insight, in order to build further intuition for why our guess cannot be correct. What we have done is the following: we took a flat manifold, $RR^3 without {0}$, and foliated it into surfaces that are scaled copies of the 2-sphere. Intuitively, spheres possess curvature---this is evident from the fact that their normal vector field varies as one moves along their surface. Our @naiveGuessAmbientIntrinsicCurvature[guess], however, attempted to capture something quite different: it projected the ambient curvature tensor (which vanishes in this case) onto the tangent bundle of the foliation (where it still vanishes). The projection $P R|_(T Sigma)$ captures only the part of the _ambient_ curvature that is tangential to the foliation; it entirely neglects how the surface itself bends within the ambient space. In other words, this projection measures the curvature of the background in which the leaves of the foliation live, but not how those leaves curve within it. The normal field vector plays no role in this projection. Hence, while $P R|_(T Sigma)$ may contribute to the intrinsic curvature $macron(R)$, it clearly does not suffice to determine it completely: the way in which the surface curves relative to the background also generates intrinsic curvature.
 
-- *Algebraic Argument*
+- *Algebraic Argument* In @sectionDefInducedConnection, we introduced the induced connection on a foliation $Sigma$ by defining its action on vector fields as
+  $
+    mnabla_X Y = (iota_*)^(-1) nabla_(iota_* X) (iota_* Y),quad X,Y in Gamma(T Sigma),
+  $
+  where $iota_*$ is the pushforward of the inclusion map $iota:Sigma -> cal(M)$, and $(iota_*)^(-1)$ is the unique left-inverse with the property that
+  $
+    P = iota_* compose (iota_*)^(-1)
+  $<eq7168>
+  is the orthogonal projection from $T cal(M)$ onto $T Sigma$. This is a very precise definition, as it distinguishes $T Sigma$ and $im(iota_*) subset T cal(M)$ as separate objects.
+  
+  In practice, however---particularly when working with foliations---it is often more convenient to treat $T Sigma$ as a proper subbundle of $T cal(M)$, which we may do via the linear embedding map $iota_*$. From this perspective, the induced connection takes a simpler and more direct form:
+  $
+    mnabla_X Y = P nabla_X Y, quad X,Y in T Sigma.
+  $<altDefnInducedConnection>
+  Since $T Sigma subset T cal(M)$, both $X$ and $Y$ are valid inputs for the ambient connection $nabla$. The appearance of the full projector $P$ on the right-hand side is then a result of pushing forward the image of $(iota_*)^(-1)$ into $T cal(M)$, which gives rise to the @eq7168[combination]. We will adopt this more algebraic, embedded viewpoint for the remainder of the discussion, as it makes many derivations more transparent: @altDefnInducedConnection[equation] makes clear that the induced connection is simply the projection of the ambient connection onto the tangent bundle of the foliation.
 
+  With this notational preface in place, we are now ready to give an algebraic argument for why the intrinsic curvature $macron(R)$ cannot, in general, be written as the orthogonal projection of the ambient curvature $R$ onto $T Sigma$.
+  
+  Inserting into the definition of $macron(R)$, we find that for $X,Y,Z in Gamma(T Sigma)$,
+  $
+    macron(R)(X,Y)Z &= [mnabla_X, mnabla_Y] Z - mnabla_[X,Y] Z\
+    &= [P nabla_X, P nabla_Y] Z - P nabla_[X,Y] Z.
+  $
+  The projection of the ambient curvature, on the other hand, reads
+  $
+    P R(X,Y)Z = P [nabla_X, nabla_Y] Z - P nabla_[X,Y] Z,
+  $
+  so the difference lies in the first term. Let us now expand the commutator appearing in $macron(R)$ as
+  $
+    [P nabla_X, P nabla_Y] Z &= P nabla_X (P nabla_Y Z) - (X<->Y)\
+    &= underbrace(P^2,=P) nabla_X nabla_Y Z + P (nabla_X P) nabla_Y Z - (X<->Y)\
+    &= P [nabla_X, nabla_Y] Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size:#130%)
+  $
+  We can see that there is an additional term involving covariant derivatives of the projector $P$---we hence obtain the identity 
+  $
+    macron(R)(X,Y)Z = P R(X,Y)Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size:#130%).
+  $
+  This demonstrates that the intrinsic curvature contains more than just the projection of the ambient curvature. The second term involves the covariant derivative of the projector $P$ and encodes how $T Sigma$ varies under parallel transport within the ambient manifold. It is, in fact, the algebraic seed of the _Gauss equation_, which we will derive in the following sections.
+
+  However, to properly interpret this additional term, we must first introduce the concept of _extrinsic curvature_. As it stands, the expression
+  $
+    P lr(((nabla_X P) nabla_Y Z - (nabla_Y P) nabla_X Z),size:#130%)
+  $
+  clearly introduces a dependence on how the submanifold is situated within the ambient space---it involves the derivative of the projector onto the tangent bundle, and hence reflects how that bundle varies from point to point. This suggests that the _shape_ of the submanifold is encoded here---the part that we found to be missing in the concrete example above. However, the geometric content of this term is not transparent in its current algebraic form. The introduction of extrinsic curvature will allow us to isolate and interpret this shape-dependence more clearly, ultimately leading to the _Gauss equation_, which links intrinsic, extrinsic and ambient curvature in a precise way.
 == Extrinsic Curvature
-give heuristic motivation of why intrinsic curvature cannot be "just" projection of ambient curvature, example of curved manifold embedded in flat space.
-
 === Algebraic Motivation for Extrinsic Curvature
 - recall that $mnabla_X Y = P nabla_X Y$ when pushing forward
 - observe: $Q nabla_X Y$ is what gets discarded
