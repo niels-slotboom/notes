@@ -39,6 +39,7 @@
   show par: set block(spacing: 0.55em)
   show heading: set block(above: 1.4em, below: 1em)
   set text(font: "New Computer Modern", lang: "en")
+  // set math.equation(number-align: bottom + right)
   
   set heading(numbering: "1.1")
   show heading.where(level: 1): it => counter(math.equation).update(0) + it

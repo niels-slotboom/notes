@@ -67,7 +67,7 @@ $
 $
 expressing the ambient coordinates as functions of the submanifold coordinates. This has a consequence for the differential of $x^mu$ restricted to $cal(S)$, namely
 $
-  dx^mu|_cal(S) = d(x^mu (y^i))|_cal(S) = (diff x^mu)/(diff y^i) dy^i equiv E^mu_i dy^i,
+  dx^mu|_cal(S) = d(x^mu (y^i))|_cal(S) = (diff x^mu)/(diff y^i) dy^i =: E^mu_i dy^i,
 $
 where we defined the so-called _pushforward matrix_ or _vielbein_
 $
@@ -88,7 +88,7 @@ This gives a general formula for the induced metric on a submanifold, expressed 
 
 This expression for $gamma_(i j)$ guarantees that the length of any path measured intrinsically on $cal(S)$, via the line element $dms^2$, matches the length computed externally in the ambient manifold via $ds^2$. It is, of course, a coordinate-dependent representation---whereas the earlier definition in @inducedMetricDefn[equation] was fully coordinate-independent.
 == Example Submanifold: $S^2 subset RR^3$
-Before diving into more abstract constructions, let us ground our intuition with a concrete example of a manifold and a natural submanifold. To this end, we consider the flat Euclidean space $cal(M) = RR^3$, with cartesian coordinates $x^mu = (x,y,z) in RR^3$ and endowed with the Euclidean metric
+Before diving into more abstract constructions, let us ground our intuition with a concrete example of a manifold and a natural submanifold. To this end, we consider the flat Euclidean space $cal(M) = RR^3$, with Cartesian coordinates $x^mu = (x,y,z) in RR^3$ and endowed with the Euclidean metric
 $
   ds^2 = dx^2 + dy^2 + dz^2 quad <=> quad g_(mu nu) = delta_(mu nu).
 $<euclideanLineElement>
@@ -194,7 +194,7 @@ Now, on the globe, there should be a corresponding direction, $phi_* X$, along w
 
 For explicit calculations, it is typically more convenient to move away from the abstract, coordinate-independent @pushforwardDefn[definition], and instead adopt a coordinate-based approach. To this end, let $p in cal(M)$ a point, with local coordinates $y^alpha$ around $p$, and let $x^mu$ be local coordinates on $cal(N)$ around the image point $phi(p)$. Then $phi$ induces a local map between coordinate systems,
 $
-  x^mu (y^alpha) equiv x^mu (phi(p(y^alpha))):RR^m -> RR^n,
+  x^mu (y^alpha) :=x^mu (phi(p(y^alpha))):RR^m -> RR^n,
 $
 which is differentiable in the standard sense. That is, composing the chart inverse on $cal(M)$, the map $phi$, and the chart on $cal(N)$, we obtain a smooth map between subsets of Euclidean space.
 
@@ -227,7 +227,7 @@ $
 $
 by
 $
-  inprod(omega, X)_cal(M) equiv omega(X).
+  inprod(omega, X)_cal(M) :=omega(X).
 $
 Here, $omega(X)$ denotes the natural pairing between a covector and a vector---i.e., the evaluation of the linear map $omega:T_p cal(M) ->RR$ on the argument $X in T_p cal(M)$. In coordinate components, this reads $omega(X) = omega_mu X^mu$. Notice that this pairing is defined independently of any metric structure.
 We will use it below to define the pullback $phi^*$, a dual operation to the pushforward, acting on cotangent spaces.
@@ -469,13 +469,13 @@ This is exactly the condition for $tensor(E,+i,-mu)$ to be a left-inverse of $te
 
 The left-inverse $(iota_*)#h(0em)^(-1)$ might not appear very useful, since all it does is allow us to form an identity on $T_p cal(S)$. We can, however, attempt to use it as a right-inverse, to define the map 
 $
-  P equiv iota_* compose (iota_*)#h(0em)^(-1) : T_p cal(M) -> im (iota_*) subset T_p cal(M).
+  P :=iota_* compose (iota_*)#h(0em)^(-1) : T_p cal(M) -> im (iota_*) subset T_p cal(M).
 $
 Clearly, the component representation of this map acting on $X in T_p cal(M)$ is
 $
   P(X) = (iota_* compose (iota_*)#h(0em)^(-1)) (X^mu diff_mu) = (tensor(E,+mu,-i ) tensor(E,+i,-nu) X^nu) diff_mu = (tensor(P,+mu,-nu) X^nu) diff_mu,
 $
-with the components of $P$ denoted by $tensor(P,+mu,-nu) equiv tensor(E,+mu,-i) tensor(E,+i,-nu)$.
+with the components of $P$ denoted by $tensor(P,+mu,-nu) := tensor(E,+mu,-i) tensor(E,+i,-nu)$.
 Since $P$ is a linear map, and
 $
   P^2 = iota_* compose underbrace((iota_*)#h(0em)^(-1) compose iota_*,=id_(T_p cal(S))) compose (iota_*)#h(0em)^(-1) = iota_* compose (iota_*)#h(0em)^(-1) = P,
@@ -549,7 +549,7 @@ Notice that hence, $Q(X) = X- P(X)$ is nothing but the projection of $X$ onto th
 $
   P + Q = id_(T_p cal(M)), wide P compose Q = Q compose P = 0.
 $
-What we learned thus far is the following: Writing the metric in terms of $tilde(P)$ and collecting the remaining parts into $tilde(Q)$ naturally decomposes it into a projection onto the embedding of $T_p cal(S)$ into $T_p cal(M)$ and its orthogonal complement---the _normal space_ $N_p cal(S) equiv ker(P)$.
+What we learned thus far is the following: Writing the metric in terms of $tilde(P)$ and collecting the remaining parts into $tilde(Q)$ naturally decomposes it into a projection onto the embedding of $T_p cal(S)$ into $T_p cal(M)$ and its orthogonal complement---the _normal space_ $N_p cal(S) := ker(P)$.
 
 Having decomposed the metric, we now consider its pullback onto $cal(S)$. Since we have established $iota^* g = gamma$, i.e., that the ambient metric pulls back to the induced metric, it is natural to ask: which part of $gamma$ arises from $tilde(P)$, and which from $tilde(Q)$? We approach this question from two perspectives: firstly, via a coordinate-independent formulation; then, secondly, by a component-based calculation.
 
@@ -590,7 +590,7 @@ Of course, this is a loose and purely intuitive description. In this section, we
 
 + $pi: cal(E) -> cal(M)$ is a smooth surjective map, called the _bundle projection_.
 
-+ For each $p in cal(M)$, the _fibre_ $cal(E)_p equiv pi^(-1)({p})$ is equipped with the structure of a real vector space of dimension $n$.
++ For each $p in cal(M)$, the _fibre_ $cal(E)_p := pi^(-1)({p})$ is equipped with the structure of a real vector space of dimension $n$.
 
 + We have _local triviality_, i.e. for each $p in cal(M)$ there exists an open neighbourhood $U subset cal(M)$ of $p$ and a diffeomorphism
   $
@@ -614,7 +614,7 @@ Of course, this is a loose and purely intuitive description. In this section, we
         edge((1, -2), (-1, 0), [$P_1$], label-side: left, "->")
       })
     $<fibrationDiagram>
-    commutes, where $P_1$ is the projection onto the first component of the cartesian product ($(a,b)|->a$)
+    commutes, where $P_1$ is the projection onto the first component of the Cartesian product ($(a,b)|->a$)
     
 Let us now go through this definition calmly, and explain the meaning and intuition behind each of the constructions separately.
 
@@ -640,7 +640,7 @@ Now, let us go over each part of the definition in detail.
   $
   Since we want to attach not just _any_ kind of fibre, but specifically an $n$-dimensional vector space, we impose the additional requirement that each fibre $cal(E)_p$ carries the structure of a real vector space of dimension $n$.
 
-+ _Local Triviality_: This is likely the most convoluted part of the definition, but can also be broken down intuitively. What local triviality demands is that _locally_, in some neighbourhood $U subset cal(M)$ of $p in cal(M)$, the total space $cal(E)$ "looks like" the space $U times RR^n$. This is the simplest way of "attaching vector spaces to each point"---the cartesian product does exactly that. In more formal terms, "looks like" is replaced by the notion of the diffeomorphism $Phi$. Since $RR^n$ is the concrete representation of the attached vector space, we would also like the fibres $cal(E)_q$, $q in U$ to map to $RR^n$ under $Phi$ in a way that respects the algebraic structure---hence the condition on $Phi|_cal(E)_q$. The requirement that the @fibrationDiagram[diagram] commutes then further ensures that the fibres get attached to the correct points on $cal(M)$. 
++ _Local Triviality_: This is likely the most convoluted part of the definition, but can also be broken down intuitively. What local triviality demands is that _locally_, in some neighbourhood $U subset cal(M)$ of $p in cal(M)$, the total space $cal(E)$ "looks like" the space $U times RR^n$. This is the simplest way of "attaching vector spaces to each point"---the Cartesian product does exactly that. In more formal terms, "looks like" is replaced by the notion of the diffeomorphism $Phi$. Since $RR^n$ is the concrete representation of the attached vector space, we would also like the fibres $cal(E)_q$, $q in U$ to map to $RR^n$ under $Phi$ in a way that respects the algebraic structure---hence the condition on $Phi|_cal(E)_q$. The requirement that the @fibrationDiagram[diagram] commutes then further ensures that the fibres get attached to the correct points on $cal(M)$. 
 
 
 Now that we have defined vector bundles, let us introduce a notion that makes use of it. Specifically, we consider so-called _smooth sections_ of vector bundles. A smooth section is, intuitively speaking, the selection of one vector in the fibre $cal(E)_p$ at each $p in cal(M)$, in a way that creates a smooth surface in the total space $cal(E)$. Such a surface can be viewed as a vector field, since it maps each point on the manifold to one vector in its fibre.
@@ -811,7 +811,7 @@ In this section, we explore how the tangent bundle $T cal(S)$ of a submanifold $
 \ \ 
 *Definition* (Restriction of vector bundles to submanifolds) Let $cal(M)$ be a smooth manifold of dimension $m$, and let $cal(S) subset cal(M)$ be a submanifold of dimension $s < m$. Given a vector bundle $(cal(E), pi, cal(M))$ over $cal(M)$, its _restriction to_ $cal(S)$ is defined as the triple
 $
-  (cal(E)|_cal(S), pi|_cal(S), cal(S)), quad "where" cal(E)|_cal(S) equiv pi^(-1)(cal(S)) subset cal(E).
+  (cal(E)|_cal(S), pi|_cal(S), cal(S)), quad "where" cal(E)|_cal(S) := pi^(-1)(cal(S)) subset cal(E).
 $
 This construction simply discards all fibres of $cal(E)$ lying over points $p in cal(M) without cal(S)$, retaining only the portion of the bundle sitting above $cal(S)$. 
 
@@ -837,7 +837,7 @@ Just as bundling the tangent spaces $T_p cal(S)$ yields the tangent bundle $T ca
 \ \ 
 *Definition* (Normal bundle) Let $cal(S)subset cal(M)$ be an embedded submanifold of a (pseudo-)Riemannian manifold $cal(M)$. The _normal bundle_ $N cal(S)$ is the smooth vector bundle over $cal(S)$ defined by 
 $
-  N cal(S) equiv union.sq.big_(p in cal(S)) N_p cal(S), wide pi: N cal(S) -> cal(S), quad (p,X)|-> p,
+  N cal(S) := union.sq.big_(p in cal(S)) N_p cal(S), wide pi: N cal(S) -> cal(S), quad (p,X)|-> p,
 $
 choosing the normal spaces at each $p in cal(S)$ as the fibres.
 
@@ -1011,7 +1011,7 @@ $
 $
 the standard definition of the kernel from linear algebra. We can extend this to the entire differential form $omega$ by attaching to each point in $cal(M)$ the corresponding subspace $ker(omega_p) subset T_p cal(M)$, yielding the subbundle
 $
-  ker(omega) equiv union.big.sq_(p in cal(M)) ker(omega_p) subset T cal(M),
+  ker(omega) := union.big.sq_(p in cal(M)) ker(omega_p) subset T cal(M),
 $
 together with the canonical projection map onto $cal(M)$. It is now straightforward to see that when choosing $omega = dt$, due to the @pointwiseIdentificationkerdt[identification] we find
 $
@@ -1204,7 +1204,7 @@ $
 $<normalisationConditionAlpha>
 Our goal will be to write the metric $g$ in terms of the components of $n^sharp$---i.e. of the function $alpha$ and a vector $beta^i$ we will introduce momentarily---as well as the induced metric on the leaves, which has the components
 $
-  gamma_(i j) equiv gamma(diff_i,diff_j) = g(diff_i, diff_j).
+  gamma_(i j) := gamma(diff_i,diff_j) = g(diff_i, diff_j).
 $
 
 The vector $n^sharp$ associated to the normal 1-form can be written in terms of its coordinate components, yielding
@@ -1358,7 +1358,7 @@ $
 $
 and define the leaves of the foliation $Sigma = {Sigma_r}$ to be its level sets,
 $
-  Sigma_r_0 equiv {p in cal(M) | r(p) = r_0} = r_0 S^2.
+  Sigma_r_0 := {p in cal(M) | r(p) = r_0} = r_0 S^2.
 $
 Notice that this does indeed define a foliation, since
 $
@@ -1538,7 +1538,7 @@ This is a rather abstract (though likely familiar, if you got this far in these 
 
 - *Connection Coefficients* As we have seen in the previous remark, the object $nabla diff_mu$ is of particular interest---we should write it in terms of components. To this end, let us introduce additional shorthand notation for covariant derivatives along the coordinate directions $diff_mu$, as
   $
-    nabla_mu equiv nabla_(diff_mu).
+    nabla_mu := nabla_(diff_mu).
   $
   From the derivations in the previous remark, it is clear that the object $nabla diff_nu$, in terms of coordinates, must be of the form
   $
@@ -1908,7 +1908,7 @@ $
   &nabla_X g(Y,Z) = nabla_X tr_(1,2)^(3,4) (g otimes Y otimes Z)\
    &= tr^(3,4)_(1,2) [(nabla_X g) otimes Y otimes Z + g otimes (nabla_X Y) otimes Z + g otimes Y otimes (nabla_X Z)]\
    &= (nabla_X g) (Y,Z) + g(nabla_X Y, Z) + g(Y, nabla_X Z),
-$
+$<proofDerivationOfMetric>
 which is equivalent to
 $
   nabla_X g(Y,Z) - (nabla_X g)(Y,Z) = g(nabla_X Y, Z) + g(Y, nabla_X Z).
@@ -1945,10 +1945,10 @@ $
   tensor(macron(Gamma),+k,-i j) = 1/2 gamma^(k ell)(gamma_(ell i, j) + gamma_(ell j, i) - gamma_(i j, ell)).
 $<christoffelSymbolsInduced>
 This is a direct construction of the connection coefficients that makes no reference to the ambient connection.
-== Example: Induced Connection on the Foliation of $RR^3 without {0}$ into Spheres
+== Example: Induced Connection on the Foliation of $RR^3 without {0}$ into Spheres <sectionInducedConnectionExample>
 To see the machinery of induced connections as well as the inheritance of the Levi-Civita propery in action, in this section, we reconsider the example of $cal(M) = RR^3 without {0}$, foliated into concentric origin-centered spheres from @exampleR3ConcentricSpheres. Let us briefly reestablish the setting.
 
-On $RR^3 without {0}$, in cartesian coordinates $x^mu = (x,y,z)$, the Euclidean metric reads
+On $RR^3 without {0}$, in Cartesian coordinates $x^mu = (x,y,z)$, the Euclidean metric reads
 $
   g = g_(mu nu) dx^mu otimes dx^nu = dx otimes dx + dy otimes dy + dz otimes dz.
 $
@@ -1958,7 +1958,7 @@ $
 $
 and define the leaves of the foliation $Sigma = {Sigma_r}$ to be its level sets,
 $
-  Sigma_r_0 equiv {p in cal(M) | r(p) = r_0} = r_0 S^2.
+  Sigma_r_0 := {p in cal(M) | r(p) = r_0} = r_0 S^2.
 $
 In spherical coordinates $(r,y^i) = (r,theta,phi)$ on $RR^3 without {0}$, the induced metric on a leaf $Sigma_r$ was derived to be
 $
@@ -1966,7 +1966,7 @@ $
 $
 with nonzero components $gamma_(theta theta) = r^2$, $gamma_(phi phi) = r^2 sin^2 theta$. 
 
-We equip the ambient manifold $RR^3 without {0}$ with the Levi-Civita connection, which in cartesian coordinates has vanishing coefficients, i.e.
+We equip the ambient manifold $RR^3 without {0}$ with the Levi-Civita connection, which in Cartesian coordinates has vanishing coefficients, i.e.
 $
   tensor(Gamma,+lambda,-mu nu) = 1/2 g^(lambda rho) (g_(rho mu, nu) + g_(rho nu,mu) - g_(mu nu, rho)) = 0,
 $
@@ -2004,7 +2004,7 @@ $
   E^theta_y &= 1/r cos theta sin phi, &quad&& E^y_phi &= 1/(r sin theta) cos phi,\
   E^theta_z &= -1/r sin theta, &&& E^z_phi &= 0.
 $
-Since the ambient connection coefficients vanish in cartesian coordinates, the induced components reduce to the inhomogeneous term in @projectionConnectionCoeffs[], that is,
+Since the ambient connection coefficients vanish in Cartesian coordinates, the induced components reduce to the inhomogeneous term in @projectionConnectionCoeffs[], that is,
 $
   tensor(macron(Gamma),+k,-i j) = E^k_lambda diff_i E^lambda_j.
 $
@@ -2057,7 +2057,7 @@ On a space like $RR^2$ equipped with the Euclidean metric,
 $
   g = dx otimes dx + dy otimes dy,
 $
-the Christoffel symbols of the Levi-Civita connection vanish in cartesian coordinates. This means that the covariant derivatives of coordinate basis vectors vanish,
+the Christoffel symbols of the Levi-Civita connection vanish in Cartesian coordinates. This means that the covariant derivatives of coordinate basis vectors vanish,
 $
   nabla_mu diff_nu = 0.
 $<basisParallel>
@@ -2092,7 +2092,7 @@ $
 In particular, along coordinate directions $diff_mu$, we have
 $
   R(diff_mu, diff_nu) Z = [nabla_mu, nabla_nu] Z = tensor(R,+rho,-lambda mu nu) Z^lambda diff_rho
-$
+$<RiemannTensorComponentDef>
 ---the $nabla_[diff_mu, diff_nu]$ term vanishes since $[diff_mu,diff_nu] = 0$.
 
 Notice that for fixed $X,Y$, the expression $R(X,Y)$ can naturally be viewed as a linear operator on $Gamma(T cal(M))$. Beyond that, its action can be extended to arbitrary tensor fields, by defining
@@ -2160,23 +2160,246 @@ Let us now examine the consequences of this definition in closer detail.
   $
     nabla_mu diff_nu = tensor(Gamma,+lambda,-mu nu) diff_lambda.
   $
-  Specifically, an uninspiring calculation reveals that
+  We may derive this relationship from @RiemannTensorComponentDef[equation]. Before anti-symmetrisation, the second covariant derivatives that appear read
   $
-    tensor(R,+rho,-sigma mu nu) = diff_mu tensor(Gamma,+rho,-nu sigma) - diff_nu tensor(Gamma,+rho,-mu sigma) + tensor(Gamma,+rho,-mu lambda) tensor(Gamma,+lambda,-nu sigma) - tensor(Gamma,+rho,-nu lambda) tensor(Gamma,+lambda,-mu sigma).
+    nabla_mu nabla_nu diff_lambda &= nabla_mu (tensor(Gamma,+rho,-nu lambda) diff_rho) = (diff_mu tensor(Gamma,+rho,-nu lambda)) diff_rho + tensor(Gamma,+rho,-nu lambda) nabla_mu diff_rho\
+    &= (diff_mu tensor(Gamma,+rho,-nu lambda) + tensor(Gamma,+rho,-mu sigma) tensor(Gamma,+sigma,-nu lambda) ) diff_rho.
+  $
+  Anti-symmetrising this expression in $mu$ and $nu$ leads us to
+  $
+    R(diff_mu, diff_nu) diff_lambda = [nabla_mu,nabla_nu] diff_lambda = (diff_mu tensor(Gamma,+rho,-nu lambda) - diff_nu tensor(Gamma,+rho,-mu lambda) + tensor(Gamma,+rho,-mu sigma) tensor(Gamma,+sigma,-nu lambda) - tensor(Gamma,+rho,-nu sigma) tensor(Gamma,+sigma,-mu lambda)) diff_rho,
+  $
+  from which we identify the components of the Riemann tensor as
+  $
+    tensor(R,+rho,-lambda mu nu) = diff_mu tensor(Gamma,+rho,-nu lambda) - diff_nu tensor(Gamma,+rho,-mu lambda) + tensor(Gamma,+rho,-mu sigma) tensor(Gamma,+sigma,-nu lambda) - tensor(Gamma,+rho,-nu sigma) tensor(Gamma,+sigma,-mu lambda).
+  $<riemannTensorComponents>
+=== Symmetries and Contractions of the Riemann Tensor
+The Riemann curvature tensor introduced in the previous section exhibits a variety of intrinsic algebraic symmetries and contraction properties that depend on the underlying connection's characteristics. In this section, we summarise and derive these symmetries, distinguishing those that hold purely by definition from those that arise under additional assumptions such as metric compatibility and the absence of torsion. This will enable us to identify a canonical contraction of the Riemann tensor---the Ricci tensor---which is unique up to sign for the Levi-Civita connection, along with its trace, the _scalar curvature_.
+
+To discuss algebraic symmetries, i.e. relations between permutations of the tensor slots, we first introduce the fully covariant $(0,4)$-tensor associated to the Riemann curvature. This is defined by lowering the upper index of the $(1,3)$-curvature operator using the metric by defining
+$
+  R(W,Z,X,Y) := g(R(X,Y)Z,W).
+$
+In components, this corresponds to
+$
+  R_(rho lambda mu nu) W^rho Z^lambda X^mu Y^nu = g_(rho sigma) (tensor(R,+rho,-lambda mu nu) X^mu Y^nu Z^lambda) W^sigma,
+$
+or equivalently,
+$
+  R_(rho lambda mu nu) = g_(rho sigma) tensor(R,+rho,-lambda mu nu).
+$
+Thus the fully covariant tensor arises simply by lowering the vector index of the curvature operator via the metric---in this sense, one could also write
+$
+  R(dot, Z,X,Y) = (R(X,Y)Z)^flat.
+$
+We are now ready to discuss the symmetries of $R(W,Z,X,Y)$: 
+
++ *Anti-Symmetry in Second Pair* By the anti-symmetry of the curvature operator, $R(X,Y)=-R(Y,X)$, which follows directly from the definition and the skew-symmetry of the commutator, 
+  $
+    R(X,Y) = [nabla_X,nabla_Y] - nabla_[X,Y] = -R(Y,X),
+  $
+  we obtain anti-symmetry in the last two slots of the fully covariant tensor, i.e.
+  $
+    R(W,Z,X,Y) = - R(W,Z,Y,X).
+  $
+  This holds for any connection. In components, we have
+  $
+    R_(rho sigma mu nu) = -R_(rho sigma nu mu) quad <=> quad tensor(R,+rho,-sigma mu nu) = -tensor(R,+rho,-sigma nu mu).
   $
 
-=== Symmetries and Contractions of the Riemann Tensor
-- derive the symmetries of the Riemann tensor from metric compatibility and torsion-freeness
-- define Ricci tensor and Ricci scalar
++ *Anti-Symmetry in the First Pair* If the connection is metric-compatible (i.e. $nabla g =0$), the curvature operator acts on the metric as $R(X,Y)g = 0$.
+  By the derivation propery of $R(X,Y)$, for any vector fields $W,Z in Gamma(T cal(M))$, we have#footnote[This makes use of the property that $D g(X,Y) = (D g)(X,Y) + g(D X,Y) + g(X,D Y)$ for any derivation $D$. This is a generalisation of what we have shown before in @proofDerivationOfMetric[eq.] for the particular case of $D = nabla$.]
+  $
+    0 &= R(X,Y) g(Z,W)\ &= underbrace((R(X,Y)g),=0)(Z,W) + underbrace(g(R(X,Y)Z,W),=R(W,Z,X,Y)) + underbrace(g(R(X,Y)W,Z),=R(Z,W,X,Y))\
+    &=R(W,Z,X,Y) + R(Z,W,X,Y)
+    $
+  where the first equality with zero holds because $R(X,Y)$ is acting on a function. The above can be rearranged for 
+  $
+    R(W,Z,X,Y) = - R(Z,W,X,Y),
+  $
+  which proves anti-symmetry in the first pair of arguments of the covariant tensor. In components, this reads
+  $
+    R_(rho sigma mu nu) = -R_(sigma rho mu nu).
+  $
++ *Bianchi Identity* We first derive an identity relating the sum of the cyclic permutations of $R(X,Y)Z$ with $X,Y,Z in Gamma(T cal(M))$ and the torsion tensor. This identity will then produce a symmetry in the case of zero torsion. Note that for the torsion, we have 
+  $
+    nabla_X Y - nabla_Y X = T(X,Y) + [X,Y]
+  $
+  using which we can begin writing out
+  $
+    &R(X,Y)Z + R(Y,Z)X + R(Z,X)Y\
+    &= mhighlight(nabla_X nabla_Y Z) - nabla_Y nabla_X Z - nabla_[X,Y]Z\
+    &quad+ nabla_Y nabla_Z X - nabla_Z nabla_Y X mhighlight(- nabla_[Y,Z] X)\
+    &quad+ nabla_Z nabla_X Y mhighlight(- nabla_X nabla_Z Y) - nabla_[Z,X] Y\
+    &= mhighlight(nabla_X (nabla_Y Z - nabla_Z Y) - nabla_[Y,Z] X) + limits(#scale(150%, rotate(180deg,[$arrow.cw$])))_(\ X\,Y\,Z)\
+    &= nabla_X T(Y,Z) + underbrace(nabla_X [Y,Z] - nabla_[Y,Z] X,=T(X,[Y,Z]) + [X,[Y,Z]])\
+    &= nabla_X T(Y,Z) + T(X,[Y,Z]) + [X,[Y,Z]] + limits(#scale(150%, rotate(180deg,[$arrow.cw$])))_(\ X\,Y\,Z)\
+  $
+  When expanding the sum over cyclic permutations of $X,Y,Z$ indicated by $#rotate(180deg,[$arrow.cw$])$, the last term drops out by the Jacobi identity for the commutator,
+  $
+    [X,[Y,Z]] + [Y,[Z,X]] + [Z,[X,Y]] = 0.
+  $
+  We hence arrive at the identity
+  $
+    R(X,Y)Z + R(Y,Z)X + R(Z,X)Y = nabla_X T(Y,Z) + T(X,[Y,Z]) + limits(#scale(150%, rotate(180deg,[$arrow.cw$])))_(\ X\,Y\,Z).
+  $
+  In the case of vanishing torsion, $T=0$, this turns into the symmetry
+  $
+    R(X,Y)Z + R(Y,Z)X + R(Z,X)Y = 0,
+  $
+  and equivalently,
+  $
+    R(W,Z,X,Y) + R(W,X,Y,Z) + R(W,Y,Z,X) = 0.
+  $
+  or in terms of components,
+  $
+    tensor(R,+rho,-[sigma mu nu]) = tensor(R, -rho, -[sigma mu nu]) = 0.
+  $
+  Here, the cyclic permutation of the last three indices/slots is proportional to their anti-symmetrisation since we have anti-symmetry in the last two indices.
+
++ *Symmetry in First and Second Pair* For a connection that is both metric-compatible and has vanishing torsion---i.e., a Levi-Civita connection---the above symmetries imply a further symmetry,
+  $
+    R(W,Z,X,Y) = R(X,Y,W,Z).
+  $
+  That is, the expression is symmetric under the exchange of the first and second pair of slots. This is shown by repeatedly applying the symmetries 1., 2. and 3. to the left-hand side:
+  #bottom-number($
+    R(W,Z,X,Y) &attach(=,t:2.) -R(Z,W,X,Y)\
+    &attach(=,t:3.) R(Z,X,Y,W) + R(Z,Y,W,X)\
+    &attach(=,t:2.) -R(X,Z,Y,W) - R(Y,Z,W,X)\
+    &attach(=,t:3.) R(X,Y,W,Z) + R(X,W,Z,Y) + R(Y,W,X,Z) + underbrace(R(Y,X,Z,W),attach(=,t:"1. & 2.")R(X,Y,W,Z))\
+    &attach(=,t:2.) 2R(X,Y,W,Z) - R(W,X,Z,Y) - R(W,Y,X,Z)\
+    &attach(=,t:3.) 2R(X,Y,W,Z) + R(W,Z,Y,X)\
+    &attach(=,t:1.) 2R(X,Y,W,Z) - R(W,Z,X,Y).
+  $)
+  The claim now follows from adding $R(W,Z,X,Y)$ to both sides. In terms of the tensor components, the symmetry reads
+  $
+    R_(rho sigma mu nu) = R_(mu nu rho sigma). 
+  $
+  This is certainly not the most elegant or efficient way to establish this symmetry. However, since the result follows directly from the symmetries imposed by metric compatibility and vanishing torsion, and offers little in terms of geometric insight, a somewhat brute-force algebraic proof suffices for our purposes.
+
+The Riemann curvature, being a rank 4 tensor, allows for contractions between its slots. In principle, for 4 slots, there are twelve combinations for contractions---however, symmetries reduce these significantly. For a metric-compatible connection, we have anti-symmetry in the first and second pairs. This means that the contractions over these pairs vanish,
+$
+  tr^1_2 R(dot,dot,X,Y) = tr^1_2 R(W,Z,dot,dot) = 0.
+$
+Hence, for a contraction not to vanish, it must contract over one slot in the first and one in the second pair. Without loss of generality, this contraction can be performed over the first an third slot, as all others are related by signs (due to anti-symmetry in the first and second pair). This contraction defines a new rank 2 tensor called the _Ricci tensor_, denoted by#footnote[Here, the contraction over two covariant slots is to be interpreted as with respect to the inverse metric.]
+$
+  Ric(X,Y) = tr^1_3 R(dot,X,dot,Y).
+$
+In components, this reads
+$
+  Ric(X,Y)= R_(mu nu) X^mu Y^nu,
+$
+where the Ricci tensor components $R_(mu nu)$ emerge as a contraction of the Riemann tensor,
+$
+  R_(mu nu) = tensor(R,+lambda,-mu lambda nu).
+$
+If further, the connection is torsion-free, we have symmetry of the covariant Riemann tensor under the exchange of the first and second pairs, making the Ricci tensor symmetric, i.e.,
+$
+  Ric(X,Y) = Ric(Y,X).
+$
+At this point, we can perform a second contraction to obtain the so-called Ricci scalar
+$
+  cal(R) = tr^1_2 Ric(dot,dot) = g^(mu nu) R_(mu nu).
+$
+For a Levi-Civita connection, it is the unique scalar contraction of the Riemann tensor#footnote[The unique scalar linear in the Riemann tensor. Of course, there are other contractions possible at higher orders.].
 === Curvature of the Induced Connection
-- define intrinsic curvature: Riemann tensor $macron(R)$ of $mnabla$
-- clarify: this captures curvature internal to the submanifold
-- state: depends only on $mnabla$, hence only on tangential geometry
+Previously, we have defined the induced connection $mnabla$ on the submanifolds of a foliation $Sigma$ of a smooth manifold $cal(M)$ equipped with the ambient connection $nabla$. The ambient connection gives rise to the Riemann curvature tensor
+$
+  R : Gamma(T cal(M)) times Gamma(T cal(M)) times Gamma(T cal(M)) -> Gamma(T cal(M)),\ 
+$
+with
+$
+  R(X,Y)Z = [nabla_X,nabla_Y] Z - nabla_[X,Y] Z.
+$
+In this context, it is referred to as the _ambient curvature_. 
+
+Since each of the foliation's submanifolds are equipped with the induced connection $mnabla$---the projection of the ambient connection $nabla$ onto the tangent bundle $T Sigma$---we can define a Riemann curvature tensor with respect to it on each of the leaves of the foliation, leading to
+$
+  macron(R) : Gamma(T Sigma) times Gamma(T Sigma) times Gamma(T Sigma) -> Gamma(T Sigma)
+$
+with
+$
+  macron(R)(X,Y)Z = [mnabla_X,mnabla_Y] Z - mnabla_[X,Y]Z.
+$
+We refer to $macron(R)$ as the _intrinsic (Riemann) curvature_ of the foliation $Sigma$. On any individual leaf $Sigma_t$, $macron(R)$ is simply the Riemann tensor of the induced Levi-Civita connection---that is, the curvature one would assign having access only to the intrinsic geometry, i.e., without any knowledge of the ambient geometry.
+
+Since both metric compatibility and absence of torsion are properties $mnabla$ inherits from $nabla$, the fully covariant tensors $R(W,Z,X,Y)$ as well as $macron(R)(W,Z,X,Y)$ exhibit the same algebraic symmetries (cf. previous section). In the case that $nabla$ is the Levi-Civita connection associated to the metric $g$ on $cal(M)$, then $mnabla$ is the Levi-Civita connection associated to the induced metric $gamma = iota^* g$ on the leaves of the foliation. This makes the components of $macron(R)$ computable entirely from the components of the induced metric, due to the relationships
+$
+  tensor(macron(R),+k,-ell i j) &= diff_i tensor(macron(Gamma),+k,-j ell) - diff_j tensor(macron(Gamma),+k,-i ell) + tensor(macron(Gamma),+k,-i m) tensor(macron(Gamma),+m,-j ell) - tensor(macron(Gamma),+k,-j m) tensor(macron(Gamma),+m,-i ell),\
+    tensor(macron(Gamma),+k,-i j) &= 1/2 gamma^(k ell)(gamma_(ell i, j) + gamma_(ell j, i) - gamma_(i j, ell))
+$
+we have established in preceding sections. We may define an intrinsic Ricci curvature tensor as
+$
+  mRic(X,Y) := tr^1_3 macron(R)(dot, X, dot, Y),
+$
+and an intrinsic scalar curvature,
+$
+  macron(cal(R)) := tr^1_2 mRic(dot,dot) = gamma^(i j) macron(R)_(i j),
+$
+where $macron(R)_(i j)$ are the components of the induced Ricci tensor, given by
+$
+  macron(R)_(i j) = tensor(macron(R),+k,-i k j).
+$
 
 === Intrinsic vs Projected Ambient Curvature
-- question: is $macron(R)$ just $P R$ applied to tangent fields?
-- counterexample: in $RR^3$, ambient curvature vanishes, yet spheres $S^2 subset RR^3$ have non-zero curvature
-- conclusion: intrinsic curvature cannot arise from projection alone
+A natural question following the above introduction of the intrinsic curvature $macron(R)$ on a foliation $Sigma$ is how it relates to the ambient curvature $R$. Since $mnabla$ is defined as the projection of $nabla$ onto $T Sigma$, one might expect a similar relationship between the intrinsic and ambient curvature---something like
+$
+  macron(R) = P R|_(T Sigma),
+$<naiveGuessAmbientIntrinsicCurvature>
+where $P$ denotes the orthogonal projector onto $T Sigma$.
+
+This would appear to follow the same pattern we observed for the connection: the action of $R(X,Y)Z$ is projected onto the tangent bundle $T Sigma$, and since $mnabla$ acts on $Sigma$, the result must also lie in $T Sigma$. That is, one might guess
+$
+  macron(R)(X,Y)Z = P(R(X,Y)Z), quad X,Y,Z in Gamma(T Sigma) subset Gamma(T cal(M)).
+$
+However, this is _not_ the case. There are (at least) two ways to see this---first, through a concrete counterexample; and second, via an algebraic derivation that, while less geometrically intuitive, revelas the deeper structure behind the failure of this naive guess. Let us consider both perspectives in turn.
+
+- *Curved Submanifolds of Flat Manifolds* Let us reconsider a recurring example from these notes: The foliation by origin-centered spheres of the ambient manifold $RR^3 without {0}$, equipped with the Euclidean metric
+  $
+    g &= dx otimes dx + dy otimes dy + dz otimes dz\
+      &= dr otimes dr + r^2 (dtheta otimes dtheta + sin^2 theta dphi otimes dphi),
+  $
+  ---where $x^mu = (x,y,z)$ are Cartesian and $y^alpha = (r,y^i) = (r,theta,phi)$ spherical coordinates. The connection under consideration is the Levi-Civita connection associated with this metric. Our goal is to compute and compare the ambient and induced Riemann tensor components.
+
+  Observe that, in Cartesian coordinates, the Levi-Civita has vanishing coefficients, i.e.
+  $
+    tensor(Gamma,+lambda,-mu nu) = 0,
+  $<cartesianChristoffelSymbols>
+  as the metric components $g_(mu nu) = delta_(mu nu)$ are constant. From this, it follows immediately that the Riemann curvature tensor also vanishes in these coordinates,
+  $
+    tensor(R,+rho,-lambda mu nu) = 0,
+  $
+  due to the @riemannTensorComponents[formula]. In contrast to @cartesianChristoffelSymbols[equation], the above equation is tensorial---that is, it holds in any coordinate system---and we conclude that the ambient manifold is flat:
+  $
+    R(X,Y)Z = 0,quad forall X,Y,Z in Gamma(T cal(M)),
+  $
+  If our earlier naive @naiveGuessAmbientIntrinsicCurvature[guess] were correct, this would imply that
+  $
+    macron(R)(X,Y)Z = P(R(X,Y)Z) = 0,
+  $
+  and thus that the intrinsic curvature vanishes as well.
+
+  This already casts doubt on our naive guess---after all, the word "sphere" does not readily evoke "flatness". Let us indulge this suspicion and compute the components of the intrinsic curvature explicitly to see where the discrepancy lies. We already derived the induced connection coefficients for this foliation in @sectionInducedConnectionExample, arriving at the following non-zero Christoffel symbols:
+  $
+      tensor(macron(Gamma),+theta,-phi phi) -sin theta cos theta, wide
+  tensor(macron(Gamma),+phi,-theta phi) = tensor(macron(Gamma),+phi, -phi theta) = cot theta.
+  $
+  At first glance, computing the components of a rank-4 tensor like the Riemann curvature might seem daunting. However, in two dimensions---and with the Levi-Civita connection---the symmetries of the Riemann tensor drastically reduce the number of independent components. Specifically, the antisymmetry in both the first and second pair of indices,
+  $
+    R_(rho sigma mu nu) = -R_(rho sigma nu mu) = -R_(sigma rho mu nu),
+  $
+  implies that the indices $theta$ and $phi$ must each appear exactly once in both pairs. All valid permutations are then related by symmetry. Moreover, since the metric is diagonal, we only need to compute a single nontrivial component, say $tensor(R,+theta,-phi theta phi)$. We proceed by applying the standard formula:
+  $
+    tensor(macron(R),+theta,-phi theta phi) &= diff_theta tensor(macron(Gamma),+theta,-phi phi) - diff_phi underbrace(tensor(macron(Gamma),+theta,-theta phi),=0) + underbrace(tensor(macron(Gamma),+theta,-theta i) tensor(macron(Gamma),+i,-phi phi),=0) - tensor(macron(Gamma),+theta,-phi i) tensor(macron(Gamma),+i,-theta phi)\
+    &= - diff_theta (sin theta cos theta )- tensor(macron(Gamma),+theta,-phi phi) tensor(macron(Gamma),+phi,-theta phi)\
+    &= -cos^2 theta + sin^2 theta + underbrace(sin theta cos theta cot theta,=cos^2 theta)\
+    &= sin^2 theta.
+  $
+  This is very clearly _not_ zero. We have thus found a counterexample to @naiveGuessAmbientIntrinsicCurvature[our naive guess]: the intrinsic curvature does not, in general, arise from a simple projection of the ambient curvature.
+
+  This is a good point to take a step back and generalise the insight, in order to build further intuition for why our guess cannot be correct. What we have done is the following: we took a flat manifold, $RR^3 without {0}$, and foliated it into surfaces that are scaled copies of the 2-sphere. Intuitively, spheres possess curvature---this is evident from the fact that their normal vector field varies as one moves along their surface. Our @naiveGuessAmbientIntrinsicCurvature[guess], however, attempted to capture something quite different: it projected the ambient curvature tensor (which vanishes in this case) onto the tangent bundle of the foliation (where it still vanishes). The projection $P R|_(T Sigma)$ captures only the part of the _ambient_ curvature that is tangential to the foliation; it entirely neglects how the surface itself bends within the ambient space. In other words, this projection measures the curvature of the background in which the leaves of the foliation live, but not how those leaves curve within it. The normal field vector plays no role in this projection. Hence, while $P R|_(T Sigma)$ may contribute to the intrinsic curvature $macron(R)$, it clearly does not suffice to determine it completely: the way in which the surface curves relative to the background also generates intrinsic curvature.
+
+- *Algebraic Argument*
 
 == Extrinsic Curvature
 give heuristic motivation of why intrinsic curvature cannot be "just" projection of ambient curvature, example of curved manifold embedded in flat space.

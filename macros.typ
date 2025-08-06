@@ -40,7 +40,11 @@
 #let comment(T) = text(color.red)[*Comment:* #T];
 
 #let inprod(T,S) = {$lr(angle.l #T , #S angle.r)$}
+#let mhighlight(T) = {box([$#T$], fill:rgb("#fdff9c"), radius: 4pt, outset: 0.13em)}
 #let rank = math.op("rank")
+
+#let Ric = math.op("Ric")
+#let mRic = overline(math.op("Ric"))
 
 //various groups and algebras
 #let SO = math.op("SO")
@@ -57,6 +61,11 @@
 
 #let GL = math.op("GL")
 #let gl = math.frak("gl")
+
+#let bottom-number(eq) = {
+  set math.equation(number-align: bottom + right)
+  eq
+}
 
 //miscellaneous math notation
 #let const = math.op("const.")
