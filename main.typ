@@ -5,7 +5,7 @@
 
 #show: project.with(
   //title: "Dirac-Bergmann and Hamiltonian Field Theory",
-  title: "Differential Geometry on Submanifolds",
+  title: "Differential Geometry on Foliations and Submanifolds",
   authors: (
     (name: "Niels Slotboom", email: "slotboom.n@gmail.com"),
   ),

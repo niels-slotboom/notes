@@ -2441,21 +2441,155 @@ However, this is _not_ the case. There are (at least) two ways to see this---fir
   However, to properly interpret this additional term, we must first introduce the concept of _extrinsic curvature_. As it stands, the expression
   $
     P lr(((nabla_X P) nabla_Y Z - (nabla_Y P) nabla_X Z),size:#130%)
-  $
+  $<extraTermForIntrinsicCurvature>
   clearly introduces a dependence on how the submanifold is situated within the ambient space---it involves the derivative of the projector onto the tangent bundle, and hence reflects how that bundle varies from point to point. This suggests that the _shape_ of the submanifold is encoded here---the part that we found to be missing in the concrete example above. However, the geometric content of this term is not transparent in its current algebraic form. The introduction of extrinsic curvature will allow us to isolate and interpret this shape-dependence more clearly, ultimately leading to the _Gauss equation_, which links intrinsic, extrinsic and ambient curvature in a precise way.
 == Extrinsic Curvature
 === Algebraic Motivation for Extrinsic Curvature
-- recall that $mnabla_X Y = P nabla_X Y$ when pushing forward
-- observe: $Q nabla_X Y$ is what gets discarded
-- define second fundamental form $K(X,Y) := Q(nabla_X Y)$
-- motivate: extrinsic curvature is the missing part in the induced connection
+In this section, we introduce the concept of _extrinsic curvature_. Its connection to the @extraTermForIntrinsicCurvature[additional term] appearing in the expression for $macron(R)$ will not be immediate---we will establish that link later. For now, we treat it as a concept in its own right, motivated by the structure behind the ambient and induced connections.
+
+Recall from the previous section that the induced connection can be written as
+$
+  mnabla_X Y = P nabla_X Y,
+$
+when we regard $T Sigma subset T cal(M)$ as an actual subbundle via the embedding $iota_*$. This form makes it clear that $mnabla$ is simply the tangential projection of the ambient connection. Crucially, this means that certain components of $nabla_X Y$ are _discarded_ in the process.
+
+Which components are lost? The short answer is: the _normal_ ones---but this deserves a more precise formulation.
+
+To that end, recall that the metric $g$ on $cal(M)$ allows a decomposition into tangential and normal projectors,
+$
+  g = P + Q,
+$
+when viewed as a $(0,2)$-tensor. Interpreted as $(1,1)$-tensors, this becomes the orthogonal identity decomposition
+$
+  id = P + Q,
+$
+where
+$
+  id = delta^mu_nu diff_mu otimes dx^nu, quad P = tensor(P,+mu,-nu) diff_mu otimes dx^nu,quad Q = tensor(Q,+mu,-nu) diff_mu otimes dx^nu.
+$
+This follows from raising an index of the metric, 
+$
+  g^(mu lambda) g_(lambda nu) = delta^mu_nu.
+$
+Now consider the action of the ambient connection on two tangent vector fields $X,Y in Gamma(T Sigma)$. Since $id = P + Q$, we may decompose
+$
+  nabla_X Y = P nabla_X Y + Q nabla_X Y = mnabla_X Y + Q nabla_X Y.
+$
+This naturally leads to the definition of the _extrinsic curvature_ (also called the _second fundamental form_#footnote[The first fundamental form is the induced metric, but I will not use this terminology in these notes.]) as
+$
+  K(X,Y) := Q nabla_X Y.
+$<defnExtrinsicCurvature>
+It captures the normal part of the ambient covariant derivative of one tangent vector along another. We can thus write the clean decomposition
+$
+  nabla_X Y = mnabla_X Y + K(X,Y),
+$<relationAmbientInducedConnectionAndExtrCurv>
+which splits the ambient connection into its tangential and normal components relative to the foliation $Sigma$.
+
+This relationship can also be turned around:
+$
+  mnabla_X Y = nabla_X Y - K(X,Y).
+$
+While this may appear trivial at first glance, it offers a useful geometric perspective: $K(X,Y)$ is the _correction_ necessary to make $nabla_X Y$ tangent to $Sigma$. Such a correction becomes necessary when the tangent plane "tilts"---for instance, on a sphere, moving from one point to another causes the tangent plane to rotate. The full derivative $nabla_X Y$ will generally not remain in the new tangent plane, and thus must have parts of it "chopped off" to become tangent. That "chopped-off" part is $K(X,Y)$. It hence encodes the change in orientation of the tangent spaces---or equivalently, the change in the normal spaces---as one moves along the submanifold. This makes it clear why $K$ is rightly referred to as the _extrinsic curvature_: it measures how the submanifold is shaped _within_ the ambient manifold. This is exactly what we found to be missing when guessing that $macron(R) = P R|_(T Sigma)$: a measure of how the leaves themselves curve on top of the background. How $K(X,Y)$ relates to $macron(R)$ precisely remains to be established---but it certainly feels like a step in the right direction.
+
+This idea is also reflected in the alternate expression
+$
+  K(X,Y) = Q nabla_X Y = nabla_X (Q Y) - (nabla_X Q) Y.
+$
+Since $Q Y= 0$ for $Y in Gamma(T Sigma)$, this reduces to
+$
+  K(X,Y) = -(nabla_X Q) Y.
+$
+This version highlights another aspect of the same idea: extrinsic curvature measures how the normal projection operator changes along $X$, when acting on $Y$. In other words, it tracks how the normal bundle twists and turns along the leaves of the foliation---consistent with our earlier interpretation in terms of tilting tangent spaces. 
+
 
 === Geometric Interpretation via the Normal Vector
-- recall unit normal $n^sharp$ of the foliation
-- derive $g(nabla_X Y, n^sharp) = -g(Y,nabla_X n^sharp)$
-- interpret $K(X,Y) = g(nabla_X Y, n^sharp)n^sharp$ as shape deformation
-- introduce shape operator $S(X) = -nabla_X n$, relate to $K$
+The definition of extrinsic curvature we presented in the previous section is valid for any foliation $Sigma$ of a smooth manifold $cal(M)$, regardless of the codimension of the leaves. In this section, we specialise to a hypersurface foliation, where the expression simplifies considerably.
 
+Before proceeding with the specialisation, let us review the map
+$
+  K : Gamma(T Sigma) times Gamma(T Sigma) -> Gamma(N Sigma)
+$
+in terms of its components. Most naturally, it can be written as the tensor
+$
+  K = tensor(K,+lambda,-mu nu) diff_lambda otimes dx^mu otimes dx^nu,
+$
+acting on a pair of foliation-tangent vector fields $X,Y in Gamma(T Sigma)$ as
+$
+  K(X,Y) = X^mu Y^nu tensor(K,+lambda,-mu nu) diff_lambda.
+$
+While this equation may suggest that $K(X,Y)$ is a general $C^infty$-linear combination of the basis vector fields $diff_mu$ spanning $Gamma(T cal(M))$, we must recall that by definition, $K(X,Y)$ is normal to $Sigma$, and therefore, it is only a $C^infty$ linear combination of the basis of $Gamma(N Sigma)$. 
+
+In the case where $Sigma = Sigma_t$ is a hypersurface foliation generated by a scalar function $t in C^infty (cal(M))$, the normal bundle has one-dimensional fibres. From @sectionFoliationTangentBundleDecomposition, we recall that in this scenario, we are provided with a normal vector field $n^sharp$, associated with the normal 1-form $n = alpha dt$, which satisfies the relations
+$
+  g(n^sharp,n^sharp) = epsilon = pm 1, quad g(n^sharp,X) = 0,quad forall X in T Sigma.
+$
+Thus any normal vector field $N in Gamma(N Sigma)$ can be written as a scalar multiple of $n^sharp$, 
+$
+  N = lambda n^sharp, quad lambda in C^infty (cal(M)).
+$
+This means that for any hypersurface foliation, we may express $K(X,Y)$---because it is normal to $Sigma$---as
+$
+  K(X,Y) = k(X,Y)n^sharp,
+$
+where
+$
+  k(X,Y) := epsilon g(K(X,Y), n^sharp)
+$
+is the proportionality factor $lambda$ from the previous equation. The map $k(X,Y)$ is a scalar-valued bilinear map,
+$
+  k : Gamma(T Sigma) times Gamma(T Sigma) -> RR,
+$
+and in components, it can be written as
+$
+  k = k_(mu nu) dx^mu otimes dx^nu.
+$
+Since $k$ only takes vectors tangent to the foliation as inputs, in adapted coordinates $(t,y^i)$, we can also write it in terms of the cobasis associated with the transverse coordinates $y^i$ as
+$
+  k = k_(i j) dy^i otimes dy^j = k_(i j) E^mu_i E^nu_j dx^mu otimes dx^nu,
+$
+implying that $k$ is its own pullback; we have $k = iota^* k$. Its action on vector fields $X = X^mu diff_mu = X^i diff_i$ and $Y = Y^mu diff_mu = Y^i diff_i$, both in $Gamma(T Sigma)$, is given by
+$
+  k(X,Y) = k_(mu nu) X^mu X^nu = k_(i j) X^i X^j,
+$
+making use of the fact that $T Sigma subset T cal(M)$ is a proper subspace via the embedding $iota_*$.
+
+We now examine the proportionality factor $k(X,Y)$ in more detail. Explicitly---by inserting the definition of extrinsic curvature $K(X,Y)$---it expands to
+$
+  k(X,Y) = epsilon g(K(X,Y),n^sharp) = epsilon g (Q nabla_X Y, n^sharp) = epsilon g(nabla_X Y, Q n^sharp) = epsilon g(nabla_X Y, n^sharp),
+$
+since $Q$ is orthogonal and acts on $n^sharp$ as the identity. For a metric-compatible connection (i.e., when $nabla g = 0$, an assumption we make from hereon out), we may further rewrite this as
+$
+  k(X,Y) = epsilon g(nabla_X Y, n^sharp) = epsilon g(Y, -nabla_X n^sharp).
+$
+Upon defining the _shape operator_#footnote[A priori, it is unclear that the domain is $Gamma(T Sigma)$ and not $Gamma(T cal(M))$. However, due to normalisation of $n^sharp$, we have $0 = nabla_X epsilon = nabla_X g(n^sharp,n^sharp) = -2g(S(X),n^sharp)$ which shows that $S(X)$ has no normal component.] $S:Gamma(T Sigma)-> Gamma(T Sigma)$
+$
+  S(X) = -nabla_X n^sharp,
+$
+this becomes 
+$
+  k(X,Y) = epsilon g(S(X), Y).
+$
+Explicitly, the components of $k$ are given by
+$
+  k_(mu nu) = -epsilon gamma_(nu lambda) nabla_mu n^lambda = -epsilon nabla_mu n_nu = -epsilon nabla_mu delta^t_nu,
+$
+or equivalently,
+$
+  k_(i j) = - epsilon E^mu_i E^nu_j nabla_mu delta^t_nu,
+$
+with respect to the transverse coordinates $y^i$.
+
+We have now derived a rich set of equations. Let us conclude by reflecting on the geometric meaning behind these expressions. The central identity
+$
+  k(X,Y) = epsilon g(S(X),Y), quad "where" quad S(X) = -nabla_X n^sharp,
+$
+and the relationship
+$
+  K(X,Y) = k(X,Y) n^sharp,
+$
+show that the extrinsic curvature is closely linked to the change in the normal vector field as one moves along the foliation. The shape operator $S(X)$ encodes how the normal vector evolves when traversing a leaf, revealing the curvature of the hypersurface within the ambient manifold. The scalar $k(X,Y)$ then measures the projection of this change along a tangent vector $Y$, providing a clear geometric interpretation of the curvature in the case of hypersurface foliations.
+
+In summary, the extrinsic curvature provides a measure of how the leaves are embedded and deformed within the ambient manifold, with $k(X,Y)$ quantifying the degree of this deformation. In the specific case of hypersurfaces, this bending is elegantly described by the change of the normal vector field $n^sharp$, as the normal bundle has one-dimensional fibres, simplifying the geometric interpretation of the curvature.
 === Symmetry of the Second Fundamental Form
 - show $K(X,Y) = K(Y,X)$ if connection is torsion-free
 - alternatively, derive symmetry from $g(nabla_X Y, n^sharp)$ identity
@@ -2470,6 +2604,6 @@ However, this is _not_ the case. There are (at least) two ways to see this---fir
 - *Codazzi equation*: relates derivatives of $K$ to ambient curvature:
 
   $
-    D_i K_(j k) - D_j K_(i k) = R_(ell i j k) n^ell.
+    mnabla_i K_(j k) - mnabla_j K_(i k) = R_(ell i j k) n^ell.
   $
 - Optionally: show how these identities constrain initial data in general relativity.
