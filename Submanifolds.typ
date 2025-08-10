@@ -867,37 +867,39 @@ $
 pointwise. This allows us to view the @tangentBundleOrthoSplitting[splitting] not merely as a statement about individual tangent spaces, but as a decomposition of vector bundles, mediated by smooth projections. 
 = Foliations
 == Motivation and Definition of Foliations
-In the previous sections, we introduced and examined submanifolds of (pseudo-)Riemannian manifolds in detail, including the tensorial structures they inherit---such as the induced metric. Rather than focusing on isolated submanifolds, we now turn our attention to decompositions of an entire manifold $cal(M)$ into a smooth family of non-intersecting submanifolds. Such decompositions, often referred to as foliations, arise naturally in a variety of settings. In the ADM formalism, for instance, foliating spacetime into spacelike hypersurfaces allows one to isolate a direction of dynamical evolution---typically a timelike one. In other contexts, such as the study of flows or congruences, one may be interested in decompositions into curves or integral lines.
+In the previous sections, we introduced and examined submanifolds of (pseudo-)Riemannian manifolds in detail, including the tensorial structures they inherit, such as the induced metric. Rather than focusing on isolated submanifolds, we now turn our attention to decompositions of an entier manifold $cal(M)$ (or open subsets thereof) into a smooth family of non-intersecting submanifolds. These decompositions, referred to as _foliations_, naturally arise in a variety of contexts. For example, in the ADM formalism, foliating spacetime into spacelike hypersurfaces facilitates isolating a direction of dynamical evolution---typically a timelike one. In other settings, such as the study of flows or congruences, one may be interested in decompositions into curves or integral lines.
 
-Either way, the concept of splitting a manifold into lower-dimensional submanifolds is fundamental, and we now develop it in the form of _foliations_. In this section, we focus on the case of hypersurfaces, i.e., submanifolds of codimension 1. Such a foliation can be described as a one-parameter family $Sigma_(t_0) subset cal(M)$ of hypersurfaces labelled by the parameter $t_0 in RR$. 
+Either way, the concept of splitting a manifold into lower-dimensional submanifolds is fundamental, and we now develop it in the form of such foliations. In this section, we first provide the definition of foliations of arbitrary codimension, as well as coordinates adapted to them. We then specialise to the codimension-1 case of _hypersurface foliations_, which are particularly relevant in the ADM formalism and for which certain equations and identities take on a simpler form.
 \ \
-*Definition* (Foliation) Let $cal(M)$ be a smooth manifold. A _foliation of codimension $1$_ is a family $lr({Sigma_(t_0)},size:#85%)#h(0em)_(t_0 in RR)$ of smooth, embedded hypersurfaces $Sigma_t_0 subset cal(M)$ such that
+*Definition* (Foliation) Let $cal(M)$ be a smooth manifold. A _foliation of codimension $k$_ is a $k$-parameter family $lr({Sigma_(t_0)},size:#80%)#h(0em)_(t_0 in RR^k)$ of smooth, embedded submanifolds $Sigma_(t_0) subset cal(M)$ of codimension $k$ such that 
 $
-  Sigma_t_0 sect Sigma_t'_0 = emptyset quad "for" quad t_0 != t_0', quad "and" quad cal(M) = union.big.sq_(t_0 in RR) Sigma_(t_0).
+  Sigma_(t_0) sect Sigma_(t'_0) = nothing quad "for" quad t_0 != t'_0, quad "and" quad cal(M) = union.big_(t_0 in RR^k) Sigma_(t_0).
 $
-The hypersurfaces $Sigma_t_0$ are referred to as the _leaves_ of the foliation. 
+The submanifolds $Sigma_(t_0)$ are referred to as the _leaves_ of the foliation.
 
-This definition, while clean, hides a more powerful and flexible characterisation. Since the leaves are disjoint and cover all of $cal(M)$, each point $p in cal(M)$ lies in a unique leaf $Sigma_t_0$. We can therefore associate to each point its corresponding label $t_0$, giving rise to a map
+This definition, while clean, hides a more powerful and flexible characterisation. Since the leaves are disjoint and cover all of $cal(M)$, each point $p in cal(M)$ lies in a unique leaf $Sigma_(t_0^A)$. We can therefore associate to each point its corresponding label $t_0 = (t_0^A)$, $A = 1,...,k$, giving rise to a map
 $
-  t : cal(M) -> RR, quad t(p) = t_0 "such that" p in Sigma_(t_0).
+  t^A : cal(M) -> RR^k, quad t(p) = t_0 "such that" p in Sigma_(t_0).
 $
-This defines a smooth scalar field on $cal(M)$, and the leaves of the foliation may then be expressed as the family of level sets
+This defines $k$ smooth scalar fields on $cal(M)$, and the leaves of the foliation may then be expressed as the family of level sets
 $
-  Sigma_(t_0) = t^(-1)(t_0).
+  Sigma_(t_0) = t^(-1)(t_0) =  sect.big_(A=1)^k (t^A)^(-1)(t_0).
 $
-In order for each $Sigma_(t_0)$ to be a smooth hypersurface, we require $t_0$ to be a regular value of $t$. For this to hold for all $t_0$, we demand $t$ be a _submersion_, i.e.
+In order for each $Sigma_(t_0)$ to be a smooth submanifold, we require $t_0$ to be a regular value of all component maps $t^A$ of $t = (t^A)$. For this to hold for all $t_0$, we demand each $t^A$ be a _submersion_, i.e.
 $
-  dt != 0 quad "everywhere".
+  dt^A != 0 quad "everywhere", quad forall A = 1,...,k.
 $
-We thus arrive at an equivalent perspective: a codimension-1 foliation of $cal(M)$ may be defined by a scalar field $t : cal(M) -> RR$ whose differential is nowhere vanishing. Its level sets then define the leaves of the foliation.
+We thus arrive at an equivalent perspective: a codimension-$k$ foliation of $cal(M)$ may be defined by a set of $k$ (functionally independent, i.e. ${dt^A}$ is linearly independent) scalar fields $t = (t^A) : cal(M) -> RR^k$, $A = 1,...,k$, whose differentials are nowhere vanishing. The intersection of their level sets then define the leaves of the foliation.
 
-This point of view has practical consequences. Given a chart $(x^mu, U)$, a (local) foliation may be defined by holding one coordinate constant:
-$
-  Sigma_(t_0) = {p in U | x^(mu_0) (p) = t_0},
-$
-which trivially satisfies $dx^(mu_0) != 0$ since $x^(mu_0)$ is a coordinate function.
+Note that because $dt^A != 0$, the map $t = (t^A)$ can be extended to a coordinate chart on $cal(M)$, where the coordinates $(t^A,y^i)$ describe both the foliation parameter and the coordinates $(y^i)$ on the leaves. The number of transverse coordiantes $y^i$ is given by $dim Sigma_t = dim cal(M) - k$. Such coordinates are called _weakly adapted_ to the foliation. In particular, fixing $t^A = t^A_0$ to some constant value $t^A_0$ yields a coordinate chart $(y^i)$ on the leaf $Sigma_(t_0)$. For this reason, the $y^i$ are referred to as _transverse coordinates_.
+\ \
+*Definition* (Hypersurface Foliation) We call a foliation $Sigma = {Sigma_t}$ of codimension $1$ a _hypersurface foliation_. 
 
-Conversely, if a scalar field $t(x^mu)$ defines a foliation via $dt!=0$, then $t$ can be extended to a local coordinate chart. That is, there exist coordinates $y^mu = (t,y^i)$, $i = 1,...,dim cal(M)-1$, such that each $Sigma_t$ is locally given by fixing $t$ and varying the $y^i$. Such coordinate systems are called _(weakly) adapted coordinates_ for the foliation induced by $t$, and we will make use of them in the coordinate-based derivations that follow. 
+A hypersurface foliation is defined by a single scalar field
+$
+  t : cal(M) -> RR, quad dt !=0 "everywhere",
+$
+which can be extended to a coordinate chart as $(t,y^i)$, $i= 1,...,dim cal(M)-1$. 
 
 == The Normal 1-Form and Normal Vector Field <sectionFoliationTangentBundleDecomposition>
 
@@ -1021,14 +1023,14 @@ The tangent bundle of a foliation $Sigma$ generated by the level sets of a scala
 
 == Hypersurface-Orthogonal Distributions
 
-In the previous section, we defined what it means for a vector field to be normal to a foliation $Sigma$ generated by a scalar function $t in C^infty (cal(M))$ with $dt != 0$ everywhere. In particular, we constructed an explicit example of such a vector field 
+In the previous section, we defined what it means for a vector field to be normal to a hypersurface foliation $Sigma$ generated by a scalar function $t in C^infty (cal(M))$ with $dt != 0$ everywhere. In particular, we constructed an explicit example of such a vector field 
 $n^sharp$ by setting
 $
   n = alpha dt quad "such that"quad g(n^sharp, n^sharp) = pm 1.
 $
-This addressed the question _"Given a foliation, can we find a vector field that is normal to it everywhere?"_.
+This addressed the question _"Given a hypersurface foliation, can we find a vector field that is normal to it everywhere?"_.
 
-In this section, we turn that question around: _"Given a vector field, does there exist a foliation to which it is everywhere normal?"_. This leads us to the notion of _hypersurface-orthogonal_ vector fields---those that are locally normal to a family of hypersurfaces. Without proof, we will also give the so-called _Frobenius condition_ which can be used to check this property directly. 
+In this section, we turn that question around: _"Given a vector field, does there exist a hypersurface foliation to which it is everywhere normal?"_. This leads us to the notion of _hypersurface-orthogonal_ vector fields---those that are locally normal to a family of hypersurfaces. Without proof, we will also give the so-called _Frobenius condition_ which can be used to check this property directly. 
 \ \
 *Definition* (Hypersurface-Orthogonal Vector Fields) Let $X in Gamma(T cal(M))$ be a smooth vector field on a smooth manifold $cal(M)$. We say that $X$ is _hypersurface-orthogonal_ if, for every point $p in cal(M)$, there exists a neighbourhood $U subset cal(M)$ of $p$ and a local foliation $Sigma = {Sigma_t}#h(0em)_(t in RR)$ of $U$ with the property that
 $
@@ -1110,10 +1112,10 @@ where the last equality holds by anti-symmetry of the wedge product.
 
 == Decomposition of the Metric under Foliation
 
-In many applications such as ADM, it is essential to decompose a metric in terms of its contributions tangential and normal to the leaves of a foliation. In this section, we approach this decomposition from multiple angles, both from a coordinate-independent and -dependent perspective. 
+In many applications such as ADM, it is essential to decompose a metric in terms of its contributions tangential and normal to the leaves of a hypersurface foliation. In this section, we approach this decomposition from two angles, both from a coordinate-independent and -dependent perspective. 
 
 === Coordinate-Independent Perspective
-We begin by recalling from @sectionFoliationTangentBundleDecomposition that given a foliation $Sigma = {Sigma_t}$ of a (pseudo-)Riemannian manifold $cal(M)$, the tangent bundle can be decomposed as
+We begin by recalling from @sectionFoliationTangentBundleDecomposition that given a hypersurface foliation $Sigma = {Sigma_t}$ of a (pseudo-)Riemannian manifold $cal(M)$, the tangent bundle can be decomposed as
 $
   T cal(M) = T Sigma plus.circle N Sigma.
 $<orthoDecompFoliationTangentNormalBundles>
@@ -1194,7 +1196,7 @@ $
 due to $iota^* Q = 0$. 
 
 === ADM-Type Metric Decomposition in Coordinates
-We again assume the (pseudo-)Riemannian manifold $cal(M)$ to be equipped with a foliation $Sigma = {Sigma_t}$ generated by a scalar function $t in C^infty (cal(M))$ with $dt != 0$ everywhere. We use $t$ as a coordinate, extending it to a full, local coordinate system $x^mu = (t, y^i)$, $i=1,...,dim cal(M)-1$ by transverse coordinates $y^i$. Let us again consider the normal 1-form
+We again assume the (pseudo-)Riemannian manifold $cal(M)$ to be equipped with a hypersurface foliation $Sigma = {Sigma_t}$ generated by a scalar function $t in C^infty (cal(M))$ with $dt != 0$ everywhere. We use $t$ as a coordinate, extending it to a full, local coordinate system $x^mu = (t, y^i)$, $i=1,...,dim cal(M)-1$ by transverse coordinates $y^i$. Let us again consider the normal 1-form
 $
   n = alpha dt,
 $
@@ -1346,7 +1348,7 @@ $<ADMsplitMetric>
 
 == Example: Foliation of $RR^3 without {0}$ into Spheres <exampleR3ConcentricSpheres>
 
-At this point, we should consider an example to solidify our grasp of foliations and the ADM decomposition of the metric. To this end, we consider a simple (but still nontrivial) foliation of the manifold $cal(M) = RR^3 without {0}$, equipped with the flat Euclidean metric 
+At this point, we should consider an example to solidify our grasp of hypersurface foliations and the ADM decomposition of the metric. To this end, we examine a simple (but still nontrivial) foliation of the manifold $cal(M) = RR^3 without {0}$, equipped with the flat Euclidean metric 
 $
   g = dx otimes dx + dy otimes dy + dz otimes dz
 $
@@ -1454,7 +1456,7 @@ This is also what one would expect: an appropriately scaled metric on $S^2$.
 = Covariant Derivatives on Foliations and Submanifolds 
 The goal of this section is to define how a connection on a manifold $cal(M)$ induces a connection on the leaves of a foliation $Sigma$ of $cal(M)$. To this end, we review the definition of a connection $nabla$ as well as how the conditions of vanishing torsion and metric compatibility uniquely single out the Levi-Civita connection. We then proceed to define the induced connection $mnabla$ on a foliation as the tangential projection of $nabla$, and show that if $nabla$ is of Levi-Civita type, then so is $mnabla$.
 == Review: Affine Connections
-Before discussing how a connection on a (pseudo-)Riemannian manifold $cal(M)$ induces a connection on the submanifolds $Sigma_t subset cal(M)$ that comprise a foliation $Sigma$, we review the definition of affine connections and recall how the conditions of metric compatibility and torsion-freeness uniquely determine the Levi-Civita connection. 
+Before discussing how a connection on a (pseudo-)Riemannian manifold $cal(M)$ induces a connection on the submanifolds $Sigma_(t^A) subset cal(M)$ that comprise a foliation $Sigma$, we review the definition of affine connections and recall how the conditions of metric compatibility and torsion-freeness uniquely determine the Levi-Civita connection. 
 
 Let
 $
@@ -1760,9 +1762,9 @@ $
 $
 In other words, specifying how $nabla$ acts on vector fields suffices to determine its behaviour on all tensor fields. 
 
-Thus, the task of defining a geometrically meaningful connection on a foliation $Sigma= {Sigma_t}$ reduces to defining how it acts on vector fields tangent to the leaves, and extending that action to arbitrary tensors via the standard axioms of an affine connection.
+Thus, the task of defining a geometrically meaningful connection on a foliation $Sigma= {Sigma_(t^A)}$ reduces to defining how it acts on vector fields tangent to the leaves, and extending that action to arbitrary tensors via the standard axioms of an affine connection.
 
-Therefore, given a connection $nabla$ on a manifold $cal(M)$ endowed with a foliation $Sigma = {Sigma_t}$, to define an induced connection $mnabla$ on each leaf $Sigma_t$, we must provide a prescription for
+Therefore, given a connection $nabla$ on a manifold $cal(M)$ endowed with a foliation $Sigma = {Sigma_(t^A)}$, to define an induced connection $mnabla$ on each leaf $Sigma_(t^A)$, we must provide a prescription for
 $
   mnabla_X Y quad "for any" quad X,Y in Gamma(T Sigma),
 $
@@ -1776,15 +1778,15 @@ $
 $
 In words, this says that $mnabla$ transports $Y$ along $X$ in precisely the same way that the ambient connection $nabla$ transports the embedded version of $Y$ along that of $X$ within $T cal(M)$.
 
-This is a good starting point---essentially all of the geometric structure of $nabla$ is being transferred to $mnabla$. However, this definition has a fundamental flaw. It is subtle but crucial: an induced connection on the foliation $Sigma$ must restrict to a connection on each individual leaf $Sigma_t$, which is a map
+This is a good starting point---essentially all of the geometric structure of $nabla$ is being transferred to $mnabla$. However, this definition has a fundamental flaw. It is subtle but crucial: an induced connection on the foliation $Sigma$ must restrict to a connection on each individual leaf $Sigma_(t^A)$, which is a map
 $
-  mnabla : Gamma(T^((r,s))Sigma_t) -> Gamma(T^((r,s+1)) Sigma_t), quad T |-> mnabla T,
+  mnabla : Gamma(T^((r,s))Sigma_(t^A)) -> Gamma(T^((r,s+1)) Sigma_(t^A)), quad T |-> mnabla T,
 $
 and, when acting on (and along) vector fields, is given more concretely by a map
 $
-  mnabla : Gamma(T Sigma_t) times Gamma(T Sigma_t) -> Gamma(T Sigma_t), quad (X,Y)|-> mnabla_X Y.
+  mnabla : Gamma(T Sigma_(t^A)) times Gamma(T Sigma_(t^A)) -> Gamma(T Sigma_(t^A)), quad (X,Y)|-> mnabla_X Y.
 $
-In short, the connection must send vector fields tangent to the leaves to other vector fields tangent to the leaves. But $nabla_(iota_* X) (iota_* Y)$, although well-defined in $Gamma(T cal(M))$, need not lie in the subbundle $T Sigma$. The ambient connection $nabla$ is under no obligation to preserve tangency to the leaves---it can easily produce components orthogonal to them when transporting vectors through the submanifolds.
+In short, the connection must send vector fields tangent to the leaves to other vector fields tangent to the leaves. But $nabla_(iota_* X) (iota_* Y)$, although well-defined in $Gamma(T cal(M))$, need not necessarily lie in the subbundle $T Sigma$. The ambient connection $nabla$ is under no obligation to preserve tangency to the leaves---it can easily produce components orthogonal to them when transporting vectors through the submanifolds.
 
 We are therefore forced to modify our first attempt so as to eliminate any normal components that may arise. For this purpose, recall the left-inverse $(iota_*)#h(0em)^(-1): T cal(M) -> T Sigma$ introduced earlier. While there exist infintely many such left-inverses, we singled out a unique one by requiring that the projection $P = iota_* compose (iota_*)#h(0em)^(-1)$ be orthogonal with respect to the ambient metric. This construction gives us precisely the tool we need: $(iota_*)#h(0em)^(-1)$ acts as the identity on $T Sigma$, while annihilating vectors in the normal bundle $N Sigma$; that is,
 $
@@ -1798,7 +1800,7 @@ This expression is admittedly cumbersome to read, but its geometric interpretati
 
 Let us now formalise this geometric construction as a rigorous definition.
 \ \
-*Definition* (Induced Connection on a Foliation) Let $cal(M)$ be a smooth manifold, $Sigma = {Sigma_t}$ a foliation of $cal(M)$, and 
+*Definition* (Induced Connection on a Foliation) Let $cal(M)$ be a smooth manifold, $Sigma = {Sigma_(t^A)}$ a foliation of $cal(M)$, and 
 $
   nabla : Gamma(T^((r,s))cal(M))->Gamma(T^((r,s+1))cal(M))
 $
@@ -1838,7 +1840,7 @@ the _induced connection on $Sigma$_ (associated to $nabla$) if
 *Remarks:*
 - The axioms 1., 3. and 4. guarantee that $mnabla$ is itself an affine connection. 
 
-- Since the connection coefficients $tensor(macron(Gamma),+k,-i j)$ in coordinates $(t,y^i)$ adapted to $Sigma$ are defined by the action of the connection on basis vectors, axiom 2. allows for their explicit computation in terms of the coefficients $tensor(Gamma,+lambda,-mu nu)$ of the ambient connection $nabla$, the pushforward matrix $E^mu_i$ and its orthogonal left-inverse $E^i_mu$. Concretely, we may derive
+- Since the connection coefficients $tensor(macron(Gamma),+k,-i j)$ in coordinates $(t^A,y^i)$ adapted to $Sigma$ are defined by the action of the connection on basis vectors, axiom 2. allows for their explicit computation in terms of the coefficients $tensor(Gamma,+lambda,-mu nu)$ of the ambient connection $nabla$, the pushforward matrix $E^mu_i = (diff x^mu)/(diff y^i)$ and its orthogonal left-inverse $E^i_mu$. Concretely, we may derive
   $
     tensor(macron(Gamma),+k,-i j)diff_k &= mnabla_i diff_j = (iota_*)^(-1) (nabla_(iota_* diff_i) (iota_* diff_j))\ &= (iota_*)^(-1) (nabla_(E^mu_i diff_mu) (E^nu_j diff_nu))\
     &= E^mu_i (iota_*)^(-1) (nabla_mu (E^nu_j diff_nu))\ &= E^mu_i (iota_*)^(-1) lr(((diff_mu E^nu_j)diff_nu + E^nu_j underbrace(nabla_mu diff_nu,=tensor(Gamma,+lambda,-mu nu) diff_lambda)),size:#30%)\
@@ -1864,7 +1866,7 @@ The previous section introduced the notion of a connection on the submanifolds o
 
 There is, however, an important special case, which we explore in this section. Recall that the Levi-Civita is uniquely characterised by two conditions: vanishing torsion and compatibility with the metric. We will show that if the ambient connection satisfies these conditions, then the induced connection does as well---in this sense, they are inherited. It follows that the connection induced by a Levi-Civita connection is itself Levi-Civita. In particular, this yields an alternative to the @projectionConnectionCoeffs[projection of connection coefficients], as the coefficients of the induced connection can now be computed directly from linear combinations of partial derivatives of the induced metric. 
 
-In the following, let $cal(M)$ denote a (pseudo-)Riemannian manifold with metric tensor $g in Gamma(T^((0,2))cal(M))$, $Sigma = {Sigma_t}$ a hypersurface foliation of $cal(M)$, and $gamma = iota^* g$ the induced metric on $Sigma_t$. Further, let $nabla$ be a connection on $cal(M)$ and $mnabla$ the connection on $Sigma$ induced by $nabla$. 
+In the following, let $cal(M)$ denote a (pseudo-)Riemannian manifold with metric tensor $g in Gamma(T^((0,2))cal(M))$, $Sigma = {Sigma_(t^A)}$ a foliation of $cal(M)$, and $gamma = iota^* g$ the induced metric on $Sigma_(t^A)$. Further, let $nabla$ be a connection on $cal(M)$ and $mnabla$ the connection on $Sigma$ induced by $nabla$. 
 \ \
 *Vanishing Torsion* Suppose $nabla$ has vanishing torsion. Concretely, this means that
 $
@@ -2052,7 +2054,7 @@ This immediately suggests a relationship between the ambient and intrinsic curva
 
 This will prepare us for the derivation of the Gauss equation in the next section, which relates the intrinsic, extrinsic and projected ambient curvatures in a precise and elegant way.
 == Intrinsic Curvature
-=== Curvature on Manifolds: the Riemann Tensor
+=== Curvature of Manifolds: the Riemann Tensor
 On a space like $RR^2$ equipped with the Euclidean metric,
 $
   g = dx otimes dx + dy otimes dy,
@@ -2321,7 +2323,7 @@ with
 $
   macron(R)(X,Y)Z = [mnabla_X,mnabla_Y] Z - mnabla_[X,Y]Z.
 $
-We refer to $macron(R)$ as the _intrinsic (Riemann) curvature_ of the foliation $Sigma$. On any individual leaf $Sigma_t$, $macron(R)$ is simply the Riemann tensor of the induced Levi-Civita connection---that is, the curvature one would assign having access only to the intrinsic geometry, i.e., without any knowledge of the ambient geometry.
+We refer to $macron(R)$ as the _intrinsic (Riemann) curvature_ of the foliation $Sigma$. On any individual leaf $Sigma_(t^A)$, $macron(R)$ is simply the Riemann tensor of the induced Levi-Civita connection---that is, the curvature one would assign having access only to the intrinsic geometry, i.e., without any knowledge of the ambient geometry.
 
 Since both metric compatibility and absence of torsion are properties $mnabla$ inherits from $nabla$, the fully covariant tensors $R(W,Z,X,Y)$ as well as $macron(R)(W,Z,X,Y)$ exhibit the same algebraic symmetries (cf. previous section). In the case that $nabla$ is the Levi-Civita connection associated to the metric $g$ on $cal(M)$, then $mnabla$ is the Levi-Civita connection associated to the induced metric $gamma = iota^* g$ on the leaves of the foliation. This makes the components of $macron(R)$ computable entirely from the components of the induced metric, due to the relationships
 $
@@ -2505,20 +2507,6 @@ This version highlights another aspect of the same idea: extrinsic curvature mea
 === Geometric Interpretation via the Normal Vector <extCurvatureNormalVector>
 The definition of extrinsic curvature we presented in the previous section is valid for any foliation $Sigma$ of a smooth manifold $cal(M)$, regardless of the codimension of the leaves. In this section, we specialise to a hypersurface foliation, where the expression simplifies considerably.
 
-Before proceeding with the specialisation, let us review the map
-$
-  K : Gamma(T Sigma) times Gamma(T Sigma) -> Gamma(N Sigma)
-$
-in terms of its components. Most naturally, it can be written as the tensor
-$
-  K = tensor(K,+lambda,-mu nu) diff_lambda otimes dx^mu otimes dx^nu,
-$
-acting on a pair of foliation-tangent vector fields $X,Y in Gamma(T Sigma)$ as
-$
-  K(X,Y) = X^mu Y^nu tensor(K,+lambda,-mu nu) diff_lambda.
-$
-While this equation may suggest that $K(X,Y)$ is a general $C^infty$-linear combination of the basis vector fields $diff_mu$ spanning $Gamma(T cal(M))$, we must recall that by definition, $K(X,Y)$ is normal to $Sigma$, and therefore, it is only a $C^infty$ linear combination of the basis of $Gamma(N Sigma)$. 
-
 In the case where $Sigma = Sigma_t$ is a hypersurface foliation generated by a scalar function $t in C^infty (cal(M))$, the normal bundle has one-dimensional fibres. From @sectionFoliationTangentBundleDecomposition, we recall that in this scenario, we are provided with a normal vector field $n^sharp$, associated with the normal 1-form $n = alpha dt$, which satisfies the relations
 $
   g(n^sharp,n^sharp) = epsilon = pm 1, quad g(n^sharp,X) = 0,quad forall X in T Sigma.
@@ -2590,7 +2578,7 @@ $
 show that the extrinsic curvature is closely linked to the change in the normal vector field as one moves along the foliation. The shape operator $S(X)$ encodes how the normal vector evolves when traversing a leaf, revealing the curvature of the hypersurface within the ambient manifold. The scalar $k(X,Y)$ then measures the projection of this change along a tangent vector $Y$, providing a clear geometric interpretation of the curvature in the case of hypersurface foliations.
 
 In summary, the extrinsic curvature provides a measure of how the leaves are embedded and deformed within the ambient manifold, with $k(X,Y)$ quantifying the degree of this deformation. In the specific case of hypersurfaces, this bending is elegantly described by the change of the normal vector field $n^sharp$, as the normal bundle has one-dimensional fibres, simplifying the geometric interpretation of the curvature.
-=== Symmetry of the Second Fundamental Form
+=== Symmetry of the Extrinsic Curvature
 We have previously observed that, under certain conditions such as metric compatibility or vanishing torsion, the Riemann curvature tensor acquires additional symmetries. A similar result holds for the extrinsic curvature $K(X,Y)$, which becomes a symmetric bilinear form when the connection is torsion-free.
 
 Recall that the torsion tensor is defined as
@@ -2719,24 +2707,6 @@ $<gaussEqn>
 This is the result we anticipated in @intrinsicVsProjectedAmbient, now fully worked out in terms of the extrinsic curvature. It relates the intrinsic curvature $R$ of the leaves of the foliation to the (pullback of) the ambient curvature $R$ and the extrinsic curvature $K$.
 \ \
 *Remarks:*
-- *Components* In terms of components, where we use ambient coordinates $x^mu$ and transverse coordinates  $y^i$ and write the vector fields as $X = X^mu diff_mu = X^i diff_i$, this equation reads
-  $
-    macron(R)_(rho sigma mu nu) = R_(rho sigma mu nu) + g_(lambda tau) (tensor(K,+lambda,-mu rho) tensor(K,+tau,-nu sigma) - tensor(K,+lambda,-nu rho) tensor(K,+tau,-mu sigma))
-  $
-  with respect to the basis $diff_mu$, and 
-  $
-    macron(R)_(k ell i j) = R_(k ell i j) + g_(mu nu) (tensor(K,+mu,-i k) tensor(K,+nu,-j ell) - tensor(K,+mu,-j k) tensor(K,+nu,-i ell))
-  $
-  with respect to the basis $diff_i$. Here,
-  $
-    R_(k ell i j) &= (iota^* R)_(k ell i j) = E^rho_k E^sigma_ell E^mu_i E^nu_j R_(rho sigma mu nu),\
-  $
-  are the components of the pullback of the ambient Riemann tensor onto the foliation leaves, and
-  $ 
-    tensor(K,+lambda,-i j) = tensor(K,+lambda,-mu nu) E^mu_i E^nu_j
-  $
-  the components of the extrinsic curvature with respect to the transverse basis $diff_i$. Since $K$ only takes arguments in $Gamma(T Sigma)$, no information is lost here.
-
 - *Metric Compatibility* The derivation of the Gauss equation made use of the assumption that the connection is metric-compatible. This reduces its generality, but also introduces anti-symmetry in the $W,Z$-pair for both $macron(R)(W,Z,X,Y)$ and $R(W,Z,X,Y)$. Consequently, the terms involving the extrinsic curvature must satisfy this anti-symmetry as well---to remain consistent. It is straightforward to see that this is the case; the exchange $(W<->Z)$ yields a negative sign.
 
 - *Vanishing Torsion* Though we did not have to assume vanishing torsion in the derivation, we may add it as a further requirement. This introduces further symmetries of both the ambient and intrinsic curvature tensors, namely symmetry under the exchange of the first and second pair (since the connection is also metric-compatible), 
@@ -2774,16 +2744,22 @@ We have thus found the Gauss equation for hypersurface foliations,
 $
   macron(R)(W,Z,X,Y) = R(W,Z,X,Y) + epsilon(k(X,W)k(Y,Z)-k(Y,W)k(X,Z)).
 $<gaussEqnHypersurface>
-In terms of components, this reads
+In terms of components in the adapted coordinates $(t,y^i)$, this reads
 $
-  macron(R)_(k ell i j) = R_(k ell i j) + epsilon (k_(i k) k_(j ell) - k_(j k)k_(i ell)).
+  macron(R)_(k ell i j) = R_(k ell i j) + epsilon (k_(i k) k_(j ell) - k_(j k)k_(i ell)),
 $
+where 
+$
+  R_(k ell i j) = (iota^* R)_(k ell i j) = E^rho_k E^sigma_ell E^mu_i E^nu_j R_(rho sigma mu nu)
+$
+are the components of the pushforward of the ambient Riemann tensor. 
 === Example: Foliation of $RR^3 without {0}$ into Spheres 
 
 == Codazzi-Mainardi Equation
-=== Extension of $K(X,Y)$ and $macron(R)(W,Z,X,Y)$ and the Gauss Equation to $Gamma(T cal(M))$
 === General Case
 === Hypersurface Foliation
 === Example: Foliation of $RR^3 without {0}$ into Spheres 
 
-== Full Ambient Curvature from Intrinsic and Extrinsic
+
+
+= Ricci-Voss Identity
