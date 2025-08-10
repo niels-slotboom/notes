@@ -897,11 +897,11 @@ $
 $
 which trivially satisfies $dx^(mu_0) != 0$ since $x^(mu_0)$ is a coordinate function.
 
-Conversely, if a scalar field $t(x^mu)$ defines a foliation via $dt!=0$, then $t$ can be extended to a local coordinate chart. That is, there exist coorinates $y^mu = (t,y^i)$, $i = 1,...,dim cal(M)-1$, such that each $Sigma_t$ is locally given by fixing $t$ and varying the $y^i$. Such coordinate systems are called _(weakly) adapted coordinates_ for the foliation induced by $t$, and we will make use of them in the coordinate-based derivations that follow. 
+Conversely, if a scalar field $t(x^mu)$ defines a foliation via $dt!=0$, then $t$ can be extended to a local coordinate chart. That is, there exist coordinates $y^mu = (t,y^i)$, $i = 1,...,dim cal(M)-1$, such that each $Sigma_t$ is locally given by fixing $t$ and varying the $y^i$. Such coordinate systems are called _(weakly) adapted coordinates_ for the foliation induced by $t$, and we will make use of them in the coordinate-based derivations that follow. 
 
 == The Normal 1-Form and Normal Vector Field <sectionFoliationTangentBundleDecomposition>
 
-The choice of a foliation of a manifold $cal(M)$ naturally gives rise to a host of associated mathematical objects, each playing its own role in its geometry. Among the most central of these is the normal vector field, together with its corresponding one-form. In what follows, we shall first build some intutition for why such an object may be constructed, before proceeding to define it rigorously. 
+The choice of a hypersurface foliation of a manifold $cal(M)$ naturally gives rise to a host of associated mathematical objects, each playing its own role in its geometry. Among the most central of these is the normal vector field, together with its corresponding one-form. In what follows, we shall first build some intuition for why such an object may be constructed, before proceeding to define it rigorously. 
 
 As we have seen previously, a submanifold $cal(S) subset cal(M)$ induces, at each point $p in cal(S)$, a decomposition
 $
@@ -2341,7 +2341,7 @@ $
   macron(R)_(i j) = tensor(macron(R),+k,-i k j).
 $
 
-=== Intrinsic vs Projected Ambient Curvature
+=== Intrinsic vs Projected Ambient Curvature <intrinsicVsProjectedAmbient>
 A natural question following the above introduction of the intrinsic curvature $macron(R)$ on a foliation $Sigma$ is how it relates to the ambient curvature $R$. Since $mnabla$ is defined as the projection of $nabla$ onto $T Sigma$, one might expect a similar relationship between the intrinsic and ambient curvature---something like
 $
   macron(R) = P R|_(T Sigma),
@@ -2435,7 +2435,7 @@ However, this is _not_ the case. There are (at least) two ways to see this---fir
   We can see that there is an additional term involving covariant derivatives of the projector $P$---we hence obtain the identity 
   $
     macron(R)(X,Y)Z = P R(X,Y)Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size:#130%).
-  $
+  $<precursorGaussEqn>
   This demonstrates that the intrinsic curvature contains more than just the projection of the ambient curvature. The second term involves the covariant derivative of the projector $P$ and encodes how $T Sigma$ varies under parallel transport within the ambient manifold. It is, in fact, the algebraic seed of the _Gauss equation_, which we will derive in the following sections.
 
   However, to properly interpret this additional term, we must first introduce the concept of _extrinsic curvature_. As it stands, the expression
@@ -2502,7 +2502,7 @@ $
 This version highlights another aspect of the same idea: extrinsic curvature measures how the normal projection operator changes along $X$, when acting on $Y$. In other words, it tracks how the normal bundle twists and turns along the leaves of the foliation---consistent with our earlier interpretation in terms of tilting tangent spaces. 
 
 
-=== Geometric Interpretation via the Normal Vector
+=== Geometric Interpretation via the Normal Vector <extCurvatureNormalVector>
 The definition of extrinsic curvature we presented in the previous section is valid for any foliation $Sigma$ of a smooth manifold $cal(M)$, regardless of the codimension of the leaves. In this section, we specialise to a hypersurface foliation, where the expression simplifies considerably.
 
 Before proceeding with the specialisation, let us review the map
@@ -2545,7 +2545,7 @@ $
 $
 Since $k$ only takes vectors tangent to the foliation as inputs, in adapted coordinates $(t,y^i)$, we can also write it in terms of the cobasis associated with the transverse coordinates $y^i$ as
 $
-  k = k_(i j) dy^i otimes dy^j = k_(i j) E^mu_i E^nu_j dx^mu otimes dx^nu,
+  k = k_(i j) dy^i otimes dy^j = k_(i j) E_mu^i E_nu^j dx^mu otimes dx^nu,
 $
 implying that $k$ is its own pullback; we have $k = iota^* k$. Its action on vector fields $X = X^mu diff_mu = X^i diff_i$ and $Y = Y^mu diff_mu = Y^i diff_i$, both in $Gamma(T Sigma)$, is given by
 $
@@ -2571,11 +2571,11 @@ $
 $
 Explicitly, the components of $k$ are given by
 $
-  k_(mu nu) = -epsilon gamma_(nu lambda) nabla_mu n^lambda = -epsilon nabla_mu n_nu = -epsilon nabla_mu delta^t_nu,
+  k_(mu nu) = -epsilon gamma_(nu lambda) nabla_mu n^lambda = -epsilon nabla_mu n_nu = -epsilon nabla_mu (alpha delta^t_nu),
 $
 or equivalently,
 $
-  k_(i j) = - epsilon E^mu_i E^nu_j nabla_mu delta^t_nu,
+  k_(i j) = - epsilon E^mu_i E^nu_j nabla_mu n_nu,
 $
 with respect to the transverse coordinates $y^i$.
 
@@ -2591,19 +2591,199 @@ show that the extrinsic curvature is closely linked to the change in the normal 
 
 In summary, the extrinsic curvature provides a measure of how the leaves are embedded and deformed within the ambient manifold, with $k(X,Y)$ quantifying the degree of this deformation. In the specific case of hypersurfaces, this bending is elegantly described by the change of the normal vector field $n^sharp$, as the normal bundle has one-dimensional fibres, simplifying the geometric interpretation of the curvature.
 === Symmetry of the Second Fundamental Form
-- show $K(X,Y) = K(Y,X)$ if connection is torsion-free
-- alternatively, derive symmetry from $g(nabla_X Y, n^sharp)$ identity
-- explain: symmetry reflects geometric nature (extrinsic curvature as bilinear form)
+We have previously observed that, under certain conditions such as metric compatibility or vanishing torsion, the Riemann curvature tensor acquires additional symmetries. A similar result holds for the extrinsic curvature $K(X,Y)$, which becomes a symmetric bilinear form when the connection is torsion-free.
 
-= Gauss-Codazzi Equations
-- *Gauss equation*: relates intrinsic curvature of $Sigma$ to ambient curvature and $K$:
+Recall that the torsion tensor is defined as
+$
+  T(X,Y) = nabla_X Y - nabla_Y X - [X,Y], quad X,Y in Gamma(T cal(M)),
+$
+such that the requirement of vanishing torsion is equivalent to
+$
+  nabla_X Y = nabla_Y X + [X,Y].
+$
+Moreover, since the Lie bracket is a closed operation on the tangent spaces of (sub)manifolds, for $X,Y in T Sigma$ we also have $[X,Y]in T Sigma$.
 
-  $
-  R^Sigma_(i j k ell) = R_(i j k ell) + epsilon (K_(i k) K_(j ell) - K_(i ell) K_(j k)).
-  $
-- *Codazzi equation*: relates derivatives of $K$ to ambient curvature:
+With this in mind, it is rather straightforward to show that the extrinsic curvature tensor is symmetric. We simply derive
+$
+  K(X,Y) = Q nabla_X Y = underbrace(Q nabla_Y X,=K(Y,X)) + underbrace(Q [X,Y],=0) = K(Y,X).
+$
+Here, we made use of the fact that $Q$ is the normal projection onto $N Sigma$, whereas $[X,Y] in T Sigma$, so that $Q$ annihilates it. We have thus shown that the intrinsic curvature is symmetric, i.e.,
+$
+  K(X,Y) = K(Y,X).
+$
+For the case of a hypersurface foliation, we also obtain symmetry for the scalar factor $k(X,Y)$ in the expression $K(X,Y) = k(X,Y)n^sharp$. Specifically, we find
+$
+  k(X,Y) = k(Y,X),
+$
+showing that the scalar function $k(X,Y)$, which encodes the magnitude of the extrinsic curvature, is also symmetric.
 
+=== Kosmann-Type Formula
+In the case that the ambient manifold $cal(M)$ is endowed with a metric-compatible and torsion-free connection $nabla$, and $Sigma$ is a hypersurface foliation of it, one can derive a further identity relating the magnitude factor $k(X,Y)$ of the extrinsic curvature to the Lie derivative $cal(L)_(n^sharp)$ of the metric along the normal flow generated by $n^sharp$. 
+
+To derive this, we begin by expanding
+$
+  (cal(L)_(n^sharp) g)(X,Y) = n^sharp [g(X,Y)] - g([n^sharp,X],Y) - g(X,[n^sharp,Y]),quad X,Y in Gamma(T Sigma),
+$
+where we made use of the fact that $cal(L)$ fulfils a Leibniz rule, that it acts as a directional derivative on scalars, and $cal(L)_X Y =[X,Y]$ on vectors. We now treat the individual terms separately.
+
+For the first term, we may replace the directional with a covariant derivative, which after applying the product rule and metric compatibility yields
+$
+  n^sharp [g(X,Y)] = nabla_(n^sharp) g(X,Y) = g(nabla_(n^sharp)X,Y) + g(X, nabla_(n^sharp) Y).
+$
+The second (and third term, analogously), may be rewritten by making use of the identity
+$
+  [X,Y] = nabla_X Y - nabla_Y X
+$
+that holds for torsion-free connections. Inserting it, we find
+$
+  g([n^sharp,X],Y) = g(nabla_(n^sharp) X, Y) - g(nabla_X n^sharp, Y).
+$
+Putting everything back together, we arrive at
+$
+  (cal(L)_(n^sharp) g)(X,Y) &= cancelr(g(nabla_(n^sharp) X, Y)) - cancelr(g(nabla_(n^sharp) X, Y)) + underbrace(g(nabla_X n^sharp, Y),=-epsilon k(X,Y)) + (X<->Y)\
+  &= -epsilon k(X,Y) - epsilon k(Y,X)\
+  &= -2epsilon k(X,Y),
+$
+implying the identity
+$
+  k(X,Y) = -epsilon/2 (cal(L)_(n^sharp) g)(X,Y).
+$
+
+This gives a direct relationship between the extrinsic curvature and the metric; more precisely, it tells us that its magnitude corresponds to the change of the metric along the normal flow of the foliation.
+
+=== Example: Extrinsic Curvature of the Foliation of $RR^3 without {0}$ into Spheres 
+
+= Gauss-Codazzi-Mainardi Equations
+Now that we established the concepts of ambient, intrinsic and extrinsic curvature, we can finally derive relationships between them. 
+== Gauss Equation
+In this section, we derive the Gauss equation, which we already touched upon very lightly at the end of @intrinsicVsProjectedAmbient. We first treat the general case, and then specialise to the case of a hypersurface foliation, where terms simplify somewhat. In the following, $cal(M)$ will denote a (pseudo-)Riemannian manifold equipped with a metric $g$, an affine connection $nabla$, and a foliation $Sigma$. The leaves of the foliation are endowed with the induced metric $gamma = iota^* g$ as well as the induced connection $mnabla$. Moreover, if not stated otherwise, $X,Y,Z,W$ will denote foliation-tangent vector fields in $Gamma(T Sigma)$.
+=== General Case
+To derive the Gauss equation, let us first collect some definitions and identities we have derived in the previous sections. The starting point of the derivation will be the @precursorGaussEqn[equation], 
+$
+  macron(R)(X,Y)Z = P R(X,Y)Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size:#130%),
+$<precursorGaussEqn2>
+Further, we will need the definition and alternate characterisation of the extrinsic curvature,
+$
+  K(X,Y) = Q nabla_X Y = -(nabla_X Q) Y.
+$
+Lastly, the decomposition of the identity into the orthogonal projectors $P$ and $Q$,
+$
+  id = P + Q,
+$
+will be of use as well. 
+
+The derivation is best performed using the fully covariant Riemann tensor
+$
+  macron(R)(W,Z,X,Y) = g(macron(R)(X,Y)Z,W).
+$
+We begin by inserting the @precursorGaussEqn2[precursor] into this, finding
+$
+  &#h(-3em) macron(R)(W,Z,X,Y) = g(macron(R)(X,Y)Z,W)\
+  &= g lr((P lr((R(X,Y)Z + (nabla_X P)nabla_Y Z - (nabla_Y P) nabla_X Z), size: #135%), W),size:#135%)\
+  &= g lr((R(X,Y)Z + (nabla_X P) nabla_Y Z - (nabla_Y P) nabla_X Z, underbrace(P W,=W)),size:#55%)\
+  &= R(W,Z,X,Y) + lr((g lr(((nabla_X P) nabla_Y Z, W),size:#135%) - (X <-> Y)),size: #135%)
+$<eq815>
+The first term is clear; it is nothing but the ambient Riemann tensor applied to the vector tuple $(W,Z,X,Y)$. The tangential projection $P$ drops out due to the fact that it is orthogonal and $P W = W$, as $W in Gamma(T Sigma)$. The second term requires a more detailed examination. It is an anti-symmetrisation in $X,Y$, so it is sufficient to consider only
+$
+  g lr(((nabla_X P) nabla_Y Z, W), size:#135%)
+$
+and perform the anti-symmetrisation afterwards. The treatment of this expression requires a series of operations, the steps behind which we list for clarity below:
+$
+  g lr(((nabla_X P) nabla_Y Z, W), size:#135%) &attach(=,t:1.) -g lr(((nabla_X Q) nabla_Y Z, W), size:#135%)\
+  &attach(=,t:2.) - g lr(( nabla_X underbrace((Q nabla_Y Z),=K(Y,Z)), W), size:#37%) + underbrace(g(Q nabla_X nabla_Y Z, W),=g lr((nabla_X nabla_Y, underbrace(Q Z,=0)),size:#35%) = 0)\
+  &attach(=,t:3.) -nabla_X underbrace(g lr(( underbrace(K(Y,Z),in Gamma(N Sigma)), underbrace(W,in Gamma(T Sigma))),size:#40%),=0) + g(K(Y,Z),nabla_X W) \
+  &attach(=,t:4.) g(K(Y,Z),K(X,W)).
+$
+The steps are as follows:
+
++ Replace $P$ using $P = id - thin Q$ and note that
   $
-    mnabla_i K_(j k) - mnabla_j K_(i k) = R_(ell i j k) n^ell.
+    nabla_X P = underbrace(nabla_X id,=0) - nabla_X Q = -nabla_X Q
   $
-- Optionally: show how these identities constrain initial data in general relativity.
++ Integrate first argument by parts,
+  $
+    (nabla_X Q)nabla_Y Z = nabla_X (Q nabla_Y Z)- Q nabla_X nabla_Y Z
+  $
++ Integrate by parts using
+  $
+    g(nabla_X A,B) = nabla_X g(A,B) - g(A, nabla_X B)
+  $
+  This step assumes metric compatibility of the connection.
+
++ First term vanishes since $K(Y,Z) perp W$. In the second term, the first argument lies in $Gamma(N Sigma)$ such that only the normal part $Q nabla_X W = K(X,W)$ of the second argument contributes. 
+
+Inserting this partial result back into @eq815[equation] above and carrying out the anti-symmetrisation yields the _Gauss equation_ 
+$
+  macron(R)(W,Z,X,Y) = R(W,Z,X,Y) + g(K(X,W),K(Y,Z)) - g(K(Y,W),K(X,Z)).#h(2em)
+$<gaussEqn>
+This is the result we anticipated in @intrinsicVsProjectedAmbient, now fully worked out in terms of the extrinsic curvature. It relates the intrinsic curvature $R$ of the leaves of the foliation to the (pullback of) the ambient curvature $R$ and the extrinsic curvature $K$.
+\ \
+*Remarks:*
+- *Components* In terms of components, where we use ambient coordinates $x^mu$ and transverse coordinates  $y^i$ and write the vector fields as $X = X^mu diff_mu = X^i diff_i$, this equation reads
+  $
+    macron(R)_(rho sigma mu nu) = R_(rho sigma mu nu) + g_(lambda tau) (tensor(K,+lambda,-mu rho) tensor(K,+tau,-nu sigma) - tensor(K,+lambda,-nu rho) tensor(K,+tau,-mu sigma))
+  $
+  with respect to the basis $diff_mu$, and 
+  $
+    macron(R)_(k ell i j) = R_(k ell i j) + g_(mu nu) (tensor(K,+mu,-i k) tensor(K,+nu,-j ell) - tensor(K,+mu,-j k) tensor(K,+nu,-i ell))
+  $
+  with respect to the basis $diff_i$. Here,
+  $
+    R_(k ell i j) &= (iota^* R)_(k ell i j) = E^rho_k E^sigma_ell E^mu_i E^nu_j R_(rho sigma mu nu),\
+  $
+  are the components of the pullback of the ambient Riemann tensor onto the foliation leaves, and
+  $ 
+    tensor(K,+lambda,-i j) = tensor(K,+lambda,-mu nu) E^mu_i E^nu_j
+  $
+  the components of the extrinsic curvature with respect to the transverse basis $diff_i$. Since $K$ only takes arguments in $Gamma(T Sigma)$, no information is lost here.
+
+- *Metric Compatibility* The derivation of the Gauss equation made use of the assumption that the connection is metric-compatible. This reduces its generality, but also introduces anti-symmetry in the $W,Z$-pair for both $macron(R)(W,Z,X,Y)$ and $R(W,Z,X,Y)$. Consequently, the terms involving the extrinsic curvature must satisfy this anti-symmetry as well---to remain consistent. It is straightforward to see that this is the case; the exchange $(W<->Z)$ yields a negative sign.
+
+- *Vanishing Torsion* Though we did not have to assume vanishing torsion in the derivation, we may add it as a further requirement. This introduces further symmetries of both the ambient and intrinsic curvature tensors, namely symmetry under the exchange of the first and second pair (since the connection is also metric-compatible), 
+  $
+    R(W,Z,X,Y) = R(X,Y,Z,W),
+  $
+  as well as the Bianchi identity
+  $
+    R(W,Z,X,Y) + R(W,X,Y,Z) + R(W,Y,Z,X) = 0.
+  $
+  The extrinsic curvature terms must satisfy these as well to remain consistent. Let us verify that this is the case for the former symmetry. Recall that for a torsion-free connection, $K$ is symmetric, i.e.
+  $
+    K(X,Y) = K(Y,X). 
+  $
+  This implies that
+  #bottom-number($
+    macron(R)(W,Z,X,Y) - R(W,Z,X,Y) &= g(K(X,W),K(Y,Z)) - g(K(Y,W),K(X,Z))\
+    &= g(K(W,X),K(Z,Y)) - g(K(W,Y),K(Z,X))\
+    &= macron(R)(X,Y,W,Z) - R(X,Y,W,Z),
+  $)
+  as required.
+=== Hypersurface Foliation
+The Gauss @gaussEqn[equation] can be specialised to hypersurface foliations by making use of the relationship 
+$
+  K(X,Y) = k(X,Y) n^sharp
+$
+that we derived in @extCurvatureNormalVector. Inserting this into the Gauss equation yields
+$
+  &macron(R)(W,Z,X,Y)\ 
+  &= R(W,Z,X,Y) + g(k(X,W)n^sharp, k(Y,Z) n^sharp) - g(k(Y,W)n^sharp, K(X,Z)n^sharp)\
+  &= R(W,Z,X,Y) + underbrace(g(n^sharp,n^sharp),=epsilon)(k(X,W) k(Y,Z) - k(Y,W)k(X,Z))\
+  &= R(W,Z,X,Y) + epsilon(k(X,W) k(Y,Z) - k(Y,W)k(X,Z))
+$
+We have thus found the Gauss equation for hypersurface foliations,
+$
+  macron(R)(W,Z,X,Y) = R(W,Z,X,Y) + epsilon(k(X,W)k(Y,Z)-k(Y,W)k(X,Z)).
+$<gaussEqnHypersurface>
+In terms of components, this reads
+$
+  macron(R)_(k ell i j) = R_(k ell i j) + epsilon (k_(i k) k_(j ell) - k_(j k)k_(i ell)).
+$
+=== Example: Foliation of $RR^3 without {0}$ into Spheres 
+
+== Codazzi-Mainardi Equation
+=== Extension of $K(X,Y)$ and $macron(R)(W,Z,X,Y)$ and the Gauss Equation to $Gamma(T cal(M))$
+=== General Case
+=== Hypersurface Foliation
+=== Example: Foliation of $RR^3 without {0}$ into Spheres 
+
+== Full Ambient Curvature from Intrinsic and Extrinsic

@@ -45,6 +45,8 @@
   show heading.where(level: 1): it => counter(math.equation).update(0) + it
   show heading.where(level: 2): it => counter(math.equation).update(0) + it
   
+  // show math.equation.where(block:true): set math.lr(size: 115%)
+
   set math.equation(numbering: num => numbering("(1.1)", counter(heading).get().first(), counter(heading).get().at(1, default: 0), num))
 
   body
