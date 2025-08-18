@@ -4,8 +4,11 @@
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
 
 = Introduction
+To formulate general relativity as a Hamiltonian field theory within the ADM formalism, one must choose a direction of evolution---essentially a preferred timelike parameter within spacetime. This is achieved through the use of a hypersurface foliation. These notes aim to present the concepts I have learned in the process of achieving my goal of deriving the ADM decomposition of the Einstein-Hilbert action, a result often referred to as the ADM action. This decomposition serves as the starting point for the Hamiltonian perspective on general relativity.
 
-To formulate the ADM formalism, one not only requires Hamiltonian field theory and the Dirac-Bergmann algorithm, but also a means of defining a direction of evolution---a preferred time direction---within the spacetime; this is done by introducing a foliation. These notes aim to build a precise formulation of what a foliation is, the construction and interpretation of its associated normal vector field, and, more broadly, a systematic treatment of differential geometry with foliations and submanifolds. In this, these notes introduce a variety of important geometric structures carried by foliations: the induced metric, projected covariant derivatives, intrinsic as well as extrinsic curvature, and decompositions of the ambient curvature in terms of intrinsic and extrinsic contributions.
+In working towards this goal, the notes introduce a variety of essential geometric structures. We begin with more general theory by defining submanifolds, pushforwards, pullbacks, and projectors onto tangent and normal spaces. After a brief exploration of vector bundles, the concept of foliations is introduced, followed by a detailed look at the structures they carry: the induced metric, projected covariant derivatives, as well as the intrinsic and extrinsic curvature tensors. Additionally, we decompose the tangential part of the ambient curvature into intrinsic and extrinsic components in the form of the Gauss-Codazzi equation. This result is what will enable us to derive the ADM action.
+
+While I've aimed to make these notes as approachable and didactic as possible, they should remain to be seen as part of my personal learning journey. In some cases the path to a given result might not be the most direct, but it will always be my own. Rather than relying on existing derivations, I've opted to find them myself.
 
 = Basics
 == Definition of a Submanifold
@@ -581,13 +584,13 @@ $
 $
 This result offers a clear structural interpretation of the induced metric $gamma$: it is precisely the tangential part of the ambient metric $g$, isolated by pulling back the tangential projection $P$. The normal component $Q$ plays no role in the geometry intrinsic to the submanifold, as expected---$gamma$ contains only the information relevant to distances and angles _within_ $cal(S)$.
 = Bundles
-This section aims to introduce the notion of various types of _bundles_ one can define on a smooth manifold. Though this is not strictly necessary to study submanifolds, it seems like it would be a useful digression to prepare for the differential geometry lecture in Part III, so I will go over it briefly here.
+This section aims to introduce the notion of _vector bundles_ one can define on a smooth manifold. Though this is not strictly necessary to study submanifolds, it seems like it would be a useful digression to prepare for the differential geometry lecture in Part III, so I will go over it briefly here.
 == Vector Bundles: Intuition and Definitions
 So far, when we discussed vectorial (or tensorial) objects, our expressions have been entirely pointwise. We have considered, for example, maps from $T_p cal(M)$ to $T_phi(p) cal(N)$, where $cal(N)$ is another manifold and $phi: cal(M)-> cal(N)$ is a smooth map between them. These are relations between tangent spaces at individual points.
 
 However, since there exists a tangent space at every point $p in cal(M)$, it is natural to seek a way to _assemble_ or _bundle together_ all these tangent spaces into a single structure. Intuitively, we take the manifold $cal(M)$ and, at each point, attach the tangent space at that point. This yields a new, higher-dimensional manifold-like object that encodes all the tangent spaces and their relation to points in $cal(M)$. This construction is known as the _tangent bundle_.
 
-Of course, this is a loose and purely intuitive description. In this section, we aim to make rigorous the idea of "attaching a vector space to each point of a manifold" by introducing the notion of a _vector bundle_. In the next section, we will see that the tangent (and cotangent) bundles are special instances of this general concept.
+Of course, this is a loose and purely intuitive description. In this section, we aim to make rigorous the idea of "attaching a vector space to each point of a manifold" by introducing the notion of a _vector bundle_. In the next section, we will see that the tangent (and cotangent) bundles---central objects in differential geometry---are but special instances of this general concept.
 \ \
 *Definition* (Vector Bundle) Let $cal(M)$ be a smooth manifold of dimension $m$. A _smooth real vector bundle_ of rank $n$ over $cal(M)$ is a triple $(cal(E), pi, cal(M))$, where:
 
@@ -1259,14 +1262,14 @@ $
 or in block matrix form,
 $
   g_(mu nu) = mat(epsilon alpha^2 + gamma_(i j) beta^i beta^j , gamma_(i j) beta^j; gamma_(i j) beta^j, gamma_(i j)).
-$
+$<ADMmetricComponents>
 The metric tensor is hence given by
 $
   g = g_(mu nu) dx^mu otimes dx^nu = epsilon alpha^2 dt otimes dt + gamma_(i j) (dy^i + beta^i dt) (dy^j +  beta^j dt).
 $<ADMsplitMetric>
 
 *Remarks*
-- _The Lapse_: In the literature, the function $alpha$ is known as the _lapse function_. To understand its meaning (assuming $t$ is a timelike coordinate), consider an observer moving orthogonally to the spatial slices $Sigma_t$, i.e. following the integral curves of the normal vector field $n^sharp$. Since $n^sharp$ is normalised, the tangent vector to such a path $gamma(tau)$, parameterised by proper time $tau$, satisfies
+- *The Lapse* In the literature, the function $alpha$ is known as the _lapse function_. To understand its meaning (assuming $t$ is a timelike coordinate), consider an observer moving orthogonally to the spatial slices $Sigma_t$, i.e. following the integral curves of the normal vector field $n^sharp$. Since $n^sharp$ is normalised, the tangent vector to such a path $gamma(tau)$, parameterised by proper time $tau$, satisfies
   $
     dot(gamma thin) = n^sharp.
   $
@@ -1282,7 +1285,7 @@ $<ADMsplitMetric>
 
   
 
-- _The Shift_: Given the definition of the normal 1-form,
+- *The Shift* Given the definition of the normal 1-form,
   $
     n = alpha dt,
   $
@@ -1304,7 +1307,7 @@ $<ADMsplitMetric>
 
   Motion along the flow of $diff_t$ involves keeping the coordinates $y^i$ fixed. Therefore, the choice of the coordinates $y^i$ is intimately related to the shift vector $beta$---in particular, as we will see in an upcoming example, the coordinates $y^i$ can (typically) be chosen such that the shift is zero. 
 
-- _Induced Metric vs. Tangential Projector_: We have seen before that under the orthogonal decomposition
+- *Induced Metric vs. Tangential Projector* We have seen before that under the orthogonal decomposition
   $
     g = P + Q,
   $
@@ -1328,7 +1331,7 @@ $<ADMsplitMetric>
 
   If the shift is zero, though, then $P = gamma$ not just in effect but in substance. One can see this either algebraically, or intuitively as follows: when the shift vanishes, we have $diff_t prop n^sharp$, meaning $diff_t$ is fully normal. In that case, $P$ never has to process $diff_t$ at all---there is no tangential contribution to extract. Hence, no $dt$ terms need to appear, and $P$ reduces directly to $gamma$.
 
-- _Inverse Metric_: Besides the ADM split of the metric, @ADMsplitMetric[], one frequently needs to use the inverse metric,
+- *Inverse Metric* Besides the ADM split of the metric, @ADMsplitMetric[], one frequently needs to use the inverse metric,
   $
     g^(-1) = g^(mu nu) diff_mu otimes diff_nu,
   $
@@ -1350,6 +1353,20 @@ $<ADMsplitMetric>
     &= epsilon n^sharp otimes n^sharp + gamma^(i j) diff_i otimes diff_j .
   $
   Notice that also here, we have a separation into a normal and a tangential part.
+- *Metric Determinant* Besides the inverse metric, a frequently used object related to the metric is its determinant (or the square root thereof). Let us compute it now. Recall from linear algebra the formula for the determinant of a block matrix, 
+  $
+    det mat(A,B;C,D) = det(A - C D^(-1) B) det(D),
+  $
+  where $D$ is assumed to be invertible. We may apply this to the ADM @ADMmetricComponents[form] of the metric to obtain
+  $
+    det g &= det lr((epsilon alpha^2 + gamma_(i j)beta^i beta^j - underbrace((gamma_(i j) beta^j) gamma^(i k) (gamma_(k ell) beta^ell),=gamma_(i j) beta^i beta^j)),size:#45%) det gamma\
+    &= epsilon alpha^2 det gamma.
+  $
+  Consequently, the square root of its absolute value, $sqrt(g) = sqrt(|det g|)$, is given by
+  $
+    sqrt(g) = alpha sqrt(gamma),
+  $
+  where $sqrt(gamma) = sqrt(|det gamma|)$.
 
 == Example: Foliation of $RR^3 without {0}$ into Spheres <exampleR3ConcentricSpheres>
 
@@ -2695,11 +2712,9 @@ establishing the expected result.
 
 
 
-= Gauss-Codazzi-Mainardi Equations
-Now that we established the concepts of ambient, intrinsic and extrinsic curvature, we can finally derive relationships between them. In particular, in this section we derive expressions for the tangent part $P R(X,Y)Z$ and the normal part $Q R(X,Y)Z$ of the ambient curvature $R$ acting with arguments $X,Y,Z in Gamma(T Sigma)$. In this, we will arrive at the Gauss-Codazzi and Codazzi-Mainardi 
-== Gauss-Codazzi Equation
-In this section, we derive the Gauss-Codazzi equation, which we already touched upon very lightly at the end of @intrinsicVsProjectedAmbient. We first treat the case of a general foliation, and then specialise to the case of hypersurfaces, where terms simplify somewhat. In the following, $cal(M)$ will denote a (pseudo-)Riemannian manifold equipped with a metric $g$, an affine connection $nabla$, and a foliation $Sigma$. The leaves of the foliation are endowed with the induced metric $gamma = iota^* g$ as well as the induced connection $mnabla$. Moreover, if not stated otherwise, $X,Y,Z,W$ will denote foliation-tangent vector fields in $Gamma(T Sigma)$.
-=== General Case
+= Gauss-Codazzi Equation
+Now that we have established the concepts of ambient, intrinsic and extrinsic curvature, we can finally deduce relationships between them. In this section we derive expressions for the tangential part $P R(X,Y)Z$ of the ambient curvature $R$ acting with arguments $X,Y,Z in Gamma(T Sigma)$. Specifically, we derive the Gauss-Codazzi equation, which we already touched upon very lightly at the end of @intrinsicVsProjectedAmbient. We first treat the case of a general foliation, and then specialise to the case of hypersurfaces, where terms simplify somewhat. In the following, $cal(M)$ will denote a (pseudo-)Riemannian manifold equipped with a metric $g$, an affine connection $nabla$, and a foliation $Sigma$. The leaves of the foliation are endowed with the induced metric $gamma = iota^* g$ as well as the induced connection $mnabla$. Moreover, if not stated otherwise, $X,Y,Z,W$ will denote foliation-tangent vector fields in $Gamma(T Sigma)$.
+== General Case
 To derive the Gauss-Codazzi equation, let us first collect some definitions and identities we have derived in the previous sections. The starting point of the derivation will be the @precursorGaussEqn[equation], 
 $
   macron(R)(X,Y)Z = P R(X,Y)Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size:#130%),
@@ -2790,11 +2805,11 @@ This is the result we anticipated in @intrinsicVsProjectedAmbient, now fully wor
   $
     P R(X,Y)Z = macron(R)(X,Y)Z - g(K(X,dot),K(Y,Z))^sharp + g(K(Y,dot),K(X,Z))^sharp.
   $<eq8117>
-  This expresses the ambient curvature in terms of the intrinsic and extrinsic curvatures of the foliation---up to two limitations. The first one is rather obvious; we only recover the tangential part of the ambient curvature---the normal part, $Q R(X,Y)Z$, does not emerge from the Gauss-Codazzi equation alone. For this, we will need to derive a second result; the Codazzi-Mainardi equation, which relates the normal part of the ambient curvature to derivatives of the extrinsic curvature.
+  This expresses the ambient curvature in terms of the intrinsic and extrinsic curvatures of the foliation---up to two limitations. The first one is rather obvious; we only recover the tangential part of the ambient curvature---the normal part, $Q R(X,Y)Z$, does not emerge from the Gauss-Codazzi equation alone. For this, there exists another result; the _Codazzi-Mainardi equation_, which relates the normal part of the ambient curvature to derivatives of the extrinsic curvature. We will not derive it in these notes.
   
   The second limitation is a bit more subtle. The objects on the right-hand side of @eq8117[equation] are defined for $X,Y,Z in Gamma(T Sigma)$ only. Hence, we obtain no expression for $P R(X,Y)Z$ on arbitrary vector fields in $Gamma(T cal(M))$, as these generally contain a normal component. 
   
-=== Hypersurface Foliation
+== Hypersurface Foliation
 The Gauss-Codazzi @gaussEqn[equation] can be specialised to hypersurface foliations, where it simplifies a bit. This is done by making use of the relationship 
 $
   K(X,Y) = k(X,Y) n^sharp
@@ -2819,7 +2834,7 @@ $
   R_(k ell i j) = (iota^* R)_(k ell i j) = E^rho_k E^sigma_ell E^mu_i E^nu_j R_(rho sigma mu nu) = R(diff_k, diff_ell, diff_i, diff_j)
 $
 are the components of the pushforward of the ambient Riemann tensor. 
-=== Example: Foliation of $RR^3 without {0}$ into Spheres 
+== Example: Foliation of $RR^3 without {0}$ into Spheres 
 Let us once again revisit the example of the foliation of $RR without {0}$ into spheres. In @intrinsicVsProjectedAmbient, we computed the intrinsic curvature component
 $
   tensor(macron(R),+theta,-phi theta phi) = sin^2 theta,
@@ -2843,14 +2858,6 @@ $
   underbrace(R_(theta phi theta phi),=0) + lr((k_(theta theta) k_(phi phi)- underbrace(k_(phi theta),=0) underbrace(k_(phi theta),=0)),size:#35%) = (-r)(-r sin^2 theta) = r^2 sin^2 theta.
 $
 Note that this matches the anticipated @eq8124[result] precisely---we have thus verified the Gauss-Codazzi equation explicitly for a specific example foliation. Although this case is geometrically simple, it provides a concrete reference point: the relations between intrinsic curvature, extrinsic curvature, and the ambient geometry is entirely transparent here. More intricate ambient spacetimes and foliations will follow the same structure, but without the luxury of vanishing ambient curvature or such straightforward coordinate expressions.
-== Codazzi-Mainardi Equation
-As we remarked before, the Gauss-Codazzi equation allows us to express the tangential contribution to the ambient curvature, $P R(X,Y)Z$, in terms of the intrinsic and extrinsic curvatures of a foliation $Sigma$ (for $X,Y,Z in Gamma(T Sigma)$). This leads us to a new question: _what about the normal part, $Q R(X,Y)Z$? Can it be expressed in terms of objects related to the foliation as well?_ The answer turns out to be yes---such a relationship between ambient, intrinsic and extrinsic curvature is given by the Codazzi-Mainardi equation, which we derive in this section.
-=== Connection on the Normal Bundle
-=== General Case
-=== Hypersurface Foliation
-=== Example: Foliation of $RR^3 without {0}$ into Spheres 
-
-
 
 = ADM Decomposition of the Scalar Ambient Curvature
 In this final section, we apply what we've learned to derive a core result in the ADM formalism, the Hamiltonian formulation of general relativity. In this formalism, the foliation parameter of a hypersurface foliation serves as the evolution parameter for the Hamiltonian, with the induced metric (and its conjugate momentum) evolving along it. To derive the canonical equations of motion, it is necessary to perform a Legendre transform of the Einstein-Hilbert action,
