@@ -1,7 +1,7 @@
 #import "template.typ": *
 #import "macros.typ": *
 #import "@preview/xarrow:0.3.1": xarrow
-#import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 
 = Introduction
 To formulate general relativity as a Hamiltonian field theory within the ADM formalism, one must choose a direction of evolution---essentially a preferred timelike parameter within spacetime. This is achieved through the use of a hypersurface foliation. These notes aim to present the concepts I have learned in the process of achieving my goal of deriving the ADM decomposition of the Einstein-Hilbert action, a result often referred to as the ADM action. This decomposition serves as the starting point for the Hamiltonian perspective on general relativity.
@@ -20,15 +20,15 @@ A _submanifold_ of $cal(M)$ is a subset $cal(S) subset cal(M)$ that is itself a 
 
 We call the quantity
 $
-  codim_cal(M) cal(S) = dim cal(M) - dim cal(S) 
+  codim_cal(M) cal(S) = dim cal(M) - dim cal(S)
 $
-the _codimension_ of $cal(S)$. This is a simple but useful notion that conveys "how many dimensions less" the submanifold has in comparison to the ambient manifold $cal(M) supset cal(S)$, which sometimes is more important than the dimension itself. 
+the _codimension_ of $cal(S)$. This is a simple but useful notion that conveys "how many dimensions less" the submanifold has in comparison to the ambient manifold $cal(M) supset cal(S)$, which sometimes is more important than the dimension itself.
 
 For example, a _hypersurface_ is, by definition, a submanifold $cal(S) subset cal(M)$ of codimension 1, and will be particularly important in the development of foliations and the ADM formalism. A simple way of generating (smooth) hypersurfaces is by considering a function $f:cal(M)->RR$ and constructing a level surface as
 $
   cal(S) = f^(-1)({0}) = {p in cal(M) | f(p) = 0} subset cal(M).
 $
-For $cal(S)$ defined in this way to be a proper, smooth submanifold, $0$ has to be a regular value of $f$. This means that 
+For $cal(S)$ defined in this way to be a proper, smooth submanifold, $0$ has to be a regular value of $f$. This means that
 $
   d f|_cal(S) != 0
 $
@@ -46,21 +46,21 @@ As a smooth manifold in its own right, $cal(S)$ admits local coordinates $y^i$, 
 $
   dms^2 = gamma = gamma_(i j) dy^i otimes dy^j.
 $
-While this makes $cal(S)$ a (pseudo-)Riemannian manifold, it does so independently of the geometry on the ambient manifold $cal(M)supset cal(S)$---it disregards the structure already present on $cal(M)$. 
+While this makes $cal(S)$ a (pseudo-)Riemannian manifold, it does so independently of the geometry on the ambient manifold $cal(M)supset cal(S)$---it disregards the structure already present on $cal(M)$.
 
 Yet $cal(S)$ is fully contained in $cal(M)$; any point $p in cal(S)$ is also a point of $cal(M)$. That much is obvious---but it matters, because the metric on $cal(M)$ carries geometric information we may wish to preserve. What, after all, does a metric provide? In particular, it can be used to assign lengths to curves. If we consider a path lying in $cal(S)$, then this path is also a path in $cal(M)$. Naturally, we would want its length to be the same whether we compute it using the metric $ds^2 = g$ of the ambient manifold or the metric $dms^2 = gamma$ of the submanifold.
 
-This requirement reflects a choice, but a canonical one: the geometry of $cal(S)$ should arise from that of $cal(M)$ by restriction, not by arbitrary redefinition. That is, the structures on $cal(M)$ should be _induced_ on $cal(S)$, not constructed from scratch. 
+This requirement reflects a choice, but a canonical one: the geometry of $cal(S)$ should arise from that of $cal(M)$ by restriction, not by arbitrary redefinition. That is, the structures on $cal(M)$ should be _induced_ on $cal(S)$, not constructed from scratch.
 
 Requiring that all lengths of curves in $cal(S)$ agree under both metrics leads to the precise condition that
 $
   dms^2 = ds^2|_cal(S).
 $<inducedMetricDefn>
-This is no longer just a heuristic, but an equation---it specifies how the metric on the submanifold must be related to the metric of the ambient space. 
+This is no longer just a heuristic, but an equation---it specifies how the metric on the submanifold must be related to the metric of the ambient space.
 
 Though precise, the definition in @inducedMetricDefn[relation] is not especially practical for computations. Every time we wish to measure the length of a path on $cal(S)$, we must return to the structure on $cal(M)$ and consult what _it_ "thinks" the length is. We would prefer to treat $cal(S)$ as a manifold in its own right, without this constant indirection via $cal(M)$. To achieve that, we need explicit knowledge of the components $gamma_(i j)$ of the _induced metric_ on $cal(S)$---the symmetric tensor satisfying
 $
-  gamma_(i j) dy^i otimes dy^j = dms^2 attach(=,t:!) ds^2|_cal(S) = (g_(mu nu) dx^mu otimes dx^nu)|_cal(S).
+  gamma_(i j) dy^i otimes dy^j = dms^2 attach(=, t: !) ds^2|_cal(S) = (g_(mu nu) dx^mu otimes dx^nu)|_cal(S).
 $
 The remainder of this section is devoted to deriving a general formula for $gamma_(i j)$ in terms of the ambient metric $g_(mu nu)$.
 
@@ -74,14 +74,14 @@ $
 $
 where we defined the so-called _pushforward matrix_ or _vielbein_
 $
-  E_i^mu  = (diff x^mu)/(diff y^i). 
+  E_i^mu = (diff x^mu)/(diff y^i).
 $<pushforwardEDefn>
 Using this relation, we can rewrite the restriction of the line element as
 $
-   gamma_(i j) dy^i otimes dy^j &= dms^2 = ds^2|_cal(S)\
-    &= (g_(mu nu) dx^mu otimes dx^nu)|_cal(S)\
-    &= g_(mu nu)(x^mu (y^i)) E^mu_i dy^i otimes E^nu_j dy^j\
-  &= (E^mu_i E^nu_j g_(mu nu)) dy^i otimes dy^j
+  gamma_(i j) dy^i otimes dy^j & = dms^2 = ds^2|_cal(S) \
+                               & = (g_(mu nu) dx^mu otimes dx^nu)|_cal(S) \
+                               & = g_(mu nu)(x^mu (y^i)) E^mu_i dy^i otimes E^nu_j dy^j \
+                               & = (E^mu_i E^nu_j g_(mu nu)) dy^i otimes dy^j
 $
 From this, we identify the components of the induced metric as
 $
@@ -103,15 +103,15 @@ It is clear that this is a submanifold, as it is the preimage of ${0}$ under the
 $
   f(x,y,z) = x^2 + y^2 + z^2 - 1,
 $
-which has $0$ as a regular value, i.e., the gradient vanishes nowhere where $f(x,y,z) = 0$. 
+which has $0$ as a regular value, i.e., the gradient vanishes nowhere where $f(x,y,z) = 0$.
 
 The 2-sphere is most conveniently parameterised by two angular coordinates $y^i = (theta,phi) in (0,pi) times (0,2pi)$, with the embedding into the ambient space $RR^3$ given by
 $
-  x(theta,phi) &= sin theta cos phi,\
-  y(theta,phi) &= sin theta sin phi,\
-  z(theta,phi) &= cos theta.
+  x(theta,phi) & = sin theta cos phi, \
+  y(theta,phi) & = sin theta sin phi, \
+  z(theta,phi) & = cos theta.
 $<embeddingS2inR3>
-We now compute the induced metric on $S^2$ using two methods: first by means of the pushforward matrix, and then in a more direct way involving differentials of the above relations. 
+We now compute the induced metric on $S^2$ using two methods: first by means of the pushforward matrix, and then in a more direct way involving differentials of the above relations.
 
 The components of $E^mu_i = (diff x^mu)/(diff y^i)$ are given by
 $
@@ -121,16 +121,16 @@ $
 $
 This allows us to compute the components of the induced metric as
 $
-  gamma_(theta theta) &= E_theta^mu E_theta^mu delta_(mu nu) = E^x_theta 
-  E^x_theta + E^y_theta E^y_theta + E^z_theta E^z_theta\
-  &= cos^2 theta cos^2 phi + cos^2 theta sin^2 phi + sin^2 theta\
-  &= 1,
-$ 
+  gamma_(theta theta) & = E_theta^mu E_theta^mu delta_(mu nu) = E^x_theta
+                        E^x_theta + E^y_theta E^y_theta + E^z_theta E^z_theta \
+                      & = cos^2 theta cos^2 phi + cos^2 theta sin^2 phi + sin^2 theta \
+                      & = 1,
 $
-  gamma_(phi phi) &= E_phi^mu E_phi^mu delta_(mu nu) = E^x_phi 
-  E^x_phi + E^y_phi E^y_phi + E^z_phi E^z_phi\
-  &= sin^2 theta sin^2 phi + sin^2 theta cos^2 phi\
-  &= sin^2 theta,
+$
+  gamma_(phi phi) & = E_phi^mu E_phi^mu delta_(mu nu) = E^x_phi
+                    E^x_phi + E^y_phi E^y_phi + E^z_phi E^z_phi \
+                  & = sin^2 theta sin^2 phi + sin^2 theta cos^2 phi \
+                  & = sin^2 theta,
 $
 $
   #h(0.9em)gamma_(theta phi) = gamma_(phi theta) &= E^x_theta E^x_phi + E^y_theta E^y_phi + E^z_theta E^z_phi\
@@ -145,27 +145,27 @@ $
 
 We now briefly go over how one can compute the induced metric slightly more directly by considering the differentials of the @embeddingS2inR3[embeddings]. These differentials read
 $
-  dx|_(S^2) &= cos theta cos phi dtheta - sin theta sin phi dphi,\
-  dy|_(S^2) &= cos theta sin phi dtheta + sin theta cos phi dphi,\
-  dz|_(S^2) &= -sin theta d theta.
+  dx|_(S^2) & = cos theta cos phi dtheta - sin theta sin phi dphi, \
+  dy|_(S^2) & = cos theta sin phi dtheta + sin theta cos phi dphi, \
+  dz|_(S^2) & = -sin theta d theta.
 $
 We can then simply insert these relations into the @euclideanLineElement[Euclidean line element] to find (writing $dx^mu otimes dx^nu$ as $dx^mu dx^nu$ for brevity)
 $
   dms^2 &= ds^2|_(S^2) = dx^2|_(S^2) + dy^2|_(S^2) + dz^2|_(S^2)\
-        &= (cos theta cos phi dtheta - sin theta sin phi dphi)^2\
-        &quad+ (cos theta sin phi dtheta + sin theta cos phi dphi)^2\
-        &quad+ (-sin theta d theta)^2\
-        &= cos^2 theta cos^2 phi dtheta^2 - cancelr(2 cos theta sin theta cos phi sin phi dtheta dphi) + sin^2 theta sin^2 phi dphi^2\
-        &quad+ cos^2 theta sin^2 phi dtheta^2 + cancelr(2 cos theta sin theta cos phi sin phi dtheta dphi) + sin^2 theta cos^2 phi dphi^2\
-        &quad+ sin^2 theta dtheta^2\
-        &= (cos^2 theta (cos^2 phi + sin^2 phi) + sin^2 theta) dtheta^2 + sin^2 theta (sin^2 phi  + cos^2 phi) dphi^2\
-        &= dtheta^2 + sin^2 theta dphi^2.
+  &= (cos theta cos phi dtheta - sin theta sin phi dphi)^2\
+  &quad+ (cos theta sin phi dtheta + sin theta cos phi dphi)^2\
+  &quad+ (-sin theta d theta)^2\
+  &= cos^2 theta cos^2 phi dtheta^2 - cancelr(2 cos theta sin theta cos phi sin phi dtheta dphi) + sin^2 theta sin^2 phi dphi^2\
+  &quad+ cos^2 theta sin^2 phi dtheta^2 + cancelr(2 cos theta sin theta cos phi sin phi dtheta dphi) + sin^2 theta cos^2 phi dphi^2\
+  &quad+ sin^2 theta dtheta^2\
+  &= (cos^2 theta (cos^2 phi + sin^2 phi) + sin^2 theta) dtheta^2 + sin^2 theta (sin^2 phi + cos^2 phi) dphi^2\
+  &= dtheta^2 + sin^2 theta dphi^2.
 $
 This alternative method avoids explicitly constructing the pushforward matrix, relying instead on computing the differentials of the embedding directly and inserting them into the ambient metric---though of course, it is fully equivalent to the first approach. _Which_ of the two approaches is better comes down to being mostly situational, and naturally, personal preference.
 
 = Tangent Spaces, Pushforwards, Pullbacks, and Projections
 == Preliminaries: Maps Between Manifolds and Their Derivatives
-Before diving into the formalism of pushforwards and pullbacks, which is the goal of this section, let us first understand the geometric motivation behind them. 
+Before diving into the formalism of pushforwards and pullbacks, which is the goal of this section, let us first understand the geometric motivation behind them.
 
 Suppose we have two smooth manifolds $cal(M)$ and $cal(N)$, with dimensions $m$ and $n$, and $phi:cal(M) -> cal(N)$ a smooth map between them. This map assigns to every point $p in cal(M)$ a point $phi(p) in cal(N)$. But more than just matching up points, $phi$ also relates the local _geometry_ near those points, i.e., the spatial relationships between nearby points.
 
@@ -176,22 +176,22 @@ $
   phi_* : T_p cal(M) -> T_(phi(p))cal(N).
 $
 We now develop this map explicitly and precisely.
-\ \ 
-*Definition:* (Pushforward) We begin by recalling what we want to construct: given a smooth map $phi:cal(M)-> cal(N)$, we aim to associate to any vector $X in T_p cal(M)$ a vector $phi_* X in T_(phi(p)) cal(N)$, which we call the _pushforward_ of $X$ under $phi$. This should represent the idea of how the direction $X$ "looks" after the map $phi$ has distorted the space onto $cal(N)$. 
+\ \
+*Definition:* (Pushforward) We begin by recalling what we want to construct: given a smooth map $phi:cal(M)-> cal(N)$, we aim to associate to any vector $X in T_p cal(M)$ a vector $phi_* X in T_(phi(p)) cal(N)$, which we call the _pushforward_ of $X$ under $phi$. This should represent the idea of how the direction $X$ "looks" after the map $phi$ has distorted the space onto $cal(N)$.
 
-But how do we compare directions at two different points of two different manifolds? We us the fact that vectors act on functions as differential operators---they are directional derivatives. A vector $X in T_p cal(M)$ acting on a function on $cal(M)$ tells us how it changes as we move in the direction of $X$. Similarly, $phi_* X in T_phi(p) cal(N)$ should tell us how a function on $cal(N)$ changes in the "corresponding direction" under $phi$. 
+But how do we compare directions at two different points of two different manifolds? We us the fact that vectors act on functions as differential operators---they are directional derivatives. A vector $X in T_p cal(M)$ acting on a function on $cal(M)$ tells us how it changes as we move in the direction of $X$. Similarly, $phi_* X in T_phi(p) cal(N)$ should tell us how a function on $cal(N)$ changes in the "corresponding direction" under $phi$.
 
 There is a caveat, though; we cannot directly evaluate how $X$ acts on a function on $cal(N)$, because $X$ lives on $cal(M)$. But we _can_ make any function on $cal(N)$ into a function on $cal(M)$ by composing it with $phi$. That is, given any smooth function $f : cal(N) -> RR$, the composition $f compose phi : cal(M) -> RR$ is a new function defined on $cal(M)$ to which we _can_ apply $X$.
 
-The function $f compose phi$ is, in essence, just $f$, but with the codomain rearranged according to $phi$. The function values don't change---only _where_ in the domain they are sampled from does. This captures the distortion $phi$ induces: how orientation, stretching, or compression affect the function's positions of values (but not the values themselves) when viewed on $cal(M)$. Hence, taking $X[f compose phi]$ tells us how $f$ changes along the image of the direction $X$ under the map $phi$. 
+The function $f compose phi$ is, in essence, just $f$, but with the codomain rearranged according to $phi$. The function values don't change---only _where_ in the domain they are sampled from does. This captures the distortion $phi$ induces: how orientation, stretching, or compression affect the function's positions of values (but not the values themselves) when viewed on $cal(M)$. Hence, taking $X[f compose phi]$ tells us how $f$ changes along the image of the direction $X$ under the map $phi$.
 
 This leads us naturally to the definition
 $
   (phi_* X)[f] := X[f compose phi], quad forall f in C^infty (cal(N)).
 $<pushforwardDefn>
-That is, $phi_* X$ is the unique vector at $phi(p)$ whose action on any function $f$ on $cal(N)$ agrees with the action of $X$ on the pulled-back version of $f$. This expression captures exactly what the pushforward is doing: it tells us how to "translate" a directional derivative on $cal(M)$ to one on $cal(N)$, while preserving how it affects functions. 
+That is, $phi_* X$ is the unique vector at $phi(p)$ whose action on any function $f$ on $cal(N)$ agrees with the action of $X$ on the pulled-back version of $f$. This expression captures exactly what the pushforward is doing: it tells us how to "translate" a directional derivative on $cal(M)$ to one on $cal(N)$, while preserving how it affects functions.
 
-This is all very abstract, so let us make it more concrete with an analogy. Let us think of $cal(M)$ as the flat Mercator map, a rectangle showing latitude and longitude lines. Then, we think of $cal(N)$ as the actual globe, a $2$-sphere. The map $phi:cal(M)->cal(N)$ we envision as the wrapping map, which tells us how to take the rectangle and bend it into a globe. Suppose $f$ assigns temperature values across the globe---a real-valued function on $cal(N)$. Then $f compose phi$ is the pulled-back function: it contains the same information, the same temperature values, but now shown on the Mercator map instead of the globe. This function $f compose phi$ lets us look at the globe's data $f$ as if it lived on the Mercator map. We then ask: how does the temperature change when moving along some vector $X$ on that map? This is what $X[f compose phi]$ computes: how the pulled-back temperature map changes as we follow $X$ on the rectangle. 
+This is all very abstract, so let us make it more concrete with an analogy. Let us think of $cal(M)$ as the flat Mercator map, a rectangle showing latitude and longitude lines. Then, we think of $cal(N)$ as the actual globe, a $2$-sphere. The map $phi:cal(M)->cal(N)$ we envision as the wrapping map, which tells us how to take the rectangle and bend it into a globe. Suppose $f$ assigns temperature values across the globe---a real-valued function on $cal(N)$. Then $f compose phi$ is the pulled-back function: it contains the same information, the same temperature values, but now shown on the Mercator map instead of the globe. This function $f compose phi$ lets us look at the globe's data $f$ as if it lived on the Mercator map. We then ask: how does the temperature change when moving along some vector $X$ on that map? This is what $X[f compose phi]$ computes: how the pulled-back temperature map changes as we follow $X$ on the rectangle.
 
 Now, on the globe, there should be a corresponding direction, $phi_* X$, along which the same change occurs---after all, we have the same function values, just arranged differently in a smooth way. This is the direction we have to move towards on the sphere to see the same change in temperature. This should not just happen for this one temperature map---for any function $f$ on the globe, the pushforward $phi_* X$ must give us the corresponding direction whose action on $f$ replicates the directional derivative seen on the Mercator map. This precisely is what the @pushforwardDefn[definition] encodes.
 
@@ -207,20 +207,20 @@ $
 $
 A vector $X in T_p cal(M)$ can be written as $X = X^alpha diff_alpha$, and its pushforward as $phi_* X = (phi_* X)^mu diff_mu$. The @pushforwardDefn[definition] then turns into
 $
-  (phi_* X)^mu diff/(diff x^mu) f(x) &= X^alpha diff/(diff y^alpha) f(x(y))\
-  &= X^alpha (diff x^mu)/(diff y^alpha) diff/(diff x^mu) f(x(y)),
-$ 
+  (phi_* X)^mu diff/(diff x^mu) f(x) & = X^alpha diff/(diff y^alpha) f(x(y)) \
+                                     & = X^alpha (diff x^mu)/(diff y^alpha) diff/(diff x^mu) f(x(y)),
+$
 where we applied the standard multidimensional chain rule on the right-hand side. We may hence identify the components of the pushforward $phi_* X$ as
 $
   (phi_* X)^mu = (diff x^mu)/(diff y^alpha) X^alpha
 $
 This shows that the pushforward acts linearly on the components of the vector, via the Jacobian matrix
 $
-  tensor((phi_*),+mu,-alpha) = (diff x^mu)/(diff y^alpha) = diff/(diff y^alpha) x^mu (phi(p(y^alpha))),
+  tensor((phi_*), +mu, -alpha) = (diff x^mu)/(diff y^alpha) = diff/(diff y^alpha) x^mu (phi(p(y^alpha))),
 $
 i.e.
 $
-  (phi_* X)^mu = tensor((phi_*),+mu,-alpha) X^alpha.
+  (phi_* X)^mu = tensor((phi_*), +mu, -alpha) X^alpha.
 $
 This expression makes the pushforward entirely concrete: it is simply a linear transformation of the vector components under the coordinate ap induced by $phi$. In terms of implementation and computation, it behaves exactly like a Jacobian---and it reproduces the familiar coordinate transformation rule for vector components when $phi:cal(M)->cal(M)$ is a diffeomorphism.
 
@@ -228,7 +228,7 @@ The ability to relate tangent vectors between the two manifolds $cal(M)$ and $ca
 \ \
 *Definition* (Canonical Pairing) For a vector $X in T_p cal(M)$ and a 1-form $omega in T_p^* cal(M)$, we define their _canonical pairing_ (sometimes called an inner product)
 $
-  inprod(dot,dot)_cal(M) : T_p^* cal(M) times T_p cal(M) -> RR
+  inprod(dot, dot)_cal(M) : T_p^* cal(M) times T_p cal(M) -> RR
 $
 by
 $
@@ -258,40 +258,40 @@ $
 $
 We begin by expanding the left-hand side of the @pullbackDefn[definition],
 $
-  inprod(phi^* omega, X)_cal(M) = (phi^* omega)#h(0em)_alpha X^alpha.
+  inprod(phi^* omega, X)_cal(M) = (phi^* omega)#h(0em) _alpha X^alpha.
 $
 On the right-hand side, we compute the action of $omega$ on the pushforward of $X$,
 $
-  inprod(omega,phi_* X)_cal(N) = omega_mu (phi_* X)^mu = omega_mu tensor((phi_*),+mu,-alpha)X^alpha.
+  inprod(omega, phi_* X)_cal(N) = omega_mu (phi_* X)^mu = omega_mu tensor((phi_*), +mu, -alpha)X^alpha.
 $
 Equating both sides and using the arbitrariness of $X^alpha$, we identify the components of the pullback:
 $
-  (phi^* omega)#h(0em)_alpha = tensor((phi_*),+mu,-alpha) omega_mu = (diff x^mu)/(diff y^alpha) omega_mu. 
+  (phi^* omega)#h(0em) _alpha = tensor((phi_*), +mu, -alpha) omega_mu = (diff x^mu)/(diff y^alpha) omega_mu.
 $
 In words: the pullback transforms a 1-form using the same Jacobian matrix as the pushforward acts with on vectors, but the roles of the indices reversed---covariant versus contravariant transformation. Equivalently, the pullback acts via the transpose of the Jacobian of $phi$, in keeping with the duality between tangent and cotangent spaces.
 \ \
 *Remark* _Pullbacks of Vectors?_ We have seen the pushforward as a map
-  $
-    phi_* : T_p cal(M) -> T_(phi(p)) cal(N).
-  $
-  A natural question is whether this relationship can be reversed: can we pull back vectors from $T_phi(p) cal(N)$ to $T_p cal(M)$? 
+$
+  phi_* : T_p cal(M) -> T_(phi(p)) cal(N).
+$
+A natural question is whether this relationship can be reversed: can we pull back vectors from $T_phi(p) cal(N)$ to $T_p cal(M)$?
 
-  In general, the answer is no. Algebraically, this follows from the fact that $phi_*$ is not necessarily invertible. As a linear map, invertibility requires its component representation
-  $
-    tensor((phi_*),+mu,-alpha)  =(diff x^mu)/(diff y^alpha)
-  $
-  to be an invertible matrix. This is only possible if $dim cal(M) = dim cal(N)$, since otherwise the Jacobian is rectangular and hence cannot be inverted. And even when the dimensions match, the Jacobian must be non-singular (i.e. its determinant must be nonzero). Thus, $phi_*$ is only invertible when $phi$ is a diffeomorphism---a smooth bijective map with smooth inverse.
+In general, the answer is no. Algebraically, this follows from the fact that $phi_*$ is not necessarily invertible. As a linear map, invertibility requires its component representation
+$
+  tensor((phi_*), +mu, -alpha) =(diff x^mu)/(diff y^alpha)
+$
+to be an invertible matrix. This is only possible if $dim cal(M) = dim cal(N)$, since otherwise the Jacobian is rectangular and hence cannot be inverted. And even when the dimensions match, the Jacobian must be non-singular (i.e. its determinant must be nonzero). Thus, $phi_*$ is only invertible when $phi$ is a diffeomorphism---a smooth bijective map with smooth inverse.
 
-  This is the algebraic reasoning. Fortunately, there's also geometric intuition to support it. The pushforward tracks how a direction away from $p in cal(M)$ translates to a direction away from $phi(p) in cal(N)$, consistent with the local deformation $phi$ induces. In that process, we may preserve the number of independent directions, or lose some---but we can never gain new ones. The rank of a linear map $phi_*:RR^m -> RR^n$ is at most $m$, so if $n>m$, its image lies in a proper subspace of $RR^n$. In other words, a pushforward cannot invent new degrees of freedom. 
+This is the algebraic reasoning. Fortunately, there's also geometric intuition to support it. The pushforward tracks how a direction away from $p in cal(M)$ translates to a direction away from $phi(p) in cal(N)$, consistent with the local deformation $phi$ induces. In that process, we may preserve the number of independent directions, or lose some---but we can never gain new ones. The rank of a linear map $phi_*:RR^m -> RR^n$ is at most $m$, so if $n>m$, its image lies in a proper subspace of $RR^n$. In other words, a pushforward cannot invent new degrees of freedom.
 
-  In the best-case scenario $dim im phi_* = m$, we retain full information and the map $phi_*$ is invertible. But if information is lost---i.e. if $phi_*$ collapses multiple directions into the same image---then we can no longer recover those original directions when attempting to go back. We do not know how to "blow it back up again"---that is, how to reconstruct the full-dimensional direction space of $T_p cal(M)$. A helpful instance to picture is a pushforward collapsing $T_p cal(M)$ onto a lower-dimensional plane inside $T_phi(p) cal(N)$; there is no way to lift this back up uniquely.
+In the best-case scenario $dim im phi_* = m$, we retain full information and the map $phi_*$ is invertible. But if information is lost---i.e. if $phi_*$ collapses multiple directions into the same image---then we can no longer recover those original directions when attempting to go back. We do not know how to "blow it back up again"---that is, how to reconstruct the full-dimensional direction space of $T_p cal(M)$. A helpful instance to picture is a pushforward collapsing $T_p cal(M)$ onto a lower-dimensional plane inside $T_phi(p) cal(N)$; there is no way to lift this back up uniquely.
 
-  Therefore, in general, it is not possible to pull back vectors from $T_phi(p) cal(N)$ to $T_p cal(M)$. 
+Therefore, in general, it is not possible to pull back vectors from $T_phi(p) cal(N)$ to $T_p cal(M)$.
 \ \
-*Generalisation to Tensors* 
-Now that we know how we should associate vectors and 1-forms/covectors on two manifolds $cal(M)$ and $cal(N)$ between which we have an association of points given by $phi: cal(M)->cal(N)$, we can generalise to tensors. Due to the difference in "functorial direction" between the pushforward and pullback, it is not possible to define a combined map for arbitrary, mixed tensors. For fully covariant or fully contravariant tensors, however, it is possible---or, if $phi$ is a diffeomorphism. This latter case we will not consider, though---this is because it essentially reduces to a change of coordinates. 
+*Generalisation to Tensors*
+Now that we know how we should associate vectors and 1-forms/covectors on two manifolds $cal(M)$ and $cal(N)$ between which we have an association of points given by $phi: cal(M)->cal(N)$, we can generalise to tensors. Due to the difference in "functorial direction" between the pushforward and pullback, it is not possible to define a combined map for arbitrary, mixed tensors. For fully covariant or fully contravariant tensors, however, it is possible---or, if $phi$ is a diffeomorphism. This latter case we will not consider, though---this is because it essentially reduces to a change of coordinates.
 
-Let us begin with the pullback of covariant tensors $T in T^((0,s))_phi(p) cal(N)$. Such a tensor can be written as 
+Let us begin with the pullback of covariant tensors $T in T^((0,s))_phi(p) cal(N)$. Such a tensor can be written as
 $
   T = T_(mu_1...mu_s) dx^(mu_1)otimes...otimes dx^(mu_s),
 $
@@ -303,17 +303,17 @@ To ensure compatibility between $T$ and its pullback $phi^* T in T_p^(0,s) cal(M
 $
   (phi^* T)(X_((1)),...,X_((s))) = T(phi_* X_((1)),...,phi_* X_((s)))
 $
-In words, we require the pullback of $T$ to "have the same opinion" about a set of vectors as the original tensor has about their pushforwards---which it should, if they are to encode the "same" tensorial structure on the two spaces related by $phi$. It shouldn't matter whether we ask $phi^*T$ on the original vectors for a scalar value, or first squish the space around and then ask the same question to $T$, with the correspondents $phi_* X_((i))$ as arguments. 
+In words, we require the pullback of $T$ to "have the same opinion" about a set of vectors as the original tensor has about their pushforwards---which it should, if they are to encode the "same" tensorial structure on the two spaces related by $phi$. It shouldn't matter whether we ask $phi^*T$ on the original vectors for a scalar value, or first squish the space around and then ask the same question to $T$, with the correspondents $phi_* X_((i))$ as arguments.
 
 Of course, this definition can also be given in terms of coordinate components. Expanding both sides of the equation, we get
 $
-  (phi^* T)_(alpha_1...alpha_s) X_((1))^(alpha_1) ... X_((s))^(alpha_s) = T_(mu_1...mu_s) tensor((phi_*),+mu_1,-alpha_1) X^(alpha_1)_((1)) ... tensor((phi_*),+mu_s,-alpha_s) X^(alpha_s)_((s)).
+  (phi^* T)_(alpha_1...alpha_s) X_((1))^(alpha_1) ... X_((s))^(alpha_s) = T_(mu_1...mu_s) tensor((phi_*), +mu_1, -alpha_1) X^(alpha_1)_((1)) ... tensor((phi_*), +mu_s, -alpha_s) X^(alpha_s)_((s)).
 $
 This identifies the components of the pullback as
 $
-  (phi^* T)_(alpha_1...alpha_s) = tensor((phi_*),+mu_1,-alpha_1)  ... tensor((phi_*),+mu_s,-alpha_s)T_(mu_1...mu_s).
+  (phi^* T)_(alpha_1...alpha_s) = tensor((phi_*), +mu_1, -alpha_1) ... tensor((phi_*), +mu_s, -alpha_s)T_(mu_1...mu_s).
 $
-Hence, the pullback simply acts multilinearly on all indices by contraction with the pushforward matrix $tensor((phi_*),+mu,-alpha)$.
+Hence, the pullback simply acts multilinearly on all indices by contraction with the pushforward matrix $tensor((phi_*), +mu, -alpha)$.
 
 We now proceed to the pushforward for contravariant objects, i.e. of tensors $T in T^((r,0))_p cal(M)$. These can be represented as
 $
@@ -321,8 +321,8 @@ $
 $
 in terms of the coordinate basis $diff_alpha_1 = diff/(diff y^(alpha_1))$. Such a tensor is a multilinear map, taking $r$ 1-forms $omega^((i)) in T_p^* cal(M)$ and mapping them to the scalar
 $
-  T(omega^((1)),...,omega^((r))) &= T^(alpha_1 ... alpha_r) thin omega^((1))(diff_alpha_1)... omega^((r))(diff_alpha_r)\
-  &= T^(alpha_1 ... alpha_r)thin omega^((1))_(alpha_1) ... omega_(alpha_r)^((r)).
+  T(omega^((1)),...,omega^((r))) & = T^(alpha_1 ... alpha_r) thin omega^((1))(diff_alpha_1)... omega^((r))(diff_alpha_r) \
+                                 & = T^(alpha_1 ... alpha_r)thin omega^((1))_(alpha_1) ... omega_(alpha_r)^((r)).
 $
 We define the pushforward $phi_* T in T_phi(p)^(r,0) cal(N)$ as the unique tensor satisfying
 $
@@ -330,31 +330,31 @@ $
 $
 In words: The pushforward $phi_* T$ "says" the same about the $omega^((i))$ as the original tensor $T$ would have to say about their pullbacks. In terms of coordinates, we verify that this really is just the multilinear extension of what happens to vectors: Inserting coordinate expressions for both sides we get
 $
-  T^(alpha_1...alpha_r) tensor((phi_*),+mu_1,-alpha_1)omega_(mu_1)^((1)) ... tensor((phi_*),+mu_r,-alpha_r)omega_(mu_r)^((r)) = (phi_* T)^(mu_1...mu_r) omega_(mu_1)^((1)) ... omega_(mu_r)^((r)).
+  T^(alpha_1...alpha_r) tensor((phi_*), +mu_1, -alpha_1)omega_(mu_1)^((1)) ... tensor((phi_*), +mu_r, -alpha_r)omega_(mu_r)^((r)) = (phi_* T)^(mu_1...mu_r) omega_(mu_1)^((1)) ... omega_(mu_r)^((r)).
 $
 We may thus identify the components of $phi_* T$ as
 $
-  (phi_* T)^(mu_1...mu_r) = tensor((phi_*),+mu_1,-alpha_1) ... tensor((phi_*),+mu_r,-alpha_r) T^(alpha_1...alpha_r),
+  (phi_* T)^(mu_1...mu_r) = tensor((phi_*), +mu_1, -alpha_1) ... tensor((phi_*), +mu_r, -alpha_r) T^(alpha_1...alpha_r),
 $
-which is simply just the index-wise transformation with the pushforward matrix $tensor((phi_*),+mu,-alpha)$. 
+which is simply just the index-wise transformation with the pushforward matrix $tensor((phi_*), +mu, -alpha)$.
 
 == Special Case: Submanifolds and the Pushforward as Inclusion
 
 Now that we have established some general theory of smooth maps between manifolds---along with their associated pushforwards and pullbacks---we are ready to specialise to a particularly important class: the inclusion maps of submanifolds. Given a submanifold $cal(S) subset cal(M)$, the inclusion map $iota:cal(S) arrow cal(M)$ allows us to view $cal(S)$ as embedded in the ambient space $cal(M)$
 
-This setup will naturally recover familiar constructions from Riemannian geometry. Most notably, we will see that the induced metric on the submanifold arises as the pullback of the ambient metric under $iota$.  Framed this way, the induced geometry of submanifolds is revealed to be not an isolated trick, but part of the broader formalism of pullbacks---showing how submanifold geometry fits seamlessly into the general machinery of differential geometry. 
+This setup will naturally recover familiar constructions from Riemannian geometry. Most notably, we will see that the induced metric on the submanifold arises as the pullback of the ambient metric under $iota$.  Framed this way, the induced geometry of submanifolds is revealed to be not an isolated trick, but part of the broader formalism of pullbacks---showing how submanifold geometry fits seamlessly into the general machinery of differential geometry.
 
 *Definition* (Inclusion Map for Submanifolds) Let $cal(M)$ be an $m$-dimensional manifold and $cal(S) subset cal(M)$ an $s$-dimensional submanifold. We call the map
 $
   iota: cal(S) -> cal(M), quad p|->p
 $
-the _inclusion map_ or simply _inclusion_ of $cal(S)$ into $cal(M)$. 
+the _inclusion map_ or simply _inclusion_ of $cal(S)$ into $cal(M)$.
 
 At first glance, this may not seem particularly interesting---it merely sends each point to itself. But despite its simplicity, $iota$ is a smooth map between manifolds, and as such, all the machinery developed previously (pushforward, pullback, tensor behaviour) can and does apply. This makes the inclusion map a powerful conceptual tool, especially when studying how geometric or tensorial structures on the ambient manifold $cal(M)$ restrict or induce structure on the submanifold $cal(S)$. So, let us now examine $iota$ through this lens.
 \ \
-*The Pushforward $iota_*$* Firstly, we consider the pushforward $iota_*$. Before diving into concrete definitions, it helps to build some intuition. In general, the pushforward $phi_*$ of a smooth map $phi:cal(M)->cal(N)$ maps tangent vectors from $T_p cal(M)$ to $T_phi(p) cal(N)$, capturing how directions around $p$ deform under $phi$. 
+*The Pushforward $iota_*$* Firstly, we consider the pushforward $iota_*$. Before diving into concrete definitions, it helps to build some intuition. In general, the pushforward $phi_*$ of a smooth map $phi:cal(M)->cal(N)$ maps tangent vectors from $T_p cal(M)$ to $T_phi(p) cal(N)$, capturing how directions around $p$ deform under $phi$.
 
-In our case, $phi = iota$ is the inclusion of a submanifold $cal(S) subset cal(M)$. Since $iota(p) = p$, the point itself remains unchanged, and so do the local relationships between points. A tangent vector $X in T_p cal(S)$ should therefore remain to be the same geometric object under the pushforward, just now interpreted as living inside the larger ambient space $T_p cal(M)$. We are thus led to expect that $iota_*$ simply embeds $T_p cal(S)$ into $T_p cal(M)$. 
+In our case, $phi = iota$ is the inclusion of a submanifold $cal(S) subset cal(M)$. Since $iota(p) = p$, the point itself remains unchanged, and so do the local relationships between points. A tangent vector $X in T_p cal(S)$ should therefore remain to be the same geometric object under the pushforward, just now interpreted as living inside the larger ambient space $T_p cal(M)$. We are thus led to expect that $iota_*$ simply embeds $T_p cal(S)$ into $T_p cal(M)$.
 
 This is what we will now make precise. For that, we consider the pushforward $iota_* X$ of some vector $X in T_p cal(S)$. By definition, for any function $f in C^infty (cal(M))$, its action is given by
 $
@@ -362,7 +362,7 @@ $
 $
 Since $iota(p) = p$ for all $p in cal(S)$, the composition $f compose iota$ is simply the restriction of $f$ to the submanifold, i.e. $f|_cal(S)$. That is,
 $
-  (iota_* X)[f] = X[f|_cal(S)]. 
+  (iota_* X)[f] = X[f|_cal(S)].
 $
 This shows that $iota_* X in T_p cal(M)$ acts on ambient functions $f in C^infty (cal(M))$ exactly as $X in T_p cal(S)$ acts on their restrictions to $cal(S)$. In other words, the pushforward simply embeds the vector $X$ into the ambient tangent space in a way that preserves its actions on functions.
 
@@ -372,35 +372,35 @@ $
 $
 That is, we naturally identify each tangent space $T_p cal(S)$ with a subspace of the ambient tangent space $T_p cal(M)$, and the map $iota_*$ serves as a pointwise injective linear embedding.
 
-Let us now consider how the pushforward looks in coordinate components. To this end, let $p in cal(S) subset cal(M)$, and suppose $y^i$, $i = 1,...,s$ and $x^mu$, $1,...,m$, are local coordinates around $p$ on $cal(S)$ and $cal(M)$, respectively. We consider the pushforward of a vector $X in T_p cal(S)$, written in the coordinate basis $diff_i = diff/(diff y^i)$ as 
+Let us now consider how the pushforward looks in coordinate components. To this end, let $p in cal(S) subset cal(M)$, and suppose $y^i$, $i = 1,...,s$ and $x^mu$, $1,...,m$, are local coordinates around $p$ on $cal(S)$ and $cal(M)$, respectively. We consider the pushforward of a vector $X in T_p cal(S)$, written in the coordinate basis $diff_i = diff/(diff y^i)$ as
 $
   X = X^i diff_i
-$ 
+$
 From the general theory of pushforwards established in the previous section, its image under the inclusion $iota$ is given by
 $
-  iota_* X = (iota_* X)^mu diff_mu = tensor((iota_*),+mu,-i)X^i diff_mu
+  iota_* X = (iota_* X)^mu diff_mu = tensor((iota_*), +mu, -i)X^i diff_mu
 $
-where $diff_mu = diff/(diff x^mu)$ is the coordinate basis of $T_p cal(M)$, and the pushforward matrix $tensor((iota_*),+mu,-i)$ is given by the Jacobian matrix
+where $diff_mu = diff/(diff x^mu)$ is the coordinate basis of $T_p cal(M)$, and the pushforward matrix $tensor((iota_*), +mu, -i)$ is given by the Jacobian matrix
 $
-  tensor((iota_*),+mu,-i) = (diff x^mu)/(diff y^i).
+  tensor((iota_*), +mu, -i) = (diff x^mu)/(diff y^i).
 $
-This is the same object we previously denoted by $tensor(E,+mu,-i)$ in @pushforwardEDefn[equation], and we now return to that notation. Thus, the pushforward becomes
+This is the same object we previously denoted by $tensor(E, +mu, -i)$ in @pushforwardEDefn[equation], and we now return to that notation. Thus, the pushforward becomes
 $
-  iota_* X = (tensor(E,+mu,-i) X^i) diff_mu quad <=> quad (iota_* X)^mu = tensor(E,+mu,-i) X^i.
+  iota_* X = (tensor(E, +mu, -i) X^i) diff_mu quad <=> quad (iota_* X)^mu = tensor(E, +mu, -i) X^i.
 $
 *The Pullback $iota^*$* We now turn to the pullback $iota^* : T_p^* cal(M) -> T_p^* cal(S)$ associated with the immersion $iota: cal(S) -> cal(M)$. By definition, for any $X in T_p cal(S)$ and $omega in T_p^* cal(M)$, it satisfies
 $
   inprod(iota^* omega, X)_cal(S) = inprod(omega, iota_* X)_cal(M).
 $
 In terms of components, this reads
-$ 
-  (iota^*omega)#h(0em)_i X^i = omega_mu (iota_* X)^mu = omega_mu tensor(E,+mu,-i) X^i,
+$
+  (iota^*omega)#h(0em) _i X^i = omega_mu (iota_* X)^mu = omega_mu tensor(E, +mu, -i) X^i,
 $
 from which we identify the components of the pullback as
 $
-  (iota^* omega)#h(0em)_i = tensor(E,+mu,-i) omega_mu.
+  (iota^* omega)#h(0em) _i = tensor(E, +mu, -i) omega_mu.
 $
-*The Induced Metric* As we have seen in the previous section, we can also define the pushforward and pullback for purely contra- or covariant tensors, by applying the transformation with $tensor(E,+mu,-i)$ to each index separately. This arose from the requirement of compatibility under the map between manifolds of the multilinear map a tensor defines. A tensor of particular interest to differential geometry is the metric. Since it is a $(0,2)$-tensor, it is purely covariant, and we can apply the pullback to the metric on $cal(M)$ to get a $(0,2)$-tensor on $cal(S)$. Intuition would tell us that this is the induced metric, but let us go through this calmly. The metric on $cal(M)$ is the symmetric tensor
+*The Induced Metric* As we have seen in the previous section, we can also define the pushforward and pullback for purely contra- or covariant tensors, by applying the transformation with $tensor(E, +mu, -i)$ to each index separately. This arose from the requirement of compatibility under the map between manifolds of the multilinear map a tensor defines. A tensor of particular interest to differential geometry is the metric. Since it is a $(0,2)$-tensor, it is purely covariant, and we can apply the pullback to the metric on $cal(M)$ to get a $(0,2)$-tensor on $cal(S)$. Intuition would tell us that this is the induced metric, but let us go through this calmly. The metric on $cal(M)$ is the symmetric tensor
 $
   ds^2 = g = g_(mu nu) dx^mu otimes dx^nu.
 $
@@ -416,8 +416,8 @@ Let us briefly interpret this, then we move to the coordinate expression which w
 
 Going through the component expressions, we find
 $
-  (iota^* g)(X,Y) = g(iota_* X, iota_* Y) = g_(mu nu) tensor(E,+mu,-i) tensor(E,+nu,-j) X^i Y^j\
-  = (g_(mu nu) tensor(E,+mu,-i) tensor(E,+nu,-j)) X^i X^j = gamma_(i j) X^i Y^j = gamma(X,Y).
+  (iota^* g)(X,Y) = g(iota_* X, iota_* Y) = g_(mu nu) tensor(E, +mu, -i) tensor(E, +nu, -j) X^i Y^j\
+  = (g_(mu nu) tensor(E, +mu, -i) tensor(E, +nu, -j)) X^i X^j = gamma_(i j) X^i Y^j = gamma(X, Y).
 $
 This confirms explicitly that $iota^* g = gamma$; in other words, the induced metric on $cal(S)$ is simply the pullback of the metric from the ambient manifold $cal(M)$. We have come full circle: the geometric idea that guided our definition of the induced metric has now emerged naturally from algebraic considerations grounded in a broader theoretical framework. That coherence gives us confidence to admit the idea into our formal foundations---when algebra and intuition converge, we are likely on the right path.
 == The Left-Inverse: Projections onto Tangent Spaces
@@ -433,13 +433,13 @@ However, if $phi_*$ is injective, then it _is_ possible to define a _left-invers
 $
   phi = iota : cal(S) -> cal(M),
 $
-where we have previously seen that the associated pushforward 
+where we have previously seen that the associated pushforward
 $
   iota_* : T_p cal(S) -> T_p cal(M)
 $
 is an injective linear embedding.
 
-Let us now examine this case in detail. We may define a (non-unique) left-inverse#footnote[We use the notation $(dot)^(-1)$ here to indicate just a left- and not a proper inverse.] 
+Let us now examine this case in detail. We may define a (non-unique) left-inverse#footnote[We use the notation $(dot)^(-1)$ here to indicate just a left- and not a proper inverse.]
 $
   (iota_*)#h(0em)^(-1) : T_p cal(M) -> T_p cal(S)
 $
@@ -449,47 +449,47 @@ $
 $<leftInverseCondition>
 Though this constrains $(iota_*)#h(0em)^(-1)$ fully on $im(iota_*)$, its action on the complement of $im(iota_*)$ remains arbitrary---hence we have no uniqueness.
 
- In components, using the same coordiante systems as before, let us expand both sides of this identity for a vector $X in T_p cal(S)$. On the right-hand side, we get
+In components, using the same coordiante systems as before, let us expand both sides of this identity for a vector $X in T_p cal(S)$. On the right-hand side, we get
 $
   id_(T_p cal(S))X = X = X^i diff_i = delta^i_j X^j diff_i
 $<eq337>
 For the left-hand side, we use the component expression for the pushforward to find
 $
-  ((iota_*)#h(0em)^(-1) compose iota_*)(X) = (iota_*)#h(0em)^(-1) (iota_* X) = (iota_*)#h(0em)^(-1) (tensor(E,+mu,-i)X^i diff_mu) = tensor(((iota_*)#h(0em)^(-1))#h(0em),+j,-mu) tensor(E,+mu,-i) X^i diff_j.
+  ((iota_*)#h(0em)^(-1) compose iota_*)(X) = (iota_*)#h(0em)^(-1) (iota_* X) = (iota_*)#h(0em)^(-1) (tensor(E, +mu, -i)X^i diff_mu) = tensor(((iota_*)#h(0em)^(-1))#h(0em), +j, -mu) tensor(E, +mu, -i) X^i diff_j.
 $<eq338>
 Let us define
 $
-  tensor(E,+i,-mu) = tensor(((iota_*)#h(0em)^(-1))#h(0em),+i,-mu)
+  tensor(E, +i, -mu) = tensor(((iota_*)#h(0em)^(-1))#h(0em), +i, -mu)
 $
 as the component representation of the left-inverse.
 Equating both of the above equations @eq337[] and @eq338[] allows us to rewrite @leftInverseCondition[equation] in components as
 $
-  tensor(E,+i,-mu) tensor(E,+mu,-j) X^j diff_i = delta^i_j X^j diff_i.
+  tensor(E, +i, -mu) tensor(E, +mu, -j) X^j diff_i = delta^i_j X^j diff_i.
 $
 By arbitrariness of $X$, we conclude the matrix identity
 $
-  tensor(E,+i,-mu) tensor(E,+mu,-j) = delta^i_j.
+  tensor(E, +i, -mu) tensor(E, +mu, -j) = delta^i_j.
 $<conditionLeftInversePushforward>
-This is exactly the condition for $tensor(E,+i,-mu)$ to be a left-inverse of $tensor(E,+mu,-i)$ in the standard sense of matrix algebra. Notice that this implies that both the ranks of $tensor(E,+mu,-i)$ and $tensor(E,+i,-mu)$ must be $s = dim cal(S) = rank delta^i_j$. 
+This is exactly the condition for $tensor(E, +i, -mu)$ to be a left-inverse of $tensor(E, +mu, -i)$ in the standard sense of matrix algebra. Notice that this implies that both the ranks of $tensor(E, +mu, -i)$ and $tensor(E, +i, -mu)$ must be $s = dim cal(S) = rank delta^i_j$.
 
-The left-inverse $(iota_*)#h(0em)^(-1)$ might not appear very useful, since all it does is allow us to form an identity on $T_p cal(S)$. We can, however, attempt to use it as a right-inverse, to define the map 
+The left-inverse $(iota_*)#h(0em)^(-1)$ might not appear very useful, since all it does is allow us to form an identity on $T_p cal(S)$. We can, however, attempt to use it as a right-inverse, to define the map
 $
   P :=iota_* compose (iota_*)#h(0em)^(-1) : T_p cal(M) -> im (iota_*) subset T_p cal(M).
 $
 Clearly, the component representation of this map acting on $X in T_p cal(M)$ is
 $
-  P(X) = (iota_* compose (iota_*)#h(0em)^(-1)) (X^mu diff_mu) = (tensor(E,+mu,-i ) tensor(E,+i,-nu) X^nu) diff_mu = (tensor(P,+mu,-nu) X^nu) diff_mu,
+  P(X) = (iota_* compose (iota_*)#h(0em)^(-1)) (X^mu diff_mu) = (tensor(E, +mu, -i) tensor(E, +i, -nu) X^nu) diff_mu = (tensor(P, +mu, -nu) X^nu) diff_mu,
 $
-with the components of $P$ denoted by $tensor(P,+mu,-nu) := tensor(E,+mu,-i) tensor(E,+i,-nu)$.
+with the components of $P$ denoted by $tensor(P, +mu, -nu) := tensor(E, +mu, -i) tensor(E, +i, -nu)$.
 Since $P$ is a linear map, and
 $
-  P^2 = iota_* compose underbrace((iota_*)#h(0em)^(-1) compose iota_*,=id_(T_p cal(S))) compose (iota_*)#h(0em)^(-1) = iota_* compose (iota_*)#h(0em)^(-1) = P,
+  P^2 = iota_* compose underbrace((iota_*)#h(0em)^(-1) compose iota_*, =id_(T_p cal(S))) compose (iota_*)#h(0em)^(-1) = iota_* compose (iota_*)#h(0em)^(-1) = P,
 $
-we infer that $P$ is a projection. Moreover, since we have $rank P = rank iota_* = dim cal(S) = s$, we infer that 
+we infer that $P$ is a projection. Moreover, since we have $rank P = rank iota_* = dim cal(S) = s$, we infer that
 $
   P:T_p cal(M) -> im(iota_*)
 $
-is an injective projector of $T_p cal(M)$ onto the embedding $im(iota_*)$ of $T_p cal(S)$ in $T_p cal(M)$. 
+is an injective projector of $T_p cal(M)$ onto the embedding $im(iota_*)$ of $T_p cal(S)$ in $T_p cal(M)$.
 
 Recall that the left-inverse $(iota_*)#h(0em)^(-1)$ is non-unique---it depends on the choice of complement to $im(iota_*)$ during its construction. It is always possible to choose it such that $P$ satisfies the condition
 $
@@ -503,26 +503,26 @@ $
 $
 where $P(X) in im(iota_*)$ and $X-P(X) in im(iota_*)^perp$, where the complement is taken with respect to $g$.
 
-What we should take away from this section is the following. The left-inverse $(iota_*)#h(0em)^(-1)$ is not particularly interesting on its own, as it is inherently non-unique---its definition depends on an arbitrary choice of complement to $im(iota_*)$. However, it does enable the construction a projection $P:T_p cal(M) -> im(iota_*)$, which can be made into an orthogonal projection by @orthoCondition[condition], equivalent to the symmetry condition#footnote[$g(P(X),Y) = g_(mu nu) tensor(P,+mu,-lambda)X^lambda Y^nu = P_(nu mu) X^mu Y^nu$, and $ g(X,P(Y)) =...= P_(mu nu) X^mu Y^nu$. ]
+What we should take away from this section is the following. The left-inverse $(iota_*)#h(0em)^(-1)$ is not particularly interesting on its own, as it is inherently non-unique---its definition depends on an arbitrary choice of complement to $im(iota_*)$. However, it does enable the construction a projection $P:T_p cal(M) -> im(iota_*)$, which can be made into an orthogonal projection by @orthoCondition[condition], equivalent to the symmetry condition#footnote[$g(P(X),Y) = g_(mu nu) tensor(P, +mu, -lambda)X^lambda Y^nu = P_(nu mu) X^mu Y^nu$, and $g(X,P(Y)) =...= P_(mu nu) X^mu Y^nu$. ]
 $
   P_(mu nu) = P_(nu mu)
 $
-where $P_(mu nu) = g_(mu lambda) tensor(P,+lambda,-nu)$. This condition ensures that $P$ is self-adjoint with respect to the metric $g$, and hence defines an orthogonal projection.
+where $P_(mu nu) = g_(mu lambda) tensor(P, +lambda, -nu)$. This condition ensures that $P$ is self-adjoint with respect to the metric $g$, and hence defines an orthogonal projection.
 
 When $P$ is symmetric in this sense, we can interpret it as specifying an orthogonal splitting of the tangent space,
 $
-  T_p cal(M) = underbrace(im(iota_*),"tangent to" cal(S)) plus.circle underbrace(ker(P), "normal to" cal(S)),
+  T_p cal(M) = underbrace(im(iota_*), "tangent to" cal(S)) plus.circle underbrace(ker(P), "normal to" cal(S)),
 $<orthonormalDecompositionTpS>
 where the symbol $plus.circle$ indicates a direct sum of orthogonal subspaces. The image of $iota_*$ is the embedding of $T_p cal(S)$ in $T_p cal(M)$), while the kernel of $P$ corresponds to vectors in $T_p cal(M)$ orthogonal to $cal(S)$---i.e., the _normal directions_.
 
-== Ambient Metric Decomposition and the Pullback of $P_(mu nu)$ 
+== Ambient Metric Decomposition and the Pullback of $P_(mu nu)$
 In the previous section, we saw that for $P$ to define an _orthogonal_ projection, its components must be symmetric with respect to the metric $g$. Since the metric tensor itself is symmetric, this hints at the possibility of a decomposition of $g$ in terms of $P$ and a complementary projection $Q$. The goal of this section is to examine the properties and consequences of such a decomposition.
 
 The symmetry condition for $P$ was previously written in components as
 $
-  P_(mu nu) = P_(nu mu), quad "with" quad P_(mu nu) = g_(mu lambda) tensor(P,+lambda,-nu),
+  P_(mu nu) = P_(nu mu), quad "with" quad P_(mu nu) = g_(mu lambda) tensor(P, +lambda, -nu),
 $
-but this can be expressed more naturally in coordinate-free language, which we now introduce. 
+but this can be expressed more naturally in coordinate-free language, which we now introduce.
 
 To do so, we reinterpret $P$, originally a $(1,1)$-tensor (a linear map on $T_p cal(M)$) as a $(0,2)$-tensor by lowering one index using the metric. That is, we define the bilinear form $tilde(P)$
 $
@@ -530,9 +530,9 @@ $
 $
 for all $X,Y in T_p cal(M)$. In components, this reads
 $
-  tilde(P)(X,Y) = (g_(mu lambda) tensor(P,+lambda,-nu)) X^mu Y^nu 
+  tilde(P)(X,Y) = (g_(mu lambda) tensor(P, +lambda, -nu)) X^mu Y^nu
 $
-so the components of $tilde(P)$ are precisely what we earlier denoted by $P_(mu nu)$---the object that must be symmetric. Thus, the requirement of symmetry of $P$ turns into 
+so the components of $tilde(P)$ are precisely what we earlier denoted by $P_(mu nu)$---the object that must be symmetric. Thus, the requirement of symmetry of $P$ turns into
 $
   tilde(P)(X,Y) = tilde(P)(Y,X), quad X,Y in T_p cal(M).
 $
@@ -548,13 +548,13 @@ $
 $
 is necessarily symmetric as well---due to symmetry of both $tilde(P)$ and $g$. The components of $tilde(Q)$ (and its associated $(1,1)$-tensor $Q$) are given by
 $
-  tilde(Q)_(mu nu) = g_(mu nu) - P_(mu nu) quad <=> quad tensor(Q,+mu,-nu) = g^(mu lambda) tilde(Q)_(lambda nu) = delta^mu_nu - tensor(P,+mu,-nu).
+  tilde(Q)_(mu nu) = g_(mu nu) - P_(mu nu) quad <=> quad tensor(Q, +mu, -nu) = g^(mu lambda) tilde(Q)_(lambda nu) = delta^mu_nu - tensor(P, +mu, -nu).
 $
 Notice that hence, $Q(X) = X- P(X)$ is nothing but the projection of $X$ onto the normal space $ker(P)$ in the @orthonormalDecompositionTpS[decomposition], and $tilde(Q)$ its associated bilinear form. The projections $P$ and $Q$ are orthogonally complete, as we have (this is easily verifiable by plugging in definitions)
 $
   P + Q = id_(T_p cal(M)), wide P compose Q = Q compose P = 0.
 $
-What we learned thus far is the following: Writing the metric in terms of $tilde(P)$ and collecting the remaining parts into $tilde(Q)$ naturally decomposes it into a projection onto the embedding of $T_p cal(S)$ into $T_p cal(M)$ and its orthogonal complement---the _normal space_ 
+What we learned thus far is the following: Writing the metric in terms of $tilde(P)$ and collecting the remaining parts into $tilde(Q)$ naturally decomposes it into a projection onto the embedding of $T_p cal(S)$ into $T_p cal(M)$ and its orthogonal complement---the _normal space_
 $
   N_p cal(S) := ker(P).
 $
@@ -563,24 +563,24 @@ Now that we have decomposed the metric, we can reconsider the pullback of this d
 
 By linearity of $iota^*$, and since $iota^* g = gamma$, it is sufficient to compute $iota^* tilde(P)$---this immediately gives us the pullback of $tilde(Q)$ via $iota^* tilde(Q) = gamma - iota^* tilde(P)$. We compute this now; let $X,Y in T_p cal(S)$---then, by definition,
 $
-  (iota^* tilde(P))(X,Y) &= tilde(P)(iota_*X,iota_*Y) = g(P(iota_* X), iota_* Y) = g lr((lr((iota_* compose underbrace((iota_*)#h(0em)^(-1) compose iota_*,=id_(T_p cal(S)))),size:#35%) X, iota_* Y ),size:#45%)\
-  &= g(iota_* X, iota_* Y) = (iota^* g)(X,Y) = gamma(X,Y);\ \
+  (iota^* tilde(P))(X,Y) &= tilde(P)(iota_*X,iota_*Y) = g(P(iota_* X), iota_* Y) = g lr((lr((iota_* compose underbrace((iota_*)#h(0em)^(-1) compose iota_*, =id_(T_p cal(S)))), size: #35%) X, iota_* Y ), size: #45%)\
+  &= g(iota_* X, iota_* Y) = (iota^* g)(X,Y) = gamma(X, Y);\ \
   ==> wide iota^* tilde(Q) & = gamma-gamma = 0.
 $
 In summary, we have found
 $
   gamma = iota^* g = iota^* tilde(P).
 $<indMetricPullbackMetricPullbackProjection>
-Thus, $iota^* g$ only depends on the tangential part $tilde(P)$---the normal contribution $tilde(Q)$ vanishes under pullback. Notice that $rank P = rank gamma = dim cal(S)$; in light of the above, this implies that $gamma$ and $tilde(P)$ represent the same bilinear map on $T_p cal(S)$ and its embedding $im(iota_*) subset T_p cal(M)$. 
+Thus, $iota^* g$ only depends on the tangential part $tilde(P)$---the normal contribution $tilde(Q)$ vanishes under pullback. Notice that $rank P = rank gamma = dim cal(S)$; in light of the above, this implies that $gamma$ and $tilde(P)$ represent the same bilinear map on $T_p cal(S)$ and its embedding $im(iota_*) subset T_p cal(M)$.
 
 Let us now repeat the same calculation in components. We find
 $
-  (iota^* tilde(P))#h(0em)_(i j) &= tensor(E,+mu,-i) tensor(E,+nu,-j) P_(mu nu) = tensor(E,+mu,-i) tensor(E,+nu,-j) g_(mu lambda) tensor(P,+lambda,-nu) =  tensor(E,+mu,-i) tensor(E,+nu,-j) g_(mu lambda) tensor(E,+lambda,-k) tensor(E,+k,-nu)\
-  &= tensor(E,+mu,-i) delta^k_j tensor(E,+lambda,-k) g_(mu lambda) = tensor(E,+mu,-i) tensor(E,+nu,-j) g_(mu nu) = gamma_(i j).
+  (iota^* tilde(P))#h(0em) _(i j) &= tensor(E, +mu, -i) tensor(E, +nu, -j) P_(mu nu) = tensor(E, +mu, -i) tensor(E, +nu, -j) g_(mu lambda) tensor(P, +lambda, -nu) = tensor(E, +mu, -i) tensor(E, +nu, -j) g_(mu lambda) tensor(E, +lambda, -k) tensor(E, +k, -nu)\
+  &= tensor(E, +mu, -i) delta^k_j tensor(E, +lambda, -k) g_(mu lambda) = tensor(E, +mu, -i) tensor(E, +nu, -j) g_(mu nu) = gamma_(i j).
 $
 This reproduces the @indMetricPullbackMetricPullbackProjection[identity] in terms of components as
 $
-  gamma_(i j) = tensor(E,+mu,-i) tensor(E,+nu,-j) g_(mu nu) =  tensor(E,+mu,-i) tensor(E,+nu,-j) P_(mu nu).
+  gamma_(i j) = tensor(E, +mu, -i) tensor(E, +nu, -j) g_(mu nu) = tensor(E, +mu, -i) tensor(E, +nu, -j) P_(mu nu).
 $
 This result offers a clear structural interpretation of the induced metric $gamma$: it is precisely the tangential part of the ambient metric $g$, isolated by pulling back the tangential projection $P$. The normal component $Q$ plays no role in the geometry intrinsic to the submanifold, as expected---$gamma$ contains only the information relevant to distances and angles _within_ $cal(S)$.
 = Bundles
@@ -605,28 +605,28 @@ Of course, this is a loose and purely intuitive description. In this section, we
     Phi: pi^(-1) (U) -> U times RR^n
   $
   such that
-    - $Phi$ is a fibre-preserving vector space isomorphism on fibres, meaning that for each $q in U$, 
-    $
-      Phi|_(cal(E)_q) : cal(E)_q -> {q} times RR^n tilde.eq RR^n
-    $
-    is a vector space isomorphism.
+  - $Phi$ is a fibre-preserving vector space isomorphism on fibres, meaning that for each $q in U$,
+  $
+    Phi|_(cal(E)_q) : cal(E)_q -> {q} times RR^n tilde.eq RR^n
+  $
+  is a vector space isomorphism.
 
-    - the diagram
-    $
-      #diagram({
-        node((-1, -2), [$cal(E) supset pi^(-1)(U)$])
-        node((1, -2), [$U times RR^n$])
-        node((-1, 0), [$U$])
-        edge((-1, -2), (-1, 0), [$pi$], label-side: right, "->")
-        edge((-1, -2), (1, -2), [$Phi$], label-side: left, "->")
-        edge((1, -2), (-1, 0), [$P_1$], label-side: left, "->")
-      })
-    $<fibrationDiagram>
-    commutes, where $P_1$ is the projection onto the first component of the Cartesian product ($(a,b)|->a$)
-    
+  - the diagram
+  $
+    #diagram({
+      node((-1, -2), [$cal(E) supset pi^(-1)(U)$])
+      node((1, -2), [$U times RR^n$])
+      node((-1, 0), [$U$])
+      edge((-1, -2), (-1, 0), [$pi$], label-side: right, "->")
+      edge((-1, -2), (1, -2), [$Phi$], label-side: left, "->")
+      edge((1, -2), (-1, 0), [$P_1$], label-side: left, "->")
+    })
+  $<fibrationDiagram>
+  commutes, where $P_1$ is the projection onto the first component of the Cartesian product ($(a,b)|->a$)
+
 Let us now go through this definition calmly, and explain the meaning and intuition behind each of the constructions separately.
 
-Firstly, we should give a summary of what a vector bundle is supposed to be. Intuitively, a vector bundle over $cal(M)$ is a smooth family of vector spaces ${cal(E)_p}#h(0em)_(p in cal(M))$, smoothly parameterised by $cal(M)$, such that near each point, the collection of fibres looks like a product $U times RR^n$. This means we can locally identify each fibre with $RR^n$ in a way that varies smoothly with the base point, and respects the vector space operations.
+Firstly, we should give a summary of what a vector bundle is supposed to be. Intuitively, a vector bundle over $cal(M)$ is a smooth family of vector spaces ${cal(E)_p}#h(0em) _(p in cal(M))$, smoothly parameterised by $cal(M)$, such that near each point, the collection of fibres looks like a product $U times RR^n$. This means we can locally identify each fibre with $RR^n$ in a way that varies smoothly with the base point, and respects the vector space operations.
 
 Now, let us go over each part of the definition in detail.
 
@@ -635,12 +635,12 @@ Now, let us go over each part of the definition in detail.
     cal(E) = union.sq.big_(p in cal(M)) cal(E)_p.
   $
   This is an $(m+n)$-dimensional manifold, since the base manifold has dimension $cal(M)$, and attaching an $n$-dimensional vector space at each point increases the dimension by $n$.
-  
+
   Very loosely, one might imagine this as dragging a window (the vector space) across a screen (the manifold) in Windows XP, with the bug that leaves behind a smeared trail of it. As you drag it, the trail being formed represents this union of all these smeared copies (counting overlapping regions appropriately), which is what is known as the total space.
 
 + _Bundle Projection_: A point in $cal(E)$ encodes two pieces of information: a point $p in cal(M)$, and a vector attached to it, describing a _direction from $p$_. The bundle projection's job is simple: it takes such a pair and tells us to which point on the base manifold it belongs.
 
-  It must be surjective, so that each point $p in cal(M)$ has a corresponding vector space attached to it. If it were not surjective, there would exist some $p$ for which no vectors are associated, contradicting the idea of "attaching a vector space at each point". 
+  It must be surjective, so that each point $p in cal(M)$ has a corresponding vector space attached to it. If it were not surjective, there would exist some $p$ for which no vectors are associated, contradicting the idea of "attaching a vector space at each point".
 
 + _Fibres_: The fibre at $p in cal(M)$ is the collection of all vectors attached or associated to $p$, i.e. its preimage under the bundle projection $pi$. More precisely,
   $
@@ -648,12 +648,12 @@ Now, let us go over each part of the definition in detail.
   $
   Since we want to attach not just _any_ kind of fibre, but specifically an $n$-dimensional vector space, we impose the additional requirement that each fibre $cal(E)_p$ carries the structure of a real vector space of dimension $n$.
 
-+ _Local Triviality_: This is likely the most convoluted part of the definition, but can also be broken down intuitively. What local triviality demands is that _locally_, in some neighbourhood $U subset cal(M)$ of $p in cal(M)$, the total space $cal(E)$ "looks like" the space $U times RR^n$. This is the simplest way of "attaching vector spaces to each point"---the Cartesian product does exactly that. In more formal terms, "looks like" is replaced by the notion of the diffeomorphism $Phi$. Since $RR^n$ is the concrete representation of the attached vector space, we would also like the fibres $cal(E)_q$, $q in U$ to map to $RR^n$ under $Phi$ in a way that respects the algebraic structure---hence the condition on $Phi|_cal(E)_q$. The requirement that the @fibrationDiagram[diagram] commutes then further ensures that the fibres get attached to the correct points on $cal(M)$. 
++ _Local Triviality_: This is likely the most convoluted part of the definition, but can also be broken down intuitively. What local triviality demands is that _locally_, in some neighbourhood $U subset cal(M)$ of $p in cal(M)$, the total space $cal(E)$ "looks like" the space $U times RR^n$. This is the simplest way of "attaching vector spaces to each point"---the Cartesian product does exactly that. In more formal terms, "looks like" is replaced by the notion of the diffeomorphism $Phi$. Since $RR^n$ is the concrete representation of the attached vector space, we would also like the fibres $cal(E)_q$, $q in U$ to map to $RR^n$ under $Phi$ in a way that respects the algebraic structure---hence the condition on $Phi|_cal(E)_q$. The requirement that the @fibrationDiagram[diagram] commutes then further ensures that the fibres get attached to the correct points on $cal(M)$.
 
 
 Now that we have defined vector bundles, let us introduce a notion that makes use of it. Specifically, we consider so-called _smooth sections_ of vector bundles. A smooth section is, intuitively speaking, the selection of one vector in the fibre $cal(E)_p$ at each $p in cal(M)$, in a way that creates a smooth surface in the total space $cal(E)$. Such a surface can be viewed as a vector field, since it maps each point on the manifold to one vector in its fibre.
-\ \ 
-*Definition* (Smooth Section) Let $cal(M)$ be a smooth manifold and $(cal(E),pi,cal(M))$ a smooth real vector bundle over $cal(M)$. A _smooth section_ of $cal(E)$ is a smooth map 
+\ \
+*Definition* (Smooth Section) Let $cal(M)$ be a smooth manifold and $(cal(E),pi,cal(M))$ a smooth real vector bundle over $cal(M)$. A _smooth section_ of $cal(E)$ is a smooth map
 $
   sigma : cal(M) -> cal(E)
 $
@@ -661,12 +661,12 @@ such that
 $
   pi compose sigma = id_cal(M)
 $
-In other words, for each $p in cal(M)$, the map $sigma$ selects a vector $sigma(p) in cal(E)_p$ lying in the fibre over $p$, and this assignment varies smoothly with $p$. In particular, for $pi compose sigma$ to be the identity on $cal(M)$, $sigma$ must be injective. 
+In other words, for each $p in cal(M)$, the map $sigma$ selects a vector $sigma(p) in cal(E)_p$ lying in the fibre over $p$, and this assignment varies smoothly with $p$. In particular, for $pi compose sigma$ to be the identity on $cal(M)$, $sigma$ must be injective.
 
 We denote the set of all smooth sections of $cal(E)$ by
 $
-  Gamma(cal(E)) &= {sigma:cal(M) -> cal(E) | pi compose sigma = id_cal(M), sigma "smooth"},\
-  &= {sigma:cal(M)->cal(E) | sigma "smooth section on" cal(E)}.
+  Gamma(cal(E)) & = {sigma:cal(M) -> cal(E) | pi compose sigma = id_cal(M), sigma "smooth"}, \
+                & = {sigma:cal(M)->cal(E) | sigma "smooth section on" cal(E)}.
 $
 This is a real vector space under pointwise addition and scalar multiplication. In the case where $cal(E) = T cal(M)$ is the tangent bundle (which we introduce in the next section), $Gamma(T cal(M))$ is the space of smooth vector fields on $cal(M)$.
 
@@ -683,18 +683,18 @@ We define the bundle projection
 $
   pi:T cal(M) -> cal(M)
 $
-as the map 
+as the map
 $
-  pi(p,v) = p,
+  pi(p, v) = p,
 $
-choosing to write elements of $T cal(M)$ as pairs $(p,v)$ with $v in T_p cal(M)$. 
+choosing to write elements of $T cal(M)$ as pairs $(p,v)$ with $v in T_p cal(M)$.
 \ \
 *Remarks:* A few direct consequences follow from this construction:
 - _Fibres_: The fibre over a point $p in cal(M)$ is given by
   $
     (T cal(M))_p = pi^(-1) ({p}) = T_p cal(M),
   $
-  meaning that we are indeed attaching the tangent space $T_p cal(M)$ to each point $p$. 
+  meaning that we are indeed attaching the tangent space $T_p cal(M)$ to each point $p$.
 
 - _Local triviality and charts on $T cal(M)$_: Given a coordinate chart $(U,x^mu)$ on $cal(M)$, we can define a chart on the preimage $pi^(-1)(U) subset T cal(M)$ by identifying
   $
@@ -706,13 +706,13 @@ choosing to write elements of $T cal(M)$ as pairs $(p,v)$ with $v in T_p cal(M)$
   $
     sigma_0 : cal(M) -> T cal(M), quad p |-> (p,0),
   $
-  or, in coordinates, 
+  or, in coordinates,
   $
     x^mu |-> (x^mu,0),
   $
-  where $0$ denotes the zero vector in $T_p cal(M)$. This map is a smooth embedding, and its image forms a submanifold of $T cal(M)$ diffeomorphic to $cal(M)$ itself. 
+  where $0$ denotes the zero vector in $T_p cal(M)$. This map is a smooth embedding, and its image forms a submanifold of $T cal(M)$ diffeomorphic to $cal(M)$ itself.
 
-  Intuitively, this makes perfect sense: if we attach a vector space to each point of the manifold in such a way that their origins coincide with the base points, then the collection of those origins sweeps out a copy of $cal(M)$ embedded inside $T cal(M)$. 
+  Intuitively, this makes perfect sense: if we attach a vector space to each point of the manifold in such a way that their origins coincide with the base points, then the collection of those origins sweeps out a copy of $cal(M)$ embedded inside $T cal(M)$.
 
 - _Vector fields as section_: Any smooth vector field on $cal(M)$, i.e. a smooth assignment $X:p|-> X_p in T_p cal(M)$, is precisely a smooth section of the tangent bundle,
   $
@@ -724,19 +724,19 @@ choosing to write elements of $T cal(M)$ as pairs $(p,v)$ with $v in T_p cal(M)$
 $
   T^* cal(M) = union.sq.big_(p in cal(M)) T_p^* cal(M)
 $
-as our total space, and the bundle projection 
+as our total space, and the bundle projection
 $
   pi: T^* cal(M) -> cal(M)
 $
 now given by the map
 $
-  pi(p,omega) = p,
+  pi(p, omega) = p,
 $
 writing elements of $T^* cal(M)$ as pairs $(p, omega)$ with $omega in T_p^* cal(M)$. The same remarks as for the tangent bundle hold, with the occasional change of terminology from vectors to $1$-forms.
 == Bundle Maps and Vector Bundle Morphisms
 Now that we have introduced the notion of vector bundles as well as concrete (and important) examples thereof, the tangent bundle $T cal(M)$ and the cotangent bundle $T^* cal(M)$, we can begin considering maps between them. A map between two tangent bundles becomes particularly interesting if it respects the algebraic structure of the fibres---i.e., if it maps vectors in one fibre linearly to vectors in another. Such maps we will refer to as _bundle morphisms_. We now first introduce the more general concept of a bundle map, and then impose the additional algebraic structure to define the notion of bundle morphisms.
 \ \
-*Definition* (Bundle Map) Let $cal(M)$, $cal(N)$ be smooth manifolds and $(cal(E),pi_cal(M), cal(M))$ as well as $(cal(F), pi_cal(N), cal(N))$ vector bundles on them. Further, let 
+*Definition* (Bundle Map) Let $cal(M)$, $cal(N)$ be smooth manifolds and $(cal(E),pi_cal(M), cal(M))$ as well as $(cal(F), pi_cal(N), cal(N))$ vector bundles on them. Further, let
 $
   phi: cal(M) -> cal(N)
 $
@@ -751,11 +751,11 @@ $
     node((1.5, 0), [$cal(F)$])
     node((0, .75), [$cal(M)$])
     node((1.5, .75), [$cal(N)$])
-    
-    edge((0, 0), (1.5, 0), [$Phi$], label-side: left, "->") 
-    edge((0, .75), (1.5, .75), [$phi$], label-side: right, "->") 
-    edge((0,0), (0,.75), [$pi_cal(M)$], "->")
-    edge((1.5,0), (1.5,.75), [$pi_cal(N)$], label-side: left, "->")
+
+    edge((0, 0), (1.5, 0), [$Phi$], label-side: left, "->")
+    edge((0, .75), (1.5, .75), [$phi$], label-side: right, "->")
+    edge((0, 0), (0, .75), [$pi_cal(M)$], "->")
+    edge((1.5, 0), (1.5, .75), [$pi_cal(N)$], label-side: left, "->")
   })
 $
 This is equivalent to the condition that
@@ -768,13 +768,13 @@ Starting with the right-hand side, we have
 $
   (phi compose pi_cal(M))(p,X) = phi(pi_cal(M)(p,X)) = phi(p).
 $
-his means ve first project $(p,X)$ onto its base point $p in cal(M)$ via $pi_cal(M)$, then apply $phi$ to obtain a point in $cal(N)$. 
+his means ve first project $(p,X)$ onto its base point $p in cal(M)$ via $pi_cal(M)$, then apply $phi$ to obtain a point in $cal(N)$.
 
 Now for the left-hand side:
 $
-  (pi_cal(N) compose Phi)(p,X) = pi_cal(N) (Phi(p,X)) = pi_cal(N) (q, Y) = q.
+  (pi_cal(N) compose Phi)(p,X) = pi_cal(N) (Phi(p, X)) = pi_cal(N) (q, Y) = q.
 $
-Here, we write $Phi(p,X)$ as some pair $(q,Y) in cal(F)$, and $pi_cal(N)$ returns the base point $q in cal(N)$. 
+Here, we write $Phi(p, X)$ as some pair $(q,Y) in cal(F)$, and $pi_cal(N)$ returns the base point $q in cal(N)$.
 
 Thus, the commutativity condition simplifies to
 $
@@ -798,7 +798,7 @@ We say that $Phi$ is a _vector bundle morphism_ (over $phi$) if, for each $p in 
 $
   Phi|_(cal(E)_p) : cal(E)_p -> cal(F)_phi(p)
 $
-is a linear map of vector spaces. 
+is a linear map of vector spaces.
 
 Intuitively, a vector bundle morphism over $phi$ can be seen as a fibrewise linear transformation that "respects the base": it transforms each vector in a fibre over $p in cal(M)$ to a vector in the fibre over $phi(p) in cal(N)$, via a linear map.
 
@@ -815,41 +815,41 @@ $
 and that the fibrewise maps $Phi|_(T_p cal(M)) = phi_* : T_p cal(M) -> T_phi(p) cal(N)$ are linear. Hence, $Phi$ defines a (vector) bundle morphism from $T cal(M)$ to $T cal(N)$ over $phi$.
 == The Normal Bundle and Orthogonal Decomposition
 
-In this section, we explore how the tangent bundle $T cal(S)$ of a submanifold $cal(S) subset cal(M)$ can be understood as a subbundle of the restriction of the tangent bundle $T cal(M)$ to $cal(S)$. Further, we define the normal bundle $N cal(S)$ and explain how the pointwise projections $P$ and $Q$, as introduced earlier, extend naturally to smooth vector bundle morphisms between $T cal(M)|_cal(S)$, $T cal(S)$ and $N cal(S)$. While this may seem like an unnecessary abstraction at first glance, it will turn out to offer geometric clarity and prepare us for later constructions involving intrinsic curvature. 
-\ \ 
+In this section, we explore how the tangent bundle $T cal(S)$ of a submanifold $cal(S) subset cal(M)$ can be understood as a subbundle of the restriction of the tangent bundle $T cal(M)$ to $cal(S)$. Further, we define the normal bundle $N cal(S)$ and explain how the pointwise projections $P$ and $Q$, as introduced earlier, extend naturally to smooth vector bundle morphisms between $T cal(M)|_cal(S)$, $T cal(S)$ and $N cal(S)$. While this may seem like an unnecessary abstraction at first glance, it will turn out to offer geometric clarity and prepare us for later constructions involving intrinsic curvature.
+\ \
 *Definition* (Restriction of vector bundles to submanifolds) Let $cal(M)$ be a smooth manifold of dimension $m$, and let $cal(S) subset cal(M)$ be a submanifold of dimension $s < m$. Given a vector bundle $(cal(E), pi, cal(M))$ over $cal(M)$, its _restriction to_ $cal(S)$ is defined as the triple
 $
   (cal(E)|_cal(S), pi|_cal(S), cal(S)), quad "where" cal(E)|_cal(S) := pi^(-1)(cal(S)) subset cal(E).
 $
-This construction simply discards all fibres of $cal(E)$ lying over points $p in cal(M) without cal(S)$, retaining only the portion of the bundle sitting above $cal(S)$. 
+This construction simply discards all fibres of $cal(E)$ lying over points $p in cal(M) without cal(S)$, retaining only the portion of the bundle sitting above $cal(S)$.
 
-As a key example, consider the tangent bundle $T cal(M)$. Its restriction to $cal(S)$, denoted by $T cal(M)|_cal(S)$, consists of the collection of tangent spaces $T_p cal(M)$ for $p in cal(S)$. This restricted bundle is not the same as the tangent bundle of $cal(S)$---the fibres of $T cal(M)|_cal(S)$ are $m$-dimensional, while the fibres of $T cal(S)$ are only $s$-dimensional. 
+As a key example, consider the tangent bundle $T cal(M)$. Its restriction to $cal(S)$, denoted by $T cal(M)|_cal(S)$, consists of the collection of tangent spaces $T_p cal(M)$ for $p in cal(S)$. This restricted bundle is not the same as the tangent bundle of $cal(S)$---the fibres of $T cal(M)|_cal(S)$ are $m$-dimensional, while the fibres of $T cal(S)$ are only $s$-dimensional.
 
 However, the inclusion map $iota : cal(S) -> cal(M)$ induces a smooth injective bundle morphism
 $
   iota_* : T cal(S) -> T cal(M)|_cal(S)
 $
-which embeds each fibre $T_p cal(S) subset T_p cal(M)$ for $p in cal(S)$. As a result, $T cal(S)$ is realised as a smooth vector subbundle of $T cal(M)|_cal(S)$. This perspective will be useful not only for defining and understanding the normal bundle but also for lifting previously pointwise constructions---such as the projections $P$ and $Q$---into global morphisms between bundles. 
+which embeds each fibre $T_p cal(S) subset T_p cal(M)$ for $p in cal(S)$. As a result, $T cal(S)$ is realised as a smooth vector subbundle of $T cal(M)|_cal(S)$. This perspective will be useful not only for defining and understanding the normal bundle but also for lifting previously pointwise constructions---such as the projections $P$ and $Q$---into global morphisms between bundles.
 
 Recall that for any submanifold $cal(S) subset cal(M)$ of a (pseudo-)Riemannian manifold $cal(M)$, we obtain a canonical orthogonal decomposition of the tangent space at each point $p in cal(S)$,
 $
-  T_p cal(M) = T_p cal(S) plus.circle N_p  cal(S),
+  T_p cal(M) = T_p cal(S) plus.circle N_p cal(S),
 $
 where $T_p cal(S) subset T_p cal(M)$ is identified via the pushforward $iota_*$ of the inclusion $iota:cal(S)->cal(M)$, and the normal space $N_p cal(S)$ is defined as the orthogonal complement
 $
   N_p cal(S) = (T_p cal(S))^perp subset T_p cal(M).
 $
-Note that $dim N_p cal(S) = codim_cal(M) cal(S)$, so that $dim T_p cal(S) + dim N_p cal(S) = dim T_p cal(M)$. 
+Note that $dim N_p cal(S) = codim_cal(M) cal(S)$, so that $dim T_p cal(S) + dim N_p cal(S) = dim T_p cal(M)$.
 
 Just as bundling the tangent spaces $T_p cal(S)$ yields the tangent bundle $T cal(S)$, we may bundle the normal spaces to obtain a smooth vector bundle over $cal(S)$. We now define this more precisely.
-\ \ 
-*Definition* (Normal bundle) Let $cal(S)subset cal(M)$ be an embedded submanifold of a (pseudo-)Riemannian manifold $cal(M)$. The _normal bundle_ $N cal(S)$ is the smooth vector bundle over $cal(S)$ defined by 
+\ \
+*Definition* (Normal bundle) Let $cal(S)subset cal(M)$ be an embedded submanifold of a (pseudo-)Riemannian manifold $cal(M)$. The _normal bundle_ $N cal(S)$ is the smooth vector bundle over $cal(S)$ defined by
 $
   N cal(S) := union.sq.big_(p in cal(S)) N_p cal(S), wide pi: N cal(S) -> cal(S), quad (p,X)|-> p,
 $
 choosing the normal spaces at each $p in cal(S)$ as the fibres.
 
-Since the decomposition 
+Since the decomposition
 $
   T_p cal(M) = T_p cal(S) plus.circle N_p cal(S)
 $<orthoDecompTpM>
@@ -857,14 +857,14 @@ is orthogonal and varies smoothly with $p$, the total bundle $T cal(M)|_cal(S)$ 
 $
   T cal(M)|_cal(S) = T cal(S) plus.circle N cal(S).
 $<tangentBundleOrthoSplitting>
-Here, the direct sum $plus.circle$ is understood as the fibrewise orthogonal sum within each $T_p cal(M)$. 
+Here, the direct sum $plus.circle$ is understood as the fibrewise orthogonal sum within each $T_p cal(M)$.
 
 Let us make a final addition to the bundle perspective we have been building in this section. Specifically, let us consider how the orthogonal projections
 $
-  &P : T_p cal(M) -> im(P) = T_p cal(S) quad "and"\ 
-  &Q: T_p cal(M) -> im(Q) = ker(P) = N_p cal(S)
+  & P : T_p cal(M) -> im(P) = T_p cal(S) quad "and" \
+  & Q: T_p cal(M) -> im(Q) = ker(P) = N_p cal(S)
 $
-are lifted from their pointwise definitions to smooth vector bundle morphisms. Since these projections were defined for each $p in cal(S)$ using the @orthoDecompTpM[orthogonal decomposition] and since this splitting varies smoothly over $cal(S)$, we obtain globally defined, smooth bundle morphisms 
+are lifted from their pointwise definitions to smooth vector bundle morphisms. Since these projections were defined for each $p in cal(S)$ using the @orthoDecompTpM[orthogonal decomposition] and since this splitting varies smoothly over $cal(S)$, we obtain globally defined, smooth bundle morphisms
 $
   P : T cal(M)|_cal(S) -> T cal(S), quad Q : T cal(M)|_cal(S) -> N cal(S),
 $
@@ -872,14 +872,14 @@ which act fibrewise as the orthogonal projections onto $T_p cal(S)$ and $N_p cal
 $
   ker P = im Q quad "and" quad ker Q = im P,
 $
-pointwise. This allows us to view the @tangentBundleOrthoSplitting[splitting] not merely as a statement about individual tangent spaces, but as a decomposition of vector bundles, mediated by smooth projections. 
+pointwise. This allows us to view the @tangentBundleOrthoSplitting[splitting] not merely as a statement about individual tangent spaces, but as a decomposition of vector bundles, mediated by smooth projections.
 = Foliations
 == Motivation and Definition of Foliations
 In the previous sections, we introduced and examined submanifolds of (pseudo-)Riemannian manifolds in detail, including the tensorial structures they inherit, such as the induced metric. Rather than focusing on isolated submanifolds, we now turn our attention to decompositions of an entier manifold $cal(M)$ (or open subsets thereof) into a smooth family of non-intersecting submanifolds. These decompositions, referred to as _foliations_, naturally arise in a variety of contexts. For example, in the ADM formalism, foliating spacetime into spacelike hypersurfaces facilitates isolating a direction of dynamical evolution---typically a timelike one. In other settings, such as the study of flows or congruences, one may be interested in decompositions into curves or integral lines.
 
 Either way, the concept of splitting a manifold into lower-dimensional submanifolds is fundamental, and we now develop it in the form of such foliations. In this section, we first provide the definition of foliations of arbitrary codimension, as well as coordinates adapted to them. We then specialise to the codimension-1 case of _hypersurface foliations_, which are particularly relevant in the ADM formalism and for which certain equations and identities take on a simpler form.
 \ \
-*Definition* (Foliation) Let $cal(M)$ be a smooth manifold. A _foliation of codimension $k$_ is a $k$-parameter family $lr({Sigma_(t_0)},size:#80%)#h(0em)_(t_0 in RR^k)$ of smooth, embedded submanifolds $Sigma_(t_0) subset cal(M)$ of codimension $k$ such that 
+*Definition* (Foliation) Let $cal(M)$ be a smooth manifold. A _foliation of codimension $k$_ is a $k$-parameter family $lr({Sigma_(t_0)}, size: #80%)#h(0em) _(t_0 in RR^k)$ of smooth, embedded submanifolds $Sigma_(t_0) subset cal(M)$ of codimension $k$ such that
 $
   Sigma_(t_0) sect Sigma_(t'_0) = nothing quad "for" quad t_0 != t'_0, quad "and" quad cal(M) = union.big_(t_0 in RR^k) Sigma_(t_0).
 $
@@ -891,7 +891,7 @@ $
 $
 This defines $k$ smooth scalar fields on $cal(M)$, and the leaves of the foliation may then be expressed as the family of level sets
 $
-  Sigma_(t_0) = t^(-1)(t_0) =  sect.big_(A=1)^k (t^A)^(-1)(t_0).
+  Sigma_(t_0) = t^(-1)(t_0) = sect.big_(A=1)^k (t^A)^(-1)(t_0).
 $
 In order for each $Sigma_(t_0)$ to be a smooth submanifold, we require $t_0$ to be a regular value of all component maps $t^A$ of $t = (t^A)$. For this to hold for all $t_0$, we demand each $t^A$ be a _submersion_, i.e.
 $
@@ -901,27 +901,27 @@ We thus arrive at an equivalent perspective: a codimension-$k$ foliation of $cal
 
 Note that because $dt^A != 0$, the map $t = (t^A)$ can be extended to a coordinate chart on $cal(M)$, where the coordinates $(t^A,y^i)$ describe both the foliation parameter and the coordinates $(y^i)$ on the leaves. The number of transverse coordiantes $y^i$ is given by $dim Sigma_t = dim cal(M) - k$. Such coordinates are called _weakly adapted_ to the foliation. In particular, fixing $t^A = t^A_0$ to some constant value $t^A_0$ yields a coordinate chart $(y^i)$ on the leaf $Sigma_(t_0)$. For this reason, the $y^i$ are referred to as _transverse coordinates_.
 \ \
-*Definition* (Hypersurface Foliation) We call a foliation $Sigma = {Sigma_t}$ of codimension $1$ a _hypersurface foliation_. 
+*Definition* (Hypersurface Foliation) We call a foliation $Sigma = {Sigma_t}$ of codimension $1$ a _hypersurface foliation_.
 
 A hypersurface foliation is defined by a single scalar field
 $
   t : cal(M) -> RR, quad dt !=0 "everywhere",
 $
-which can be extended to a coordinate chart as $(t,y^i)$, $i= 1,...,dim cal(M)-1$. 
+which can be extended to a coordinate chart as $(t,y^i)$, $i= 1,...,dim cal(M)-1$.
 
 == The Normal 1-Form and Normal Vector Field <sectionFoliationTangentBundleDecomposition>
 
-The choice of a hypersurface foliation of a manifold $cal(M)$ naturally gives rise to a host of associated mathematical objects, each playing its own role in its geometry. Among the most central of these is the normal vector field, together with its corresponding one-form. In what follows, we shall first build some intuition for why such an object may be constructed, before proceeding to define it rigorously. 
+The choice of a hypersurface foliation of a manifold $cal(M)$ naturally gives rise to a host of associated mathematical objects, each playing its own role in its geometry. Among the most central of these is the normal vector field, together with its corresponding one-form. In what follows, we shall first build some intuition for why such an object may be constructed, before proceeding to define it rigorously.
 
 As we have seen previously, a submanifold $cal(S) subset cal(M)$ induces, at each point $p in cal(S)$, a decomposition
 $
   T_p cal(M) = T_p cal(S) plus.circle N_p cal(S),
 $
-splitting the tangent space of $cal(M)$ into components tangent and normal to $cal(S)$. However, this decomposition is inherently local to $cal(S)$; at points $p in cal(M)$ outside of $cal(S)$, the notions $T_p cal(S)$ and $N_p cal(S)$ have no meaning. Hence one cannot define a vector field on $cal(M)$ with the property that it is normal to $cal(S)$ everywhere---this statement simply does not make sense away from $cal(S)$. 
+splitting the tangent space of $cal(M)$ into components tangent and normal to $cal(S)$. However, this decomposition is inherently local to $cal(S)$; at points $p in cal(M)$ outside of $cal(S)$, the notions $T_p cal(S)$ and $N_p cal(S)$ have no meaning. Hence one cannot define a vector field on $cal(M)$ with the property that it is normal to $cal(S)$ everywhere---this statement simply does not make sense away from $cal(S)$.
 
-A foliation $Sigma = {Sigma_t}#h(0em)_(t in RR)$ changes this picture dramatically. Given such a foliation, every point $p in cal(M)$ belongs to a unique leaf $Sigma_t(p)$, for a unique $t(p) in RR$. Consequently, we may write
+A foliation $Sigma = {Sigma_t}#h(0em) _(t in RR)$ changes this picture dramatically. Given such a foliation, every point $p in cal(M)$ belongs to a unique leaf $Sigma_t(p)$, for a unique $t(p) in RR$. Consequently, we may write
 $
-  T_p cal(M) = T_p Sigma_t(p) plus.circle N_p Sigma_t(p), 
+  T_p cal(M) = T_p Sigma_t(p) plus.circle N_p Sigma_t(p),
 $<foliationTpMDecomp>
 thereby defining a decomposition into tangent and normal directions at _every_ point of $cal(M)$. In other words, a foliation allows us to speak globally about directions that are tangent or normal to the slices $Sigma_t$, since every point of $cal(M)$ lies on precisely one such submanifold.
 
@@ -933,7 +933,7 @@ equipped with their canonical projections onto $cal(M)$, yield the tangent bundl
 $
   T cal(M) = T Sigma plus.circle N Sigma.
 $<foliationTangentBundleDecomp>
-We may now also formalise the notion of a _normal vector field_. Recall that a vector field on $cal(M)$ is a smooth section of the tangent bundle $T cal(M)$. Given the @foliationTangentBundleDecomp[decomposition] we call a vector field _tangent_ to the foliation $Sigma$ if it is a smooth section of $T Sigma$, and normal to $Sigma$ if it is a smooth section of $N Sigma$. In more elementray terms, a vector field $X$ is tangent (respectively normal), if at each point $p in cal(M)$, the vector $X(p)$ lies in the subspace $T_p Sigma_t$ (respectively, $N_p Sigma_t$) associated to the unique slice $Sigma_t$ containing $p$. 
+We may now also formalise the notion of a _normal vector field_. Recall that a vector field on $cal(M)$ is a smooth section of the tangent bundle $T cal(M)$. Given the @foliationTangentBundleDecomp[decomposition] we call a vector field _tangent_ to the foliation $Sigma$ if it is a smooth section of $T Sigma$, and normal to $Sigma$ if it is a smooth section of $N Sigma$. In more elementray terms, a vector field $X$ is tangent (respectively normal), if at each point $p in cal(M)$, the vector $X(p)$ lies in the subspace $T_p Sigma_t$ (respectively, $N_p Sigma_t$) associated to the unique slice $Sigma_t$ containing $p$.
 
 In our specific case of a codimension-one foliation, the normal spaces $N_p Sigma_t(p)$ are one-dimensional at every point. This observation is powerful. it implies that any vector field normal to the foliation can be written as a scalar multiple of a single, globally defined, nowhere-vanishing basis vector field. Concretely, we may express any such field $X$ as
 $
@@ -945,7 +945,7 @@ $
 $<sharpDefinition>
 If the normal subspaces $N_p Sigma_t(p)$ are timelike (or spacelike) everywhere, then we may impose a canonical normalisation to fix $n^sharp$ uniquely (up to sign),
 $
-  g(n^sharp,n^sharp) = cases(-1\,quad&"timelike"\,,+1\,quad&"spacelike".)
+  g(n^sharp,n^sharp) = cases(-1\,quad&"timelike"\,, +1\,quad&"spacelike".)
 $
 This condition pins down a distinguished unit normal vector field. However, we have not yet addressed how to construct such a form or field in practice.
 
@@ -974,7 +974,7 @@ $
 immediately suggests a solution: the 1-form
 $
   n = alpha dt
-$ 
+$
 clearly satisfies @eq1.4.16[condition], as
 $
   n(diff_i) = alpha dt(diff_i) = delta^t_i = 0.
@@ -997,7 +997,7 @@ This construction of $n$ as being proportional to $dt$ was rather simple in coor
 $
   dt_p (X) = 0 quad <=> quad X in T_p Sigma_t(p)
 $<equivalenceCoordIndep>
-in a coordinate-independent way. This is not that hard, and gives some additional geometric intuition as it makes use of the definition of tangent spaces in terms of derivatives along curves. 
+in a coordinate-independent way. This is not that hard, and gives some additional geometric intuition as it makes use of the definition of tangent spaces in terms of derivatives along curves.
 
 _Proof_: (of @equivalenceCoordIndep[eq.]) We first prove the implication "$arrow.l.double$". Let $X in T_p Sigma_t(p)$. Then there exists a smooth curve $gamma:(-epsilon,epsilon)->Sigma_t(p) subset cal(M)$ with $gamma(0) = p$ and $dot(gamma)(0) = X$, such that for any $f in C^infty (cal(M))$,
 $
@@ -1026,21 +1026,21 @@ $
 together with the canonical projection map onto $cal(M)$. It is now straightforward to see that when choosing $omega = dt$, due to the @pointwiseIdentificationkerdt[identification] we find
 $
   ker(dt) = T Sigma subset T cal(M).
-$ 
-The tangent bundle of a foliation $Sigma$ generated by the level sets of a scalar function $t : cal(M) -> RR$ is hence simply the kernel of the 1-form $dt$ associated to it by the exterior derivative. 
+$
+The tangent bundle of a foliation $Sigma$ generated by the level sets of a scalar function $t : cal(M) -> RR$ is hence simply the kernel of the 1-form $dt$ associated to it by the exterior derivative.
 
 == Hypersurface-Orthogonal Distributions
 
-In the previous section, we defined what it means for a vector field to be normal to a hypersurface foliation $Sigma$ generated by a scalar function $t in C^infty (cal(M))$ with $dt != 0$ everywhere. In particular, we constructed an explicit example of such a vector field 
+In the previous section, we defined what it means for a vector field to be normal to a hypersurface foliation $Sigma$ generated by a scalar function $t in C^infty (cal(M))$ with $dt != 0$ everywhere. In particular, we constructed an explicit example of such a vector field
 $n^sharp$ by setting
 $
   n = alpha dt quad "such that"quad g(n^sharp, n^sharp) = pm 1.
 $
 This addressed the question _"Given a hypersurface foliation, can we find a vector field that is normal to it everywhere?"_.
 
-In this section, we turn that question around: _"Given a vector field, does there exist a hypersurface foliation to which it is everywhere normal?"_. This leads us to the notion of _hypersurface-orthogonal_ vector fields---those that are locally normal to a family of hypersurfaces. Without proof, we will also give the so-called _Frobenius condition_ which can be used to check this property directly. 
+In this section, we turn that question around: _"Given a vector field, does there exist a hypersurface foliation to which it is everywhere normal?"_. This leads us to the notion of _hypersurface-orthogonal_ vector fields---those that are locally normal to a family of hypersurfaces. Without proof, we will also give the so-called _Frobenius condition_ which can be used to check this property directly.
 \ \
-*Definition* (Hypersurface-Orthogonal Vector Fields) Let $X in Gamma(T cal(M))$ be a smooth vector field on a smooth manifold $cal(M)$. We say that $X$ is _hypersurface-orthogonal_ if, for every point $p in cal(M)$, there exists a neighbourhood $U subset cal(M)$ of $p$ and a local foliation $Sigma = {Sigma_t}#h(0em)_(t in RR)$ of $U$ with the property that
+*Definition* (Hypersurface-Orthogonal Vector Fields) Let $X in Gamma(T cal(M))$ be a smooth vector field on a smooth manifold $cal(M)$. We say that $X$ is _hypersurface-orthogonal_ if, for every point $p in cal(M)$, there exists a neighbourhood $U subset cal(M)$ of $p$ and a local foliation $Sigma = {Sigma_t}#h(0em) _(t in RR)$ of $U$ with the property that
 $
   g(X_p, Y) = 0 quad "for all" Y in T_p Sigma_t(p).
 $
@@ -1103,11 +1103,11 @@ holds.
 
 This is now a purely computational way to verify whether a vector field $X$ is hypersurface-orthogonal---in components, this condition reads
 $
-  0 attach(=,t:!) X^flat wedge dX^flat = X_mu dx^mu wedge (diff_nu X_lambda) dx^nu wedge dx^lambda = X_mu diff_nu X_lambda dx^mu wedge dx^nu wedge dx^lambda,
+  0 attach(=, t: !) X^flat wedge dX^flat = X_mu dx^mu wedge (diff_nu X_lambda) dx^nu wedge dx^lambda = X_mu diff_nu X_lambda dx^mu wedge dx^nu wedge dx^lambda,
 $
 which yields the standard identity
 $
-  X_(\[mu) nabla_nu X_(lambda\]) attach(=,t:!) 0.
+  X_(\[mu) nabla_nu X_(lambda\]) attach(=, t: !) 0.
 $
 Notice that we were able to replace partial by covariant derivatives due to the antisymmetrisation, which removes the (here torsion-free) connection components from the expression.
 
@@ -1115,19 +1115,19 @@ As announced, we will not prove the Frobenius condition here, at least not the d
 $
   omega wedge domega = lambda dphi wedge d(lambda dphi) = lambda dphi wedge dlambda wedge dphi = 0,
 $
-where the last equality holds by anti-symmetry of the wedge product. 
+where the last equality holds by anti-symmetry of the wedge product.
 
 
 == Decomposition of the Metric under Foliation
 
-In many applications such as ADM, it is essential to decompose a metric in terms of its contributions tangential and normal to the leaves of a hypersurface foliation. In this section, we approach this decomposition from two angles, both from a coordinate-independent and -dependent perspective. 
+In many applications such as ADM, it is essential to decompose a metric in terms of its contributions tangential and normal to the leaves of a hypersurface foliation. In this section, we approach this decomposition from two angles, both from a coordinate-independent and -dependent perspective.
 
 === Coordinate-Independent Perspective
 We begin by recalling from @sectionFoliationTangentBundleDecomposition that given a hypersurface foliation $Sigma = {Sigma_t}$ of a (pseudo-)Riemannian manifold $cal(M)$, the tangent bundle can be decomposed as
 $
   T cal(M) = T Sigma plus.circle N Sigma.
 $<orthoDecompFoliationTangentNormalBundles>
-This decomposition is implemented by the corresponding bundle maps 
+This decomposition is implemented by the corresponding bundle maps
 $
   P : T cal(M) -> T Sigma, quad Q : T cal(M) -> N Sigma
 $
@@ -1139,7 +1139,7 @@ For any vector field $X in Gamma(T cal(M))$, we have
 $
   X = P(X) + Q(X)
 $
-where $P(X) in Gamma(T Sigma)$ and $Q(X) in Gamma(N Sigma)$. 
+where $P(X) in Gamma(T Sigma)$ and $Q(X) in Gamma(N Sigma)$.
 
 Alternatively, in the pointwise view, for any $X_p in T_p cal(M)$, it holds that
 $
@@ -1161,7 +1161,7 @@ $
 $
 with $alpha in C^infty (cal(M))$ fixed by the condition
 $
-  g(n^sharp, n^sharp) = epsilon = pm 1, 
+  g(n^sharp, n^sharp) = epsilon = pm 1,
 $
 where the sign $epsilon$ reflects whether $n^sharp$ is spacelike or timelike (we do not consider the null case here). Further recall that $n$ annihilates vectors tangent to $Sigma$, i.e.
 $
@@ -1183,17 +1183,17 @@ Let us briefly digest this last result. It tells us that the map
 $
   epsilon n^sharp otimes n : T cal(M) -> N Sigma
 $
-acts as the identity when restricted to $N Sigma$. Moreover, since $n$ annihilates any vector in $Gamma(T Sigma)$ and due to the orthogonal @orthoDecompFoliationTangentNormalBundles[decomposition], we conclude that $epsilon n^sharp otimes n$ is the orthogonal projection of $T cal(M)$ onto $N Sigma$. Consequently, we have 
+acts as the identity when restricted to $N Sigma$. Moreover, since $n$ annihilates any vector in $Gamma(T Sigma)$ and due to the orthogonal @orthoDecompFoliationTangentNormalBundles[decomposition], we conclude that $epsilon n^sharp otimes n$ is the orthogonal projection of $T cal(M)$ onto $N Sigma$. Consequently, we have
 $
-  Q = epsilon n^sharp otimes n. 
+  Q = epsilon n^sharp otimes n.
 $<generalResultNormalProjector>
 The metric hence decomposes as
 $
-  g &= P + Q\ 
-  &= (g - epsilon n otimes n) + epsilon n otimes n\
-  &= (g - epsilon alpha^2 dt otimes dt) + epsilon alpha^2 dt otimes dt
+  g & = P + Q \
+    & = (g - epsilon n otimes n) + epsilon n otimes n \
+    & = (g - epsilon alpha^2 dt otimes dt) + epsilon alpha^2 dt otimes dt
 $
-where we identify 
+where we identify
 $
   P = g - epsilon alpha^2 dt otimes dt
 $<projectorPinADM>
@@ -1201,7 +1201,7 @@ as the orthogonal projector onto $T Sigma$. Recall that $P$ is the tangential co
 $
   gamma = iota^* g = iota^* P
 $
-due to $iota^* Q = 0$. 
+due to $iota^* Q = 0$.
 
 === ADM-Type Metric Decomposition in Coordinates <ADMDecompositionMetric>
 We again assume the (pseudo-)Riemannian manifold $cal(M)$ to be equipped with a hypersurface foliation $Sigma = {Sigma_t}$ generated by a scalar function $t in C^infty (cal(M))$ with $dt != 0$ everywhere. We use $t$ as a coordinate, extending it to a full, local coordinate system $x^mu = (t, y^i)$, $i=1,...,dim cal(M)-1$ by transverse coordinates $y^i$. Let us again consider the normal 1-form
@@ -1214,7 +1214,7 @@ $
 $<normalisationConditionAlpha>
 Our goal will be to write the metric $g$ in terms of the components of $n^sharp$---i.e. of the function $alpha$ and a vector $beta^i$ we will introduce momentarily---as well as the induced metric on the leaves, which has the components
 $
-  gamma_(i j) := gamma(diff_i,diff_j) = g(diff_i, diff_j).
+  gamma_(i j) := gamma(diff_i, diff_j) = g(diff_i, diff_j).
 $
 
 The vector $n^sharp$ associated to the normal 1-form can be written in terms of its coordinate components, yielding
@@ -1223,7 +1223,7 @@ $
 $
 Making use of the @normalisationConditionAlpha[normalisation condition], we find
 $
-  epsilon = g(n^sharp, n^sharp) = n(n^sharp) = alpha^2 g^(t t) underbrace(dt(diff_t),=1) + alpha^2 g^(t i) underbrace(dt(diff_i),=0) = alpha^2 g^(t t),
+  epsilon = g(n^sharp, n^sharp) = n(n^sharp) = alpha^2 g^(t t) underbrace(dt(diff_t), =1) + alpha^2 g^(t i) underbrace(dt(diff_i), =0) = alpha^2 g^(t t),
 $
 or equivalently,
 $
@@ -1247,25 +1247,25 @@ $
 $
 This allows us to derive both $g_(t t)$ and $g_(t i)$ via
 $
-  g_(t t) &= g(diff_t, diff_t) = epsilon^2 alpha^2 underbrace(g(n^sharp,n^sharp),=epsilon) + 2 epsilon alpha underbrace(g(n^sharp, beta),=0) + underbrace(g(beta,beta),=gamma_(i j) beta^i beta^j)\
+  g_(t t) &= g(diff_t, diff_t) = epsilon^2 alpha^2 underbrace(g(n^sharp,n^sharp), =epsilon) + 2 epsilon alpha underbrace(g(n^sharp, beta), =0) + underbrace(g(beta,beta), =gamma_(i j) beta^i beta^j)\
   &= epsilon alpha^2 + gamma_(i j) beta^i beta^j,\ \
-  g_(t i) &= g(diff_t, diff_i) = epsilon alpha underbrace(g(n^sharp, diff_i),=0) + g(beta, diff_i) = gamma_(i j) beta^j
+  g_(t i) &= g(diff_t, diff_i) = epsilon alpha underbrace(g(n^sharp, diff_i), =0) + g(beta, diff_i) = gamma_(i j) beta^j
 $
 Here, we made use of the fact that $n^sharp$ is normal to the foliation, whereas the $diff_i$ and hence also $beta$ are tangent to it---or, algebraically,
 $
-  g(n^sharp, diff_i) = n(diff_i) =  alpha underbrace(dt(diff_i),=0) = 0.
-$ 
+  g(n^sharp, diff_i) = n(diff_i) = alpha underbrace(dt(diff_i), =0) = 0.
+$
 In summary, the components of the metric are given by
 $
   g_(t t) = epsilon alpha^2 + gamma_(i j) beta^i beta^j, wide g_(t i) = gamma_(i j) beta^j,wide g_(i j) = gamma_(i j),
 $
 or in block matrix form,
 $
-  g_(mu nu) = mat(epsilon alpha^2 + gamma_(i j) beta^i beta^j , gamma_(i j) beta^j; gamma_(i j) beta^j, gamma_(i j)).
+  g_(mu nu) = mat(epsilon alpha^2 + gamma_(i j) beta^i beta^j, gamma_(i j) beta^j; gamma_(i j) beta^j, gamma_(i j)).
 $<ADMmetricComponents>
 The metric tensor is hence given by
 $
-  g = g_(mu nu) dx^mu otimes dx^nu = epsilon alpha^2 dt otimes dt + gamma_(i j) (dy^i + beta^i dt) (dy^j +  beta^j dt).
+  g = g_(mu nu) dx^mu otimes dx^nu = epsilon alpha^2 dt otimes dt + gamma_(i j) (dy^i + beta^i dt) (dy^j + beta^j dt).
 $<ADMsplitMetric>
 
 *Remarks*
@@ -1283,7 +1283,7 @@ $<ADMsplitMetric>
   $
   In other words, when moving from one hypersurface $Sigma_t$ to the next along the normal flow, the lapse function $alpha$ gives the rate at which proper time $tau$ advances with respect to coordinate time $t$. The larger the lapse, the "more" proper time elapses between adjacent slices for such an observer. Naturally, if one moves between slices while also displacing in tangential directions, additional contributions appear---the lapse governs the conversion only for motion orthogonal to the foliation.
 
-  
+
 
 - *The Shift* Given the definition of the normal 1-form,
   $
@@ -1291,7 +1291,7 @@ $<ADMsplitMetric>
   $
   one might naively expect the associated vector to be proportional to $diff_t$, perhaps something like
   $
-    n^sharp = epsilon/alpha diff_t. 
+    n^sharp = epsilon/alpha diff_t.
   $
   However, as we have seen before, the correct expression is
   $
@@ -1305,7 +1305,7 @@ $<ADMsplitMetric>
   $
   making explicit that $diff_t$ consists of both a normal and a tangential component. From this viewpoint, the shift is simply the tangential part of the time flow vector $diff_t$.
 
-  Motion along the flow of $diff_t$ involves keeping the coordinates $y^i$ fixed. Therefore, the choice of the coordinates $y^i$ is intimately related to the shift vector $beta$---in particular, as we will see in an upcoming example, the coordinates $y^i$ can (typically) be chosen such that the shift is zero. 
+  Motion along the flow of $diff_t$ involves keeping the coordinates $y^i$ fixed. Therefore, the choice of the coordinates $y^i$ is intimately related to the shift vector $beta$---in particular, as we will see in an upcoming example, the coordinates $y^i$ can (typically) be chosen such that the shift is zero.
 
 - *Induced Metric vs. Tangential Projector* We have seen before that under the orthogonal decomposition
   $
@@ -1313,7 +1313,7 @@ $<ADMsplitMetric>
   $
   with $P$ the tangential and $Q$ the normal projector (or rather, its associated bilinear form), that the induced metric $gamma$ is related via
   $
-    gamma = iota^* g = iota^* P + underbrace(iota^* Q,=0) = iota^* P.
+    gamma = iota^* g = iota^* P + underbrace(iota^* Q, =0) = iota^* P.
   $
   In most contexts, it is fine to say that $gamma = P$, since they act the same on $T Sigma$. However, it should be kept in mind that $P$ is a bilinear form on $T cal(M)$ whereas $gamma$ is only defined on $T Sigma$. In other words, $P$ "knows" how to handle vectors with components in $N Sigma$---namely by mapping those components to zero---while $gamma$, by definition, does not.
 
@@ -1349,17 +1349,17 @@ $<ADMsplitMetric>
   $
   The inverse metric tensor can hence be written as
   $
-    g^(-1) &= epsilon/alpha^2 (diff_t - beta^i diff_i) otimes (diff_t - beta^j diff_j) + gamma^(i j) diff_i otimes diff_j\
-    &= epsilon n^sharp otimes n^sharp + gamma^(i j) diff_i otimes diff_j .
+    g^(-1) & = epsilon/alpha^2 (diff_t - beta^i diff_i) otimes (diff_t - beta^j diff_j) + gamma^(i j) diff_i otimes diff_j \
+           & = epsilon n^sharp otimes n^sharp + gamma^(i j) diff_i otimes diff_j .
   $
   Notice that also here, we have a separation into a normal and a tangential part.
-- *Metric Determinant* Besides the inverse metric, a frequently used object related to the metric is its determinant (or the square root thereof). Let us compute it now. Recall from linear algebra the formula for the determinant of a block matrix, 
+- *Metric Determinant* Besides the inverse metric, a frequently used object related to the metric is its determinant (or the square root thereof). Let us compute it now. Recall from linear algebra the formula for the determinant of a block matrix,
   $
-    det mat(A,B;C,D) = det(A - C D^(-1) B) det(D),
+    det mat(A, B; C, D) = det(A - C D^(-1) B) det(D),
   $
   where $D$ is assumed to be invertible. We may apply this to the ADM @ADMmetricComponents[form] of the metric to obtain
   $
-    det g &= det lr((epsilon alpha^2 + gamma_(i j)beta^i beta^j - underbrace((gamma_(i j) beta^j) gamma^(i k) (gamma_(k ell) beta^ell),=gamma_(i j) beta^i beta^j)),size:#45%) det gamma\
+    det g &= det lr((epsilon alpha^2 + gamma_(i j)beta^i beta^j - underbrace((gamma_(i j) beta^j) gamma^(i k) (gamma_(k ell) beta^ell), =gamma_(i j) beta^i beta^j)), size: #45%) det gamma\
     &= epsilon alpha^2 det gamma.
   $
   Consequently, the square root of its absolute value, $sqrt(g) = sqrt(|det g|)$, is given by
@@ -1370,7 +1370,7 @@ $<ADMsplitMetric>
 
 == Example: Foliation of $RR^3 without {0}$ into Spheres <exampleR3ConcentricSpheres>
 
-At this point, we should consider an example to solidify our grasp of hypersurface foliations and the ADM decomposition of the metric. To this end, we examine a simple (but still nontrivial) foliation of the manifold $cal(M) = RR^3 without {0}$, equipped with the flat Euclidean metric 
+At this point, we should consider an example to solidify our grasp of hypersurface foliations and the ADM decomposition of the metric. To this end, we examine a simple (but still nontrivial) foliation of the manifold $cal(M) = RR^3 without {0}$, equipped with the flat Euclidean metric
 $
   g = dx otimes dx + dy otimes dy + dz otimes dz
 $
@@ -1388,7 +1388,7 @@ Notice that this does indeed define a foliation, since
 $
   dr = x/r dx + y/r dy + z/r dz != 0
 $
-everywhere on $cal(M)$---each of the $Sigma_r subset cal(M)$ is a submanifold in its own right. 
+everywhere on $cal(M)$---each of the $Sigma_r subset cal(M)$ is a submanifold in its own right.
 
 We begin by analysing the normal $1$-form and the associated vector, which also yields an explicit expression for the lapse funtion $alpha$. In general, the normal 1-form is given by
 $
@@ -1400,23 +1400,23 @@ $
 $
 The normalisation condition on $n$ hence yields
 $
-  1 &attach(=,t:!) g(n^sharp ,n^sharp) = n(n^sharp) =alpha^2 dr (x/r diff_x + y/r diff_y + z/r diff_z)\
-  &= alpha^2 (x^2 /r^2 dx(diff_x) + y^2/r^2 dy(diff_y) + z^2/r^2 dz(diff_z)) \
-  &= alpha^2/r^2 underbrace((x^2 + y^2 + z^2),=r^2) = alpha^2,
+  1 & attach(=, t: !) g(n^sharp ,n^sharp) = n(n^sharp) =alpha^2 dr (x/r diff_x + y/r diff_y + z/r diff_z) \
+    & = alpha^2 (x^2 /r^2 dx(diff_x) + y^2/r^2 dy(diff_y) + z^2/r^2 dz(diff_z)) \
+    & = alpha^2/r^2 underbrace((x^2 + y^2 + z^2), =r^2) = alpha^2,
 $
 which fixes the lapse as $alpha^2 = pm 1$---we choose the positive sign, i.e. $alpha = +1$. Moreover, we now have the concrete expressions
 $
-  n &= dr = x/r dx + y/r dy + z/r dz,\
-  n^sharp &= x/r diff_x + y/r diff_y + z/r diff_z.
+        n & = dr = x/r dx + y/r dy + z/r dz, \
+  n^sharp & = x/r diff_x + y/r diff_y + z/r diff_z.
 $
 
 Let us now consider the shift vector $beta$. For this, we need to introduce additional coordinates $q^i$, $i=1,2$ to amend $r$ into a full coordinate system. Naturally, a great candidate for the $q^i$ are the angles $theta,phi$ used with spherical coordinates---for now though, let us remain general. What we have now is a relationship between two sets of coordinates,
 $
-  cases(r &= r(x,y,z),q^i &= q^i (x,y,z),reverse:#true) quad<-->quad cases(x &= x(r,q^i), y&=y(r,q^i), z&=z(r,q^i))
+  cases(r &= r(x,y,z), q^i &= q^i (x,y,z), reverse: #true) quad<-->quad cases(x &= x(r,q^i), y&=y(r,q^i), z&=z(r,q^i))
 $
 Recall from the previous section that the shift $beta$ is given by
 $
-  beta = diff_r - underbrace( epsilon alpha,=1) n^sharp = diff_r - n^sharp,
+  beta = diff_r - underbrace(epsilon alpha, =1) n^sharp = diff_r - n^sharp,
 $
 quantifying how much tangential motion (since $beta = beta^i diff_i in Gamma(T Sigma)$) displacement along the flow of $diff_r$ entails. In terms of the Cartesian coordinate basis ${diff_x, diff_y, diff_z}$, we may express $diff_r$ as
 $
@@ -1426,19 +1426,19 @@ Note that this cannot be simplified further without assumptions on the coordinat
 $
   beta = diff_r - n^sharp = ((diff x)/(diff r) - x/r ) diff_x + ((diff y)/(diff r) - y/r ) diff_y +((diff z)/(diff r) - z/r ) diff_z.
 $
-At this point, we cannot really proceed without some sort of assumption on the $q^i$. So, let us do this: we require that $beta = 0$. In other words, we want the $q^i$ to be such that we have zero shift, that $diff_r$ is normal to $T Sigma$. 
+At this point, we cannot really proceed without some sort of assumption on the $q^i$. So, let us do this: we require that $beta = 0$. In other words, we want the $q^i$ to be such that we have zero shift, that $diff_r$ is normal to $T Sigma$.
 
 This requires that each of the coefficients of $beta$ above must be zero. Notice that
 $
   (diff x)/(diff r) - x/r = 0 quad <=>quad x(r,q^i) = r f_x (q^i)
 $
-for some function $f_x (q_i)$, and analogously for $y$ and $z$. Thus, requiring $beta = 0$ implies that the coordinates $x,y,z$ are simply parametrisations of the $2$-sphere $S^2$ scaled linearly by the radius $r$. Put differently, if we require $beta = 0$, we must parameterise each of our leaves $Sigma_r = r S^2$ with the same coordinates $q^i$, simply stretched by the sphere's radius. 
+for some function $f_x (q_i)$, and analogously for $y$ and $z$. Thus, requiring $beta = 0$ implies that the coordinates $x,y,z$ are simply parametrisations of the $2$-sphere $S^2$ scaled linearly by the radius $r$. Put differently, if we require $beta = 0$, we must parameterise each of our leaves $Sigma_r = r S^2$ with the same coordinates $q^i$, simply stretched by the sphere's radius.
 
 All that is left to do now is to choose one's favourite parametrisation of $S^2$. Here, we opt to use the standard coordinates $theta,phi$ which parameterise the 2-sphere of radius $r$ as
 $
-  x &= r sin theta cos phi,\
-  y &= r sin theta sin phi,\
-  z &= r cos theta.
+  x & = r sin theta cos phi, \
+  y & = r sin theta sin phi, \
+  z & = r cos theta.
 $
 We now have our lapse and shift, $alpha =1$ and $beta = 0$---all that remains to be derived are the transverse metric components
 $
@@ -1446,8 +1446,8 @@ $
 $
 The relevant vectors are
 $
-  diff_theta &= r cos theta (cos phi thin diff_x + sin phi thin diff_y) - r sin theta thin diff_z,\
-  diff_phi &= r sin theta (-sin phi thin diff_x + cos phi thin diff_y).
+  diff_theta & = r cos theta (cos phi thin diff_x + sin phi thin diff_y) - r sin theta thin diff_z, \
+    diff_phi & = r sin theta (-sin phi thin diff_x + cos phi thin diff_y).
 $
 A further mechanical computation reveals that
 $
@@ -1455,8 +1455,8 @@ $
 $
 We are now ready to write down the full ADM decomposition of the metric. Inserting into the @ADMsplitMetric[general result], we find
 $
-  g &= epsilon alpha^2 dr otimes dr + gamma_(i j)(dq^i + beta^i dr)(dq^j + beta^j dr)\
-  &= dr otimes dr + r^2 dtheta otimes dtheta + r^2 sin^2 theta dphi otimes dphi
+  g & = epsilon alpha^2 dr otimes dr + gamma_(i j)(dq^i + beta^i dr)(dq^j + beta^j dr) \
+    & = dr otimes dr + r^2 dtheta otimes dtheta + r^2 sin^2 theta dphi otimes dphi
 $
 At this point, one might reasonably point out that we've essentially just recovered the familiar expression for the flat metric in spherical coordinates through a rather elaborate detour. So far, this may seem suspiciously close to reinventing spherical coordinates. That, however, would be a disheartening conclusion after having gone through all this effort---so let us not argue that. Instead, let us appreciate having seen the ADM decomposition machinery at work in a setting where the outcome is familiar, but derived by taking the scenic route. After all, we've just learned that spherical coordinates arise naturally when seeking a zero-shift ADM decomposition of the flat Euclidean metric on concentric spheres. Which, as every self-respecting postgraduate knows, is the entire point of advanced studies: to rediscover well-known results in a more baroque fashion---ideally in a way that makes the undergrads look impressed.
 
@@ -1472,13 +1472,13 @@ Correspondingly, the tangential projection $P$---or equivalently (in this case, 
 $
   gamma = P = g - Q = r^2 (dtheta otimes dtheta + sin^2 theta dphi otimes dphi).
 $
-This is also what one would expect: an appropriately scaled metric on $S^2$. 
+This is also what one would expect: an appropriately scaled metric on $S^2$.
 
 
-= Covariant Derivatives on Foliations and Submanifolds 
+= Covariant Derivatives on Foliations and Submanifolds
 The goal of this section is to define how a connection on a manifold $cal(M)$ induces a connection on the leaves of a foliation $Sigma$ of $cal(M)$. To this end, we review the definition of a connection $nabla$ as well as how the conditions of vanishing torsion and metric compatibility uniquely single out the Levi-Civita connection. We then proceed to define the induced connection $mnabla$ on a foliation as the tangential projection of $nabla$, and show that if $nabla$ is of Levi-Civita type, then so is $mnabla$.
 == Review: Affine Connections
-Before discussing how a connection on a (pseudo-)Riemannian manifold $cal(M)$ induces a connection on the submanifolds $Sigma_(t) subset cal(M)$ that comprise a foliation $Sigma$, we review the definition of affine connections and recall how the conditions of metric compatibility and torsion-freeness uniquely determine the Levi-Civita connection. 
+Before discussing how a connection on a (pseudo-)Riemannian manifold $cal(M)$ induces a connection on the submanifolds $Sigma_(t) subset cal(M)$ that comprise a foliation $Sigma$, we review the definition of affine connections and recall how the conditions of metric compatibility and torsion-freeness uniquely determine the Levi-Civita connection.
 
 Let
 $
@@ -1490,11 +1490,11 @@ denote the _bundle of $(r,s)$-tensors on $cal(M)$_, where the tensor product bet
 $
   nabla : Gamma(T^((r,s)) cal(M)) -> Gamma(T^((r,s+1))cal(M)) = Gamma(T^* cal(M) otimes T^((r,s))cal(M)),
 $
-which maps $(r,s)$-tensors to $(r,s+1)$-tensors. 
+which maps $(r,s)$-tensors to $(r,s+1)$-tensors.
 
 With the interpretation of a tensor as a multilinear map on a set of vectors $Y_1,...,Y_s in Gamma(T cal(M))$ and covectors $omega_1,...,omega_r in Gamma(T^* cal(M))$, we introduce the shorthand notation
 $
-  nabla_X T(omega_1,...,omega_r,Y_1,...,Y_r)  = (nabla T) (X,omega_1,...,omega_r,Y_1,...,Y_r),
+  nabla_X T(omega_1,...,omega_r,Y_1,...,Y_r) = (nabla T) (X,omega_1,...,omega_r,Y_1,...,Y_r),
 $
 which simply indicates that $nabla_X$ populates the additional vector argument introduced when passing from $T$ to $nabla T$ with the vector $X$.
 
@@ -1528,7 +1528,7 @@ This is a rather abstract (though likely familiar, if you got this far in these 
   $
   While the tensor product notation is formally unnecessary here---since we are simply multiplying smooth functions with the coordinate basis vector fields---it clarifies the use of the Leibniz rule in what follows.
 
-  It is best to think of $nabla$ as acting on $X$ by acting separately on the component functions $X^mu in C^infty (cal(M))$ and the basis vector fields $diff_mu$, 
+  It is best to think of $nabla$ as acting on $X$ by acting separately on the component functions $X^mu in C^infty (cal(M))$ and the basis vector fields $diff_mu$,
   $
     nabla X = nabla (X^mu otimes diff_mu) = dX^mu otimes diff_mu + X^mu otimes nabla diff_mu.
   $
@@ -1553,7 +1553,7 @@ This is a rather abstract (though likely familiar, if you got this far in these 
   This is precisely the failure remedied by the $X^mu otimes nabla diff_mu$ term. Writing out the coordinate-transformed derivative in the new basis leads to
   $
     (diff_alpha X^beta) dy^alpha otimes diff_beta = [J^nu_alpha J_mu^beta diff_nu X^mu + X^mu (J^nu_alpha diff_nu J_mu^beta)] dx^nu otimes diff_mu.
-  $ 
+  $
   We see that the connection term must absorb the inhomogeneous contribution. That is,
   $
     X^mu otimes nabla diff_mu = X^alpha otimes nabla diff_alpha + X^mu (J_alpha^nu diff_nu J_mu^beta) dx^nu otimes diff_mu.
@@ -1566,43 +1566,43 @@ This is a rather abstract (though likely familiar, if you got this far in these 
   $
   From the derivations in the previous remark, it is clear that the object $nabla diff_nu$, in terms of coordinates, must be of the form
   $
-    nabla diff_nu = (nabla_mu diff_nu) otimes dx^mu = tensor(Gamma,+lambda,-mu nu) dx^mu otimes diff_lambda, quad "for coeffiecients" quad tensor(Gamma,+lambda,-mu nu) in C^infty (cal(M)).
+    nabla diff_nu = (nabla_mu diff_nu) otimes dx^mu = tensor(Gamma, +lambda, -mu nu) dx^mu otimes diff_lambda, quad "for coeffiecients" quad tensor(Gamma, +lambda, -mu nu) in C^infty (cal(M)).
   $
-  This implicitly defines the _connection coefficients_ $tensor(Gamma,+lambda,-mu nu)$ through
+  This implicitly defines the _connection coefficients_ $tensor(Gamma, +lambda, -mu nu)$ through
   $
-    tensor(Gamma,+lambda, -mu nu) diff_lambda = nabla_mu diff_nu.
+    tensor(Gamma, +lambda, -mu nu) diff_lambda = nabla_mu diff_nu.
   $
   Fully explicitly, they are given by
   $
-    tensor(Gamma,+lambda,-mu nu) = dx^lambda (nabla_mu diff_nu).
+    tensor(Gamma, +lambda, -mu nu) = dx^lambda (nabla_mu diff_nu).
   $
   Using these coefficients, we can write the action of the connection on a vector $X = X^mu diff_mu in Gamma(T cal(M))$ concretely as
   $
     nabla X &= nabla (X^nu diff_nu) = dX^nu otimes diff_nu + X^nu nabla diff_nu\
-    &= (diff_mu X^lambda) dx^mu otimes diff_lambda + (X^nu tensor(Gamma,+lambda,-mu nu)) dx^mu otimes diff_lambda\
-    &= (diff_mu X^lambda + tensor(Gamma,+lambda,-mu nu) X^nu) dx^mu otimes diff_lambda.
+    &= (diff_mu X^lambda) dx^mu otimes diff_lambda + (X^nu tensor(Gamma, +lambda, -mu nu)) dx^mu otimes diff_lambda\
+    &= (diff_mu X^lambda + tensor(Gamma, +lambda, -mu nu) X^nu) dx^mu otimes diff_lambda.
   $
   Along the coordinate directions, this turns into
   $
-    nabla_mu X = (diff_mu X^lambda + tensor(Gamma,+lambda,-mu nu) X^nu) diff_lambda.
+    nabla_mu X = (diff_mu X^lambda + tensor(Gamma, +lambda, -mu nu) X^nu) diff_lambda.
   $
-  This is nothing but the partial derivative of $X$, amended by a term linear in $X$ that ensures tensoriality of $nabla X$. 
+  This is nothing but the partial derivative of $X$, amended by a term linear in $X$ that ensures tensoriality of $nabla X$.
 
 - *Interpretation of the Connection* In light of our previous remark that the connection along some vector $X in Gamma(T cal(M))$ is a covariant generalisation of the directional derivative along $X$, we can give an interpretation to the equality
   $
-    nabla_mu diff_nu = tensor(Gamma,+lambda,-mu nu) diff_lambda.
+    nabla_mu diff_nu = tensor(Gamma, +lambda, -mu nu) diff_lambda.
   $
-  On the left-hand side, we compute a generalised directional derivative along the coordinate direction $diff_mu$. In other words, we ask ourselves: how does the basis vector $diff_nu$ change as we move along the direction $diff_mu$? This question is answered by the right-hand side, which tells us, for the given combination of $mu$ and $nu$, what the rate of change is, in terms of a linear combination of the coordinate basis vectors. So, the component $tensor(Gamma,+lambda,-mu nu)$ encodes information about "by how much of $diff_lambda$ does $diff_nu$ change when moving along the flow of $diff_mu$?". A connection hence imposes a relationship between vectors in infinitesimally neighbouring tangent spaces.
+  On the left-hand side, we compute a generalised directional derivative along the coordinate direction $diff_mu$. In other words, we ask ourselves: how does the basis vector $diff_nu$ change as we move along the direction $diff_mu$? This question is answered by the right-hand side, which tells us, for the given combination of $mu$ and $nu$, what the rate of change is, in terms of a linear combination of the coordinate basis vectors. So, the component $tensor(Gamma, +lambda, -mu nu)$ encodes information about "by how much of $diff_lambda$ does $diff_nu$ change when moving along the flow of $diff_mu$?". A connection hence imposes a relationship between vectors in infinitesimally neighbouring tangent spaces.
 
   A priori, there exists no canonical way to relate vectors at different points of the manifold---that is, to compare vectors in distinct tangent spaces and transport them around the manifold. While the transformation law of the connection coefficients is constrained by the requirement that $nabla T$ be tensorial for all tensors $T$, the connection itself remains arbitrary otherwise. However, by imposing additional (natural) conditions on $nabla$, one can uniquely determine a distinguished connection: the _Levi-Civita connection_. We will pursue this in the next section.
 
 - *Coordinate Transformation Behaviour* From @connectionTransformationRulePrecursor[equation] it can be derived that under a coordinate transformation $x^mu -> y^alpha$, the connection coefficients
   $
-    dx^lambda (nabla_mu diff_nu) = tensor(Gamma,+lambda,-mu nu)
+    dx^lambda (nabla_mu diff_nu) = tensor(Gamma, +lambda, -mu nu)
   $
   must transform as
   $
-    tensor(Gamma,+lambda,-mu nu) -> tensor(Gamma,+alpha,-beta gamma) = J^alpha_lambda J^mu_beta J^nu_gamma tensor(Gamma,+lambda,-mu nu) + J^alpha_lambda diff_beta J^lambda_gamma.
+    tensor(Gamma, +lambda, -mu nu) -> tensor(Gamma, +alpha, -beta gamma) = J^alpha_lambda J^mu_beta J^nu_gamma tensor(Gamma, +lambda, -mu nu) + J^alpha_lambda diff_beta J^lambda_gamma.
   $<connectionCoeffTransformRule>
   The second term is what makes the connection coefficients transform non-tensorially. Unlike the first term, which is the usual triple contraction with (inverse) Jacobians for a $(1,2)$-tensor, the inhomogeneous second term violates tensorial transformation behaviour.
 
@@ -1610,19 +1610,19 @@ This is a rather abstract (though likely familiar, if you got this far in these 
   $
     nabla T &= nabla (T^(mu_1...mu_r) diff_mu_1 otimes ... otimes diff_mu_r)\
     &= dT^(mu_1 ... mu_r) otimes diff_mu_1 otimes ... otimes diff_mu_r + T^(mu_1...mu_r) (nabla diff_mu_1) otimes diff_mu_2 otimes ... otimes diff_mu_r + ...\
-    &= (diff_nu T^(mu_1 ... mu_r) + tensor(Gamma,+mu_1,-nu lambda) T^(lambda mu_2 ... mu_r) + ... + tensor(Gamma,+mu_r,-nu lambda) T^(mu_1...mu_(r-1) nu)) dx^nu otimes diff_mu_1 otimes ... otimes diff_mu_r.
+    &= (diff_nu T^(mu_1 ... mu_r) + tensor(Gamma, +mu_1, -nu lambda) T^(lambda mu_2 ... mu_r) + ... + tensor(Gamma, +mu_r, -nu lambda) T^(mu_1...mu_(r-1) nu)) dx^nu otimes diff_mu_1 otimes ... otimes diff_mu_r.
   $
-  In essence, every contravariant index produces a term where the connection coefficients are contracted with the tensor components, as by the Leibniz rule, $nabla$ acts on each of the basis vectors once. 
+  In essence, every contravariant index produces a term where the connection coefficients are contracted with the tensor components, as by the Leibniz rule, $nabla$ acts on each of the basis vectors once.
 
   For tensors that are not purely contravariant, i.e. general tensors $T in Gamma(T^((r,s)) cal(M))$, however, the general basis expansion reads
   $
-    tensor(T,+mu_1...mu_r,-nu_1...nu_s) diff_mu_1 otimes ... otimes diff_mu_r otimes dx^(nu_1) otimes ... otimes dx^(nu_s).
+    tensor(T, +mu_1...mu_r, -nu_1...nu_s) diff_mu_1 otimes ... otimes diff_mu_r otimes dx^(nu_1) otimes ... otimes dx^(nu_s).
   $
-  To be able to extend the action of $nabla$ for general tensors---as above, by means of the Leibniz rule---we must know what 
+  To be able to extend the action of $nabla$ for general tensors---as above, by means of the Leibniz rule---we must know what
   $
     nabla dx^mu
   $
-  evaluates to. This is where the (so far unused!) third axiom comes into play, the compatibility with contractions: together with the Leibniz rule, it is possible to derive an explicit expression for the above from what we already know. Consider an arbitrary vector $X  = X^mu diff_mu in Gamma(T cal(M))$ as well as an arbitrary 1-form $omega = omega_mu dx^mu in Gamma(T^* cal(M))$. Clearly, since $omega(X) in C^infty (cal(M))$, we have
+  evaluates to. This is where the (so far unused!) third axiom comes into play, the compatibility with contractions: together with the Leibniz rule, it is possible to derive an explicit expression for the above from what we already know. Consider an arbitrary vector $X = X^mu diff_mu in Gamma(T cal(M))$ as well as an arbitrary 1-form $omega = omega_mu dx^mu in Gamma(T^* cal(M))$. Clearly, since $omega(X) in C^infty (cal(M))$, we have
   $
     tr^1_2 nabla (omega otimes X) = nabla (omega(X)) = d (omega(X)) = d (omega_mu X^mu).
   $ <eq1.5.26>
@@ -1638,8 +1638,8 @@ This is a rather abstract (though likely familiar, if you got this far in these 
   $
   Evaluating this along a coordinate direction $diff_lambda$, we find
   $
-    tr^1_1 [nabla_lambda dx^mu otimes diff_nu] &= - tr^1_1 [dx^mu otimes nabla_lambda diff_nu] = -tr^1_1 [dx^mu otimes tensor(Gamma,+rho,-lambda nu )diff_rho]\
-    &= - tensor(Gamma,+rho,-lambda nu)dx^mu (diff_rho) = - tensor(Gamma,+rho,-lambda nu) delta^mu_rho = - tensor(Gamma,+mu,-lambda nu).
+    tr^1_1 [nabla_lambda dx^mu otimes diff_nu] &= - tr^1_1 [dx^mu otimes nabla_lambda diff_nu] = -tr^1_1 [dx^mu otimes tensor(Gamma, +rho, -lambda nu)diff_rho]\
+    &= - tensor(Gamma, +rho, -lambda nu)dx^mu (diff_rho) = - tensor(Gamma, +rho, -lambda nu) delta^mu_rho = - tensor(Gamma, +mu, -lambda nu).
   $
   The left hand side simplifies as
   $
@@ -1647,33 +1647,33 @@ This is a rather abstract (though likely familiar, if you got this far in these 
   $
   which implies that overall,
   $
-    nabla_lambda dx^mu = -tensor(Gamma,+mu,-lambda nu) dx^nu.
+    nabla_lambda dx^mu = -tensor(Gamma, +mu, -lambda nu) dx^nu.
   $
   Thus, in summary, $nabla$ acts on the coordinate basis vectors and 1-forms as
   $
-    nabla diff_mu &= tensor(Gamma,+lambda,-nu mu) dx^nu otimes diff_lambda,\ 
-    nabla dx^mu &= -tensor(Gamma,+mu,-nu lambda) dx^nu otimes dx^lambda,
+    nabla diff_mu & = tensor(Gamma, +lambda, -nu mu) dx^nu otimes diff_lambda, \
+      nabla dx^mu & = -tensor(Gamma, +mu, -nu lambda) dx^nu otimes dx^lambda,
   $<generalResultConnectionActionInComponents>
   or, along a coordinate direction $diff_mu$,
   $
-    nabla_mu diff_nu &= tensor(Gamma,+lambda,-mu nu) diff_lambda,\
-    nabla_mu dx^nu &= -tensor(Gamma,+nu,-mu lambda) dx^lambda.
+    nabla_mu diff_nu & = tensor(Gamma, +lambda, -mu nu) diff_lambda, \
+      nabla_mu dx^nu & = -tensor(Gamma, +nu, -mu lambda) dx^lambda.
   $
-  This, together with the axiom that $nabla phi = dphi$ (or $nabla_mu phi = diff_mu phi$), allows one to evaluate the action of $nabla$ (or $nabla_mu$) on arbitrary tensors. 
-  
-  To reiterate: the expressions for $nabla_mu diff_nu$ and $nabla_mu dx^nu$ above inform us what the rate of change of the basis vectors $diff_nu$ and 1-forms $dx^nu$ are as one moves along the coordinate direction $diff_mu$. 
+  This, together with the axiom that $nabla phi = dphi$ (or $nabla_mu phi = diff_mu phi$), allows one to evaluate the action of $nabla$ (or $nabla_mu$) on arbitrary tensors.
 
-== Review: Levi-Civita Connection 
+  To reiterate: the expressions for $nabla_mu diff_nu$ and $nabla_mu dx^nu$ above inform us what the rate of change of the basis vectors $diff_nu$ and 1-forms $dx^nu$ are as one moves along the coordinate direction $diff_mu$.
+
+== Review: Levi-Civita Connection
 Now that we have introduced the general notion of a connection---a way of encoding the change of basis vectors and 1-forms as one moves through a manifold---we turn to the most prominent example: the _Levi-Civita connection_, which is uniquely determined by two conditions. These are:
 
 + Vanishing torsion,
 + Metric compatibility.
-We will now introduce both conditions rigorously and examine their consequences for the connection coefficients $tensor(Gamma,+lambda,-mu nu)$, which ultimately leads to the _Christoffel Symbols_, which are the coefficients of the Levi-Civita connection. 
+We will now introduce both conditions rigorously and examine their consequences for the connection coefficients $tensor(Gamma, +lambda, -mu nu)$, which ultimately leads to the _Christoffel Symbols_, which are the coefficients of the Levi-Civita connection.
 \ \
 *Vanishing Torsion* A connection provides us with a means of comparing vectors at nearby points and describing how they change as we move infinitesimally along a given direction. Given two vector fields $X,Y in Gamma(T cal(M))$, the covariant derivatives $nabla_X Y$ and $nabla_Y X$ describe how $Y$ changes along the flow of $X$, and how $X$ changes along the flow of $Y$, respectively.
 
 On a flat space, one can think of the vectors $X,Y,X+alpha nabla_Y X$, and $Y + alpha nabla_X Y$ as forming a parallelogram for infinitesimal $alpha$, assuming $[X,Y] = 0$. However, on a general manifold with arbitrary connection, this parallelogram may fail to close. There are two distinct reasons for this failure:
-+ The flow paths of $X$ and $Y$ do not commute, i.e., following $X$ then $Y$ leads to a different point than following $Y$ then $X$. This is encoded by the Lie bracket $[X,Y]$. 
++ The flow paths of $X$ and $Y$ do not commute, i.e., following $X$ then $Y$ leads to a different point than following $Y$ then $X$. This is encoded by the Lie bracket $[X,Y]$.
 + The change in the transported vector fields differs, i.e., $nabla_X Y != nabla_Y X$. This is an intrinsic feature of the connection.
 
 The _torsion_ is designed to isolate the second phenomenon: it captures the failure of symmetry in the connection itself, independent of the non-commutativity of the vector fields.
@@ -1686,12 +1686,12 @@ The first two terms, $nabla_X Y - nabla_Y X$, measure the asymmetry of the conne
 
 If $T= 0$, the connection is said to be _torsion-free_. To make this condition explicit, and to check its consequences on the connection coefficients, we now express the torsion in terms of components. Take $X = X^mu diff_mu$, $Y = Y^nu diff_nu$; then
 $
-  T(X,Y) &= X^mu nabla_mu (Y^nu diff_nu)  - (X^mu diff_mu Y^nu)diff_nu - (X <->Y)\
-  &= X^mu lr((cancelr((diff_mu Y^nu) diff_nu) + Y^nu underbrace(nabla_mu diff_nu, = tensor(Gamma,+lambda,-mu nu) diff_lambda)),size:#30%) - cancelr((X^mu diff_mu Y^nu)) diff_nu - (X<->Y)\
-  &= X^mu Y^nu tensor(Gamma,+lambda,-mu nu) diff_lambda - (X<->Y) \
-  &= X^mu Y^nu (tensor(Gamma,+lambda,-mu nu) - tensor(Gamma,+lambda,-nu mu))
+  T(X,Y) &= X^mu nabla_mu (Y^nu diff_nu) - (X^mu diff_mu Y^nu)diff_nu - (X <->Y)\
+  &= X^mu lr((cancelr((diff_mu Y^nu) diff_nu) + Y^nu underbrace(nabla_mu diff_nu, = tensor(Gamma, +lambda, -mu nu) diff_lambda)), size: #30%) - cancelr((X^mu diff_mu Y^nu)) diff_nu - (X<->Y)\
+  &= X^mu Y^nu tensor(Gamma, +lambda, -mu nu) diff_lambda - (X<->Y) \
+  &= X^mu Y^nu (tensor(Gamma, +lambda, -mu nu) - tensor(Gamma, +lambda, -nu mu))
 $
-Note that subtracting the Lie bracket was essential to remove contributions from non-commutativity of the vector fields $X$ and $Y$. 
+Note that subtracting the Lie bracket was essential to remove contributions from non-commutativity of the vector fields $X$ and $Y$.
 
 The torsion thus has the following properties:
 
@@ -1700,24 +1700,24 @@ The torsion thus has the following properties:
 + It is $C^infty (cal(M))$-linear in both arguments;
 + It can be written in terms of components as
   $
-    T(X,Y) = X^mu Y^nu tensor(T,+lambda,-mu nu) diff_lambda quad "where" quad tensor(T,+lambda,-mu nu) = tensor(T,+lambda,-[mu nu]) = tensor(Gamma,+lambda,-mu nu) - tensor(Gamma,+lambda,-nu mu),
+    T(X,Y) = X^mu Y^nu tensor(T, +lambda, -mu nu) diff_lambda quad "where" quad tensor(T, +lambda, -mu nu) = tensor(T, +lambda, -[mu nu]) = tensor(Gamma, +lambda, -mu nu) - tensor(Gamma, +lambda, -nu mu),
   $
   and is therefore proportional to the anti-symmetric part of the connection coefficients in the lower indices;
 + It is tensorial, since the transformation behaviour under $x^mu -> y^alpha$ is given by
   $
-    tensor(T,+lambda,-mu nu) prop tensor(Gamma,+lambda,-[mu nu]) -> tensor(Gamma,+alpha,-[beta gamma]) = J^alpha_lambda J^mu_beta J^nu_gamma tensor(Gamma,+lambda,-[mu nu]) + J^alpha_lambda underbrace(diff_(\[beta) J^lambda_(gamma\]),=0),
+    tensor(T, +lambda, -mu nu) prop tensor(Gamma, +lambda, -[mu nu]) -> tensor(Gamma, +alpha, -[beta gamma]) = J^alpha_lambda J^mu_beta J^nu_gamma tensor(Gamma, +lambda, -[mu nu]) + J^alpha_lambda underbrace(diff_(\[beta) J^lambda_(gamma\]), =0),
   $
   where the inhomogeneous part cancels under anti-symmetrisation because
   $
     diff_beta J^lambda_gamma = (diff^2 x^lambda)/(diff y^beta diff y^gamma)
   $
-  is symmetric in $beta$ and $gamma$. 
+  is symmetric in $beta$ and $gamma$.
 
-This fourth property ensures that $T = 0$ is a meaningful, coordinate-independent condition. If torsion were not tensorial, the expression $T(X,Y)=0$ could be true in one chart and false in another. 
+This fourth property ensures that $T = 0$ is a meaningful, coordinate-independent condition. If torsion were not tensorial, the expression $T(X,Y)=0$ could be true in one chart and false in another.
 
 We are now ready to impose the condition of vanishing torsion. By the third property above, we have
 $
-  T = 0 quad <=> quad tensor(T,+lambda,-mu nu) = tensor(Gamma,+lambda,-mu nu) - tensor(Gamma,+lambda,-nu mu) = 0 quad <=> quad tensor(Gamma,+lambda, -mu nu) =  tensor(Gamma,+lambda, -(mu nu)),
+  T = 0 quad <=> quad tensor(T, +lambda, -mu nu) = tensor(Gamma, +lambda, -mu nu) - tensor(Gamma, +lambda, -nu mu) = 0 quad <=> quad tensor(Gamma, +lambda, -mu nu) = tensor(Gamma, +lambda, -(mu nu)),
 $
 i.e., a connection is torsion-free if and only if the connection coefficients are symmetric in their lower indices.
 \ \
@@ -1725,7 +1725,7 @@ i.e., a connection is torsion-free if and only if the connection coefficients ar
 $
   nabla tr^i_j T = tr^i_j nabla T.
 $
-But as we know, contractions are not restricted to mixed index types---the metric (or its inverse) also allows contractions of two covariant or two contravariant indices. 
+But as we know, contractions are not restricted to mixed index types---the metric (or its inverse) also allows contractions of two covariant or two contravariant indices.
 
 Coordinate-independently, these operations take the form
 $
@@ -1743,7 +1743,7 @@ $
 $
 Using the axioms for $nabla$, we expand the left-hand side into
 $
-  nabla(tr^(i,j)_(1,2)  g otimes T) = tr^(i,j)_(1,2) nabla (g otimes T) = tr^(i,j)_(1,2) g otimes( nabla T) + tr^(i,j)_(1,2)(nabla g) otimes T
+  nabla(tr^(i,j)_(1,2) g otimes T) = tr^(i,j)_(1,2) nabla (g otimes T) = tr^(i,j)_(1,2) g otimes(nabla T) + tr^(i,j)_(1,2)(nabla g) otimes T
 $
 The first term matches the desired right-hand side, whereas the remaining second term vanishes if and only if $nabla g = 0$.
 
@@ -1753,18 +1753,18 @@ $
 $
 Notice that this also covers the case involving the inverse metric, since $nabla g = 0 <=> nabla g^(-1) = 0$. In components, the condition $nabla g = 0$ reads
 $
-  0 &attach(=,t:!) nabla g = nabla (g_(mu nu) dx^mu otimes dx^nu) = (diff_lambda g_(mu nu) - g_(rho nu) tensor(Gamma,+rho,-lambda mu) - g_(mu rho) tensor(Gamma,+rho,-lambda nu)) dx^lambda otimes dx^mu otimes dx^nu\
+  0 &attach(=, t: !) nabla g = nabla (g_(mu nu) dx^mu otimes dx^nu) = (diff_lambda g_(mu nu) - g_(rho nu) tensor(Gamma, +rho, -lambda mu) - g_(mu rho) tensor(Gamma, +rho, -lambda nu)) dx^lambda otimes dx^mu otimes dx^nu\
   &= (diff_lambda g_(mu nu) - Gamma_(nu lambda mu) - Gamma_(mu lambda nu)) dx^lambda otimes x^mu otimes dx^nu,
 $
-where we defined $Gamma_(lambda mu nu)= g_(lambda rho) tensor(Gamma,+rho,-mu nu)$. Making use of the torsion-freeness---i.e., symmetry of the connection coefficients in the last two indices---this is equivalent to
+where we defined $Gamma_(lambda mu nu)= g_(lambda rho) tensor(Gamma, +rho, -mu nu)$. Making use of the torsion-freeness---i.e., symmetry of the connection coefficients in the last two indices---this is equivalent to
 $
   g_(mu nu,lambda) = Gamma_(mu nu lambda) + Gamma_(nu mu lambda),
 $<metricGradientAndConnection>
 with $g_(mu nu,lambda) = diff_lambda g_(mu nu)$. This is a direct relationship between the derivatives of the metric and the connection coefficients.
 
-Since we are attempting to single out a specific connection by imposing constraints, the next step is to solve the equation above for $Gamma_(mu nu lambda)$, from which the explicit form of the connection coefficients can be extracted using the inverse metric. This derivation is largely an exercise in index manipulation and combining permutations of the above equation to isolate the connection. The result is the expression for the _Christoffel symbols_, 
+Since we are attempting to single out a specific connection by imposing constraints, the next step is to solve the equation above for $Gamma_(mu nu lambda)$, from which the explicit form of the connection coefficients can be extracted using the inverse metric. This derivation is largely an exercise in index manipulation and combining permutations of the above equation to isolate the connection. The result is the expression for the _Christoffel symbols_,
 $
-  tensor(Gamma,+lambda,-mu nu) = 1/2 g^(lambda rho) [g_(rho mu,nu) + g_(rho nu, mu) - g_(mu nu, rho)].
+  tensor(Gamma, +lambda, -mu nu) = 1/2 g^(lambda rho) [g_(rho mu,nu) + g_(rho nu, mu) - g_(mu nu, rho)].
 $<ChristoffelSymbols>
 The fact that this is the correct expression can also be checked by inserting @metricGradientAndConnection[equation] to replace the expressions $g_(mu nu, lambda)$ with the appropriate index permutations and verifying that the terms cancel correctly. This can be done in a few lines.
 \ \
@@ -1774,15 +1774,15 @@ The fact that this is the correct expression can also be checked by inserting @m
 
 The goal of this section is to define an affine connection on the submanifolds constituting a foliation $Sigma$ of a (pseudo-)Riemannian manifold $cal(M)$. Just as with the ambient metric and the choice of induced metric on submanifolds, one is, in principle, free to assign any connection to these submanifolds. However, if $cal(M)$ is already equipped with an affine connection $nabla$, it is natural to study a connection _induced_ by this ambient structure, rather than constructing one from scratch. We begin by developing an intuitive, geometric picture of how such an induced connection should behave, before proceeding to formalise it in a precise definition.
 
-As we have a seen, an affine connection is fully characterised by its action on vector fields, encoded via the connection coefficients $tensor(Gamma,+lambda,-mu nu)$ appearing in
+As we have a seen, an affine connection is fully characterised by its action on vector fields, encoded via the connection coefficients $tensor(Gamma, +lambda, -mu nu)$ appearing in
 $
-  nabla diff_nu = tensor(Gamma,+lambda,-mu nu) dx^mu otimes diff_lambda.
+  nabla diff_nu = tensor(Gamma, +lambda, -mu nu) dx^mu otimes diff_lambda.
 $
 Its action on functions $phi in C^infty (cal(M))$, 1-forms, and general tensors is then determined entirely by the axioms of the connection. For example,
 $
-  nabla phi = dphi, quad nabla dx^nu = - tensor(Gamma,+nu,-mu lambda) dx^mu otimes dx^lambda.
+  nabla phi = dphi, quad nabla dx^nu = - tensor(Gamma, +nu, -mu lambda) dx^mu otimes dx^lambda.
 $
-In other words, specifying how $nabla$ acts on vector fields suffices to determine its behaviour on all tensor fields. 
+In other words, specifying how $nabla$ acts on vector fields suffices to determine its behaviour on all tensor fields.
 
 Thus, the task of defining a geometrically meaningful connection on a foliation $Sigma= {Sigma_(t)}$ reduces to defining how it acts on vector fields tangent to the leaves, and extending that action to arbitrary tensors via the standard axioms of an affine connection.
 
@@ -1790,9 +1790,9 @@ Therefore, given a connection $nabla$ on a manifold $cal(M)$ endowed with a foli
 $
   mnabla_X Y quad "for any" quad X,Y in Gamma(T Sigma),
 $
-which relates back to $nabla$ in a geometrically meaningful way. 
+which relates back to $nabla$ in a geometrically meaningful way.
 
-Let us now build some geometric intuition. Recall that the expression $nabla_X Y$ describes how a vector field $Y in Gamma(T Sigma)$ changes as it is transported along the flow of $X$. Further, the pushforward $iota_*$ of the inclusion map $iota$ embeds $T Sigma$ into the ambient tangent bundle $T cal(M)$, allowing us to view $X$ and $Y$ as vector fields living in $T cal(M)$ via their pushforwards $iota_* X$ and $iota_* Y$. 
+Let us now build some geometric intuition. Recall that the expression $nabla_X Y$ describes how a vector field $Y in Gamma(T Sigma)$ changes as it is transported along the flow of $X$. Further, the pushforward $iota_*$ of the inclusion map $iota$ embeds $T Sigma$ into the ambient tangent bundle $T cal(M)$, allowing us to view $X$ and $Y$ as vector fields living in $T cal(M)$ via their pushforwards $iota_* X$ and $iota_* Y$.
 
 Since we want the connection $mnabla$ on $Sigma$ to "mimic" the ambient connection $nabla$ on $cal(M)$ as closely as possible, a natural first attempt to define $mnabla$ would be
 $
@@ -1822,7 +1822,7 @@ This expression is admittedly cumbersome to read, but its geometric interpretati
 
 Let us now formalise this geometric construction as a rigorous definition.
 \ \
-*Definition* (Induced Connection on a Foliation) Let $cal(M)$ be a smooth manifold, $Sigma = {Sigma_(t)}$ a foliation of $cal(M)$, and 
+*Definition* (Induced Connection on a Foliation) Let $cal(M)$ be a smooth manifold, $Sigma = {Sigma_(t)}$ a foliation of $cal(M)$, and
 $
   nabla : Gamma(T^((r,s))cal(M))->Gamma(T^((r,s+1))cal(M))
 $
@@ -1837,7 +1837,7 @@ the _induced connection on $Sigma$_ (associated to $nabla$) if
     mnabla phi = dphi,
   $
 
-+ acts on vector fields $X,Y in Gamma(T Sigma)$ as 
++ acts on vector fields $X,Y in Gamma(T Sigma)$ as
   $
     mnabla_X Y = (iota_*)^(-1) (nabla_(iota_* X) (iota_* Y))
   $
@@ -1860,35 +1860,35 @@ the _induced connection on $Sigma$_ (associated to $nabla$) if
   for any tensor $T$.
 
 *Remarks:*
-- The axioms 1., 3. and 4. guarantee that $mnabla$ is itself an affine connection. 
+- The axioms 1., 3. and 4. guarantee that $mnabla$ is itself an affine connection.
 
-- Since the connection coefficients $tensor(macron(Gamma),+k,-i j)$ in coordinates $(t^A,y^i)$ adapted to $Sigma$ are defined by the action of the connection on basis vectors, axiom 2. allows for their explicit computation in terms of the coefficients $tensor(Gamma,+lambda,-mu nu)$ of the ambient connection $nabla$, the pushforward matrix $E^mu_i = (diff x^mu)/(diff y^i)$ and its orthogonal left-inverse $E^i_mu$. Concretely, we may derive
+- Since the connection coefficients $tensor(macron(Gamma), +k, -i j)$ in coordinates $(t^A,y^i)$ adapted to $Sigma$ are defined by the action of the connection on basis vectors, axiom 2. allows for their explicit computation in terms of the coefficients $tensor(Gamma, +lambda, -mu nu)$ of the ambient connection $nabla$, the pushforward matrix $E^mu_i = (diff x^mu)/(diff y^i)$ and its orthogonal left-inverse $E^i_mu$. Concretely, we may derive
   $
-    tensor(macron(Gamma),+k,-i j)diff_k &= mnabla_i diff_j = (iota_*)^(-1) (nabla_(iota_* diff_i) (iota_* diff_j))\ &= (iota_*)^(-1) (nabla_(E^mu_i diff_mu) (E^nu_j diff_nu))\
-    &= E^mu_i (iota_*)^(-1) (nabla_mu (E^nu_j diff_nu))\ &= E^mu_i (iota_*)^(-1) lr(((diff_mu E^nu_j)diff_nu + E^nu_j underbrace(nabla_mu diff_nu,=tensor(Gamma,+lambda,-mu nu) diff_lambda)),size:#30%)\
-    &= E^mu_i ((diff_mu E^lambda_j) + E^nu_j tensor(Gamma,+lambda,-mu nu)) underbrace((iota_*)^(-1)(diff_lambda),=E_lambda^k diff_k)\
-    &= (E^k_lambda E^mu_i E^nu_j tensor(Gamma,+lambda,-mu nu) + E^k_lambda diff_i E^lambda_j) diff_k
+    tensor(macron(Gamma), +k, -i j)diff_k &= mnabla_i diff_j = (iota_*)^(-1) (nabla_(iota_* diff_i) (iota_* diff_j))\ &= (iota_*)^(-1) (nabla_(E^mu_i diff_mu) (E^nu_j diff_nu))\
+    &= E^mu_i (iota_*)^(-1) (nabla_mu (E^nu_j diff_nu))\ &= E^mu_i (iota_*)^(-1) lr(((diff_mu E^nu_j)diff_nu + E^nu_j underbrace(nabla_mu diff_nu, =tensor(Gamma, +lambda, -mu nu) diff_lambda)), size: #30%)\
+    &= E^mu_i ((diff_mu E^lambda_j) + E^nu_j tensor(Gamma, +lambda, -mu nu)) underbrace((iota_*)^(-1)(diff_lambda), =E_lambda^k diff_k)\
+    &= (E^k_lambda E^mu_i E^nu_j tensor(Gamma, +lambda, -mu nu) + E^k_lambda diff_i E^lambda_j) diff_k
   $
   from which we conclude
   $
-    tensor(macron(Gamma),+k,-i j) = E^k_lambda E^mu_i E^nu_j tensor(Gamma,+lambda,-mu nu) + E^k_lambda diff_i E^lambda_j.
+    tensor(macron(Gamma), +k, -i j) = E^k_lambda E^mu_i E^nu_j tensor(Gamma, +lambda, -mu nu) + E^k_lambda diff_i E^lambda_j.
   $<projectionConnectionCoeffs>
-  This matches the structure of the @connectionCoeffTransformRule[coordinate transformation behaviour] of the connection. 
-- Since $mnabla$ is an affine connection connection, the above relationship that
+  This matches the structure of the @connectionCoeffTransformRule[coordinate transformation behaviour] of the connection.
+- Since $mnabla$ is an affine connection connection, the above relationship
   $
-    mnabla_i diff_j = tensor(macron(Gamma),+k,-i j) diff_k
+    mnabla_i diff_j = tensor(macron(Gamma), +k, -i j) diff_k
   $
   on vectors extends to 1-forms by
   $
-    mnabla_i dy^j = - tensor(macron(Gamma), +j,-i k) dy^k
+    mnabla_i dy^j = - tensor(macron(Gamma), +j, -i k) dy^k
   $
   by the @generalResultConnectionActionInComponents[general result]. Further, the linearity and Leibniz rule that hold for $mnabla$ allow for the extension onto any tensor $T$.
 == Proof: Induced Connection from Levi-Civita Connections
 The previous section introduced the notion of a connection on the submanifolds of a foliation, induced from a connection on the ambient manifold. This construction defines a specific connection on each submanifold, but it is not immediately clear which properties of the ambient connection are preserved, or whether the induced connection might acquire new properties absent from the ambient. Such questions typically require case-by-case analysis.
 
-There is, however, an important special case, which we explore in this section. Recall that the Levi-Civita is uniquely characterised by two conditions: vanishing torsion and compatibility with the metric. We will show that if the ambient connection satisfies these conditions, then the induced connection does as well---in this sense, they are inherited. It follows that the connection induced by a Levi-Civita connection is itself Levi-Civita. In particular, this yields an alternative to the @projectionConnectionCoeffs[projection of connection coefficients], as the coefficients of the induced connection can now be computed directly from linear combinations of partial derivatives of the induced metric. 
+There is, however, an important special case, which we explore in this section. Recall that the Levi-Civita is uniquely characterised by two conditions: vanishing torsion and compatibility with the metric. We will show that if the ambient connection satisfies these conditions, then the induced connection does as well---in this sense, they are inherited. It follows that the connection induced by a Levi-Civita connection is itself Levi-Civita. In particular, this yields an alternative to the @projectionConnectionCoeffs[projection of connection coefficients], as the coefficients of the induced connection can now be computed directly from linear combinations of partial derivatives of the induced metric.
 
-In the following, let $cal(M)$ denote a (pseudo-)Riemannian manifold with metric tensor $g in Gamma(T^((0,2))cal(M))$, $Sigma = {Sigma_(t)}$ a foliation of $cal(M)$, and $gamma = iota^* g$ the induced metric on $Sigma_(t)$. Further, let $nabla$ be a connection on $cal(M)$ and $mnabla$ the connection on $Sigma$ induced by $nabla$. 
+In the following, let $cal(M)$ denote a (pseudo-)Riemannian manifold with metric tensor $g in Gamma(T^((0,2))cal(M))$, $Sigma = {Sigma_(t)}$ a foliation of $cal(M)$, and $gamma = iota^* g$ the induced metric on $Sigma_(t)$. Further, let $nabla$ be a connection on $cal(M)$ and $mnabla$ the connection on $Sigma$ induced by $nabla$.
 \ \
 *Vanishing Torsion* Suppose $nabla$ has vanishing torsion. Concretely, this means that
 $
@@ -1901,9 +1901,9 @@ $
 
 The torsion of the induced connection, evaluated on vector fields $X,Y in Gamma(T Sigma)$ is given by
 $
-  macron(T)(X,Y) &= mnabla_X Y - mnabla_Y X - [X,Y] \ 
-  &= (iota_*)#h(0em)^(-1)[nabla_(iota_* X) (iota_*Y) - nabla_(iota_* Y) (iota_*X)] - [X,Y]\
-  &= underbrace((iota_*)#h(0em)^(-1)[iota_* X, iota_* Y],=[X,Y] quad (*)) - [X,Y] = 0.
+  macron(T)(X,Y) & = mnabla_X Y - mnabla_Y X - [X,Y] \
+                 & = (iota_*)#h(0em)^(-1)[nabla_(iota_* X) (iota_*Y) - nabla_(iota_* Y) (iota_*X)] - [X,Y] \
+                 & = underbrace((iota_*)#h(0em)^(-1)[iota_* X, iota_* Y], =[X,Y] quad (*)) - [X,Y] = 0.
 $
 Thus, as a consequence of the vanishing torsion of $nabla$, the induced connection $mnabla$ is torsion-free as well. The identity $(*)$ originates from
 $
@@ -1915,23 +1915,23 @@ $
 $
 and the fact that $(iota_* X)[f] = X[f compose iota]$.
 
-Alternatively, one can show this on the level of components as well. The ambient connection being torsion free implies that its connection coefficients $tensor(Gamma,+lambda,-mu nu)$ are symmetric in the lower indices. The induced connection coefficients, given by
+Alternatively, one can show this on the level of components as well. The ambient connection being torsion free implies that its connection coefficients $tensor(Gamma, +lambda, -mu nu)$ are symmetric in the lower indices. The induced connection coefficients, given by
 $
-tensor(macron(Gamma),+k,-i j) = E^k_lambda E^mu_i E^nu_j tensor(Gamma,+lambda,-mu nu) + E^k_lambda diff_i E^lambda_j
+  tensor(macron(Gamma), +k, -i j) = E^k_lambda E^mu_i E^nu_j tensor(Gamma, +lambda, -mu nu) + E^k_lambda diff_i E^lambda_j
 $
-(cf. @connectionCoeffTransformRule[eq.]), are then symmetric in the lower indices $i,j$ as well---the first term is symmetric due to the symmetry of $tensor(Gamma,+lambda,-mu nu)$, and the second because of
+(cf. @connectionCoeffTransformRule[eq.]), are then symmetric in the lower indices $i,j$ as well---the first term is symmetric due to the symmetry of $tensor(Gamma, +lambda, -mu nu)$, and the second because of
 $
   diff_i E^lambda_j = (diff^2 x^lambda)/(diff y^i diff y^j),
 $
-which is symmetric as well. 
+which is symmetric as well.
 
-We have now given a coordinate-free and a component-based proof of the fact that an induced connection inherits torsion-freeness from the ambient connection. It remains to show that metric compatibility is preserved as well, allowing us to conclude that an ambient Levi-Civita connection induces a Levi-Civita connection on the submanifolds of a foliation. 
+We have now given a coordinate-free and a component-based proof of the fact that an induced connection inherits torsion-freeness from the ambient connection. It remains to show that metric compatibility is preserved as well, allowing us to conclude that an ambient Levi-Civita connection induces a Levi-Civita connection on the submanifolds of a foliation.
 \ \
 *Metric Compatibility* To show that metric compatibility of $nabla$ is inherited to $mnabla$, let us first derive a useful identity---a product rule for the inner product induced by the metric $g$. Observe that for $X,Y,Z in Gamma(T cal(M))$, we have
 $
-  &nabla_X g(Y,Z) = nabla_X tr_(1,2)^(3,4) (g otimes Y otimes Z)\
-   &= tr^(3,4)_(1,2) [(nabla_X g) otimes Y otimes Z + g otimes (nabla_X Y) otimes Z + g otimes Y otimes (nabla_X Z)]\
-   &= (nabla_X g) (Y,Z) + g(nabla_X Y, Z) + g(Y, nabla_X Z),
+  & nabla_X g(Y,Z) = nabla_X tr_(1,2)^(3,4) (g otimes Y otimes Z) \
+  & = tr^(3,4)_(1,2) [(nabla_X g) otimes Y otimes Z + g otimes (nabla_X Y) otimes Z + g otimes Y otimes (nabla_X Z)] \
+  & = (nabla_X g) (Y,Z) + g(nabla_X Y, Z) + g(Y, nabla_X Z),
 $<proofDerivationOfMetric>
 which is equivalent to
 $
@@ -1943,19 +1943,18 @@ $
 $<compatibleMetricConnectionIdentity>
 We will now assume that this holds for $nabla$ and $g$, and show that as a consequence, it is also true for the induced connection $mnabla$ and metric $gamma$. This proceeds as follows, for $X,Y,Z in Gamma(T Sigma)$:
 $
-  mnabla_X gamma(Y,Z) - (mnabla_X gamma)(Y,Z) &attach(=,t:1.) gamma(mnabla_X Y, Z) + (Y <-> Z)\
-  &attach(=,t:2.) (iota^* g) ((iota_*)#h(0em)^(-1) nabla_(iota_* X) (iota_* Y), Z) + (Y <-> Z)\
-  &attach(=,t:3.) g lr((underbrace(iota_* compose(iota_*)#h(0em)^(-1),=P) nabla_(iota_* X) (iota_* Y), iota_* Z),size:#35%)+ (Y <-> Z)\
-  &attach(=,t:4.) g lr((nabla_(iota_* X) (iota_* Y), underbrace(P iota_* Z,=iota_* Z)),size:#35%) + (Y <-> Z)\
-  &attach(=,t:5.) nabla_(iota_* X) g(iota_* Y, iota_* Z)\
-  &attach(=,t:6.) mnabla_X gamma(Y,Z)
-
+  mnabla_X gamma(Y, Z) - (mnabla_X gamma)(Y,Z) &attach(=, t: 1.) gamma(mnabla_X Y, Z) + (Y <-> Z)\
+  &attach(=, t: 2.) (iota^* g) ((iota_*)#h(0em)^(-1) nabla_(iota_* X) (iota_* Y), Z) + (Y <-> Z)\
+  &attach(=, t: 3.) g lr((underbrace(iota_* compose(iota_*)#h(0em)^(-1), =P) nabla_(iota_* X) (iota_* Y), iota_* Z), size: #35%)+ (Y <-> Z)\
+  &attach(=, t: 4.) g lr((nabla_(iota_* X) (iota_* Y), underbrace(P iota_* Z, =iota_* Z)), size: #35%) + (Y <-> Z)\
+  &attach(=, t: 5.) nabla_(iota_* X) g(iota_* Y, iota_* Z)\
+  &attach(=, t: 6.) mnabla_X gamma(Y, Z)
 $<inducedMetricCompatibilityDerivation>
 which shows that
 $
   (mnabla_X gamma) (Y,Z) = 0,
 $
-i.e. that $mnabla gamma = 0$ and hence the induced connection is compatible with the induced metric. Since the algebra is quite dense here, let us outline the individual steps in the @inducedMetricCompatibilityDerivation[derivation]: 
+i.e. that $mnabla gamma = 0$ and hence the induced connection is compatible with the induced metric. Since the algebra is quite dense here, let us outline the individual steps in the @inducedMetricCompatibilityDerivation[derivation]:
 
 + Make use of @metricConnectionIdentity[identity];
 + Insert definitions, $gamma = iota^* g$ and $mnabla_X Y = (iota_*)#h(0em)^(-1) nabla_(iota_*X)(iota_*Y)$;
@@ -1966,7 +1965,7 @@ i.e. that $mnabla gamma = 0$ and hence the induced connection is compatible with
 
 Though somewhat algebra-heavy and light on geometric intuition, the above derivations yield a powerful result: The induced connection $mnabla$ on the foliation $Sigma$---induced by the Levi-Civita connection $nabla$ on $cal(M)$---is of Levi-Civita type as well. In particular, it follows that the induced connection components are given by the Christoffel symbol expression for $gamma$, i.e.,
 $
-  tensor(macron(Gamma),+k,-i j) = 1/2 gamma^(k ell)(gamma_(ell i, j) + gamma_(ell j, i) - gamma_(i j, ell)).
+  tensor(macron(Gamma), +k, -i j) = 1/2 gamma^(k ell)(gamma_(ell i, j) + gamma_(ell j, i) - gamma_(i j, ell)).
 $<christoffelSymbolsInduced>
 This is a direct construction of the connection coefficients that makes no reference to the ambient connection.
 == Example: Induced Connection on the Foliation of $RR^3 without {0}$ into Spheres <sectionInducedConnectionExample>
@@ -1988,25 +1987,25 @@ In spherical coordinates $(r,y^i) = (r,theta,phi)$ on $RR^3 without {0}$, the in
 $
   gamma = gamma_(i j) dq^i otimes dq^j = r^2 dtheta otimes dtheta + r^2 sin^2 theta dphi otimes dphi,
 $
-with nonzero components $gamma_(theta theta) = r^2$, $gamma_(phi phi) = r^2 sin^2 theta$. 
+with nonzero components $gamma_(theta theta) = r^2$, $gamma_(phi phi) = r^2 sin^2 theta$.
 
 We equip the ambient manifold $RR^3 without {0}$ with the Levi-Civita connection, which in Cartesian coordinates has vanishing coefficients, i.e.
 $
-  tensor(Gamma,+lambda,-mu nu) = 1/2 g^(lambda rho) (g_(rho mu, nu) + g_(rho nu,mu) - g_(mu nu, rho)) = 0,
+  tensor(Gamma, +lambda, -mu nu) = 1/2 g^(lambda rho) (g_(rho mu, nu) + g_(rho nu,mu) - g_(mu nu, rho)) = 0,
 $
 since the metric components $g_(x x) = g_(y y) = g_(z z) = 1$ are constant.
 
-We now have two formulae to compute the components $tensor(macron(Gamma),+k,-i j)$ of the connection $mnabla$ induced by $nabla$ at our disposal; we can either use the @projectionConnectionCoeffs[projection formula], or calculate them directly using the @christoffelSymbolsInduced[Christoffel expression]. We now proceed to evaluate both.
+We now have two formulae to compute the components $tensor(macron(Gamma), +k, -i j)$ of the connection $mnabla$ induced by $nabla$ at our disposal; we can either use the @projectionConnectionCoeffs[projection formula], or calculate them directly using the @christoffelSymbolsInduced[Christoffel expression]. We now proceed to evaluate both.
 
 The evaluation of the @projectionConnectionCoeffs[projection formula] requires us to compute the components of the pushforward matrix
 $
   E^mu_i = (diff x^mu)/(diff q^i)
 $
-as well as its left-inverse $E^i_mu$ subject to the condition that $tensor(P,+mu,-nu) = E^mu_i E^i_nu$ is orthogonal. The components of the pushforward matrix read
+as well as its left-inverse $E^i_mu$ subject to the condition that $tensor(P, +mu, -nu) = E^mu_i E^i_nu$ is orthogonal. The components of the pushforward matrix read
 $
-  E^x_theta &= r cos theta cos phi, &quad&& E^x_phi &= -r sin theta sin phi,\
-  E^y_theta &= r cos theta sin phi, &&& E^y_phi &= r sin theta cos phi,\
-  E^z_theta &= -r sin theta,&&& E^z_phi &= 0.
+  E^x_theta & = r cos theta cos phi, & quad && E^x_phi & = -r sin theta sin phi, \
+  E^y_theta & = r cos theta sin phi, &      && E^y_phi & = r sin theta cos phi, \
+  E^z_theta & = -r sin theta,        &      && E^z_phi & = 0.
 $
 The orthogonal left-inverse can be computed using
 $
@@ -2014,40 +2013,40 @@ $
 $<explicitOrthogonalLeftInverse>
 as then
 $
-  E^i_mu E^mu_k = gamma^(i j) underbrace(g_(mu nu) E^nu_j E^mu_k,=gamma_(j k)) = gamma^(i j) gamma_(j k) = delta^i_k,
+  E^i_mu E^mu_k = gamma^(i j) underbrace(g_(mu nu) E^nu_j E^mu_k, =gamma_(j k)) = gamma^(i j) gamma_(j k) = delta^i_k,
 $
-ensures the left-inverse property and 
+ensures the left-inverse property and
 $
-  P_(mu nu) = g_(mu lambda) tensor(P,+lambda,-nu) = g_(mu lambda) E^lambda_i E^i_nu = g_(mu lambda) E^lambda_i gamma^(i j) g_(nu rho) E^rho_j
+  P_(mu nu) = g_(mu lambda) tensor(P, +lambda, -nu) = g_(mu lambda) E^lambda_i E^i_nu = g_(mu lambda) E^lambda_i gamma^(i j) g_(nu rho) E^rho_j
 $
-symmetry of $P_(mu nu)$ which is equivalent to orthogonality. 
+symmetry of $P_(mu nu)$ which is equivalent to orthogonality.
 
 The components of the orthogonal left-inverse read
 $
-  E^theta_x  &= 1/r cos theta cos phi, &quad&& E_x^phi &= -1/(r sin theta) sin phi,\
-  E^theta_y &= 1/r cos theta sin phi, &quad&& E^y_phi &= 1/(r sin theta) cos phi,\
-  E^theta_z &= -1/r sin theta, &&& E^z_phi &= 0.
+  E^theta_x & = 1/r cos theta cos phi, & quad && E_x^phi & = -1/(r sin theta) sin phi, \
+  E^theta_y & = 1/r cos theta sin phi, & quad && E^y_phi & = 1/(r sin theta) cos phi, \
+  E^theta_z & = -1/r sin theta,        &      && E^z_phi & = 0.
 $
 Since the ambient connection coefficients vanish in Cartesian coordinates, the induced components reduce to the inhomogeneous term in @projectionConnectionCoeffs[], that is,
 $
-  tensor(macron(Gamma),+k,-i j) = E^k_lambda diff_i E^lambda_j.
+  tensor(macron(Gamma), +k, -i j) = E^k_lambda diff_i E^lambda_j.
 $
 While entirely mechanical, the computation of all components is somewhat laborious. We'll carry out one as an illustration and state the remaining results without derivation. As our example, we choose to calculate
 $
-  tensor(macron(Gamma),+theta,-phi phi) &= E^theta_lambda diff_phi E^lambda_phi =  E^theta_x diff_phi E^x_phi + E^theta_y diff_phi E^y_phi \
+  tensor(macron(Gamma), +theta, -phi phi) &= E^theta_lambda diff_phi E^lambda_phi = E^theta_x diff_phi E^x_phi + E^theta_y diff_phi E^y_phi \
   &= (1/r cos theta cos phi) diff_phi (-r sin theta sin phi) + (1/r cos theta sin phi) diff_phi (r sin theta cos phi)\
   &= - cos theta sin theta cos^2 phi - cos theta sin theta sin^2 phi= - cos theta sin theta \
   &= - 1/2 sin(2 theta)
 $
 The remaining non-vanishing connection coefficients are given by
 $
-  tensor(macron(Gamma),+phi,-theta phi) = tensor(macron(Gamma),+phi,-phi theta) = cot theta,
+  tensor(macron(Gamma), +phi, -theta phi) = tensor(macron(Gamma), +phi, -phi theta) = cot theta,
 $
-where $cot theta = (cos theta)/(sin theta)$. 
+where $cot theta = (cos theta)/(sin theta)$.
 
 We now proceed to recompute these coefficients using the standard Christoffel formula. To do so, it is usually advantageous to first compute the components
 $
-  tensor(macron(Gamma),-k i j) = 1/2(g_(k i, j) + g_(k j,i) - g_(i j, k))
+  tensor(macron(Gamma), -k i j) = 1/2(g_(k i, j) + g_(k j,i) - g_(i j, k))
 $
 and to then raise the first index with the inverse metric. Before wildly starting to evaluate all possible index combinations, we should first examine the nature of the components $gamma_(i j)$ of the induced metric. There is only one component, $gamma_(phi phi) = r^2 sin^2 theta$, which is non-constant#footnote[Recall that on a leaf, $r$ is constant.] and hence has a chance of contributing to $macron(Gamma)_(k i j)$. It only depends on $theta$, and hence the only non-zero component of the partial gradient of $gamma_(i j)$ is
 $
@@ -2055,8 +2054,8 @@ $
 $
 Consequently, a coefficient $macron(Gamma)_(k i j)$ can only be non-zero if one of the indices is $theta$ and the other two are $phi$. Due to symmetry in the last two indices, this leaves us with two options,
 $
-  macron(Gamma)_(theta phi phi) &= 1/2 lr((underbrace(gamma_(theta phi, phi),=0) + underbrace(gamma_(theta phi, phi),=0) - gamma_(phi phi, theta)),size:#35%) = - r^2 sin theta cos theta,\
-  macron(Gamma)_(phi theta phi) = macron(Gamma)_(phi phi theta) &= 1/2 lr((gamma_(phi phi, theta) + underbrace( gamma_(phi theta,phi),=0) - underbrace(gamma_(phi theta, phi),=0)),size:#35%) =  r^2 sin theta cos theta.
+  macron(Gamma)_(theta phi phi) &= 1/2 lr((underbrace(gamma_(theta phi, phi), =0) + underbrace(gamma_(theta phi, phi), =0) - gamma_(phi phi, theta)), size: #35%) = - r^2 sin theta cos theta,\
+  macron(Gamma)_(phi theta phi) = macron(Gamma)_(phi phi theta) &= 1/2 lr((gamma_(phi phi, theta) + underbrace(gamma_(phi theta,phi), =0) - underbrace(gamma_(phi theta, phi), =0)), size: #35%) = r^2 sin theta cos theta.
 $
 Given the components of the inverse metric,
 $
@@ -2064,15 +2063,15 @@ $
 $
 we can compute the connection coefficients as
 $
-  tensor(macron(Gamma),+theta,-phi phi) &= g^(theta theta) macron(Gamma)_(theta phi phi) = -sin theta cos theta = -1/2 sin(2 theta),\
-  tensor(macron(Gamma),+phi,-theta phi) = tensor(macron(Gamma),+phi, -phi theta) &= g^(phi phi)macron(Gamma)_(phi phi theta) = (cos theta)/(sin theta) = cot theta.
+  tensor(macron(Gamma), +theta, -phi phi) &= g^(theta theta) macron(Gamma)_(theta phi phi) = -sin theta cos theta = -1/2 sin(2 theta),\
+  tensor(macron(Gamma), +phi, -theta phi) = tensor(macron(Gamma), +phi, -phi theta) &= g^(phi phi)macron(Gamma)_(phi phi theta) = (cos theta)/(sin theta) = cot theta.
 $
 This reproduces exactly the same result as the projection formula, as we would expect from our derivations made for general manifolds---it is nevertheless satisfying to see that the abstract machinery does indeed work when applied to concrete examples.
 
 = Curvature
-In this section, we examine the different kinds of curvature that arise in the study of submanifolds and foliations. We begin by reviewing the definition of the Riemann curvature tensor and its contractions, which will allow us to define both the _ambient curvature_ of a manifold $cal(M)$ and the _instrinsic curvature_ of the leaves of a foliation $Sigma$ on it. The ambient curvature is defined via the ambient connection $nabla$ on $cal(M)$, whereas the intrinsic curvature is derived from the induced connection $nabla$, which---as established in the previous section---is the tangential projection of $nabla$ onto $Sigma$. 
+In this section, we examine the different kinds of curvature that arise in the study of submanifolds and foliations. We begin by reviewing the definition of the Riemann curvature tensor and its contractions, which will allow us to define both the _ambient curvature_ of a manifold $cal(M)$ and the _instrinsic curvature_ of the leaves of a foliation $Sigma$ on it. The ambient curvature is defined via the ambient connection $nabla$ on $cal(M)$, whereas the intrinsic curvature is derived from the induced connection $nabla$, which---as established in the previous section---is the tangential projection of $nabla$ onto $Sigma$.
 
-This immediately suggests a relationship between the ambient and intrinsic curvatures. One might naïvely expect, by analogy  with the connections, that the intrinsic curvature is simply the projection of the ambient one. A simple counterexample will demonstrate that this cannot be entire picture. This leads us to the notion of _extrinsic curvature_, which---roughly speaking---captures the normal component of the ambient connection $nabla$ that is discarded when passing to $mnabla$. 
+This immediately suggests a relationship between the ambient and intrinsic curvatures. One might naïvely expect, by analogy  with the connections, that the intrinsic curvature is simply the projection of the ambient one. A simple counterexample will demonstrate that this cannot be entire picture. This leads us to the notion of _extrinsic curvature_, which---roughly speaking---captures the normal component of the ambient connection $nabla$ that is discarded when passing to $mnabla$.
 
 This will prepare us for the derivation of the Gauss-Codazzi equation in the next section, which relates the intrinsic, extrinsic and projected ambient curvatures in a precise and elegant way.
 == Intrinsic Curvature
@@ -2085,17 +2084,17 @@ the Christoffel symbols of the Levi-Civita connection vanish in Cartesian coordi
 $
   nabla_mu diff_nu = 0.
 $<basisParallel>
-Informally speaking, the basis vectors are constant with respect to the connection---vectors with this property are called _parallel_. 
+Informally speaking, the basis vectors are constant with respect to the connection---vectors with this property are called _parallel_.
 
 By contrast, consider the $2$-sphere $S^2$ with its standard round metric,
 $
   g = dtheta otimes dtheta + sin^2 theta dphi otimes dphi.
 $
-Here, the Christoffel symbols do not vanish, and more fundamentally, there is no coordinate system in which the basis vectors are parallel, i.e., in which @basisParallel[equation] holds. This reflects a key geometric difference: the tangent spaces on $S^2$ "tilt" as one moves across the surface, and vectors transported between them must adjust accordingly. 
+Here, the Christoffel symbols do not vanish, and more fundamentally, there is no coordinate system in which the basis vectors are parallel, i.e., in which @basisParallel[equation] holds. This reflects a key geometric difference: the tangent spaces on $S^2$ "tilt" as one moves across the surface, and vectors transported between them must adjust accordingly.
 
 This geometric tilt can be detected via _parallel transport around a closed loop_. In $RR^2$, transporting a vector around any closed path will return it unchanged to its starting point. On $S^2$, however, the result typically differs: the transported vector may fail to return aligned with the original. This discrepancy encodes the _curvature_ of the manifold. Let us now formalise this by introducing the Riemann curvature tensor.
 \ \
-*Definition* (Riemann Curvature Tensor) Let $cal(M)$ be a smooth manifold equipped with an affine connection $nabla$, and let $X,Y,Z in Gamma(T cal(M))$ be vector fields. The _Riemann curvature tensor_ is the map 
+*Definition* (Riemann Curvature Tensor) Let $cal(M)$ be a smooth manifold equipped with an affine connection $nabla$, and let $X,Y,Z in Gamma(T cal(M))$ be vector fields. The _Riemann curvature tensor_ is the map
 $
   R : Gamma(T cal(M)) times Gamma(T cal(M)) times Gamma(T cal(M)) -> Gamma(T cal(M)),
 $
@@ -2107,15 +2106,15 @@ The first two terms compare the changes $Z$ undergoes when transported along $Y$
 
 We define the components of the Riemann tensor through
 $
-  R(diff_mu, diff_nu) diff_lambda = tensor(R,+rho, -lambda mu nu) diff_rho,
+  R(diff_mu, diff_nu) diff_lambda = tensor(R, +rho, -lambda mu nu) diff_rho,
 $<RXYonBasisVectors>
 such that on arbitrary vector fields $X,Y,Z in Gamma (T cal(M))$ we have
 $
-  R(X,Y)Z = tensor(R,+rho,-lambda mu nu) X^mu Y^nu Z^lambda.
+  R(X,Y)Z = tensor(R, +rho, -lambda mu nu) X^mu Y^nu Z^lambda.
 $
 In particular, along coordinate directions $diff_mu$, we have
 $
-  R(diff_mu, diff_nu) Z = [nabla_mu, nabla_nu] Z = tensor(R,+rho,-lambda mu nu) Z^lambda diff_rho
+  R(diff_mu, diff_nu) Z = [nabla_mu, nabla_nu] Z = tensor(R, +rho, -lambda mu nu) Z^lambda diff_rho
 $<RiemannTensorComponentDef>
 ---the $nabla_[diff_mu, diff_nu]$ term vanishes since $[diff_mu,diff_nu] = 0$.
 
@@ -2126,16 +2125,16 @@ $
 $
   R(X,Y)T = nabla_X nabla_Y T - nabla_Y nabla_X T - nabla_[X,Y] T.
 $
-Let us now examine the consequences of this definition in closer detail. 
+Let us now examine the consequences of this definition in closer detail.
 \ \
 *Remarks*
-- *Annihilation of Functions* In particular, on functions $phi in C^infty (cal(M))$, we have 
+- *Annihilation of Functions* In particular, on functions $phi in C^infty (cal(M))$, we have
   $
-    R(X,Y)phi &= nabla_X nabla_Y phi - nabla_Y nabla_X phi - nabla_[X,Y] phi\
-              &= underbrace(X[Y[phi]] - Y[X[phi]],= [X,Y][phi]) - [X,Y][phi]\
-              &= 0.
+    R(X,Y)phi & = nabla_X nabla_Y phi - nabla_Y nabla_X phi - nabla_[X,Y] phi \
+              & = underbrace(X[Y[phi]] - Y[X[phi]], = [X,Y][phi]) - [X,Y][phi] \
+              & = 0.
   $
-  That is, $R(X,Y)$ annihilates functions. 
+  That is, $R(X,Y)$ annihilates functions.
 
 - *Derivation Property* The linear operator $R(X,Y)$ on $Gamma(T^((r,s))cal(M))$ is a _derivation_: for arbitrary tensor fields $T$ and $S$, it satisfies the Leibniz rule
   $
@@ -2148,19 +2147,19 @@ Let us now examine the consequences of this definition in closer detail.
   The second term $nabla_[X,Y]$ is plainly a derivation, as it is a covariant derivative. It therefore suffices to verify the Leibniz property for the commutator $[nabla_X, nabla_Y]$. Consider $nabla_X nabla_Y (T otimes S)$. Using the product rule for $nabla$, we compute
   $
     &nabla_X nabla_Y (T otimes S) = nabla_X ((nabla_Y T) otimes S + T otimes nabla_Y S)\
-    &= (nabla_X nabla_Y T) otimes S + underbrace((nabla_Y T) otimes (nabla_X S) + (nabla_X T) otimes (nabla_Y S),"symmetric in" X "and" Y) + T otimes (nabla_X nabla_Y S),
+    &= (nabla_X nabla_Y T) otimes S + underbrace((nabla_Y T) otimes (nabla_X S) + (nabla_X T) otimes (nabla_Y S), "symmetric in" X "and" Y) + T otimes (nabla_X nabla_Y S),
   $
-  Note that the middle two terms together are symmetric in $X$ and $Y$, and hence cancel upon antisymmetrisation. Therefore, 
+  Note that the middle two terms together are symmetric in $X$ and $Y$, and hence cancel upon antisymmetrisation. Therefore,
   $
     [nabla_X, nabla_Y] (T otimes S) = ([nabla_X, nabla_Y]T) otimes S + T otimes ([nabla_X, nabla_Y] S).
   $
-  Combining this with the Leibniz property of $nabla_[X,Y]$, we conclude that $R(X,Y)$ is indeed a derivation. 
+  Combining this with the Leibniz property of $nabla_[X,Y]$, we conclude that $R(X,Y)$ is indeed a derivation.
 
 - *Action on 1-Forms* The derivation property of $R(X,Y)$ allows the explicit computation of its action on 1-forms, and thus the extension to arbitrary tensors. Given a 1-form $omega in Gamma(T^* cal(M))$ and a vector field $Z in Gamma(T cal(M))$, we have
   $
-    0 &= R(X,Y) omega(Z) = R(X,Y) (tr^1_1 omega otimes Z) = tr_1^1 R(X,Y) (omega otimes Z)\
-    &= tr_1^1 [(R(X,Y) omega) otimes Z + omega otimes (R(X,Y)Z)]\
-    &= (R(X,Y)omega)(Z) + omega(R(X,Y)Z).
+    0 & = R(X,Y) omega(Z) = R(X,Y) (tr^1_1 omega otimes Z) = tr_1^1 R(X,Y) (omega otimes Z) \
+      & = tr_1^1 [(R(X,Y) omega) otimes Z + omega otimes (R(X,Y)Z)] \
+      & = (R(X,Y)omega)(Z) + omega(R(X,Y)Z).
   $
   This demonstrates that the $1$-form $R(X,Y)omega$ is given by
   $
@@ -2168,34 +2167,34 @@ Let us now examine the consequences of this definition in closer detail.
   $
   which characterises the action of curvature on basis $1$-forms as
   $
-    R(diff_mu,diff_nu) dx^rho = -tensor(R,+rho,-lambda mu nu) dx^lambda.
+    R(diff_mu,diff_nu) dx^rho = -tensor(R, +rho, -lambda mu nu) dx^lambda.
   $
   This is the dual to the action on basis vectors, @RXYonBasisVectors[identity].
 - *Action on Arbitrary Tensors*
   The action of $R(X,Y)$ on functions, basis vectors $diff_mu$ and basis 1-forms $dx^mu$, as well as the @RXYLeibnizRule[Leibniz rule] allow for the evaluation of its action on arbitrary tensors. For example, on a (0,2)-tensor $T in Gamma(T^((0,2))cal(M))$, we have
   $
     R(diff_mu,diff_nu) T &= R(diff_mu, diff_nu) (T_(rho sigma) dx^rho otimes dx^sigma)\ &= T_(rho sigma) (R(diff_mu, diff_nu)dx^rho) otimes dx^sigma + dx^rho otimes (R(diff_mu, diff_nu))dx^sigma)\
-    &= T_(rho sigma) (-tensor(R,+rho,-lambda mu nu) dx^lambda otimes dx^sigma - tensor(R,+sigma,-lambda mu nu) dx^rho otimes dx^sigma)\
-    &= (- T_(lambda sigma) tensor(R,+lambda,-rho mu nu) - T_(rho lambda) tensor(R,+lambda,-sigma mu nu)) dx^rho otimes dx^sigma.
+    &= T_(rho sigma) (-tensor(R, +rho, -lambda mu nu) dx^lambda otimes dx^sigma - tensor(R, +sigma, -lambda mu nu) dx^rho otimes dx^sigma)\
+    &= (- T_(lambda sigma) tensor(R, +lambda, -rho mu nu) - T_(rho lambda) tensor(R, +lambda, -sigma mu nu)) dx^rho otimes dx^sigma.
   $
-  In general, the action of $R$ on tensor components involves contracting each index of the tensor with either the first or second slot of $tensor(R,+rho,-lambda mu nu)$, depending on the variance: contravariant indices contract against the first index $rho$, acquiring a minus sign, while covariant indices contract against the second index $lambda$ with a positive sign.
+  In general, the action of $R$ on tensor components involves contracting each index of the tensor with either the first or second slot of $tensor(R, +rho, -lambda mu nu)$, depending on the variance: contravariant indices contract against the first index $rho$, acquiring a minus sign, while covariant indices contract against the second index $lambda$ with a positive sign.
 
-- *Relationship to Connection Coefficients* Since the Riemann tensor is defined through the connection, there exists a relationship between its components and the connection coefficients appearing in 
+- *Relationship to Connection Coefficients* Since the Riemann tensor is defined through the connection, there exists a relationship between its components and the connection coefficients appearing in
   $
-    nabla_mu diff_nu = tensor(Gamma,+lambda,-mu nu) diff_lambda.
+    nabla_mu diff_nu = tensor(Gamma, +lambda, -mu nu) diff_lambda.
   $
   We may derive this relationship from @RiemannTensorComponentDef[equation]. Before anti-symmetrisation, the second covariant derivatives that appear read
   $
-    nabla_mu nabla_nu diff_lambda &= nabla_mu (tensor(Gamma,+rho,-nu lambda) diff_rho) = (diff_mu tensor(Gamma,+rho,-nu lambda)) diff_rho + tensor(Gamma,+rho,-nu lambda) nabla_mu diff_rho\
-    &= (diff_mu tensor(Gamma,+rho,-nu lambda) + tensor(Gamma,+rho,-mu sigma) tensor(Gamma,+sigma,-nu lambda) ) diff_rho.
+    nabla_mu nabla_nu diff_lambda &= nabla_mu (tensor(Gamma, +rho, -nu lambda) diff_rho) = (diff_mu tensor(Gamma, +rho, -nu lambda)) diff_rho + tensor(Gamma, +rho, -nu lambda) nabla_mu diff_rho\
+    &= (diff_mu tensor(Gamma, +rho, -nu lambda) + tensor(Gamma, +rho, -mu sigma) tensor(Gamma, +sigma, -nu lambda) ) diff_rho.
   $
   Anti-symmetrising this expression in $mu$ and $nu$ leads us to
   $
-    R(diff_mu, diff_nu) diff_lambda = [nabla_mu,nabla_nu] diff_lambda = (diff_mu tensor(Gamma,+rho,-nu lambda) - diff_nu tensor(Gamma,+rho,-mu lambda) + tensor(Gamma,+rho,-mu sigma) tensor(Gamma,+sigma,-nu lambda) - tensor(Gamma,+rho,-nu sigma) tensor(Gamma,+sigma,-mu lambda)) diff_rho,
+    R(diff_mu, diff_nu) diff_lambda = [nabla_mu,nabla_nu] diff_lambda = (diff_mu tensor(Gamma, +rho, -nu lambda) - diff_nu tensor(Gamma, +rho, -mu lambda) + tensor(Gamma, +rho, -mu sigma) tensor(Gamma, +sigma, -nu lambda) - tensor(Gamma, +rho, -nu sigma) tensor(Gamma, +sigma, -mu lambda)) diff_rho,
   $
   from which we identify the components of the Riemann tensor as
   $
-    tensor(R,+rho,-lambda mu nu) = diff_mu tensor(Gamma,+rho,-nu lambda) - diff_nu tensor(Gamma,+rho,-mu lambda) + tensor(Gamma,+rho,-mu sigma) tensor(Gamma,+sigma,-nu lambda) - tensor(Gamma,+rho,-nu sigma) tensor(Gamma,+sigma,-mu lambda).
+    tensor(R, +rho, -lambda mu nu) = diff_mu tensor(Gamma, +rho, -nu lambda) - diff_nu tensor(Gamma, +rho, -mu lambda) + tensor(Gamma, +rho, -mu sigma) tensor(Gamma, +sigma, -nu lambda) - tensor(Gamma, +rho, -nu sigma) tensor(Gamma, +sigma, -mu lambda).
   $<riemannTensorComponents>
 === Symmetries and Contractions of the Riemann Tensor
 The Riemann curvature tensor introduced in the previous section exhibits a variety of intrinsic algebraic symmetries and contraction properties that depend on the underlying connection's characteristics. In this section, we summarise and derive these symmetries, distinguishing those that hold purely by definition from those that arise under additional assumptions such as metric compatibility and the absence of torsion. This will enable us to identify a canonical contraction of the Riemann tensor---the Ricci tensor---which is unique up to sign for the Levi-Civita connection, along with its trace, the _scalar curvature_.
@@ -2206,19 +2205,19 @@ $
 $
 In components, this corresponds to
 $
-  R_(rho lambda mu nu) W^rho Z^lambda X^mu Y^nu = g_(rho sigma) (tensor(R,+rho,-lambda mu nu) X^mu Y^nu Z^lambda) W^sigma,
+  R_(rho lambda mu nu) W^rho Z^lambda X^mu Y^nu = g_(rho sigma) (tensor(R, +rho, -lambda mu nu) X^mu Y^nu Z^lambda) W^sigma,
 $
 or equivalently,
 $
-  R_(rho lambda mu nu) = g_(rho sigma) tensor(R,+rho,-lambda mu nu).
+  R_(rho lambda mu nu) = g_(rho sigma) tensor(R, +rho, -lambda mu nu).
 $
 Thus the fully covariant tensor arises simply by lowering the vector index of the curvature operator via the metric---in this sense, one could also write
 $
   R(dot, Z,X,Y) = (R(X,Y)Z)^flat.
 $
-We are now ready to discuss the symmetries of $R(W,Z,X,Y)$: 
+We are now ready to discuss the symmetries of $R(W,Z,X,Y)$:
 
-+ *Anti-Symmetry in Second Pair* By the anti-symmetry of the curvature operator, $R(X,Y)=-R(Y,X)$, which follows directly from the definition and the skew-symmetry of the commutator, 
++ *Anti-Symmetry in Second Pair* By the anti-symmetry of the curvature operator, $R(X,Y)=-R(Y,X)$, which follows directly from the definition and the skew-symmetry of the commutator,
   $
     R(X,Y) = [nabla_X,nabla_Y] - nabla_[X,Y] = -R(Y,X),
   $
@@ -2228,16 +2227,17 @@ We are now ready to discuss the symmetries of $R(W,Z,X,Y)$:
   $
   This holds for any connection. In components, we have
   $
-    R_(rho sigma mu nu) = -R_(rho sigma nu mu) quad <=> quad tensor(R,+rho,-sigma mu nu) = -tensor(R,+rho,-sigma nu mu).
+    R_(rho sigma mu nu) = -R_(rho sigma nu mu) quad <=> quad tensor(R, +rho, -sigma mu nu) = -tensor(R, +rho, -sigma nu mu).
   $
 
 + *Anti-Symmetry in the First Pair* If the connection is metric-compatible (i.e. $nabla g =0$), the curvature operator acts on the metric as $R(X,Y)g = 0$.
   By the derivation propery of $R(X,Y)$, for any vector fields $W,Z in Gamma(T cal(M))$, we have#footnote[This makes use of the property that $D g(X,Y) = (D g)(X,Y) + g(D X,Y) + g(X,D Y)$ for any derivation $D$. This is a generalisation of what we have shown before in @proofDerivationOfMetric[eq.] for the particular case of $D = nabla$.]
   $
-    0 &= R(X,Y) g(Z,W)\ &= underbrace((R(X,Y)g),=0)(Z,W) + underbrace(g(R(X,Y)Z,W),=R(W,Z,X,Y)) + underbrace(g(R(X,Y)W,Z),=R(Z,W,X,Y))\
-    &=R(W,Z,X,Y) + R(Z,W,X,Y)
-    $
-  where the first equality with zero holds because $R(X,Y)$ is acting on a function. The above can be rearranged for 
+    0 & = R(X,Y) g(Z,W) \
+      & = underbrace((R(X,Y)g), =0)(Z,W) + underbrace(g(R(X,Y)Z,W), =R(W,Z,X,Y)) + underbrace(g(R(X,Y)W,Z), =R(Z,W,X,Y)) \
+      & =R(W,Z,X,Y) + R(Z,W,X,Y)
+  $
+  where the first equality with zero holds because $R(X,Y)$ is acting on a function. The above can be rearranged for
   $
     R(W,Z,X,Y) = - R(Z,W,X,Y),
   $
@@ -2245,7 +2245,7 @@ We are now ready to discuss the symmetries of $R(W,Z,X,Y)$:
   $
     R_(rho sigma mu nu) = -R_(sigma rho mu nu).
   $
-+ *Bianchi Identity* We first derive an identity relating the sum of the cyclic permutations of $R(X,Y)Z$ with $X,Y,Z in Gamma(T cal(M))$ and the torsion tensor. This identity will then produce a symmetry in the case of zero torsion. Note that for the torsion, we have 
++ *Bianchi Identity* We first derive an identity relating the sum of the cyclic permutations of $R(X,Y)Z$ with $X,Y,Z in Gamma(T cal(M))$ and the torsion tensor. This identity will then produce a symmetry in the case of zero torsion. Note that for the torsion, we have
   $
     nabla_X Y - nabla_Y X = T(X,Y) + [X,Y]
   $
@@ -2255,17 +2255,17 @@ We are now ready to discuss the symmetries of $R(W,Z,X,Y)$:
     &= mhighlight(nabla_X nabla_Y Z) - nabla_Y nabla_X Z - nabla_[X,Y]Z\
     &quad+ nabla_Y nabla_Z X - nabla_Z nabla_Y X mhighlight(- nabla_[Y,Z] X)\
     &quad+ nabla_Z nabla_X Y mhighlight(- nabla_X nabla_Z Y) - nabla_[Z,X] Y\
-    &= mhighlight(nabla_X (nabla_Y Z - nabla_Z Y) - nabla_[Y,Z] X) + limits(#scale(150%, rotate(180deg,[$arrow.cw$])))_(\ X\,Y\,Z)\
-    &= nabla_X T(Y,Z) + underbrace(nabla_X [Y,Z] - nabla_[Y,Z] X,=T(X,[Y,Z]) + [X,[Y,Z]])\
-    &= nabla_X T(Y,Z) + T(X,[Y,Z]) + [X,[Y,Z]] + limits(#scale(150%, rotate(180deg,[$arrow.cw$])))_(\ X\,Y\,Z)\
+    &= mhighlight(nabla_X (nabla_Y Z - nabla_Z Y) - nabla_[Y,Z] X) + limits(#scale(150%, rotate(180deg, [$arrow.cw$])))_(\ X\,Y\,Z)\
+    &= nabla_X T(Y,Z) + underbrace(nabla_X [Y,Z] - nabla_[Y,Z] X, =T(X,[Y,Z]) + [X,[Y,Z]])\
+    &= nabla_X T(Y,Z) + T(X,[Y,Z]) + [X,[Y,Z]] + limits(#scale(150%, rotate(180deg, [$arrow.cw$])))_(\ X\,Y\,Z)\
   $
-  When expanding the sum over cyclic permutations of $X,Y,Z$ indicated by $#rotate(180deg,[$arrow.cw$])$, the last term drops out by the Jacobi identity for the commutator,
+  When expanding the sum over cyclic permutations of $X,Y,Z$ indicated by $#rotate(180deg, [$arrow.cw$])$, the last term drops out by the Jacobi identity for the commutator,
   $
     [X,[Y,Z]] + [Y,[Z,X]] + [Z,[X,Y]] = 0.
   $
   We hence arrive at the identity
   $
-    R(X,Y)Z + R(Y,Z)X + R(Z,X)Y = nabla_X T(Y,Z) + T(X,[Y,Z]) + limits(#scale(150%, rotate(180deg,[$arrow.cw$])))_(\ X\,Y\,Z).
+    R(X,Y)Z + R(Y,Z)X + R(Z,X)Y = nabla_X T(Y,Z) + T(X,[Y,Z]) + limits(#scale(150%, rotate(180deg, [$arrow.cw$])))_(\ X\,Y\,Z).
   $
   In the case of vanishing torsion, $T=0$, this turns into the symmetry
   $
@@ -2277,7 +2277,7 @@ We are now ready to discuss the symmetries of $R(W,Z,X,Y)$:
   $
   or in terms of components,
   $
-    tensor(R,+rho,-[sigma mu nu]) = tensor(R, -rho, -[sigma mu nu]) = 0.
+    tensor(R, +rho, -[sigma mu nu]) = tensor(R, -rho, -[sigma mu nu]) = 0.
   $
   Here, the cyclic permutation of the last three indices/slots is proportional to their anti-symmetrisation since we have anti-symmetry in the last two indices.
 
@@ -2286,18 +2286,20 @@ We are now ready to discuss the symmetries of $R(W,Z,X,Y)$:
     R(W,Z,X,Y) = R(X,Y,W,Z).
   $
   That is, the expression is symmetric under the exchange of the first and second pair of slots. This is shown by repeatedly applying the symmetries 1., 2. and 3. to the left-hand side:
-  #bottom-number($
-    R(W,Z,X,Y) &attach(=,t:2.) -R(Z,W,X,Y)\
-    &attach(=,t:3.) R(Z,X,Y,W) + R(Z,Y,W,X)\
-    &attach(=,t:2.) -R(X,Z,Y,W) - R(Y,Z,W,X)\
-    &attach(=,t:3.) R(X,Y,W,Z) + R(X,W,Z,Y) + R(Y,W,X,Z) + underbrace(R(Y,X,Z,W),attach(=,t:"1. & 2.")R(X,Y,W,Z))\
-    &attach(=,t:2.) 2R(X,Y,W,Z) - R(W,X,Z,Y) - R(W,Y,X,Z)\
-    &attach(=,t:3.) 2R(X,Y,W,Z) + R(W,Z,Y,X)\
-    &attach(=,t:1.) 2R(X,Y,W,Z) - R(W,Z,X,Y).
-  $)
+  #bottom-number(
+    $
+      R(W,Z,X,Y) &attach(=, t: 2.) -R(Z,W,X,Y)\
+      &attach(=, t: 3.) R(Z,X,Y,W) + R(Z,Y,W,X)\
+      &attach(=, t: 2.) -R(X,Z,Y,W) - R(Y,Z,W,X)\
+      &attach(=, t: 3.) R(X,Y,W,Z) + R(X,W,Z,Y) + R(Y,W,X,Z) + underbrace(R(Y,X,Z,W), attach(=, t: "1. & 2.")R(X,Y,W,Z))\
+      &attach(=, t: 2.) 2R(X,Y,W,Z) - R(W,X,Z,Y) - R(W,Y,X,Z)\
+      &attach(=, t: 3.) 2R(X,Y,W,Z) + R(W,Z,Y,X)\
+      &attach(=, t: 1.) 2R(X,Y,W,Z) - R(W,Z,X,Y).
+    $,
+  )
   The claim now follows from adding $R(W,Z,X,Y)$ to both sides. In terms of the tensor components, the symmetry reads
   $
-    R_(rho sigma mu nu) = R_(mu nu rho sigma). 
+    R_(rho sigma mu nu) = R_(mu nu rho sigma).
   $
   This is certainly not the most elegant or efficient way to establish this symmetry. However, since the result follows directly from the symmetries imposed by metric compatibility and vanishing torsion, and offers little in terms of geometric insight, a somewhat brute-force algebraic proof suffices for our purposes.
 
@@ -2307,35 +2309,35 @@ $
 $
 Hence, for a contraction not to vanish, it must contract over one slot in the first and one in the second pair. Without loss of generality, this contraction can be performed over the first an third slot, as all others are related by signs (due to anti-symmetry in the first and second pair). This contraction defines a new rank 2 tensor called the _Ricci tensor_, denoted by#footnote[Here, the contraction over two covariant slots is to be interpreted as with respect to the inverse metric.]
 $
-  Ric(X,Y) = tr^1_3 R(dot,X,dot,Y).
+  Ric(X, Y) = tr^1_3 R(dot,X,dot,Y).
 $
 In components, this reads
 $
-  Ric(X,Y)= R_(mu nu) X^mu Y^nu,
+  Ric(X, Y)= R_(mu nu) X^mu Y^nu,
 $
 where the Ricci tensor components $R_(mu nu)$ emerge as a contraction of the Riemann tensor,
 $
-  R_(mu nu) = tensor(R,+lambda,-mu lambda nu).
+  R_(mu nu) = tensor(R, +lambda, -mu lambda nu).
 $
 If further, the connection is torsion-free, we have symmetry of the covariant Riemann tensor under the exchange of the first and second pairs, making the Ricci tensor symmetric, i.e.,
 $
-  Ric(X,Y) = Ric(Y,X).
+  Ric(X, Y) = Ric(Y, X).
 $
 At this point, we can perform a second contraction to obtain the so-called Ricci scalar
 $
-  cal(R) = tr^1_2 Ric(dot,dot) = g^(mu nu) R_(mu nu).
+  cal(R) = tr^1_2 Ric(dot, dot) = g^(mu nu) R_(mu nu).
 $
 For a Levi-Civita connection, it is the unique scalar contraction of the Riemann tensor#footnote[The unique scalar linear in the Riemann tensor. Of course, there are other contractions possible at higher orders.].
 === Curvature of the Induced Connection
 Previously, we have defined the induced connection $mnabla$ on the submanifolds of a foliation $Sigma$ of a smooth manifold $cal(M)$ equipped with the ambient connection $nabla$. The ambient connection gives rise to the Riemann curvature tensor
 $
-  R : Gamma(T cal(M)) times Gamma(T cal(M)) times Gamma(T cal(M)) -> Gamma(T cal(M)),\ 
+  R : Gamma(T cal(M)) times Gamma(T cal(M)) times Gamma(T cal(M)) -> Gamma(T cal(M)),\
 $
 with
 $
   R(X,Y)Z = [nabla_X,nabla_Y] Z - nabla_[X,Y] Z.
 $
-In this context, it is referred to as the _ambient curvature_. 
+In this context, it is referred to as the _ambient curvature_.
 
 Since each of the foliation's submanifolds are equipped with the induced connection $mnabla$---the projection of the ambient connection $nabla$ onto the tangent bundle $T Sigma$---we can define a Riemann curvature tensor with respect to it on each of the leaves of the foliation, leading to
 $
@@ -2349,20 +2351,20 @@ We refer to $macron(R)$ as the _intrinsic (Riemann) curvature_ of the foliation 
 
 Since both metric compatibility and absence of torsion are properties $mnabla$ inherits from $nabla$, the fully covariant tensors $R(W,Z,X,Y)$ as well as $macron(R)(W,Z,X,Y)$ exhibit the same algebraic symmetries (cf. previous section). In the case that $nabla$ is the Levi-Civita connection associated to the metric $g$ on $cal(M)$, then $mnabla$ is the Levi-Civita connection associated to the induced metric $gamma = iota^* g$ on the leaves of the foliation. This makes the components of $macron(R)$ computable entirely from the components of the induced metric, due to the relationships
 $
-  tensor(macron(R),+k,-ell i j) &= diff_i tensor(macron(Gamma),+k,-j ell) - diff_j tensor(macron(Gamma),+k,-i ell) + tensor(macron(Gamma),+k,-i m) tensor(macron(Gamma),+m,-j ell) - tensor(macron(Gamma),+k,-j m) tensor(macron(Gamma),+m,-i ell),\
-    tensor(macron(Gamma),+k,-i j) &= 1/2 gamma^(k ell)(gamma_(ell i, j) + gamma_(ell j, i) - gamma_(i j, ell))
+  tensor(macron(R), +k, -ell i j) &= diff_i tensor(macron(Gamma), +k, -j ell) - diff_j tensor(macron(Gamma), +k, -i ell) + tensor(macron(Gamma), +k, -i m) tensor(macron(Gamma), +m, -j ell) - tensor(macron(Gamma), +k, -j m) tensor(macron(Gamma), +m, -i ell),\
+  tensor(macron(Gamma), +k, -i j) &= 1/2 gamma^(k ell)(gamma_(ell i, j) + gamma_(ell j, i) - gamma_(i j, ell))
 $
 we have established in preceding sections. We may define an intrinsic Ricci curvature tensor as
 $
-  mRic(X,Y) := tr^1_3 macron(R)(dot, X, dot, Y),
+  mRic(X, Y) := tr^1_3 macron(R)(dot, X, dot, Y),
 $
 and an intrinsic scalar curvature,
 $
-  macron(cal(R)) := tr^1_2 mRic(dot,dot) = gamma^(i j) macron(R)_(i j),
+  macron(cal(R)) := tr^1_2 mRic(dot, dot) = gamma^(i j) macron(R)_(i j),
 $
 where $macron(R)_(i j)$ are the components of the induced Ricci tensor, given by
 $
-  macron(R)_(i j) = tensor(macron(R),+k,-i k j).
+  macron(R)_(i j) = tensor(macron(R), +k, -i k j).
 $
 
 === Intrinsic vs Projected Ambient Curvature <intrinsicVsProjectedAmbient>
@@ -2380,18 +2382,18 @@ However, this is _not_ the case. There are (at least) two ways to see this---fir
 
 - *Curved Submanifolds of Flat Manifolds* Let us reconsider a recurring example from these notes: The foliation by origin-centered spheres of the ambient manifold $RR^3 without {0}$, equipped with the Euclidean metric
   $
-    g &= dx otimes dx + dy otimes dy + dz otimes dz\
-      &= dr otimes dr + r^2 (dtheta otimes dtheta + sin^2 theta dphi otimes dphi),
+    g & = dx otimes dx + dy otimes dy + dz otimes dz \
+      & = dr otimes dr + r^2 (dtheta otimes dtheta + sin^2 theta dphi otimes dphi),
   $
   ---where $x^mu = (x,y,z)$ are Cartesian and $y^alpha = (r,y^i) = (r,theta,phi)$ spherical coordinates. The connection under consideration is the Levi-Civita connection associated with this metric. Our goal is to compute and compare the ambient and induced Riemann tensor components.
 
   Observe that, in Cartesian coordinates, the Levi-Civita has vanishing coefficients, i.e.
   $
-    tensor(Gamma,+lambda,-mu nu) = 0,
+    tensor(Gamma, +lambda, -mu nu) = 0,
   $<cartesianChristoffelSymbols>
   as the metric components $g_(mu nu) = delta_(mu nu)$ are constant. From this, it follows immediately that the Riemann curvature tensor also vanishes in these coordinates,
   $
-    tensor(R,+rho,-lambda mu nu) = 0,
+    tensor(R, +rho, -lambda mu nu) = 0,
   $
   due to the @riemannTensorComponents[formula]. In contrast to @cartesianChristoffelSymbols[equation], the above equation is tensorial---that is, it holds in any coordinate system---and we conclude that the ambient manifold is flat:
   $
@@ -2405,18 +2407,18 @@ However, this is _not_ the case. There are (at least) two ways to see this---fir
 
   This already casts doubt on our naive guess---after all, the word "sphere" does not readily evoke "flatness". Let us indulge this suspicion and compute the components of the intrinsic curvature explicitly to see where the discrepancy lies. We already derived the induced connection coefficients for this foliation in @sectionInducedConnectionExample, arriving at the following non-zero Christoffel symbols:
   $
-      tensor(macron(Gamma),+theta,-phi phi) -sin theta cos theta, wide
-  tensor(macron(Gamma),+phi,-theta phi) = tensor(macron(Gamma),+phi, -phi theta) = cot theta.
+    tensor(macron(Gamma), +theta, -phi phi) -sin theta cos theta, wide
+    tensor(macron(Gamma), +phi, -theta phi) = tensor(macron(Gamma), +phi, -phi theta) = cot theta.
   $
   At first glance, computing the components of a rank-4 tensor like the Riemann curvature might seem daunting. However, in two dimensions---and with the Levi-Civita connection---the symmetries of the Riemann tensor drastically reduce the number of independent components. Specifically, the antisymmetry in both the first and second pair of indices,
   $
     R_(rho sigma mu nu) = -R_(rho sigma nu mu) = -R_(sigma rho mu nu),
   $
-  implies that the indices $theta$ and $phi$ must each appear exactly once in both pairs. All valid permutations are then related by symmetry. Moreover, since the metric is diagonal, we only need to compute a single nontrivial component, say $tensor(R,+theta,-phi theta phi)$. We proceed by applying the standard formula:
+  implies that the indices $theta$ and $phi$ must each appear exactly once in both pairs. All valid permutations are then related by symmetry. Moreover, since the metric is diagonal, we only need to compute a single nontrivial component, say $tensor(R, +theta, -phi theta phi)$. We proceed by applying the standard formula:
   $
-    tensor(macron(R),+theta,-phi theta phi) &= diff_theta tensor(macron(Gamma),+theta,-phi phi) - diff_phi underbrace(tensor(macron(Gamma),+theta,-theta phi),=0) + underbrace(tensor(macron(Gamma),+theta,-theta i) tensor(macron(Gamma),+i,-phi phi),=0) - tensor(macron(Gamma),+theta,-phi i) tensor(macron(Gamma),+i,-theta phi)\
-    &= - diff_theta (sin theta cos theta )- tensor(macron(Gamma),+theta,-phi phi) tensor(macron(Gamma),+phi,-theta phi)\
-    &= -cos^2 theta + sin^2 theta + underbrace(sin theta cos theta cot theta,=cos^2 theta)\
+    tensor(macron(R), +theta, -phi theta phi) &= diff_theta tensor(macron(Gamma), +theta, -phi phi) - diff_phi underbrace(tensor(macron(Gamma), +theta, -theta phi), =0) + underbrace(tensor(macron(Gamma), +theta, -theta i) tensor(macron(Gamma), +i, -phi phi), =0) - tensor(macron(Gamma), +theta, -phi i) tensor(macron(Gamma), +i, -theta phi)\
+    &= - diff_theta (sin theta cos theta )- tensor(macron(Gamma), +theta, -phi phi) tensor(macron(Gamma), +phi, -theta phi)\
+    &= -cos^2 theta + sin^2 theta + underbrace(sin theta cos theta cot theta, =cos^2 theta)\
     &= sin^2 theta.
   $
   This is very clearly _not_ zero. We have thus found a counterexample to @naiveGuessAmbientIntrinsicCurvature[our naive guess]: the intrinsic curvature does not, in general, arise from a simple projection of the ambient curvature.
@@ -2432,7 +2434,7 @@ However, this is _not_ the case. There are (at least) two ways to see this---fir
     P = iota_* compose (iota_*)^(-1)
   $<eq7168>
   is the orthogonal projection from $T cal(M)$ onto $T Sigma$. This is a very precise definition, as it distinguishes $T Sigma$ and $im(iota_*) subset T cal(M)$ as separate objects.
-  
+
   In practice, however---particularly when working with foliations---it is often more convenient to treat $T Sigma$ as a proper subbundle of $T cal(M)$, which we may do via the linear embedding map $iota_*$. From this perspective, the induced connection takes a simpler and more direct form:
   $
     mnabla_X Y = P nabla_X Y, quad X,Y in T Sigma.
@@ -2440,11 +2442,11 @@ However, this is _not_ the case. There are (at least) two ways to see this---fir
   Since $T Sigma subset T cal(M)$, both $X$ and $Y$ are valid inputs for the ambient connection $nabla$. The appearance of the full projector $P$ on the right-hand side is then a result of pushing forward the image of $(iota_*)^(-1)$ into $T cal(M)$, which gives rise to the @eq7168[combination]. We will adopt this more algebraic, embedded viewpoint for the remainder of the discussion, as it makes many derivations more transparent: @altDefnInducedConnection[equation] makes clear that the induced connection is simply the projection of the ambient connection onto the tangent bundle of the foliation.
 
   With this notational preface in place, we are now ready to give an algebraic argument for why the intrinsic curvature $macron(R)$ cannot, in general, be written as the orthogonal projection of the ambient curvature $R$ onto $T Sigma$.
-  
+
   Inserting into the definition of $macron(R)$, we find that for $X,Y,Z in Gamma(T Sigma)$,
   $
-    macron(R)(X,Y)Z &= [mnabla_X, mnabla_Y] Z - mnabla_[X,Y] Z\
-    &= [P nabla_X, P nabla_Y] Z - P nabla_[X,Y] Z.
+    macron(R)(X,Y)Z & = [mnabla_X, mnabla_Y] Z - mnabla_[X,Y] Z \
+                    & = [P nabla_X, P nabla_Y] Z - P nabla_[X,Y] Z.
   $
   The projection of the ambient curvature, on the other hand, reads
   $
@@ -2452,19 +2454,19 @@ However, this is _not_ the case. There are (at least) two ways to see this---fir
   $
   so the difference lies in the first term. Let us now expand the commutator appearing in $macron(R)$ as
   $
-    [P nabla_X, P nabla_Y] Z &= P nabla_X (P nabla_Y Z) - (X<->Y)\
-    &= underbrace(P^2,=P) nabla_X nabla_Y Z + P (nabla_X P) nabla_Y Z - (X<->Y)\
-    &= P [nabla_X, nabla_Y] Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size:#130%)
+    [P nabla_X, P nabla_Y] Z & = P nabla_X (P nabla_Y Z) - (X<->Y) \
+                             & = underbrace(P^2, =P) nabla_X nabla_Y Z + P (nabla_X P) nabla_Y Z - (X<->Y) \
+                             & = P [nabla_X, nabla_Y] Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size: #130%)
   $
-  We can see that there is an additional term involving covariant derivatives of the projector $P$---we hence obtain the identity 
+  We can see that there is an additional term involving covariant derivatives of the projector $P$---we hence obtain the identity
   $
-    macron(R)(X,Y)Z = P R(X,Y)Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size:#130%).
+    macron(R)(X,Y)Z = P R(X,Y)Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size: #130%).
   $<precursorGaussEqn>
   This demonstrates that the intrinsic curvature contains more than just the projection of the ambient curvature. The second term involves the covariant derivative of the projector $P$ and encodes how $T Sigma$ varies under parallel transport within the ambient manifold. It is, in fact, the algebraic seed of the _Gauss-Codazzi equation_, which we will derive in the following sections.
 
   However, to properly interpret this additional term, we must first introduce the concept of _extrinsic curvature_. As it stands, the expression
   $
-    P lr(((nabla_X P) nabla_Y Z - (nabla_Y P) nabla_X Z),size:#130%)
+    P lr(((nabla_X P) nabla_Y Z - (nabla_Y P) nabla_X Z), size: #130%)
   $<extraTermForIntrinsicCurvature>
   clearly introduces a dependence on how the submanifold is situated within the ambient space---it involves the derivative of the projector onto the tangent bundle, and hence reflects how that bundle varies from point to point. This suggests that the _shape_ of the submanifold is encoded here---the part that we found to be missing in the concrete example above. However, the geometric content of this term is not transparent in its current algebraic form. The introduction of extrinsic curvature will allow us to isolate and interpret this shape-dependence more clearly, ultimately leading to the _Gauss-Codazzi equation_, which links intrinsic, extrinsic and ambient curvature in a precise way.
 == Extrinsic Curvature
@@ -2489,9 +2491,9 @@ $
 $
 where
 $
-  id = delta^mu_nu diff_mu otimes dx^nu, quad P = tensor(P,+mu,-nu) diff_mu otimes dx^nu,quad Q = tensor(Q,+mu,-nu) diff_mu otimes dx^nu.
+  id = delta^mu_nu diff_mu otimes dx^nu, quad P = tensor(P, +mu, -nu) diff_mu otimes dx^nu,quad Q = tensor(Q, +mu, -nu) diff_mu otimes dx^nu.
 $
-This follows from raising an index of the metric, 
+This follows from raising an index of the metric,
 $
   g^(mu lambda) g_(lambda nu) = delta^mu_nu.
 $
@@ -2523,7 +2525,7 @@ Since $Q Y= 0$ for $Y in Gamma(T Sigma)$, this reduces to
 $
   K(X,Y) = -(nabla_X Q) Y.
 $
-This version highlights another aspect of the same idea: extrinsic curvature measures how the normal projection operator changes along $X$, when acting on $Y$. In other words, it tracks how the normal bundle twists and turns along the leaves of the foliation---consistent with our earlier interpretation in terms of tilting tangent spaces. 
+This version highlights another aspect of the same idea: extrinsic curvature measures how the normal projection operator changes along $X$, when acting on $Y$. In other words, it tracks how the normal bundle twists and turns along the leaves of the foliation---consistent with our earlier interpretation in terms of tilting tangent spaces.
 
 
 === Geometric Interpretation via the Normal Vector <extCurvatureNormalVector>
@@ -2533,7 +2535,7 @@ In the case where $Sigma = Sigma_t$ is a hypersurface foliation generated by a s
 $
   g(n^sharp,n^sharp) = epsilon = pm 1, quad g(n^sharp,X) = 0,quad forall X in T Sigma.
 $
-Thus any normal vector field $N in Gamma(N Sigma)$ can be written as a scalar multiple of $n^sharp$, 
+Thus any normal vector field $N in Gamma(N Sigma)$ can be written as a scalar multiple of $n^sharp$,
 $
   N = lambda n^sharp, quad lambda in C^infty (cal(M)).
 $
@@ -2575,17 +2577,17 @@ Upon defining the _shape operator_#footnote[A priori, it is unclear that the dom
 $
   S(X) = -nabla_X n^sharp,
 $
-this becomes 
+this becomes
 $
   k(X,Y) = epsilon g(S(X), Y).
 $
 Explicitly, the components of $k$ are given by
 $
-  k_(mu nu) = -epsilon gamma_(nu lambda) (nabla_mu n)#h(0em)^lambda = -epsilon (nabla_mu n)#h(0em)_nu = -epsilon nabla_mu (alpha dt)_nu,
+  k_(mu nu) = -epsilon gamma_(nu lambda) (nabla_mu n)#h(0em)^lambda = -epsilon (nabla_mu n)#h(0em) _nu = -epsilon nabla_mu (alpha dt)_nu,
 $<extrinsicCurvatureComponents>
 or equivalently,
 $
-  k_(i j) = - epsilon E^mu_i E^nu_j (nabla_mu n)#h(0em)_nu,
+  k_(i j) = - epsilon E^mu_i E^nu_j (nabla_mu n)#h(0em) _nu,
 $
 with respect to the transverse coordinates $y^i$. As a tensor, $k$ is hence nothing but
 $
@@ -2618,7 +2620,7 @@ Moreover, since the Lie bracket is a closed operation on the tangent spaces of (
 
 With this in mind, it is rather straightforward to show that the extrinsic curvature tensor is symmetric. We simply derive
 $
-  K(X,Y) = Q nabla_X Y = underbrace(Q nabla_Y X,=K(Y,X)) + underbrace(Q [X,Y],=0) = K(Y,X).
+  K(X,Y) = Q nabla_X Y = underbrace(Q nabla_Y X, =K(Y,X)) + underbrace(Q [X,Y], =0) = K(Y,X).
 $
 Here, we made use of the fact that $Q$ is the normal projection onto $N Sigma$, whereas $[X,Y] in T Sigma$, so that $Q$ annihilates it. We have thus shown that the extrinsic curvature is symmetric, i.e.,
 $
@@ -2630,8 +2632,8 @@ $
 $
 showing that the scalar function $k(X,Y)$, which encodes the magnitude of the extrinsic curvature, is also symmetric.
 
-=== Extrinsic Curvature as Lie Derivative of the Metric 
-In the case that the ambient manifold $cal(M)$ is endowed with a metric-compatible and torsion-free connection $nabla$, and $Sigma$ is a hypersurface foliation of it, one can derive a further identity relating the magnitude factor $k(X,Y)$ of the extrinsic curvature to the Lie derivative $cal(L)_(n^sharp)$ of the metric along the normal flow generated by $n^sharp$. 
+=== Extrinsic Curvature as Lie Derivative of the Metric
+In the case that the ambient manifold $cal(M)$ is endowed with a metric-compatible and torsion-free connection $nabla$, and $Sigma$ is a hypersurface foliation of it, one can derive a further identity relating the magnitude factor $k(X,Y)$ of the extrinsic curvature to the Lie derivative $cal(L)_(n^sharp)$ of the metric along the normal flow generated by $n^sharp$.
 
 To derive this, we begin by expanding
 $
@@ -2653,7 +2655,7 @@ $
 $
 Putting everything back together, we arrive at
 $
-  (cal(L)_(n^sharp) g)(X,Y) &= cancelr(g(nabla_(n^sharp) X, Y)) - cancelr(g(nabla_(n^sharp) X, Y)) + underbrace(g(nabla_X n^sharp, Y),=-epsilon k(X,Y)) + (X<->Y)\
+  (cal(L)_(n^sharp) g)(X,Y) &= cancelr(g(nabla_(n^sharp) X, Y)) - cancelr(g(nabla_(n^sharp) X, Y)) + underbrace(g(nabla_X n^sharp, Y), =-epsilon k(X,Y)) + (X<->Y)\
   &= -epsilon k(X,Y) - epsilon k(Y,X)\
   &= -2epsilon k(X,Y),
 $
@@ -2673,35 +2675,35 @@ In this section, we compute the extrinsic curvature of (once again) the hypersur
 $
   g = dr otimes dr + r^2 dtheta otimes dtheta + r^2 sin^2 theta dphi otimes dphi
 $
-in spherical coordinates $x^mu = (r,y^i) = (r,theta,phi)$, which, in @exampleR3ConcentricSpheres, we found to be a canonical choice to get the metric into an ADM-decomposed form with zero shift and unit lapse. The leaves of the foliation are given by scaled copies of $S^2$, 
+in spherical coordinates $x^mu = (r,y^i) = (r,theta,phi)$, which, in @exampleR3ConcentricSpheres, we found to be a canonical choice to get the metric into an ADM-decomposed form with zero shift and unit lapse. The leaves of the foliation are given by scaled copies of $S^2$,
 $
   Sigma_(r_0) = r^(-1)({r_0}) = r_0 S^2.
 $
 We endow the ambient manifold with the Levi-Civita connection (which has vanishing components in Cartesian coordinates). In spherical coordinates, the nonzero connection coefficients (up to symmetry in the lower indices) read
 $
-  tensor(Gamma,+r,-theta theta) &= -r, &quad&& tensor(Gamma,+r,-phi phi) &= - r sin^2 theta,\
-  tensor(Gamma,+theta,-r theta) &= 1/r, &quad&& tensor(Gamma,+theta,-phi phi) &= -sin theta cos theta,\
-  tensor(Gamma,+phi,-theta phi) &= cot theta, &wide&& tensor(Gamma,+phi,-r phi) &= 1/r
+  tensor(Gamma, +r, -theta theta) & = -r,        & quad &&     tensor(Gamma, +r, -phi phi) & = - r sin^2 theta, \
+  tensor(Gamma, +theta, -r theta) & = 1/r,       & quad && tensor(Gamma, +theta, -phi phi) & = -sin theta cos theta, \
+  tensor(Gamma, +phi, -theta phi) & = cot theta, & wide &&     tensor(Gamma, +phi, -r phi) & = 1/r
 $
 Recall from @exampleR3ConcentricSpheres that the normal 1-form and vector field of this foliation are given by
 $
-  n = dr, quad n^sharp = diff_r. 
+  n = dr, quad n^sharp = diff_r.
 $
 According to @extrinsicCurvatureTensor[equation] (with $epsilon = 1$) the extrinsic curvature's magnitude $k(X,Y)$ is thus the bilinear map defined by the tensor
 $
-  k &= -nabla n = - nabla dr = tensor(Gamma,+r,-mu nu) dx^mu otimes dx^nu \
-  &=tensor(Gamma,+r,-theta theta) dtheta otimes dtheta  + tensor(Gamma,+r,-phi phi) dphi otimes dphi\
-  &= -r dtheta otimes dtheta - r sin^2 theta dphi otimes dphi.
+  k & = -nabla n = - nabla dr = tensor(Gamma, +r, -mu nu) dx^mu otimes dx^nu \
+    & =tensor(Gamma, +r, -theta theta) dtheta otimes dtheta + tensor(Gamma, +r, -phi phi) dphi otimes dphi \
+    & = -r dtheta otimes dtheta - r sin^2 theta dphi otimes dphi.
 $
 We identify the nonzero components of $k$ as
 $
-  k_(mu nu) = tensor(Gamma,+r,-mu nu) quad <=> quad k_(theta theta) = -r, quad k_(phi phi) = -r sin^2 theta. 
+  k_(mu nu) = tensor(Gamma, +r, -mu nu) quad <=> quad k_(theta theta) = -r, quad k_(phi phi) = -r sin^2 theta.
 $
 The equivalence between symmetry of the extrinsic curvature and absence of torsion is manifest here; the connection coefficients are symmetric in their lower indices if and only if the connection is torsion-free.
 
 This result also gives us an opportunity to also verify the @extCurvatureNormalFlowMetric[identity] which relates $k$ to the Lie derivative of the metric along the normal flow. Since $n^sharp = diff_r$ has constant coefficients in spherical coordinates, the Lie derivative reduces to a regular derivative. Explicitly deriving leads to,
 $
-  -1/2 cal(L)_n^sharp g &= -1/2 (diff_r g_(mu nu))dx^mu otimes dx^nu = -1/2 lr([underbrace((diff_r g_(theta theta)),=2r) dtheta otimes dtheta + underbrace(lr((diff_r g_(phi phi)),size:#80%),=2r sin^2 theta)dphi otimes dphi],size:#50%)\
+  -1/2 cal(L)_n^sharp g &= -1/2 (diff_r g_(mu nu))dx^mu otimes dx^nu = -1/2 lr([underbrace((diff_r g_(theta theta)), =2r) dtheta otimes dtheta + underbrace(lr((diff_r g_(phi phi)), size: #80%), =2r sin^2 theta)dphi otimes dphi], size: #50%)\
   &= -r dtheta otimes dtheta - r sin^2 theta dphi otimes dphi\
   &= k,
 $
@@ -2715,9 +2717,9 @@ establishing the expected result.
 = Gauss-Codazzi Equation
 Now that we have established the concepts of ambient, intrinsic and extrinsic curvature, we can finally deduce relationships between them. In this section we derive expressions for the tangential part $P R(X,Y)Z$ of the ambient curvature $R$ acting with arguments $X,Y,Z in Gamma(T Sigma)$. Specifically, we derive the Gauss-Codazzi equation, which we already touched upon very lightly at the end of @intrinsicVsProjectedAmbient. We first treat the case of a general foliation, and then specialise to the case of hypersurfaces, where terms simplify somewhat. In the following, $cal(M)$ will denote a (pseudo-)Riemannian manifold equipped with a metric $g$, an affine connection $nabla$, and a foliation $Sigma$. The leaves of the foliation are endowed with the induced metric $gamma = iota^* g$ as well as the induced connection $mnabla$. Moreover, if not stated otherwise, $X,Y,Z,W$ will denote foliation-tangent vector fields in $Gamma(T Sigma)$.
 == General Case
-To derive the Gauss-Codazzi equation, let us first collect some definitions and identities we have derived in the previous sections. The starting point of the derivation will be the @precursorGaussEqn[equation], 
+To derive the Gauss-Codazzi equation, let us first collect some definitions and identities we have derived in the previous sections. The starting point of the derivation will be the @precursorGaussEqn[equation],
 $
-  macron(R)(X,Y)Z = P R(X,Y)Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size:#130%),
+  macron(R)(X,Y)Z = P R(X,Y)Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size: #130%),
 $<precursorGaussEqn2>
 Further, we will need the definition and alternate characterisation of the extrinsic curvature,
 $
@@ -2727,7 +2729,7 @@ Lastly, the decomposition of the identity into the orthogonal projectors $P$ and
 $
   id = P + Q,
 $
-will be of use as well. 
+will be of use as well.
 
 The derivation is best performed using the fully covariant Riemann tensor
 $
@@ -2735,27 +2737,27 @@ $
 $
 We begin by inserting the @precursorGaussEqn2[precursor] into this, finding
 $
-  &#h(-3em) macron(R)(W,Z,X,Y) = g(macron(R)(X,Y)Z,W)\
-  &= g lr((P lr((R(X,Y)Z + (nabla_X P)nabla_Y Z - (nabla_Y P) nabla_X Z), size: #135%), W),size:#135%)\
-  &= g lr((R(X,Y)Z + (nabla_X P) nabla_Y Z - (nabla_Y P) nabla_X Z, underbrace(P W,=W)),size:#55%)\
-  &= R(W,Z,X,Y) + lr((g lr(((nabla_X P) nabla_Y Z, W),size:#135%) - (X <-> Y)),size: #135%)
+  & #h(-3em) macron(R)(W,Z,X,Y) = g(macron(R)(X,Y)Z,W) \
+  & = g lr((P lr((R(X,Y)Z + (nabla_X P)nabla_Y Z - (nabla_Y P) nabla_X Z), size: #135%), W), size: #135%) \
+  & = g lr((R(X,Y)Z + (nabla_X P) nabla_Y Z - (nabla_Y P) nabla_X Z, underbrace(P W, =W)), size: #55%) \
+  & = R(W,Z,X,Y) + lr((g lr(((nabla_X P) nabla_Y Z, W), size: #135%) - (X <-> Y)), size: #135%)
 $<eq815>
 The first term is clear; it is nothing but the ambient Riemann tensor applied to the vector tuple $(W,Z,X,Y)$. The tangential projection $P$ drops out due to the fact that it is orthogonal and $P W = W$, as $W in Gamma(T Sigma)$. The second term requires a more detailed examination. It is an anti-symmetrisation in $X,Y$, so it is sufficient to consider only
 $
-  g lr(((nabla_X P) nabla_Y Z, W), size:#135%)
+  g lr(((nabla_X P) nabla_Y Z, W), size: #135%)
 $
 and perform the anti-symmetrisation afterwards. The treatment of this expression requires a series of operations, the steps behind which we list for clarity below:
 $
-  g lr(((nabla_X P) nabla_Y Z, W), size:#135%) &attach(=,t:1.) -g lr(((nabla_X Q) nabla_Y Z, W), size:#135%)\
-  &attach(=,t:2.) - g lr(( nabla_X underbrace((Q nabla_Y Z),=K(Y,Z)), W), size:#37%) + underbrace(g(Q nabla_X nabla_Y Z, W),=g lr((nabla_X nabla_Y, underbrace(Q Z,=0)),size:#35%) = 0)\
-  &attach(=,t:3.) -nabla_X underbrace(g lr(( underbrace(K(Y,Z),in Gamma(N Sigma)), underbrace(W,in Gamma(T Sigma))),size:#40%),=0) + g(K(Y,Z),nabla_X W) \
-  &attach(=,t:4.) g(K(Y,Z),K(X,W)).
+  g lr(((nabla_X P) nabla_Y Z, W), size: #135%) &attach(=, t: 1.) -g lr(((nabla_X Q) nabla_Y Z, W), size: #135%)\
+  &attach(=, t: 2.) - g lr(( nabla_X underbrace((Q nabla_Y Z), =K(Y,Z)), W), size: #37%) + underbrace(g(Q nabla_X nabla_Y Z, W), =g lr((nabla_X nabla_Y, underbrace(Q Z, =0)), size: #35%) = 0)\
+  &attach(=, t: 3.) -nabla_X underbrace(g lr(( underbrace(K(Y,Z), in Gamma(N Sigma)), underbrace(W, in Gamma(T Sigma))), size: #40%), =0) + g(K(Y,Z),nabla_X W) \
+  &attach(=, t: 4.) g(K(Y,Z),K(X,W)).
 $
 The steps are as follows:
 
 + Replace $P$ using $P = id - thin Q$ and note that
   $
-    nabla_X P = underbrace(nabla_X id,=0) - nabla_X Q = -nabla_X Q
+    nabla_X P = underbrace(nabla_X id, =0) - nabla_X Q = -nabla_X Q
   $
 + Integrate first argument by parts,
   $
@@ -2767,9 +2769,9 @@ The steps are as follows:
   $
   This step assumes metric compatibility of the connection.
 
-+ First term vanishes since $K(Y,Z) perp W$. In the second term, the first argument lies in $Gamma(N Sigma)$ such that only the normal part $Q nabla_X W = K(X,W)$ of the second argument contributes. 
++ First term vanishes since $K(Y,Z) perp W$. In the second term, the first argument lies in $Gamma(N Sigma)$ such that only the normal part $Q nabla_X W = K(X,W)$ of the second argument contributes.
 
-Inserting this partial result back into @eq815[equation] above and carrying out the anti-symmetrisation yields the _Gauss-Codazzi equation_ 
+Inserting this partial result back into @eq815[equation] above and carrying out the anti-symmetrisation yields the _Gauss-Codazzi equation_
 $
   macron(R)(W,Z,X,Y) = R(W,Z,X,Y) + g(K(X,W),K(Y,Z)) - g(K(Y,W),K(X,Z)).#h(2em)
 $<gaussEqn>
@@ -2778,7 +2780,7 @@ This is the result we anticipated in @intrinsicVsProjectedAmbient, now fully wor
 *Remarks:*
 - *Metric Compatibility* The derivation of the Gauss-Codazzi equation made use of the assumption that the connection is metric-compatible. This reduces its generality, but also introduces anti-symmetry in the $W,Z$-pair for both $macron(R)(W,Z,X,Y)$ and $R(W,Z,X,Y)$. Consequently, the terms involving the extrinsic curvature must satisfy this anti-symmetry as well---to remain consistent. It is straightforward to see that this is the case; the exchange $(W<->Z)$ yields a negative sign.
 
-- *Vanishing Torsion* Though we did not have to assume vanishing torsion in the derivation, we may add it as a further requirement. This introduces further symmetries of both the ambient and intrinsic curvature tensors, namely symmetry under the exchange of the first and second pair (since the connection is also metric-compatible), 
+- *Vanishing Torsion* Though we did not have to assume vanishing torsion in the derivation, we may add it as a further requirement. This introduces further symmetries of both the ambient and intrinsic curvature tensors, namely symmetry under the exchange of the first and second pair (since the connection is also metric-compatible),
   $
     R(W,Z,X,Y) = R(X,Y,Z,W),
   $
@@ -2788,14 +2790,16 @@ This is the result we anticipated in @intrinsicVsProjectedAmbient, now fully wor
   $
   The extrinsic curvature terms must satisfy these as well to remain consistent. Let us verify that this is the case for the former symmetry. Recall that for a torsion-free connection, $K$ is symmetric, i.e.
   $
-    K(X,Y) = K(Y,X). 
+    K(X,Y) = K(Y,X).
   $
   This implies that
-  #bottom-number($
-    macron(R)(W,Z,X,Y) - R(W,Z,X,Y) &= g(K(X,W),K(Y,Z)) - g(K(Y,W),K(X,Z))\
-    &= g(K(W,X),K(Z,Y)) - g(K(W,Y),K(Z,X))\
-    &= macron(R)(X,Y,W,Z) - R(X,Y,W,Z),
-  $)
+  #bottom-number(
+    $
+      macron(R)(W,Z,X,Y) - R(W,Z,X,Y) & = g(K(X,W),K(Y,Z)) - g(K(Y,W),K(X,Z)) \
+                                      & = g(K(W,X),K(Z,Y)) - g(K(W,Y),K(Z,X)) \
+                                      & = macron(R)(X,Y,W,Z) - R(X,Y,W,Z),
+    $,
+  )
   as required.
 - *Curvature Operator* Our derivation of the Gauss-Codazzi equation started with its @precursorGaussEqn[precursor]. This is an expression for the action of the intrinsic curvature operator $macron(R)(X,Y)$ on a vector, rather than the fully covariant curvature tensor $macron(R)(W,Z,X,Y)$ which appears in the final Gauss-Codazzi @gaussEqn[equation]. Naturally, the Gauss-Codazzi equation can be brought back into this form, turning it into
   $
@@ -2806,20 +2810,20 @@ This is the result we anticipated in @intrinsicVsProjectedAmbient, now fully wor
     P R(X,Y)Z = macron(R)(X,Y)Z - g(K(X,dot),K(Y,Z))^sharp + g(K(Y,dot),K(X,Z))^sharp.
   $<eq8117>
   This expresses the ambient curvature in terms of the intrinsic and extrinsic curvatures of the foliation---up to two limitations. The first one is rather obvious; we only recover the tangential part of the ambient curvature---the normal part, $Q R(X,Y)Z$, does not emerge from the Gauss-Codazzi equation alone. For this, there exists another result; the _Codazzi-Mainardi equation_, which relates the normal part of the ambient curvature to derivatives of the extrinsic curvature. We will not derive it in these notes.
-  
-  The second limitation is a bit more subtle. The objects on the right-hand side of @eq8117[equation] are defined for $X,Y,Z in Gamma(T Sigma)$ only. Hence, we obtain no expression for $P R(X,Y)Z$ on arbitrary vector fields in $Gamma(T cal(M))$, as these generally contain a normal component. 
-  
+
+  The second limitation is a bit more subtle. The objects on the right-hand side of @eq8117[equation] are defined for $X,Y,Z in Gamma(T Sigma)$ only. Hence, we obtain no expression for $P R(X,Y)Z$ on arbitrary vector fields in $Gamma(T cal(M))$, as these generally contain a normal component.
+
 == Hypersurface Foliation
-The Gauss-Codazzi @gaussEqn[equation] can be specialised to hypersurface foliations, where it simplifies a bit. This is done by making use of the relationship 
+The Gauss-Codazzi @gaussEqn[equation] can be specialised to hypersurface foliations, where it simplifies a bit. This is done by making use of the relationship
 $
   K(X,Y) = k(X,Y) n^sharp
 $
 that we derived in @extCurvatureNormalVector. Inserting it into the Gauss-Codazzi equation yields
 $
-  &macron(R)(W,Z,X,Y)\ 
-  &= R(W,Z,X,Y) + g(k(X,W)n^sharp, k(Y,Z) n^sharp) - g(k(Y,W)n^sharp, K(X,Z)n^sharp)\
-  &= R(W,Z,X,Y) + underbrace(g(n^sharp,n^sharp),=epsilon)(k(X,W) k(Y,Z) - k(Y,W)k(X,Z))\
-  &= R(W,Z,X,Y) + epsilon(k(X,W) k(Y,Z) - k(Y,W)k(X,Z))
+  & macron(R)(W,Z,X,Y) \
+  & = R(W,Z,X,Y) + g(k(X,W)n^sharp, k(Y,Z) n^sharp) - g(k(Y,W)n^sharp, K(X,Z)n^sharp) \
+  & = R(W,Z,X,Y) + underbrace(g(n^sharp,n^sharp), =epsilon)(k(X,W) k(Y,Z) - k(Y,W)k(X,Z)) \
+  & = R(W,Z,X,Y) + epsilon(k(X,W) k(Y,Z) - k(Y,W)k(X,Z))
 $
 We have thus arrived at the Gauss-Codazzi equation for hypersurface foliations,
 $
@@ -2829,19 +2833,19 @@ In terms of components in the adapted coordinates $(t,y^i)$, this reads
 $
   macron(R)_(k ell i j) = R_(k ell i j) + epsilon (k_(i k) k_(j ell) - k_(j k)k_(i ell)),
 $<gaussEqnHypersurfaceComponents>
-where 
+where
 $
   R_(k ell i j) = (iota^* R)_(k ell i j) = E^rho_k E^sigma_ell E^mu_i E^nu_j R_(rho sigma mu nu) = R(diff_k, diff_ell, diff_i, diff_j)
 $
-are the components of the pushforward of the ambient Riemann tensor. 
-== Example: Foliation of $RR^3 without {0}$ into Spheres 
+are the components of the pushforward of the ambient Riemann tensor.
+== Example: Foliation of $RR^3 without {0}$ into Spheres
 Let us once again revisit the example of the foliation of $RR without {0}$ into spheres. In @intrinsicVsProjectedAmbient, we computed the intrinsic curvature component
 $
-  tensor(macron(R),+theta,-phi theta phi) = sin^2 theta,
+  tensor(macron(R), +theta, -phi theta phi) = sin^2 theta,
 $
 to which all others are related to by symmetry. Further, from @exampleExtrinsicCurvature we know that the extrinsic curvature's magnitude $k(X,Y)$ has the components
 $
-  k_(theta theta) = -r,quad k_(phi phi) = -r sin^2 theta.  
+  k_(theta theta) = -r,quad k_(phi phi) = -r sin^2 theta.
 $
 Equipped with this---as well as the induced metric components
 $
@@ -2851,11 +2855,11 @@ $
 
 For this, we compare the component $macron(R)_(theta phi theta phi)$ of the fully covariant intrinsic curvature, which is given by
 $
-  macron(R)_(theta phi theta phi) = gamma_(theta theta) tensor(macron(R),+theta,-phi theta phi) = r^2 sin^2 theta,
+  macron(R)_(theta phi theta phi) = gamma_(theta theta) tensor(macron(R), +theta, -phi theta phi) = r^2 sin^2 theta,
 $<eq8124>
 to the right-hand side of the Gauss-Codazzi @gaussEqnHypersurfaceComponents[equation]. Recalling that the ambient curvature is zero, we compute the right-hand side by insertion,
 $
-  underbrace(R_(theta phi theta phi),=0) + lr((k_(theta theta) k_(phi phi)- underbrace(k_(phi theta),=0) underbrace(k_(phi theta),=0)),size:#35%) = (-r)(-r sin^2 theta) = r^2 sin^2 theta.
+  underbrace(R_(theta phi theta phi), =0) + lr((k_(theta theta) k_(phi phi)- underbrace(k_(phi theta), =0) underbrace(k_(phi theta), =0)), size: #35%) = (-r)(-r sin^2 theta) = r^2 sin^2 theta.
 $
 Note that this matches the anticipated @eq8124[result] precisely---we have thus verified the Gauss-Codazzi equation explicitly for a specific example foliation. Although this case is geometrically simple, it provides a concrete reference point: the relations between intrinsic curvature, extrinsic curvature, and the ambient geometry is entirely transparent here. More intricate ambient spacetimes and foliations will follow the same structure, but without the luxury of vanishing ambient curvature or such straightforward coordinate expressions.
 
@@ -2864,7 +2868,7 @@ In this final section, we apply what we've learned to derive a core result in th
 $
   S[g] = integral_(cal(M)) d^m x sqrt(g) cal(R).
 $
-To do this, we require a decomposition of the Ricci scalar $cal(R)$ (associated to the Levi-Civita connection) in terms of quantities related to the foliation, such as the intrinsic and extrinsic curvatures and the normal vector field. This is the decomposition we derive in this section. 
+To do this, we require a decomposition of the Ricci scalar $cal(R)$ (associated to the Levi-Civita connection) in terms of quantities related to the foliation, such as the intrinsic and extrinsic curvatures and the normal vector field. This is the decomposition we derive in this section.
 
 To carry out this derivation, it is instructive to use foliation-adapted coordinates $x^mu = (t,y^i)$ and to express components in the basis $E_A = (E_perp, E_i)$ with
 $
@@ -2876,8 +2880,8 @@ $
 $
 From @ADMDecompositionMetric we know that the inverse metric can be written as
 $
-  g^(-1) &= epsilon n^sharp otimes n^sharp + gamma^(i j) diff_i otimes diff_j\
-         &= epsilon E_perp otimes E_perp + gamma^(i j) E_i otimes E_j.
+  g^(-1) & = epsilon n^sharp otimes n^sharp + gamma^(i j) diff_i otimes diff_j \
+         & = epsilon E_perp otimes E_perp + gamma^(i j) E_i otimes E_j.
 $
 This is a block-diagonal matrix with components
 $
@@ -2885,63 +2889,62 @@ $
 $
 Hence, the Ricci scalar may be written as
 $
-  cal(R) &= g^(A C) g^(B D) R_(A B C D) = g^(k i) g^(ell j) R_(k ell i j) + 2 g^(perp perp) g^(A B) R_(perp A perp B)\
-  &= gamma^(k i) gamma^(ell j) R_(k ell i j) + 2 tensor(R,+perp A,- perp A).
+  cal(R) & = g^(A C) g^(B D) R_(A B C D) = g^(k i) g^(ell j) R_(k ell i j) + 2 g^(perp perp) g^(A B) R_(perp A perp B) \
+         & = gamma^(k i) gamma^(ell j) R_(k ell i j) + 2 tensor(R, +perp A, - perp A).
 $<ambientRicciScalarExpansion1>
-Let us now examine the two terms separately. 
+Let us now examine the two terms separately.
 
 For the first term, we may refer back to the Gauss-Codazzi @gaussEqnHypersurfaceComponents[equation] we derived in the previous section. It states that the tangential components of the fully covariant ambient curvature, $R_(k ell i j)$, are given by
 $
-  R_(k ell i j) &= macron(R)_(k ell i j) - epsilon (k_(i k) k_(j ell) - k_(j k) k_(i ell))\
+  R_(k ell i j) & = macron(R)_(k ell i j) - epsilon (k_(i k) k_(j ell) - k_(j k) k_(i ell)) \
 $
 Thus, the first term in the @ambientRicciScalarExpansion1[expansion] may be rewritten as
 $
-  gamma^(k i) gamma^(ell j) R_(k ell i j) &= underbrace(gamma^(k i) gamma^(ell j) macron(R)_(k ell i j),=macron(cal(R))) - epsilon lr((underbrace(gamma^(i k) k_(i k),=: k) underbrace(gamma^(ell j) k_(j ell),= k) - underbrace(k_(j k) gamma^(k i) k_(i ell) gamma^(ell j),=k_(i j) k^(i j))),size:#35%)\
+  gamma^(k i) gamma^(ell j) R_(k ell i j) &= underbrace(gamma^(k i) gamma^(ell j) macron(R)_(k ell i j), =macron(cal(R))) - epsilon lr((underbrace(gamma^(i k) k_(i k), =: k) underbrace(gamma^(ell j) k_(j ell), = k) - underbrace(k_(j k) gamma^(k i) k_(i ell) gamma^(ell j), =k_(i j) k^(i j))), size: #35%)\
   &= macron(cal(R)) - epsilon (k^2 - k_(i j) k^(i j)).
 $
 Here, $macron(cal(R))$ denotes the Ricci scalar of the intrinsic curvature, $k$ the trace of the extrinsic curvature with respect to the induced metric, and $k^(i j) = gamma^(i k) gamma^(j ell) k_(k ell)$.
 
-We now turn our attention to the second term in @ambientRicciScalarExpansion1[]. Unfortunately, this term requires a bit more work, as we do not have a neat result like the Gauss-Codazzi equation to lean on. We work in a mix of coordinate and $E_A$-basis components, with the goal of computing $tensor(R,+perp A,-perp A) = tensor(R,+perp mu,-perp mu)$. To compute this trace, we start with
+We now turn our attention to the second term in @ambientRicciScalarExpansion1[]. Unfortunately, this term requires a bit more work, as we do not have a neat result like the Gauss-Codazzi equation to lean on. We work in a mix of coordinate and $E_A$-basis components, with the goal of computing $tensor(R, +perp A, -perp A) = tensor(R, +perp mu, -perp mu)$. To compute this trace, we start with
 $
-  tensor(R,+perp,-lambda mu nu) &= E^perp_rho tensor(R,+rho,-lambda mu nu) = epsilon n_rho tensor(R,+rho,-lambda mu nu) = -epsilon (R(diff_mu, diff_nu)n)#h(0em)_lambda\
-  &= -epsilon((nabla_mu nabla_nu n)#h(0em)_lambda - (nabla_nu nabla_mu n)#h(0em)_lambda)
+  tensor(R, +perp, -lambda mu nu) &= E^perp_rho tensor(R, +rho, -lambda mu nu) = epsilon n_rho tensor(R, +rho, -lambda mu nu) = -epsilon (R(diff_mu, diff_nu)n)#h(0em) _lambda\
+  &= -epsilon((nabla_mu nabla_nu n)#h(0em) _lambda - (nabla_nu nabla_mu n)#h(0em) _lambda)
 $
-where $n = n_mu dx^mu$ is the normal 1-form. To derive $tensor(R,+perp mu,-perp mu)$, it is useful to introduce the shorthand notation
+where $n = n_mu dx^mu$ is the normal 1-form. To derive $tensor(R, +perp mu, -perp mu)$, it is useful to introduce the shorthand notation
 $
-  Div X = tr_1^1 (nabla X) = (nabla_mu X)#h(0em)^mu 
+  Div X = tr_1^1 (nabla X) = (nabla_mu X)#h(0em)^mu
 $
 for the covariant divergence of a vector field $X in Gamma(T cal(M))$. With this definition, we may now continue deriving:
 #bottom-number([
-$
-  -epsilon tensor(R,+perp nu,-perp nu) &= -epsilon E^mu_perp tensor(R,+perp nu,-mu nu) = -epsilon n^mu tensor(R,+perp nu,-mu nu)\
-  &= n^mu (nabla_mu nabla_nu n^sharp)\ ^nu - n^mu (nabla_nu nabla_mu n^sharp)\ ^nu\
-  &= underbrace(nabla_mu lr((n^sharp otimes underbrace((nabla_nu n^sharp)\ ^nu,=Div n^sharp)),size:#35%)\ ^mu,= Div(n^sharp dot Div n^sharp)) - (nabla_mu n^sharp)\ ^mu (nabla_nu n^sharp)\ ^nu - underbrace(nabla_nu lr((underbrace(n^mu nabla_mu n^sharp,=nabla_(n^sharp)n^sharp)),size:#32%)\ ^nu,=Div (nabla_(n^sharp) n^sharp)) + (nabla_nu n^sharp)\ ^mu (nabla_mu n^sharp)\ ^nu\
-  &=Div(n^sharp dot Div n^sharp - nabla_(n^sharp) n^sharp) - (nabla_mu n^sharp)\ ^mu (nabla_nu n^sharp)+ (nabla_nu n^sharp)\ ^mu (nabla_mu n^sharp)\ ^nu
-$<derivationRperpAperpB>]
-)
+  $
+    -epsilon tensor(R, +perp nu, -perp nu) &= -epsilon E^mu_perp tensor(R, +perp nu, -mu nu) = -epsilon n^mu tensor(R, +perp nu, -mu nu)\
+    &= n^mu (nabla_mu nabla_nu n^sharp)\^nu - n^mu (nabla_nu nabla_mu n^sharp)\^nu\
+    &= underbrace(nabla_mu lr((n^sharp otimes underbrace((nabla_nu n^sharp)\^nu, =Div n^sharp)), size: #35%)\^mu, = Div(n^sharp dot Div n^sharp)) - (nabla_mu n^sharp)\^mu (nabla_nu n^sharp)\^nu - underbrace(nabla_nu lr((underbrace(n^mu nabla_mu n^sharp, =nabla_(n^sharp)n^sharp)), size: #32%)\^nu, =Div (nabla_(n^sharp) n^sharp)) + (nabla_nu n^sharp)\^mu (nabla_mu n^sharp)\^nu\
+    &=Div(n^sharp dot Div n^sharp - nabla_(n^sharp) n^sharp) - (nabla_mu n^sharp)\^mu (nabla_nu n^sharp)+ (nabla_nu n^sharp)\^mu (nabla_mu n^sharp)\^nu
+  $<derivationRperpAperpB>])
 The first term is a total derivative/divergence, and will hence only contribute to the action as a boundary term.
 
- The other two terms are more interesting; we recall that for hypersurface foliations, the extrinsic curvature may be written as
+The other two terms are more interesting; we recall that for hypersurface foliations, the extrinsic curvature may be written as
 $
   k(X,Y) = epsilon g(Y,-nabla_X n^sharp).
 $
 In components, this reads
 $
-  k_(mu nu) = epsilon g(diff_nu, -nabla_mu n^sharp) = -epsilon (nabla_mu n^sharp)\ _nu quad <=> quad (nabla_mu n^sharp)\ _nu = -epsilon k_(mu nu)
+  k_(mu nu) = epsilon g(diff_nu, -nabla_mu n^sharp) = -epsilon (nabla_mu n^sharp)\_nu quad <=> quad (nabla_mu n^sharp)\_nu = -epsilon k_(mu nu)
 $
 precisely the tensor appearing in the remaining terms of @derivationRperpAperpB[equation]. Thus, we find
 $
-  - (nabla_mu n^sharp)\ ^mu (nabla_nu n^sharp)+ (nabla_nu n^sharp)\ ^mu (nabla_mu n^sharp)\ ^nu &=  - (-epsilon)^2 tensor(k,-mu,+mu) tensor(k,-nu,+nu) + (-epsilon)^2 k_(mu nu) k^(mu nu)\
+  - (nabla_mu n^sharp)\^mu (nabla_nu n^sharp)+ (nabla_nu n^sharp)\^mu (nabla_mu n^sharp)\^nu &= - (-epsilon)^2 tensor(k, -mu, +mu) tensor(k, -nu, +nu) + (-epsilon)^2 k_(mu nu) k^(mu nu)\
   &= -k^2 + k_(i j) k^(i j),
 $
-where we made use of the fact that $k_(mu nu)$ has no normal components and that $k = tensor(k,+mu,-mu) = tensor(k,+i,-i)$. Putting everything together, we find
+where we made use of the fact that $k_(mu nu)$ has no normal components and that $k = tensor(k, +mu, -mu) = tensor(k, +i, -i)$. Putting everything together, we find
 $
-  tensor(R,+perp nu,-perp nu) = epsilon Div( nabla_(n^sharp) n^sharp - n^sharp dot Div n^sharp)  + epsilon(k^2 - k_(i j) k^(i j)).
+  tensor(R, +perp nu, -perp nu) = epsilon Div(nabla_(n^sharp) n^sharp - n^sharp dot Div n^sharp) + epsilon(k^2 - k_(i j) k^(i j)).
 $
 Hence, the ambient Ricci scalar is given by
 $
-  cal(R) &= macron(cal(R)) - epsilon (k^2 - k_(i j)k^(i j)) + 2 epsilon Div( nabla_(n^sharp) n^sharp - n^sharp dot Div n^sharp)  + 2 epsilon (k^2 - k_(i j) k^(i j))\
-  &= macron(cal(R)) + epsilon(k^2 - k_(i j) k^(i j)) + 2 epsilon Div( nabla_(n^sharp) n^sharp - n^sharp dot Div n^sharp) 
+  cal(R) &= macron(cal(R)) - epsilon (k^2 - k_(i j)k^(i j)) + 2 epsilon Div(nabla_(n^sharp) n^sharp - n^sharp dot Div n^sharp) + 2 epsilon (k^2 - k_(i j) k^(i j))\
+  &= macron(cal(R)) + epsilon(k^2 - k_(i j) k^(i j)) + 2 epsilon Div(nabla_(n^sharp) n^sharp - n^sharp dot Div n^sharp)
 $
 This allows us to write down the full ADM action,
 $
