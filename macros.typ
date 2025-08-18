@@ -45,6 +45,7 @@
 
 #let Ric = math.op("Ric")
 #let mRic = overline(math.op("Ric"))
+#let Div = math.op("div")
 
 //various groups and algebras
 #let SO = math.op("SO")
