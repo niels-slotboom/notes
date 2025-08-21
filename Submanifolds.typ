@@ -420,7 +420,7 @@ $
   = (g_(mu nu) tensor(E, +mu, -i) tensor(E, +nu, -j)) X^i X^j = gamma_(i j) X^i Y^j = gamma(X, Y).
 $
 This confirms explicitly that $iota^* g = gamma$; in other words, the induced metric on $cal(S)$ is simply the pullback of the metric from the ambient manifold $cal(M)$. We have come full circle: the geometric idea that guided our definition of the induced metric has now emerged naturally from algebraic considerations grounded in a broader theoretical framework. That coherence gives us confidence to admit the idea into our formal foundations---when algebra and intuition converge, we are likely on the right path.
-== The Left-Inverse: Projections onto Tangent Spaces
+== The Left-Inverse: Projections onto Tangent Spaces <sectionLeftInverse>
 We have previously remarked that for the pushforward
 $
   phi_* : T_p cal(M) -> T_phi(p) cal(N)
@@ -588,9 +588,9 @@ This section aims to introduce the notion of _vector bundles_ one can define on 
 == Vector Bundles: Intuition and Definitions
 So far, when we discussed vectorial (or tensorial) objects, our expressions have been entirely pointwise. We have considered, for example, maps from $T_p cal(M)$ to $T_phi(p) cal(N)$, where $cal(N)$ is another manifold and $phi: cal(M)-> cal(N)$ is a smooth map between them. These are relations between tangent spaces at individual points.
 
-However, since there exists a tangent space at every point $p in cal(M)$, it is natural to seek a way to _assemble_ or _bundle together_ all these tangent spaces into a single structure. Intuitively, we take the manifold $cal(M)$ and, at each point, attach the tangent space at that point. This yields a new, higher-dimensional manifold-like object that encodes all the tangent spaces and their relation to points in $cal(M)$. This construction is known as the _tangent bundle_.
+However, since there exists a tangent space at every point $p in cal(M)$, it is natural to seek a way to _assemble_ or _bundle together_ all these tangent spaces into a single structure. Intuitively, we take the manifold $cal(M)$ and, at each point, attach the to it its corresponding tangent space. This yields a new, higher-dimensional manifold-like object that encodes all the tangent spaces and their relation to points in $cal(M)$. This construction is known as the _tangent bundle_.
 
-Of course, this is a loose and purely intuitive description. In this section, we aim to make rigorous the idea of "attaching a vector space to each point of a manifold" by introducing the notion of a _vector bundle_. In the next section, we will see that the tangent (and cotangent) bundles---central objects in differential geometry---are but special instances of this general concept.
+Of course, this is just a loose and purely intuitive description. In this section, we aim to make rigorous the idea of "attaching a vector space to each point of a manifold" by introducing the notion of a _vector bundle_. In the next section, we will see that the tangent (and cotangent) bundles---central objects in differential geometry---are but special instances of this general concept.
 \ \
 *Definition* (Vector Bundle) Let $cal(M)$ be a smooth manifold of dimension $m$. A _smooth real vector bundle_ of rank $n$ over $cal(M)$ is a triple $(cal(E), pi, cal(M))$, where:
 
@@ -622,7 +622,7 @@ Of course, this is a loose and purely intuitive description. In this section, we
       edge((1, -2), (-1, 0), [$P_1$], label-side: left, "->")
     })
   $<fibrationDiagram>
-  commutes, where $P_1$ is the projection onto the first component of the Cartesian product ($(a,b)|->a$)
+  commutes, where $P_1$ is the projection onto the first component of the Cartesian product ($(a,b)|->a$).
 
 Let us now go through this definition calmly, and explain the meaning and intuition behind each of the constructions separately.
 
@@ -636,19 +636,23 @@ Now, let us go over each part of the definition in detail.
   $
   This is an $(m+n)$-dimensional manifold, since the base manifold has dimension $cal(M)$, and attaching an $n$-dimensional vector space at each point increases the dimension by $n$.
 
-  Very loosely, one might imagine this as dragging a window (the vector space) across a screen (the manifold) in Windows XP, with the bug that leaves behind a smeared trail of it. As you drag it, the trail being formed represents this union of all these smeared copies (counting overlapping regions appropriately), which is what is known as the total space.
+  Very loosely, one might imagine this as dragging a window (the vector space) across a screen (the manifold) in Windows XP, with the bug that leaves behind a smeared trail of it. As you drag it, the trail being formed represents this union of all these smeared copies (recounting overlapping regions appropriately), which is what is known as the total space.
 
-+ _Bundle Projection_: A point in $cal(E)$ encodes two pieces of information: a point $p in cal(M)$, and a vector attached to it, describing a _direction from $p$_. The bundle projection's job is simple: it takes such a pair and tells us to which point on the base manifold it belongs.
++ _Bundle Projection_: Consider the total space $cal(E)$ of a vector bundle. Since it can be viewed as the union of all tangent spaces, any point in it contains two pieces of information: A vector in one of the tangent spaces, as well as the point to which that tangent space is attached to. In other words, an element of $cal(E)$ is naturally written as a pair $(p,X_p)$, where $p$ denotes a point in the manifold $cal(M)$, and $X_p$ is a vector in the fibre attached to $cal(M)$ at $p$, i.e., $X_p in cal(E)_p$. 
 
-  It must be surjective, so that each point $p in cal(M)$ has a corresponding vector space attached to it. If it were not surjective, there would exist some $p$ for which no vectors are associated, contradicting the idea of "attaching a vector space at each point".
+  To visualise this, imagine attaching copies of $RR^2$ perpendicular to a straight line (which can be represented by $RR$). The result is a space that is isomorphic to $RR^3$, where each point in this total space consists of three real numbers. The first number indicates the position along the line (i.e., in which "paper sheet" in the stack we are on), and the last two numbers describe a vector in $RR^2$ (i.e., the direction of the vector in the plane attached at that position).
 
-+ _Fibres_: The fibre at $p in cal(M)$ is the collection of all vectors attached or associated to $p$, i.e. its preimage under the bundle projection $pi$. More precisely,
+  The role of the bundle projection map $pi:cal(E)->cal(M)$ is straightforward: it takes such a pair $(p, X_p)$ and projects it onto the point $p in cal(M)$ to which the vector space is attached. In our analogy, this means that the bundle projection "reads" the position within the stack of paper and returns the corresponding piece of paper, or more formally, the point on the line to which the sheet is attached.
+
+  This map must be surjective: every point $p in cal(M)$ must have a corresponding vector space attached to it. If it were not surjec tive, there would exist a point $p in cal(M)$ without any associated vector, which would contradict the idea of "attaching a vector space to each point of the manifold".
+
++ _Fibres_: The fibre at $p in cal(M)$ is the collection of all vectors attached to $p$, i.e. its preimage under the bundle projection $pi$. More precisely,
   $
     cal(E)_p = pi^(-1)({p}).
   $
   Since we want to attach not just _any_ kind of fibre, but specifically an $n$-dimensional vector space, we impose the additional requirement that each fibre $cal(E)_p$ carries the structure of a real vector space of dimension $n$.
 
-+ _Local Triviality_: This is likely the most convoluted part of the definition, but can also be broken down intuitively. What local triviality demands is that _locally_, in some neighbourhood $U subset cal(M)$ of $p in cal(M)$, the total space $cal(E)$ "looks like" the space $U times RR^n$. This is the simplest way of "attaching vector spaces to each point"---the Cartesian product does exactly that. In more formal terms, "looks like" is replaced by the notion of the diffeomorphism $Phi$. Since $RR^n$ is the concrete representation of the attached vector space, we would also like the fibres $cal(E)_q$, $q in U$ to map to $RR^n$ under $Phi$ in a way that respects the algebraic structure---hence the condition on $Phi|_cal(E)_q$. The requirement that the @fibrationDiagram[diagram] commutes then further ensures that the fibres get attached to the correct points on $cal(M)$.
++ _Local Triviality_: This is likely the most convoluted part of the definition, but can also be broken down intuitively. What local triviality demands is that _locally_, in some neighbourhood $U subset cal(M)$ of $p in cal(M)$, the total space $cal(E)$ "looks like" the space $U times RR^n$. This is the simplest way of "attaching vector spaces to each point"---the Cartesian product does exactly that. In more formal terms, "looks like" is replaced by the notion of the diffeomorphism $Phi$. Since $RR^n$ is the concrete representation of the attached vector space, we would also like the fibres $cal(E)_q$, $q in U$ to map to $RR^n$ under $Phi$ in a way that respects the algebraic structure---hence the condition on $Phi|_cal(E)_q$. The requirement that the @fibrationDiagram[diagram] commutes then further ensures that the fibres get attached to the correct points on $cal(M)$---we don't want to, for example, end up attaching the tangent space at a point $p$ to another point $q$.
 
 
 Now that we have defined vector bundles, let us introduce a notion that makes use of it. Specifically, we consider so-called _smooth sections_ of vector bundles. A smooth section is, intuitively speaking, the selection of one vector in the fibre $cal(E)_p$ at each $p in cal(M)$, in a way that creates a smooth surface in the total space $cal(E)$. Such a surface can be viewed as a vector field, since it maps each point on the manifold to one vector in its fibre.
@@ -672,7 +676,7 @@ This is a real vector space under pointwise addition and scalar multiplication. 
 
 We are now prepared for the next section, in which we will define the tangent and cotangent bundles $T cal(M)$ and $T^* cal(M)$, and use smooth sections to give an alternative perspective on vector fields and differential 1-forms.
 == The Tangent and Cotangent Bundles
-In this section, we introduce the two most important vector bundles in differential geometry: the tangent bundle $T cal(M)$ and the cotangent bundle $T^* cal(M)$. In essence, these are the special cases where one chooses the fibres $cal(E)_p$ of a vector bundle to be the (co)-tangent spaces $T_p cal(M)$ and $T_p^* cal(M)$, respectively---but let us now introduce this rigorously.
+The tangent bundle $T cal(M)$ and the cotangent bundle $T^* cal(M)$ are, arguably, the two most important vector bundles in differential geometry. In essence, these are the special cases of vector bundles where one chooses the fibres $cal(E)_p$ to be the (co)-tangent spaces $T_p cal(M)$ and $T_p^* cal(M)$, respectively---let us now introduce this rigorously.
 \ \
 *Definition* (Tangent Bundle)
 Let $cal(M)$ be a smooth manifold of dimension $m$ and denote by $T_p cal(M)$ its tangent space at any point $p in cal(M)$. Define the $2m$-dimensional total space $T cal(M)$ by the disjoint union
@@ -685,9 +689,9 @@ $
 $
 as the map
 $
-  pi(p, v) = p,
+  pi(p, X) = p,
 $
-choosing to write elements of $T cal(M)$ as pairs $(p,v)$ with $v in T_p cal(M)$.
+choosing to write elements of $T cal(M)$ as pairs $(p,X)$ with $X in T_p cal(M)$.
 \ \
 *Remarks:* A few direct consequences follow from this construction:
 - _Fibres_: The fibre over a point $p in cal(M)$ is given by
@@ -698,7 +702,7 @@ choosing to write elements of $T cal(M)$ as pairs $(p,v)$ with $v in T_p cal(M)$
 
 - _Local triviality and charts on $T cal(M)$_: Given a coordinate chart $(U,x^mu)$ on $cal(M)$, we can define a chart on the preimage $pi^(-1)(U) subset T cal(M)$ by identifying
   $
-    pi^(-1)(U) tilde.eq U times RR^m, quad (p,V)|-> (x^mu(p), V^mu),
+    pi^(-1)(U) tilde.eq U times RR^m, quad (p,V)|-> (x^mu (p), V^mu),
   $
   where $V^mu$ are the components of the tangent vector $V = V^mu diff_mu$ in the coordinate basis induced by $x^mu$. This provides $T cal(M)$ with a smooth manifold structure of dimension $2m$.
 
@@ -716,7 +720,7 @@ choosing to write elements of $T cal(M)$ as pairs $(p,v)$ with $v in T_p cal(M)$
 
 - _Vector fields as section_: Any smooth vector field on $cal(M)$, i.e. a smooth assignment $X:p|-> X_p in T_p cal(M)$, is precisely a smooth section of the tangent bundle,
   $
-    X : cal(M) -> T cal(M), quad "with" quad pi compose X = id_cal(M).
+    X : cal(M) -> T cal(M), quad p |-> (p, X_p) quad "with" quad pi compose X = id_cal(M).
   $
   That is, $X in Gamma (T cal(M))$. This is the prototypical example of a smooth section, and shows how the familiar notion of a vector field fits directly into the general formalism of vector bundles.
 
@@ -734,7 +738,7 @@ $
 $
 writing elements of $T^* cal(M)$ as pairs $(p, omega)$ with $omega in T_p^* cal(M)$. The same remarks as for the tangent bundle hold, with the occasional change of terminology from vectors to $1$-forms.
 == Bundle Maps and Vector Bundle Morphisms
-Now that we have introduced the notion of vector bundles as well as concrete (and important) examples thereof, the tangent bundle $T cal(M)$ and the cotangent bundle $T^* cal(M)$, we can begin considering maps between them. A map between two tangent bundles becomes particularly interesting if it respects the algebraic structure of the fibres---i.e., if it maps vectors in one fibre linearly to vectors in another. Such maps we will refer to as _bundle morphisms_. We now first introduce the more general concept of a bundle map, and then impose the additional algebraic structure to define the notion of bundle morphisms.
+Now that we have introduced the notion of vector bundles as well as the concrete (and important) tangent bundle $T cal(M)$ and the cotangent bundle $T^* cal(M)$, we can begin considering maps between them. A map between two tangent bundles becomes particularly interesting if it respects both the geometric structure of the underlying manifold(s) as well as the algebraic structure of the fibres---i.e., if it maps vectors in one fibre linearly to vectors in another. Such maps we will refer to as _bundle morphisms_. We first introduce the more general concept of a bundle map, and then impose additional algebraic structure to define the notion of bundle morphisms.
 \ \
 *Definition* (Bundle Map) Let $cal(M)$, $cal(N)$ be smooth manifolds and $(cal(E),pi_cal(M), cal(M))$ as well as $(cal(F), pi_cal(N), cal(N))$ vector bundles on them. Further, let
 $
@@ -762,13 +766,13 @@ This is equivalent to the condition that
 $
   pi_cal(N) compose Phi = phi compose pi_cal(M).
 $<bundleMapCondition>
-Without further interpretation, the definition above may seem opaque---so let us walk through it and develop some intuition. Consider an element $(p, X) in cal(E)$, where $p in cal(M)$ and $X in cal(E)_p$, the fibre over $p$. We examine the two sides of the @bundleMapCondition[condition] act on such a point.
+Without further interpretation, the definition above may seem opaque---so let us walk through it and develop some intuition. Consider an element $(p, X) in cal(E)$, where $p in cal(M)$ and $X in cal(E)_p$, the fibre over $p$. We examine how the two sides of the @bundleMapCondition[condition] act on such a point.
 
 Starting with the right-hand side, we have
 $
   (phi compose pi_cal(M))(p,X) = phi(pi_cal(M)(p,X)) = phi(p).
 $
-his means ve first project $(p,X)$ onto its base point $p in cal(M)$ via $pi_cal(M)$, then apply $phi$ to obtain a point in $cal(N)$.
+this means we first project $(p,X)$ onto its base point $p in cal(M)$ via $pi_cal(M)$, then apply $phi$ to obtain a point in $cal(N)$.
 
 Now for the left-hand side:
 $
@@ -782,15 +786,15 @@ $
 $
 In other words, a bundle map $Phi$ must map $(p,X) in cal(E)$ to $(phi(p),Y) in cal(F)$; the base point of the image is determined entirely by the underlying map $phi$. The vector part $Y$ can be chosen freely (within the fibre over $phi(p)$), but the association between fibres is rigidly tied to that between base points.
 
-A third, equivalent way to phrase this is to say that $Phi$ maps each fibre $cal(E)_p$ into the fibre $cal(F)_(phi(p))$. That is,
+An equivalent way to phrase this is to demand that $Phi$ maps each fibre $cal(E)_p$ into the fibre $cal(F)_(phi(p))$. That is,
 $
   Phi|_cal(E)_p : cal(E)_p -> cal(F)_phi(p).
 $
 The content of the definition is precisely this: a bundle map over $phi$ is one that maps vectors attached to a point $p in cal(M)$ into vectors attached to $phi(p) in cal(N)$, without violating the structure of the fibration.
 
-Besides the structure of the fibration, a vector bundle has additional algebraic structure that one could demand to be preserved; each fibre is a vector space, and we could demand a bundle map to respect it by imposing linearity. This notion, called _bundle morphisms_, is what we now define rigorously.
+Besides the structure of the fibration, a vector bundle has additional algebraic structure that one could demand to be preserved; each fibre is a vector space, and we could require a bundle map to respect it by imposing linearity. This notion, called _bundle morphisms_, is what we now define rigorously.
 \ \
-*Definition* (Vector Bundle Morphism) Let $cal(M)$, $cal(N)$ be smooth manifolds, and let $(cal(E), pi_cal(M), cal(M))$ and $(cal(F), pi_cal(N), cal(N))$ be smooth real vector bundles over them. Suppose we are given a smooth map $phi:cal(M)->cal(N)$ and a bundle map $Phi:cal(E)->cal(F)$ covering $phi$, i.e.
+*Definition* (Vector Bundle Morphism) Let $cal(M)$, $cal(N)$ be smooth manifolds, and let $(cal(E), pi_cal(M), cal(M))$ and $(cal(F), pi_cal(N), cal(N))$ be smooth real vector bundles over them. Suppose we are given a smooth map $phi:cal(M)->cal(N)$ and a bundle map $Phi:cal(E)->cal(F)$ covering $phi$, i.e. a map $Phi$ which satisfies
 $
   pi_cal(N) compose Phi = phi compose pi_cal(M).
 $
@@ -800,7 +804,7 @@ $
 $
 is a linear map of vector spaces.
 
-Intuitively, a vector bundle morphism over $phi$ can be seen as a fibrewise linear transformation that "respects the base": it transforms each vector in a fibre over $p in cal(M)$ to a vector in the fibre over $phi(p) in cal(N)$, via a linear map.
+Intuitively, a vector bundle morphism over $phi$ can be seen as a fibrewise linear transformation that "respects the base": it linearly transforms each vector in a fibre over $p in cal(M)$ to a vector in the fibre over $phi(p) in cal(N)$.
 
 While there are many abstract vector bundle morphisms on could define and study, there is a particularly natural one associated with a smooth map $phi: cal(M)->cal(N)$ that we have already encountered: the pushforward. Though we initially introduced the pushforward $phi_* : T_p cal(M) -> T_phi(p) cal(N)$ as a pointwise linear map between tangent spaces, it readily extends to a global vector bundle morphism.
 
@@ -812,10 +816,14 @@ This construction maps each element of the tangent bundle $T cal(M)$ to the tang
 $
   pi_cal(N) compose Phi = phi compose pi_cal(M),
 $
-and that the fibrewise maps $Phi|_(T_p cal(M)) = phi_* : T_p cal(M) -> T_phi(p) cal(N)$ are linear. Hence, $Phi$ defines a (vector) bundle morphism from $T cal(M)$ to $T cal(N)$ over $phi$.
+and that the fibrewise maps $Phi|_(T_p cal(M)) = phi_* : T_p cal(M) -> T_phi(p) cal(N)$ are linear. Hence, $Phi$ defines a (vector) bundle morphism from $T cal(M)$ to $T cal(N)$ over $phi$. Because of this, it is common to write the pushforward as a map
+$
+  phi_* : T cal(M) -> T cal(N),
+$
+considering it as a vector bundle morphism.
 == The Normal Bundle and Orthogonal Decomposition
 
-In this section, we explore how the tangent bundle $T cal(S)$ of a submanifold $cal(S) subset cal(M)$ can be understood as a subbundle of the restriction of the tangent bundle $T cal(M)$ to $cal(S)$. Further, we define the normal bundle $N cal(S)$ and explain how the pointwise projections $P$ and $Q$, as introduced earlier, extend naturally to smooth vector bundle morphisms between $T cal(M)|_cal(S)$, $T cal(S)$ and $N cal(S)$. While this may seem like an unnecessary abstraction at first glance, it will turn out to offer geometric clarity and prepare us for later constructions involving intrinsic curvature.
+In this section, we explore how the tangent bundle $T cal(S)$ of a submanifold $cal(S) subset cal(M)$ can be understood as a subbundle of the restriction $T cal(M)|_cal(S)$ of the tangent bundle $T cal(M)$ to $cal(S)$. Further, we define the normal bundle $N cal(S)$ and explain how the pointwise projections $P$ and $Q$ we introduced earlier extend naturally to smooth vector bundle morphisms between $T cal(M)|_cal(S)$, $T cal(S)$ and $N cal(S)$. While this may seem like an unnecessary abstraction at first glance, it will turn out to offer geometric clarity and prepare us for later constructions involving intrinsic curvature.
 \ \
 *Definition* (Restriction of vector bundles to submanifolds) Let $cal(M)$ be a smooth manifold of dimension $m$, and let $cal(S) subset cal(M)$ be a submanifold of dimension $s < m$. Given a vector bundle $(cal(E), pi, cal(M))$ over $cal(M)$, its _restriction to_ $cal(S)$ is defined as the triple
 $
@@ -823,7 +831,7 @@ $
 $
 This construction simply discards all fibres of $cal(E)$ lying over points $p in cal(M) without cal(S)$, retaining only the portion of the bundle sitting above $cal(S)$.
 
-As a key example, consider the tangent bundle $T cal(M)$. Its restriction to $cal(S)$, denoted by $T cal(M)|_cal(S)$, consists of the collection of tangent spaces $T_p cal(M)$ for $p in cal(S)$. This restricted bundle is not the same as the tangent bundle of $cal(S)$---the fibres of $T cal(M)|_cal(S)$ are $m$-dimensional, while the fibres of $T cal(S)$ are only $s$-dimensional.
+As an example, consider the tangent bundle $T cal(M)$. Its restriction to $cal(S)$, denoted by $T cal(M)|_cal(S)$, consists of the collection of tangent spaces $T_p cal(M)$ for $p in cal(S)$. This restricted bundle cannot be the same as the tangent bundle $T cal(S)$ of $cal(S)$---the fibres of $T cal(M)|_cal(S)$ are $m$-dimensional, while the fibres of $T cal(S)$ are only $s$-dimensional.
 
 However, the inclusion map $iota : cal(S) -> cal(M)$ induces a smooth injective bundle morphism
 $
@@ -837,11 +845,11 @@ $
 $
 where $T_p cal(S) subset T_p cal(M)$ is identified via the pushforward $iota_*$ of the inclusion $iota:cal(S)->cal(M)$, and the normal space $N_p cal(S)$ is defined as the orthogonal complement
 $
-  N_p cal(S) = (T_p cal(S))^perp subset T_p cal(M).
+  N_p cal(S) = (T_p cal(S))^perp subset T_p cal(M)
 $
-Note that $dim N_p cal(S) = codim_cal(M) cal(S)$, so that $dim T_p cal(S) + dim N_p cal(S) = dim T_p cal(M)$.
+with respect to the metric. Note that $dim N_p cal(S) = codim_cal(M) cal(S)$, so that $dim T_p cal(S) + dim N_p cal(S) = dim T_p cal(M)$.
 
-Just as bundling the tangent spaces $T_p cal(S)$ yields the tangent bundle $T cal(S)$, we may bundle the normal spaces to obtain a smooth vector bundle over $cal(S)$. We now define this more precisely.
+Just as bundling the tangent spaces $T_p cal(S)$ yields the tangent bundle $T cal(S)$, we may bundle the normal spaces to obtain another smooth vector bundle over $cal(S)$. We now introduce this object more precisely.
 \ \
 *Definition* (Normal bundle) Let $cal(S)subset cal(M)$ be an embedded submanifold of a (pseudo-)Riemannian manifold $cal(M)$. The _normal bundle_ $N cal(S)$ is the smooth vector bundle over $cal(S)$ defined by
 $
@@ -875,9 +883,9 @@ $
 pointwise. This allows us to view the @tangentBundleOrthoSplitting[splitting] not merely as a statement about individual tangent spaces, but as a decomposition of vector bundles, mediated by smooth projections.
 = Foliations
 == Motivation and Definition of Foliations
-In the previous sections, we introduced and examined submanifolds of (pseudo-)Riemannian manifolds in detail, including the tensorial structures they inherit, such as the induced metric. Rather than focusing on isolated submanifolds, we now turn our attention to decompositions of an entier manifold $cal(M)$ (or open subsets thereof) into a smooth family of non-intersecting submanifolds. These decompositions, referred to as _foliations_, naturally arise in a variety of contexts. For example, in the ADM formalism, foliating spacetime into spacelike hypersurfaces facilitates isolating a direction of dynamical evolution---typically a timelike one. In other settings, such as the study of flows or congruences, one may be interested in decompositions into curves or integral lines.
+In the previous sections, we introduced and examined submanifolds of (pseudo-)Riemannian manifolds in detail, including the tensorial structures they inherit, such as the induced metric. We now broaden our perspective by turning to decompositions of _entire_ manifolds  (or open subsets thereof) into smooth families of non-intersecting submanifolds---as opposed to just a single isolated submanifold. These decompositions, referred to as _foliations_, naturally arise in a variety of contexts. For example, in the ADM formalism, isolating a direction of dynamical evolution---typically a timelike one---foliates spacetime into spacelike hypersurfaces facilitates . In other settings, such as the study of flows or congruences, one may be interested in decompositions into curves or integral lines, which are families of one-dimensional submanifolds.
 
-Either way, the concept of splitting a manifold into lower-dimensional submanifolds is fundamental, and we now develop it in the form of such foliations. In this section, we first provide the definition of foliations of arbitrary codimension, as well as coordinates adapted to them. We then specialise to the codimension-1 case of _hypersurface foliations_, which are particularly relevant in the ADM formalism and for which certain equations and identities take on a simpler form.
+Regardless of where they appear, the concept of splitting manifolds into lower-dimensional submanifolds is fundamental, and we now develop this notion of foliations. In this section, we first provide the definition of foliations of arbitrary codimension, as well as coordinates adapted to them. We then specialise to the codimension-1 case of _hypersurface foliations_, which are particularly relevant in the ADM formalism and for which certain equations and identities take on a simpler form.
 \ \
 *Definition* (Foliation) Let $cal(M)$ be a smooth manifold. A _foliation of codimension $k$_ is a $k$-parameter family $lr({Sigma_(t_0)}, size: #80%)#h(0em) _(t_0 in RR^k)$ of smooth, embedded submanifolds $Sigma_(t_0) subset cal(M)$ of codimension $k$ such that
 $
@@ -885,21 +893,21 @@ $
 $
 The submanifolds $Sigma_(t_0)$ are referred to as the _leaves_ of the foliation.
 
-This definition, while clean, hides a more powerful and flexible characterisation. Since the leaves are disjoint and cover all of $cal(M)$, each point $p in cal(M)$ lies in a unique leaf $Sigma_(t_0)$. We can therefore associate to each point its corresponding label $t_0 = (t_0)$, $A = 1,...,k$, giving rise to a map
+This definition, while clean, hides a more powerful and flexible characterisation. Since the leaves are disjoint and cover all of $cal(M)$, each point $p in cal(M)$ lies in a unique leaf $Sigma_(t_0)$. We can therefore associate to each point its corresponding label $t_0 = (t_0^A)$, $A = 1,...,k$, giving rise to a map
 $
-  t^A : cal(M) -> RR^k, quad t(p) = t_0 "such that" p in Sigma_(t_0).
+  t = (t^A) : cal(M) -> RR^k, quad t(p) = t_0 "such that" p in Sigma_(t_0).
 $
-This defines $k$ smooth scalar fields on $cal(M)$, and the leaves of the foliation may then be expressed as the family of level sets
+This defines $k$ smooth scalar fields $t^A (p)$ on $cal(M)$, allowing the leaves of the foliation to be expressed as the family of level sets
 $
   Sigma_(t_0) = t^(-1)(t_0) = sect.big_(A=1)^k (t^A)^(-1)(t_0).
 $
 In order for each $Sigma_(t_0)$ to be a smooth submanifold, we require $t_0$ to be a regular value of all component maps $t^A$ of $t = (t^A)$. For this to hold for all $t_0$, we demand each $t^A$ be a _submersion_, i.e.
 $
-  dt^A != 0 quad "everywhere", quad forall A = 1,...,k.
+  dt^A != 0 quad "everywhere" quad forall A = 1,...,k.
 $
 We thus arrive at an equivalent perspective: a codimension-$k$ foliation of $cal(M)$ may be defined by a set of $k$ (functionally independent, i.e. ${dt^A}$ is linearly independent) scalar fields $t = (t^A) : cal(M) -> RR^k$, $A = 1,...,k$, whose differentials are nowhere vanishing. The intersection of their level sets then define the leaves of the foliation.
 
-Note that because $dt^A != 0$, the map $t = (t^A)$ can be extended to a coordinate chart on $cal(M)$, where the coordinates $(t^A,y^i)$ describe both the foliation parameter and the coordinates $(y^i)$ on the leaves. The number of transverse coordiantes $y^i$ is given by $dim Sigma_t = dim cal(M) - k$. Such coordinates are called _weakly adapted_ to the foliation. In particular, fixing $t^A = t^A_0$ to some constant value $t^A_0$ yields a coordinate chart $(y^i)$ on the leaf $Sigma_(t_0)$. For this reason, the $y^i$ are referred to as _transverse coordinates_.
+Note that because $dt^A != 0$, the map $t = (t^A)$ can be extended to a coordinate chart on $cal(M)$, where the coordinates $(t^A,y^i)$ consist of both the foliation parameters $t^A$ and the coordinates $y^i$ on the leaves. The number of transverse coordiantes $y^i$ is given by $dim Sigma_t = dim cal(M) - k$. Such coordinates are called _weakly adapted_ to the foliation. In particular, fixing $t^A = t^A_0$ to some constant value $t^A_0$ yields a coordinate chart $(y^i)$ on the leaf $Sigma_(t_0)$. For this reason, the $y^i$ are referred to as _transverse coordinates_.
 \ \
 *Definition* (Hypersurface Foliation) We call a foliation $Sigma = {Sigma_t}$ of codimension $1$ a _hypersurface foliation_.
 
@@ -911,7 +919,7 @@ which can be extended to a coordinate chart as $(t,y^i)$, $i= 1,...,dim cal(M)-1
 
 == The Normal 1-Form and Normal Vector Field <sectionFoliationTangentBundleDecomposition>
 
-The choice of a hypersurface foliation of a manifold $cal(M)$ naturally gives rise to a host of associated mathematical objects, each playing its own role in its geometry. Among the most central of these is the normal vector field, together with its corresponding one-form. In what follows, we shall first build some intuition for why such an object may be constructed, before proceeding to define it rigorously.
+The choice of a foliation of a manifold $cal(M)$ naturally gives rise to a host of associated mathematical objects, each playing its own role in its geometry. Among the most central of these is the normal vector field, together with its corresponding one-form. In what follows, we shall first build some intuition for why such an object may be constructed, before proceeding to define it rigorously.
 
 As we have seen previously, a submanifold $cal(S) subset cal(M)$ induces, at each point $p in cal(S)$, a decomposition
 $
@@ -923,33 +931,33 @@ A foliation $Sigma = {Sigma_t}#h(0em) _(t in RR)$ changes this picture dramatica
 $
   T_p cal(M) = T_p Sigma_t(p) plus.circle N_p Sigma_t(p),
 $<foliationTpMDecomp>
-thereby defining a decomposition into tangent and normal directions at _every_ point of $cal(M)$. In other words, a foliation allows us to speak globally about directions that are tangent or normal to the slices $Sigma_t$, since every point of $cal(M)$ lies on precisely one such submanifold.
+thereby defining a decomposition into tangent and normal directions at _every_ point of $cal(M)$. In other words, a foliation allows us to speak globally about directions that are tangent or normal to the slices $Sigma_t$, since every point of $cal(M)$ lies in precisely one such submanifold.
 
 At this point it is natural to briefly revisit the notion of vector bundles. Using the @foliationTpMDecomp[decomposition], we may define two vector bundles over $cal(M)$ that together decompose the tangent bundle $T cal(M)$. Namely,
 $
   T Sigma = union.big.sq_(p in cal(M)) T_p Sigma_t(p), wide N Sigma = union.big.sq_(p in cal(M)) N_p Sigma_t(p),
 $
-equipped with their canonical projections onto $cal(M)$, yield the tangent bundle and normal bundle of the foliation, respectively. It is then immediate that the tangent bundle of the manifold decomposes as
+equipped with their canonical projections onto $cal(M)$, yield the tangent bundle $T Sigma$ and normal bundle $N Sigma$ of the foliation, respectively. It is then immediate that the tangent bundle of the manifold decomposes as
 $
   T cal(M) = T Sigma plus.circle N Sigma.
 $<foliationTangentBundleDecomp>
 We may now also formalise the notion of a _normal vector field_. Recall that a vector field on $cal(M)$ is a smooth section of the tangent bundle $T cal(M)$. Given the @foliationTangentBundleDecomp[decomposition] we call a vector field _tangent_ to the foliation $Sigma$ if it is a smooth section of $T Sigma$, and normal to $Sigma$ if it is a smooth section of $N Sigma$. In more elementray terms, a vector field $X$ is tangent (respectively normal), if at each point $p in cal(M)$, the vector $X(p)$ lies in the subspace $T_p Sigma_t$ (respectively, $N_p Sigma_t$) associated to the unique slice $Sigma_t$ containing $p$.
 
-In our specific case of a codimension-one foliation, the normal spaces $N_p Sigma_t(p)$ are one-dimensional at every point. This observation is powerful. it implies that any vector field normal to the foliation can be written as a scalar multiple of a single, globally defined, nowhere-vanishing basis vector field. Concretely, we may express any such field $X$ as
+In the specific case of a codimension-one foliation, the normal spaces $N_p Sigma_t(p)$ are one-dimensional at every point. This observation is powerful. It implies that any vector field normal to the foliation can be written as a scalar multiple of a single, globally defined, nowhere-vanishing basis vector field. Concretely, we may express any such field $X$ as
 $
   X = lambda thin n^sharp,
 $
 where $n^sharp$ denotes a chosen normal vector field, and $lambda$ is a smooth scalar function on $cal(M)$. The use of the musical isomorphism in this notation is deliberate: rather than constructing $n^sharp$ directly, it is often more natural to begin with a normal one-form $n$, and then obtain the vector field $n^sharp$ via the defining identity
 $
-  g(n^sharp, X) = n(X) quad forall X quad <=> quad (n^sharp)^mu = n^mu = g^(mu nu) n_nu.
+  g(n^sharp, X) = n(X) quad forall X quad <=> quad \(n^sharp\) ^mu = n^mu = g^(mu nu) n_nu.
 $<sharpDefinition>
 If the normal subspaces $N_p Sigma_t(p)$ are timelike (or spacelike) everywhere, then we may impose a canonical normalisation to fix $n^sharp$ uniquely (up to sign),
 $
   g(n^sharp,n^sharp) = cases(-1\,quad&"timelike"\,, +1\,quad&"spacelike".)
-$
-This condition pins down a distinguished unit normal vector field. However, we have not yet addressed how to construct such a form or field in practice.
+$<normalisationCondition>
+Since the normal bundle has one-dimensional leaves, this condition pins down a distinguished unit normal vector field (up to sign).
 
-Let us now turn to this task. For a vector field $n^sharp$ to be normal to the foliation $Sigma$, it must satisfy
+We have not yet addressed how to construct such a form or field in practice---let us now turn to this task. For a vector field $n^sharp$ to be normal to the foliation $Sigma$, by the definition of $N_p Sigma_t(p)$ as $\(T_p Sigma_t(p)\)^perp$ it must satisfy
 $
   g(n^sharp, X) = 0, quad forall X in T_p Sigma_t(p)
 $
@@ -959,7 +967,7 @@ $
 $
 i.e. the 1-form $n$ must annihilate all tangent vectors to the foliation.
 
-This insight significantly simplifies the problem in adapted coordinates. Let $x^mu = (t,y^i)$ be a coordinate chart adapted to the foliation, so that each slice $Sigma_t$ is locally given by $t = const$, and the $y^i$ serve as coordinates on each leaf. Then the tangent space to $Sigma_t$ at $p$ is spanned by the coordinate basis vectors
+This insight significantly simplifies the problem in adapted coordinates. Let $x^mu = (t,y^i)$ be a coordinate chart adapted to the foliation, so that each slice $Sigma_t$ is locally given by $t = const$, and the $y^i$ serve as coordinates on each leaf. Then the tangent space to $Sigma_t$ at $p$ is spanned by the coordinate basis vectors $diff_i$, i.e.
 $
   T_p Sigma_t(p) = span{diff_i = diff/(diff y^i) mid(|) i = 1,...,dim cal(M)-1}.
 $
@@ -973,19 +981,19 @@ $
 $
 immediately suggests a solution: the 1-form
 $
-  n = alpha dt
+  n = alpha dt, quad alpha in C^infty (cal(M))
 $
 clearly satisfies @eq1.4.16[condition], as
 $
   n(diff_i) = alpha dt(diff_i) = delta^t_i = 0.
 $
-Here, $alpha$ is a smooth scalar field on $cal(M)$, to be determined by a normalisation condition. If we require $n^sharp$ to be unit-normalised, this yields the relation
+Here, $alpha$ is a smooth scalar field on $cal(M)$, necessary to adjust the magnitude in order to satisfy the normalisation @normalisationCondition[condition]. If we require $n^sharp$ to be unit-normalised, this yields the relation
 $
-  pm 1 = g(n^sharp,n^sharp) = g^(mu nu) n_mu n_nu = alpha^2 g^(t t) quad <=> quad g^(t t) = (pm 1)/alpha^2.
+  pm 1 =: epsilon = g(n^sharp,n^sharp) = g^(mu nu) n_mu n_nu = alpha^2 g^(t t) quad <=> quad g^(t t) = epsilon/alpha^2.
 $
 Moreover, the components of $n^sharp$ can be written in terms of the metric as well,
 $
-  (n^sharp)#h(0em)^mu = n^mu = g^(mu nu)n_nu = alpha g^(mu nu) delta_nu^t= alpha g^(mu t).
+  (n^sharp\)^mu = n^mu = g^(mu nu)n_nu = alpha g^(mu nu) delta_nu^t= alpha g^(mu t).
 $
 In hindsight, it is only natural that the function $t:cal(M)->RR$ which defines the foliation $Sigma$ plays a central role in the construction of the normal form. After all, moving along the gradient of $t$ corresponds to moving between leaves, so it makes sense that for an arbitrary set of coordinates $macron(x)^alpha$,
 $
@@ -1007,7 +1015,7 @@ In particular,
 $
   dt(X) = X[t] = d/ds t(gamma(s)) = d/ds t(p) = 0,
 $
-since $gamma(s) subset Sigma_t = t^(-1)(t(p))$ implies $t(gamma(s)) = t(p)$ identically (and hence is constant).
+since $gamma(s) subset Sigma_t = t^(-1)(t(p))$ implies $t(gamma(s)) = t(p) = const$ identically.
 
 For the converse, note that $dt != 0$ everywhere by construction, and $codim T_p Sigma_t (p) = 1$. Hence, for any vector $X in T_p cal(M) without T_p Sigma_t(p)$, we must have $dt(X) != 0$, otherwise $dt_p$ would vanish on all of $T_p cal(M)$, contradicting $dt != 0$. This implies
 $
@@ -1034,13 +1042,13 @@ The tangent bundle of a foliation $Sigma$ generated by the level sets of a scala
 In the previous section, we defined what it means for a vector field to be normal to a hypersurface foliation $Sigma$ generated by a scalar function $t in C^infty (cal(M))$ with $dt != 0$ everywhere. In particular, we constructed an explicit example of such a vector field
 $n^sharp$ by setting
 $
-  n = alpha dt quad "such that"quad g(n^sharp, n^sharp) = pm 1.
+  n = alpha dt quad "such that"quad g(n^sharp, n^sharp) = epsilon.
 $
 This addressed the question _"Given a hypersurface foliation, can we find a vector field that is normal to it everywhere?"_.
 
 In this section, we turn that question around: _"Given a vector field, does there exist a hypersurface foliation to which it is everywhere normal?"_. This leads us to the notion of _hypersurface-orthogonal_ vector fields---those that are locally normal to a family of hypersurfaces. Without proof, we will also give the so-called _Frobenius condition_ which can be used to check this property directly.
 \ \
-*Definition* (Hypersurface-Orthogonal Vector Fields) Let $X in Gamma(T cal(M))$ be a smooth vector field on a smooth manifold $cal(M)$. We say that $X$ is _hypersurface-orthogonal_ if, for every point $p in cal(M)$, there exists a neighbourhood $U subset cal(M)$ of $p$ and a local foliation $Sigma = {Sigma_t}#h(0em) _(t in RR)$ of $U$ with the property that
+*Definition* (Hypersurface-Orthogonal Vector Fields) Let $X in Gamma(T cal(M))$ be a smooth vector field on a (pseudo-)Riemannian manifold $cal(M)$. We say that $X$ is _hypersurface-orthogonal_ if, for every point $p in cal(M)$, there exists a neighbourhood $U subset cal(M)$ of $p$ and a local foliation $Sigma = {Sigma_t}#h(0em) _(t in RR)$ of $U$ with the property that
 $
   g(X_p, Y) = 0 quad "for all" Y in T_p Sigma_t(p).
 $
@@ -1249,7 +1257,7 @@ This allows us to derive both $g_(t t)$ and $g_(t i)$ via
 $
   g_(t t) &= g(diff_t, diff_t) = epsilon^2 alpha^2 underbrace(g(n^sharp,n^sharp), =epsilon) + 2 epsilon alpha underbrace(g(n^sharp, beta), =0) + underbrace(g(beta,beta), =gamma_(i j) beta^i beta^j)\
   &= epsilon alpha^2 + gamma_(i j) beta^i beta^j,\ \
-  g_(t i) &= g(diff_t, diff_i) = epsilon alpha underbrace(g(n^sharp, diff_i), =0) + g(beta, diff_i) = gamma_(i j) beta^j
+  g_(t i) &= g(diff_t, diff_i) = epsilon alpha underbrace(g(n^sharp, diff_i), =0) + g(beta, diff_i) = beta^i g(diff_i, diff_j) =  gamma_(i j) beta^j
 $
 Here, we made use of the fact that $n^sharp$ is normal to the foliation, whereas the $diff_i$ and hence also $beta$ are tangent to it---or, algebraically,
 $
@@ -1277,7 +1285,7 @@ $<ADMsplitMetric>
   $
     dtau^2 = -g = -Q = n otimes n = alpha^2 dt^2.
   $
-  This further implies
+  This implies
   $
     dtau = pm alpha dt.
   $
@@ -1311,7 +1319,7 @@ $<ADMsplitMetric>
   $
     g = P + Q,
   $
-  with $P$ the tangential and $Q$ the normal projector (or rather, its associated bilinear form), that the induced metric $gamma$ is related via
+  with $P$ the tangential and $Q$ the normal projector (or rather, their associated bilinear forms), the induced metric $gamma$ is related via
   $
     gamma = iota^* g = iota^* P + underbrace(iota^* Q, =0) = iota^* P.
   $
@@ -1347,13 +1355,13 @@ $<ADMsplitMetric>
   $
     g^(mu nu) = mat(epsilon\/alpha^2, -epsilon beta^i \/ alpha^2; -epsilon beta^i\/alpha^2, gamma^(i j) + epsilon beta^i beta^j \/alpha^2).
   $
-  The inverse metric tensor can hence be written as
+  Moreover, the inverse metric tensor can be written as
   $
     g^(-1) & = epsilon/alpha^2 (diff_t - beta^i diff_i) otimes (diff_t - beta^j diff_j) + gamma^(i j) diff_i otimes diff_j \
            & = epsilon n^sharp otimes n^sharp + gamma^(i j) diff_i otimes diff_j .
   $
-  Notice that also here, we have a separation into a normal and a tangential part.
-- *Metric Determinant* Besides the inverse metric, a frequently used object related to the metric is its determinant (or the square root thereof). Let us compute it now. Recall from linear algebra the formula for the determinant of a block matrix,
+  Notice that also here, we have a clean separation into a normal and a tangential part.
+- *Metric Determinant* Another commonly encountered object related to the metric is its determinant (or the square root thereof)---let us compute it here. Recall from linear algebra the formula for the determinant of a block matrix,
   $
     det mat(A, B; C, D) = det(A - C D^(-1) B) det(D),
   $
@@ -1374,13 +1382,13 @@ At this point, we should consider an example to solidify our grasp of hypersurfa
 $
   g = dx otimes dx + dy otimes dy + dz otimes dz
 $
-where $x,y,z$ are the Cartesian coordinates on $cal(M)$. We foliate it into origin-centered spheres of varying radii. Here, we will derive the objects we defined generally in the previous section---the normal 1-form, its associated normal vector, the lapse, the shift, and the ADM decomposition of the metric, as well as the projectors $P$ and $Q$ onto the tangent and normal bundles of the foliation.
+where $x,y,z$ are the Cartesian coordinates on $cal(M)$. We foliate it into origin-centered spheres of varying radii. Here, we will derive the objects we defined generally in the previous sections---the normal 1-form, its associated normal vector, the lapse, the shift, and the ADM decomposition of the metric, as well as the projectors $P$ and $Q$ onto the tangent and normal bundles of the foliation.
 
 First, let us define the foliation by introducing the function
 $
   r : cal(M) -> RR, quad r(p) = sqrt(x^2 + y^2 + z^2), quad p = (x,y,z)
 $
-and define the leaves of the foliation $Sigma = {Sigma_r}$ to be its level sets,
+and specify the leaves of the foliation $Sigma = {Sigma_r}$ to be its level sets,
 $
   Sigma_r_0 := {p in cal(M) | r(p) = r_0} = r_0 S^2.
 $
@@ -1404,7 +1412,7 @@ $
     & = alpha^2 (x^2 /r^2 dx(diff_x) + y^2/r^2 dy(diff_y) + z^2/r^2 dz(diff_z)) \
     & = alpha^2/r^2 underbrace((x^2 + y^2 + z^2), =r^2) = alpha^2,
 $
-which fixes the lapse as $alpha^2 = pm 1$---we choose the positive sign, i.e. $alpha = +1$. Moreover, we now have the concrete expressions
+which fixes the lapse as $alpha = pm 1$---we choose the positive sign, i.e. $alpha = +1$. Moreover, we now have the concrete expressions
 $
         n & = dr = x/r dx + y/r dy + z/r dz, \
   n^sharp & = x/r diff_x + y/r diff_y + z/r diff_z.
@@ -1420,19 +1428,19 @@ $
 $
 quantifying how much tangential motion (since $beta = beta^i diff_i in Gamma(T Sigma)$) displacement along the flow of $diff_r$ entails. In terms of the Cartesian coordinate basis ${diff_x, diff_y, diff_z}$, we may express $diff_r$ as
 $
-  diff_r = (diff x)/(diff r) diff_x + (diff y)/(diff r) diff_y + (diff z)/(diff r) diff_z.
+  diff_r = (diff x)/(diff r) diff_x + (diff y)/(diff r) diff_y + (diff z)/(diff r) diff_z,
 $
-Note that this cannot be simplified further without assumptions on the coordinates $q^i$. Either way, we can now explicitly write down the shift as
+employing the multi-dimensional chain rule. We can now explicitly write down the shift as
 $
   beta = diff_r - n^sharp = ((diff x)/(diff r) - x/r ) diff_x + ((diff y)/(diff r) - y/r ) diff_y +((diff z)/(diff r) - z/r ) diff_z.
 $
-At this point, we cannot really proceed without some sort of assumption on the $q^i$. So, let us do this: we require that $beta = 0$. In other words, we want the $q^i$ to be such that we have zero shift, that $diff_r$ is normal to $T Sigma$.
+At this point, we cannot really proceed without some sort of assumption on the functions $x(r,q^i)$, $y(r,q^i)$ and $z(r,q^i)$, and by that, without assumption on the $q^i$. So, let us do this: we require that $beta = 0$. In other words, we want the $q^i$ to be such that we have zero shift, that $diff_r$ is normal to $T Sigma$.
 
 This requires that each of the coefficients of $beta$ above must be zero. Notice that
 $
   (diff x)/(diff r) - x/r = 0 quad <=>quad x(r,q^i) = r f_x (q^i)
 $
-for some function $f_x (q_i)$, and analogously for $y$ and $z$. Thus, requiring $beta = 0$ implies that the coordinates $x,y,z$ are simply parametrisations of the $2$-sphere $S^2$ scaled linearly by the radius $r$. Put differently, if we require $beta = 0$, we must parameterise each of our leaves $Sigma_r = r S^2$ with the same coordinates $q^i$, simply stretched by the sphere's radius.
+for some function $f_x (q_i)$, and analogously for $y$ and $z$. Thus, we must parameterise each of our leaves $Sigma_r = r S^2$ with the same coordinates $q^i$, simply stretched by the sphere's radius. Put differently, requiring $beta = 0$ implies that the coordinates $x,y,z$ are simply parametrisations of the $2$-sphere $S^2$ scaled linearly by the radius $r$. 
 
 All that is left to do now is to choose one's favourite parametrisation of $S^2$. Here, we opt to use the standard coordinates $theta,phi$ which parameterise the 2-sphere of radius $r$ as
 $
@@ -1440,7 +1448,7 @@ $
   y & = r sin theta sin phi, \
   z & = r cos theta.
 $
-We now have our lapse and shift, $alpha =1$ and $beta = 0$---all that remains to be derived are the transverse metric components
+Let us now turn to the decomposition of the metric. We already have the lapse and shift, $alpha =1$ and $beta = 0$---all that remains to be derived are the transverse metric components
 $
   gamma_(i j) = g(diff_i, diff_j), quad i,j in {theta,phi}.
 $
@@ -1458,7 +1466,7 @@ $
   g & = epsilon alpha^2 dr otimes dr + gamma_(i j)(dq^i + beta^i dr)(dq^j + beta^j dr) \
     & = dr otimes dr + r^2 dtheta otimes dtheta + r^2 sin^2 theta dphi otimes dphi
 $
-At this point, one might reasonably point out that we've essentially just recovered the familiar expression for the flat metric in spherical coordinates through a rather elaborate detour. So far, this may seem suspiciously close to reinventing spherical coordinates. That, however, would be a disheartening conclusion after having gone through all this effort---so let us not argue that. Instead, let us appreciate having seen the ADM decomposition machinery at work in a setting where the outcome is familiar, but derived by taking the scenic route. After all, we've just learned that spherical coordinates arise naturally when seeking a zero-shift ADM decomposition of the flat Euclidean metric on concentric spheres. Which, as every self-respecting postgraduate knows, is the entire point of advanced studies: to rediscover well-known results in a more baroque fashion---ideally in a way that makes the undergrads look impressed.
+At this point, one might reasonably point out that we've essentially just recovered the familiar expression for the flat metric in spherical coordinates through a rather elaborate detour---suspiciously close to plainly reinventing them. That, however, would be a disheartening conclusion after having put in all this effort---so let us not argue that. Instead, let us appreciate having seen the ADM decomposition machinery at work in a setting where the outcome is familiar, but derived by taking the scenic route. After all, we've just learned that spherical coordinates arise naturally when seeking a zero-shift ADM decomposition of the flat Euclidean metric on concentric spheres. This, as every self-respecting postgraduate knows, is the entire point of advanced studies: to rediscover well-known results in a more baroque fashion---ideally in a way that makes the undergrads look impressed.
 
 Now that we have derived a particular ADM decomposition of the flat Euclidean metric on $cal(M) = RR^3 without {0}$, we can also briefly consider the bilinear forms $P$, $Q$ associated to the orthogonal decomposition
 $
@@ -1472,15 +1480,13 @@ Correspondingly, the tangential projection $P$---or equivalently (in this case, 
 $
   gamma = P = g - Q = r^2 (dtheta otimes dtheta + sin^2 theta dphi otimes dphi).
 $
-This is also what one would expect: an appropriately scaled metric on $S^2$.
+This is what one would expect: an appropriately scaled metric on $S^2$.
 
 
 = Covariant Derivatives on Foliations and Submanifolds
-The goal of this section is to define how a connection on a manifold $cal(M)$ induces a connection on the leaves of a foliation $Sigma$ of $cal(M)$. To this end, we review the definition of a connection $nabla$ as well as how the conditions of vanishing torsion and metric compatibility uniquely single out the Levi-Civita connection. We then proceed to define the induced connection $mnabla$ on a foliation as the tangential projection of $nabla$, and show that if $nabla$ is of Levi-Civita type, then so is $mnabla$.
+In addition to the metric, a manifold can be endowed with various other geometric structures. This section focuses on _affine connections_, with an emphasis on how a connection on a manifold $cal(M)$ induces a connection on the leaves of a foliation $Sigma$ of $cal(M)$. We begin by reviewing the definition of a connection $nabla$ (briefly, familiarity with the concept is assumed), and then explore how the conditions of vanishing torsion and metric compatibility uniquely determine the Levi-Civita connection. Next, we define the induced connection $mnabla$ on $Sigma$ as the tangential projection of $nabla$ on $cal(M)$, and demonstrate that if $nabla$ is Levi-Civita, then so is $nabla$.
 == Review: Affine Connections
-Before discussing how a connection on a (pseudo-)Riemannian manifold $cal(M)$ induces a connection on the submanifolds $Sigma_(t) subset cal(M)$ that comprise a foliation $Sigma$, we review the definition of affine connections and recall how the conditions of metric compatibility and torsion-freeness uniquely determine the Levi-Civita connection.
-
-Let
+To review the notion of affine connections, we must first introduce some additional notation. Let
 $
   T^((r,s)) cal(M) = (T cal(M))^(otimes r) otimes (T^* cal(M))#h(0em)^(otimes s)
 $
@@ -1496,7 +1502,7 @@ With the interpretation of a tensor as a multilinear map on a set of vectors $Y_
 $
   nabla_X T(omega_1,...,omega_r,Y_1,...,Y_r) = (nabla T) (X,omega_1,...,omega_r,Y_1,...,Y_r),
 $
-which simply indicates that $nabla_X$ populates the additional vector argument introduced when passing from $T$ to $nabla T$ with the vector $X$.
+which simply indicates that $nabla_X$ populates the additional vector argument---introduced by passing from $T$ to $nabla T$---with the vector $X$.
 
 We call $nabla$ an _affine connection_ or _covariant derivative_ if it satisfies:
 
@@ -1556,7 +1562,7 @@ This is a rather abstract (though likely familiar, if you got this far in these 
   $
   We see that the connection term must absorb the inhomogeneous contribution. That is,
   $
-    X^mu otimes nabla diff_mu = X^alpha otimes nabla diff_alpha + X^mu (J_alpha^nu diff_nu J_mu^beta) dx^nu otimes diff_mu.
+    X^alpha otimes nabla diff_alpha =  X^mu otimes nabla diff_mu - X^mu (J_alpha^nu diff_nu J_mu^beta) dx^nu otimes diff_mu.
   $<connectionTransformationRulePrecursor>
   The final term determines how $nabla diff_mu$ must transform in order to make $nabla X$ a genuine tensor. We will return to this structure momentarily when introducing the connection coefficients explicitly.
 
@@ -1564,7 +1570,7 @@ This is a rather abstract (though likely familiar, if you got this far in these 
   $
     nabla_mu := nabla_(diff_mu).
   $
-  From the derivations in the previous remark, it is clear that the object $nabla diff_nu$, in terms of coordinates, must be of the form
+  From the definition of affine connections and the derivations in the previous remark, it is clear that the object $nabla diff_nu$ must have the component form
   $
     nabla diff_nu = (nabla_mu diff_nu) otimes dx^mu = tensor(Gamma, +lambda, -mu nu) dx^mu otimes diff_lambda, quad "for coeffiecients" quad tensor(Gamma, +lambda, -mu nu) in C^infty (cal(M)).
   $
@@ -1588,13 +1594,13 @@ This is a rather abstract (though likely familiar, if you got this far in these 
   $
   This is nothing but the partial derivative of $X$, amended by a term linear in $X$ that ensures tensoriality of $nabla X$.
 
-- *Interpretation of the Connection* In light of our previous remark that the connection along some vector $X in Gamma(T cal(M))$ is a covariant generalisation of the directional derivative along $X$, we can give an interpretation to the equality
+- *Interpretation of the Connection* In analogy to our first remark that the connection along some vector $X in Gamma(T cal(M))$ is a covariant generalisation of the directional derivative along $X$, we can give an interpretation to the equality
   $
     nabla_mu diff_nu = tensor(Gamma, +lambda, -mu nu) diff_lambda.
   $
   On the left-hand side, we compute a generalised directional derivative along the coordinate direction $diff_mu$. In other words, we ask ourselves: how does the basis vector $diff_nu$ change as we move along the direction $diff_mu$? This question is answered by the right-hand side, which tells us, for the given combination of $mu$ and $nu$, what the rate of change is, in terms of a linear combination of the coordinate basis vectors. So, the component $tensor(Gamma, +lambda, -mu nu)$ encodes information about "by how much of $diff_lambda$ does $diff_nu$ change when moving along the flow of $diff_mu$?". A connection hence imposes a relationship between vectors in infinitesimally neighbouring tangent spaces.
 
-  A priori, there exists no canonical way to relate vectors at different points of the manifold---that is, to compare vectors in distinct tangent spaces and transport them around the manifold. While the transformation law of the connection coefficients is constrained by the requirement that $nabla T$ be tensorial for all tensors $T$, the connection itself remains arbitrary otherwise. However, by imposing additional (natural) conditions on $nabla$, one can uniquely determine a distinguished connection: the _Levi-Civita connection_. We will pursue this in the next section.
+  A priori, there exists no preferred way to specify this relationship between vectors at different points of the manifold---that is, to compare vectors in distinct tangent spaces and transport them around the manifold. While the transformation law of the connection coefficients is constrained by the requirement that $nabla T$ be tensorial for all tensors $T$, the connection itself remains arbitrary otherwise. However, by imposing additional (natural) conditions on $nabla$, one can uniquely determine a distinguished connection: the _Levi-Civita connection_. We will pursue this in the next section.
 
 - *Coordinate Transformation Behaviour* From @connectionTransformationRulePrecursor[equation] it can be derived that under a coordinate transformation $x^mu -> y^alpha$, the connection coefficients
   $
@@ -1614,7 +1620,7 @@ This is a rather abstract (though likely familiar, if you got this far in these 
   $
   In essence, every contravariant index produces a term where the connection coefficients are contracted with the tensor components, as by the Leibniz rule, $nabla$ acts on each of the basis vectors once.
 
-  For tensors that are not purely contravariant, i.e. general tensors $T in Gamma(T^((r,s)) cal(M))$, however, the general basis expansion reads
+  For tensors that are not purely contravariant, i.e., for general tensors $T in Gamma(T^((r,s)) cal(M))$, the general basis expansion reads
   $
     tensor(T, +mu_1...mu_r, -nu_1...nu_s) diff_mu_1 otimes ... otimes diff_mu_r otimes dx^(nu_1) otimes ... otimes dx^(nu_s).
   $
@@ -1622,7 +1628,7 @@ This is a rather abstract (though likely familiar, if you got this far in these 
   $
     nabla dx^mu
   $
-  evaluates to. This is where the (so far unused!) third axiom comes into play, the compatibility with contractions: together with the Leibniz rule, it is possible to derive an explicit expression for the above from what we already know. Consider an arbitrary vector $X = X^mu diff_mu in Gamma(T cal(M))$ as well as an arbitrary 1-form $omega = omega_mu dx^mu in Gamma(T^* cal(M))$. Clearly, since $omega(X) in C^infty (cal(M))$, we have
+  evaluates to. This is where the (so far unused!) third connection axiom comes into play, the compatibility with contractions: together with the Leibniz rule, it is possible to derive an explicit expression for the above from what we already know. Consider an arbitrary vector $X = X^mu diff_mu in Gamma(T cal(M))$ as well as an arbitrary 1-form $omega = omega_mu dx^mu in Gamma(T^* cal(M))$. Clearly, since $omega(X) in C^infty (cal(M))$, we have
   $
     tr^1_2 nabla (omega otimes X) = nabla (omega(X)) = d (omega(X)) = d (omega_mu X^mu).
   $ <eq1.5.26>
@@ -1668,7 +1674,7 @@ Now that we have introduced the general notion of a connection---a way of encodi
 
 + Vanishing torsion,
 + Metric compatibility.
-We will now introduce both conditions rigorously and examine their consequences for the connection coefficients $tensor(Gamma, +lambda, -mu nu)$, which ultimately leads to the _Christoffel Symbols_, which are the coefficients of the Levi-Civita connection.
+We will now introduce the meaning both conditions rigorously and examine their consequences for the connection coefficients $tensor(Gamma, +lambda, -mu nu)$, which ultimately leads to the _Christoffel Symbols_, which are the coefficients of the Levi-Civita connection.
 \ \
 *Vanishing Torsion* A connection provides us with a means of comparing vectors at nearby points and describing how they change as we move infinitesimally along a given direction. Given two vector fields $X,Y in Gamma(T cal(M))$, the covariant derivatives $nabla_X Y$ and $nabla_Y X$ describe how $Y$ changes along the flow of $X$, and how $X$ changes along the flow of $Y$, respectively.
 
@@ -1680,7 +1686,7 @@ The _torsion_ is designed to isolate the second phenomenon: it captures the fail
 \ \
 *Definition* (Torsion) Let $cal(M)$ be a smooth manifold, and $nabla$ a connection on $cal(M)$. The torsion is the vector-valued map defined by
 $
-  T : Gamma(T cal(M)) otimes Gamma(T cal(M)), quad T(X,Y) = nabla_X Y - nabla_Y X - [X,Y].
+  T : Gamma(T cal(M)) otimes Gamma(T cal(M)) -> Gamma(T cal(M)),\ T(X,Y) := nabla_X Y - nabla_Y X - [X,Y].
 $
 The first two terms, $nabla_X Y - nabla_Y X$, measure the asymmetry of the connection, but also include contributions from the possible non-closure of paths due to non-commuting vector fields. The Lie bracket $[X,Y]$ encodes this latter effect---by subtracting it, we isolate the connection's contribution to the failure of the parallelogram to close, i.e., the torsion.
 
@@ -1705,9 +1711,9 @@ The torsion thus has the following properties:
   and is therefore proportional to the anti-symmetric part of the connection coefficients in the lower indices;
 + It is tensorial, since the transformation behaviour under $x^mu -> y^alpha$ is given by
   $
-    tensor(T, +lambda, -mu nu) prop tensor(Gamma, +lambda, -[mu nu]) -> tensor(Gamma, +alpha, -[beta gamma]) = J^alpha_lambda J^mu_beta J^nu_gamma tensor(Gamma, +lambda, -[mu nu]) + J^alpha_lambda underbrace(diff_(\[beta) J^lambda_(gamma\]), =0),
+    tensor(T, +lambda, -mu nu) prop tensor(Gamma, +lambda, -[mu nu]) -> tensor(Gamma, +alpha, -[beta gamma]) = J^alpha_lambda J^mu_beta J^nu_gamma tensor(Gamma, +lambda, -[mu nu]) + J^alpha_lambda underbrace(diff_(\[beta) J^lambda_(gamma\]), =0).
   $
-  where the inhomogeneous part cancels under anti-symmetrisation because
+  The inhomogeneous part cancels under anti-symmetrisation because
   $
     diff_beta J^lambda_gamma = (diff^2 x^lambda)/(diff y^beta diff y^gamma)
   $
@@ -1729,13 +1735,13 @@ But as we know, contractions are not restricted to mixed index types---the metri
 
 Coordinate-independently, these operations take the form
 $
-  T |-> tr^(i,j)_(1,2) (g otimes T) quad "or" quad T |-> tr^(i,j)_(1,2) (g^(-1) otimes T).
+  T |-> tr^(i,j)_(1,2) (g otimes T) quad "or" quad T |-> tr_(i,j)^(1,2) (g^(-1) otimes T),
 $
 depending on whether one is contracting co- or contravariant indices. Perhaps more concretely, in terms of components, this becomes
 $
   T^(mu_1 ... mu_r)_(nu_1 ... nu_s) |-> g_(mu_i mu_j) T^(mu_1 ... mu_r)_(nu_1 ... nu_s) quad "or" quad T^(mu_1 ... mu_r)_(nu_1 ... nu_s) |-> g^(nu_i nu_j) T^(mu_1 ... mu_r)_(nu_1 ... nu_s).
 $
-It is thus not far-fetched to ask that the connection be compatible with such contractions as well---after all, contraction through raising and lowering indices is a natural and frequent operation.
+It is not far-fetched to ask that the connection be compatible with such contractions as well---after all, contraction through raising and lowering indices is a natural and frequent operation.
 
 To formalise this, we demand that contractions involving the metric commute with covariant differentiation. Explicitly, we require#footnote[For clarity we suppress any shifts in index positions introduced by tensor products.]
 $
@@ -1786,39 +1792,39 @@ In other words, specifying how $nabla$ acts on vector fields suffices to determi
 
 Thus, the task of defining a geometrically meaningful connection on a foliation $Sigma= {Sigma_(t)}$ reduces to defining how it acts on vector fields tangent to the leaves, and extending that action to arbitrary tensors via the standard axioms of an affine connection.
 
-Therefore, given a connection $nabla$ on a manifold $cal(M)$ endowed with a foliation $Sigma = {Sigma_(t)}$, to define an induced connection $mnabla$ on each leaf $Sigma_(t)$, we must provide a prescription for
+Put differently, given a connection $nabla$ on a manifold $cal(M)$ endowed with a foliation $Sigma = {Sigma_(t)}$, to define an induced connection $mnabla$ on each leaf $Sigma_(t)$ we must provide a prescription for
 $
-  mnabla_X Y quad "for any" quad X,Y in Gamma(T Sigma),
+  mnabla_X Y quad "for any" quad X,Y in Gamma(T Sigma)
 $
 which relates back to $nabla$ in a geometrically meaningful way.
 
-Let us now build some geometric intuition. Recall that the expression $nabla_X Y$ describes how a vector field $Y in Gamma(T Sigma)$ changes as it is transported along the flow of $X$. Further, the pushforward $iota_*$ of the inclusion map $iota$ embeds $T Sigma$ into the ambient tangent bundle $T cal(M)$, allowing us to view $X$ and $Y$ as vector fields living in $T cal(M)$ via their pushforwards $iota_* X$ and $iota_* Y$.
+Before diving into a definition, let us first build some geometric intuition. Recall that the expression $nabla_X Y$ describes how a vector field $Y$ changes along the flow of $X$. Further, the pushforward $iota_*$ of the inclusion map $iota$ embeds $T Sigma$ into the ambient tangent bundle $T cal(M)$, allowing us to view $X,Y in Gamma(T Sigma)$ as vector fields living in $T cal(M)$ via their pushforwards $iota_* X$ and $iota_* Y$.
 
 Since we want the connection $mnabla$ on $Sigma$ to "mimic" the ambient connection $nabla$ on $cal(M)$ as closely as possible, a natural first attempt to define $mnabla$ would be
 $
   mnabla_X Y = nabla_(iota_* X)(iota_*Y).
 $
-In words, this says that $mnabla$ transports $Y$ along $X$ in precisely the same way that the ambient connection $nabla$ transports the embedded version of $Y$ along that of $X$ within $T cal(M)$.
+In words, this says that $mnabla$ measures change of $Y$ along $X$ in precisely the same way that the ambient connection $nabla$ measures change of the embedded version of $Y$ along that of $X$ within $T cal(M)$.
 
 This is a good starting point---essentially all of the geometric structure of $nabla$ is being transferred to $mnabla$. However, this definition has a fundamental flaw. It is subtle but crucial: an induced connection on the foliation $Sigma$ must restrict to a connection on each individual leaf $Sigma_(t)$, which is a map
 $
   mnabla : Gamma(T^((r,s))Sigma_(t)) -> Gamma(T^((r,s+1)) Sigma_(t)), quad T |-> mnabla T,
 $
-and, when acting on (and along) vector fields, is given more concretely by a map
+and, when acting on (and along) vector fields, is given more concretely by the map
 $
   mnabla : Gamma(T Sigma_(t)) times Gamma(T Sigma_(t)) -> Gamma(T Sigma_(t)), quad (X,Y)|-> mnabla_X Y.
 $
-In short, the connection must send vector fields tangent to the leaves to other vector fields tangent to the leaves. But $nabla_(iota_* X) (iota_* Y)$, although well-defined in $Gamma(T cal(M))$, need not necessarily lie in the subbundle $T Sigma$. The ambient connection $nabla$ is under no obligation to preserve tangency to the leaves---it can easily produce components orthogonal to them when transporting vectors through the submanifolds.
+In short, the connection must send vector fields tangent to the leaves to other vector fields tangent to the leaves. But $nabla_(iota_* X) (iota_* Y)$, although well-defined in $Gamma(T cal(M))$, need not necessarily lie in the subbundle $T Sigma$. The ambient connection $nabla$ is under no obligation to preserve tangency to the leaves---it can easily produce components orthogonal to them comparing vectors at different points of the submanifolds.
 
-We are therefore forced to modify our first attempt so as to eliminate any normal components that may arise. For this purpose, recall the left-inverse $(iota_*)#h(0em)^(-1): T cal(M) -> T Sigma$ introduced earlier. While there exist infintely many such left-inverses, we singled out a unique one by requiring that the projection $P = iota_* compose (iota_*)#h(0em)^(-1)$ be orthogonal with respect to the ambient metric. This construction gives us precisely the tool we need: $(iota_*)#h(0em)^(-1)$ acts as the identity on $T Sigma$, while annihilating vectors in the normal bundle $N Sigma$; that is,
+We are therefore forced to modify our first attempt so as to eliminate any normal components that may arise. For this purpose, recall the left-inverse $(iota_*)#h(0em)^(-1): T cal(M) -> T Sigma$ of the pushforward we introduced in @sectionLeftInverse. While there exist infintely many such left-inverses, we singled out a unique one by requiring that the projection $P = iota_* compose (iota_*)#h(0em)^(-1)$ be orthogonal with respect to the ambient metric. This construction gives us precisely the tool we need: $(iota_*)#h(0em)^(-1)$ acts as the identity on $T Sigma$, while annihilating vectors in the normal bundle $N Sigma$; that is,
 $
   ker((iota_*)#h(0em)^(-1)) = N Sigma.
 $
-Thus, applying $(iota_*)#h(0em)^(-1)$ to our first attempt yields a vector field in $Gamma(T Sigma)$, with all normal components stripped away. This motivates the corrected definition
+Thus, applying $(iota_*)#h(0em)^(-1)$ to our first attempt yields a vector field in $Gamma(T Sigma)$, with all normal components stripped away. This motivates the corrected definition of the induced connection $mnabla$ as
 $
   mnabla_X Y = (iota_*)#h(0em)^(-1) nabla_(iota_* X) (iota_* Y).
 $
-This expression is admittedly cumbersome to read, but its geometric interpretation is clear. To compute $mnabla_X Y$ for $X,Y in Gamma(T Sigma)$, we push both vector fields forward (i.e., embed) into the ambient tangent bundle, transport one along the other with the ambient connection, and then project the result back onto $T Sigma$ using the orthogonal "projection" $(iota_*)#h(0em)^(-1)$. This removes any component normal to the foliation that may have been introduced by $nabla$, while remaining true to the tangent contributions.
+This expression is admittedly cumbersome to read, but its geometric interpretation is clear. To compute $mnabla_X Y$ for $X,Y in Gamma(T Sigma)$, we push both vector fields forward (i.e., embed) into the ambient tangent bundle, measure the change of one along the other with the ambient connection, and then project the result back onto $T Sigma$ using the orthogonal "projection" $(iota_*)#h(0em)^(-1)$. This removes any component normal to the foliation that may have been introduced by $nabla$, while remaining true to the tangent contributions.
 
 Let us now formalise this geometric construction as a rigorous definition.
 \ \
@@ -1845,7 +1851,7 @@ the _induced connection on $Sigma$_ (associated to $nabla$) if
   $
     ker((iota_*)^(-1)) = N Sigma,
   $
-  or equivalently, $P = iota_* compose (iota_*)^(-1)$ is the orthogonal projection $P : T cal(M) -> T Sigma$;
+  or equivalently, such that $P = iota_* compose (iota_*)^(-1)$ is the orthogonal projection $P : T cal(M) -> T Sigma$;
 
 + satisfies a tensorial Leibniz rule,
   $
@@ -1867,13 +1873,13 @@ the _induced connection on $Sigma$_ (associated to $nabla$) if
     tensor(macron(Gamma), +k, -i j)diff_k &= mnabla_i diff_j = (iota_*)^(-1) (nabla_(iota_* diff_i) (iota_* diff_j))\ &= (iota_*)^(-1) (nabla_(E^mu_i diff_mu) (E^nu_j diff_nu))\
     &= E^mu_i (iota_*)^(-1) (nabla_mu (E^nu_j diff_nu))\ &= E^mu_i (iota_*)^(-1) lr(((diff_mu E^nu_j)diff_nu + E^nu_j underbrace(nabla_mu diff_nu, =tensor(Gamma, +lambda, -mu nu) diff_lambda)), size: #30%)\
     &= E^mu_i ((diff_mu E^lambda_j) + E^nu_j tensor(Gamma, +lambda, -mu nu)) underbrace((iota_*)^(-1)(diff_lambda), =E_lambda^k diff_k)\
-    &= (E^k_lambda E^mu_i E^nu_j tensor(Gamma, +lambda, -mu nu) + E^k_lambda diff_i E^lambda_j) diff_k
+    &= (E^k_lambda E^mu_i E^nu_j tensor(Gamma, +lambda, -mu nu) + E^k_lambda diff_i E^lambda_j) diff_k.
   $
-  from which we conclude
+  From this we conclude that the induced connection coefficients are given by
   $
     tensor(macron(Gamma), +k, -i j) = E^k_lambda E^mu_i E^nu_j tensor(Gamma, +lambda, -mu nu) + E^k_lambda diff_i E^lambda_j.
   $<projectionConnectionCoeffs>
-  This matches the structure of the @connectionCoeffTransformRule[coordinate transformation behaviour] of the connection.
+  In particular, this matches the structure of the @connectionCoeffTransformRule[coordinate transformation behaviour] of the connection.
 - Since $mnabla$ is an affine connection connection, the above relationship
   $
     mnabla_i diff_j = tensor(macron(Gamma), +k, -i j) diff_k
@@ -1915,7 +1921,7 @@ $
 $
 and the fact that $(iota_* X)[f] = X[f compose iota]$.
 
-Alternatively, one can show this on the level of components as well. The ambient connection being torsion free implies that its connection coefficients $tensor(Gamma, +lambda, -mu nu)$ are symmetric in the lower indices. The induced connection coefficients, given by
+Alternatively, one can show this on the level of components as well. The vanishing torsion of the ambient connection implies that its connection coefficients $tensor(Gamma, +lambda, -mu nu)$ are symmetric in the lower indices. The induced connection coefficients, given by
 $
   tensor(macron(Gamma), +k, -i j) = E^k_lambda E^mu_i E^nu_j tensor(Gamma, +lambda, -mu nu) + E^k_lambda diff_i E^lambda_j
 $
@@ -1925,7 +1931,7 @@ $
 $
 which is symmetric as well.
 
-We have now given a coordinate-free and a component-based proof of the fact that an induced connection inherits torsion-freeness from the ambient connection. It remains to show that metric compatibility is preserved as well, allowing us to conclude that an ambient Levi-Civita connection induces a Levi-Civita connection on the submanifolds of a foliation.
+We have now given a coordinate-free and a component-based proof of the fact that an induced connection inherits torsion-freeness from the ambient connection. It remains to show that metric compatibility is preserved as well to allow us to conclude that an ambient Levi-Civita connection induces a Levi-Civita connection on the submanifolds of a foliation.
 \ \
 *Metric Compatibility* To show that metric compatibility of $nabla$ is inherited to $mnabla$, let us first derive a useful identity---a product rule for the inner product induced by the metric $g$. Observe that for $X,Y,Z in Gamma(T cal(M))$, we have
 $
