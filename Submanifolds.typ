@@ -638,7 +638,7 @@ Now, let us go over each part of the definition in detail.
 
   Very loosely, one might imagine this as dragging a window (the vector space) across a screen (the manifold) in Windows XP, with the bug that leaves behind a smeared trail of it. As you drag it, the trail being formed represents this union of all these smeared copies (recounting overlapping regions appropriately), which is what is known as the total space.
 
-+ _Bundle Projection_: Consider the total space $cal(E)$ of a vector bundle. Since it can be viewed as the union of all tangent spaces, any point in it contains two pieces of information: A vector in one of the tangent spaces, as well as the point to which that tangent space is attached to. In other words, an element of $cal(E)$ is naturally written as a pair $(p,X_p)$, where $p$ denotes a point in the manifold $cal(M)$, and $X_p$ is a vector in the fibre attached to $cal(M)$ at $p$, i.e., $X_p in cal(E)_p$. 
++ _Bundle Projection_: Consider the total space $cal(E)$ of a vector bundle. Since it can be viewed as the union of all tangent spaces, any point in it contains two pieces of information: A vector in one of the tangent spaces, as well as the point to which that tangent space is attached to. In other words, an element of $cal(E)$ is naturally written as a pair $(p,X_p)$, where $p$ denotes a point in the manifold $cal(M)$, and $X_p$ is a vector in the fibre attached to $cal(M)$ at $p$, i.e., $X_p in cal(E)_p$.
 
   To visualise this, imagine attaching copies of $RR^2$ perpendicular to a straight line (which can be represented by $RR$). The result is a space that is isomorphic to $RR^3$, where each point in this total space consists of three real numbers. The first number indicates the position along the line (i.e., in which "paper sheet" in the stack we are on), and the last two numbers describe a vector in $RR^2$ (i.e., the direction of the vector in the plane attached at that position).
 
@@ -949,7 +949,7 @@ $
 $
 where $n^sharp$ denotes a chosen normal vector field, and $lambda$ is a smooth scalar function on $cal(M)$. The use of the musical isomorphism in this notation is deliberate: rather than constructing $n^sharp$ directly, it is often more natural to begin with a normal one-form $n$, and then obtain the vector field $n^sharp$ via the defining identity
 $
-  g(n^sharp, X) = n(X) quad forall X quad <=> quad \(n^sharp\) ^mu = n^mu = g^(mu nu) n_nu.
+  g(n^sharp, X) = n(X) quad forall X quad <=> quad \(n^sharp\)^mu = n^mu = g^(mu nu) n_nu.
 $<sharpDefinition>
 If the normal subspaces $N_p Sigma_t(p)$ are timelike (or spacelike) everywhere, then we may impose a canonical normalisation to fix $n^sharp$ uniquely (up to sign),
 $
@@ -1257,7 +1257,7 @@ This allows us to derive both $g_(t t)$ and $g_(t i)$ via
 $
   g_(t t) &= g(diff_t, diff_t) = epsilon^2 alpha^2 underbrace(g(n^sharp,n^sharp), =epsilon) + 2 epsilon alpha underbrace(g(n^sharp, beta), =0) + underbrace(g(beta,beta), =gamma_(i j) beta^i beta^j)\
   &= epsilon alpha^2 + gamma_(i j) beta^i beta^j,\ \
-  g_(t i) &= g(diff_t, diff_i) = epsilon alpha underbrace(g(n^sharp, diff_i), =0) + g(beta, diff_i) = beta^i g(diff_i, diff_j) =  gamma_(i j) beta^j
+  g_(t i) &= g(diff_t, diff_i) = epsilon alpha underbrace(g(n^sharp, diff_i), =0) + g(beta, diff_i) = beta^i g(diff_i, diff_j) = gamma_(i j) beta^j
 $
 Here, we made use of the fact that $n^sharp$ is normal to the foliation, whereas the $diff_i$ and hence also $beta$ are tangent to it---or, algebraically,
 $
@@ -1440,7 +1440,7 @@ This requires that each of the coefficients of $beta$ above must be zero. Notice
 $
   (diff x)/(diff r) - x/r = 0 quad <=>quad x(r,q^i) = r f_x (q^i)
 $
-for some function $f_x (q_i)$, and analogously for $y$ and $z$. Thus, we must parameterise each of our leaves $Sigma_r = r S^2$ with the same coordinates $q^i$, simply stretched by the sphere's radius. Put differently, requiring $beta = 0$ implies that the coordinates $x,y,z$ are simply parametrisations of the $2$-sphere $S^2$ scaled linearly by the radius $r$. 
+for some function $f_x (q_i)$, and analogously for $y$ and $z$. Thus, we must parameterise each of our leaves $Sigma_r = r S^2$ with the same coordinates $q^i$, simply stretched by the sphere's radius. Put differently, requiring $beta = 0$ implies that the coordinates $x,y,z$ are simply parametrisations of the $2$-sphere $S^2$ scaled linearly by the radius $r$.
 
 All that is left to do now is to choose one's favourite parametrisation of $S^2$. Here, we opt to use the standard coordinates $theta,phi$ which parameterise the 2-sphere of radius $r$ as
 $
@@ -1562,7 +1562,7 @@ This is a rather abstract (though likely familiar, if you got this far in these 
   $
   We see that the connection term must absorb the inhomogeneous contribution. That is,
   $
-    X^alpha otimes nabla diff_alpha =  X^mu otimes nabla diff_mu - X^mu (J_alpha^nu diff_nu J_mu^beta) dx^nu otimes diff_mu.
+    X^alpha otimes nabla diff_alpha = X^mu otimes nabla diff_mu - X^mu (J_alpha^nu diff_nu J_mu^beta) dx^nu otimes diff_mu.
   $<connectionTransformationRulePrecursor>
   The final term determines how $nabla diff_mu$ must transform in order to make $nabla X$ a genuine tensor. We will return to this structure momentarily when introducing the connection coefficients explicitly.
 
@@ -1669,16 +1669,17 @@ This is a rather abstract (though likely familiar, if you got this far in these 
 
   To reiterate: the expressions for $nabla_mu diff_nu$ and $nabla_mu dx^nu$ above inform us what the rate of change of the basis vectors $diff_nu$ and 1-forms $dx^nu$ are as one moves along the coordinate direction $diff_mu$.
 
+
 == Review: Levi-Civita Connection
 Now that we have introduced the general notion of a connection---a way of encoding the change of basis vectors and 1-forms as one moves through a manifold---we turn to the most prominent example: the _Levi-Civita connection_, which is uniquely determined by two conditions. These are:
 
 + Vanishing torsion,
 + Metric compatibility.
-We will now introduce the meaning both conditions rigorously and examine their consequences for the connection coefficients $tensor(Gamma, +lambda, -mu nu)$, which ultimately leads to the _Christoffel Symbols_, which are the coefficients of the Levi-Civita connection.
+We will now introduce the meaning of both conditions rigorously and examine their consequences for the connection coefficients $tensor(Gamma, +lambda, -mu nu)$, which ultimately leads to the _Christoffel Symbols_, which are the coefficients of the Levi-Civita connection.
 \ \
 *Vanishing Torsion* A connection provides us with a means of comparing vectors at nearby points and describing how they change as we move infinitesimally along a given direction. Given two vector fields $X,Y in Gamma(T cal(M))$, the covariant derivatives $nabla_X Y$ and $nabla_Y X$ describe how $Y$ changes along the flow of $X$, and how $X$ changes along the flow of $Y$, respectively.
 
-On a flat space, one can think of the vectors $X,Y,X+alpha nabla_Y X$, and $Y + alpha nabla_X Y$ as forming a parallelogram for infinitesimal $alpha$, assuming $[X,Y] = 0$. However, on a general manifold with arbitrary connection, this parallelogram may fail to close. There are two distinct reasons for this failure:
+On a flat space, one can think of the vectors $X,Y,X+epsilon nabla_Y X$, and $Y + epsilon nabla_X Y$ as forming a parallelogram for infinitesimal $alpha$, assuming $[X,Y] = 0$. However, on a general manifold with arbitrary connection, this parallelogram may fail to close. There are two distinct reasons for this failure:
 + The flow paths of $X$ and $Y$ do not commute, i.e., following $X$ then $Y$ leads to a different point than following $Y$ then $X$. This is encoded by the Lie bracket $[X,Y]$.
 + The change in the transported vector fields differs, i.e., $nabla_X Y != nabla_Y X$. This is an intrinsic feature of the connection.
 
@@ -2081,7 +2082,16 @@ This immediately suggests a relationship between the ambient and intrinsic curva
 
 This will prepare us for the derivation of the Gauss-Codazzi equation in the next section, which relates the intrinsic, extrinsic and projected ambient curvatures in a precise and elegant way.
 == Intrinsic Curvature
+=== Review: Parallel Transport
+Goal:
+- Introduce parallel transport of a single vector along a curve
+- Introduce transport operator $Phi_X (epsilon):Gamma(T cal(M))->Gamma(T cal(M))$
+- Give infinitesimal expression,
+  $
+    Phi_X (epsilon) Z = Z + epsilon nabla_X Z + cal(O)(epsilon^2)
+  $
 === Curvature of Manifolds: the Riemann Tensor
+#comment[\<Rework\>]
 On a space like $RR^2$ equipped with the Euclidean metric,
 $
   g = dx otimes dx + dy otimes dy,
@@ -2109,6 +2119,7 @@ $
   R(X,Y)Z = nabla_X nabla_Y Z - nabla_Y nabla_X Z - nabla_[X,Y]Z.
 $
 The first two terms compare the changes $Z$ undergoes when transported along $Y$ and then $X$, versus along $X$ and then $Y$, respecitvely---they measure the failure of the transported versions of $Z$ to align when moving around a parallelogram. More algebraically speaking, their difference measures the non-commutativity of covariant derivatives. However, since the flows of $X$ and $Y$ do not necessarily form a closed parallelogram, the discrepancy induced by the transport along the gap, i.e. the commutator $[X,Y]$, must also be accounted for. This is implemented by the final term, $nabla_[X,Y]Z$.
+#comment[\</Rework\>]
 
 We define the components of the Riemann tensor through
 $
@@ -2131,7 +2142,7 @@ $
 $
   R(X,Y)T = nabla_X nabla_Y T - nabla_Y nabla_X T - nabla_[X,Y] T.
 $
-Let us now examine the consequences of this definition in closer detail.
+Let us now examine some properties of this definition in closer detail.
 \ \
 *Remarks*
 - *Annihilation of Functions* In particular, on functions $phi in C^infty (cal(M))$, we have
@@ -2150,7 +2161,7 @@ Let us now examine the consequences of this definition in closer detail.
   $
     R(X,Y) = [nabla_X, nabla_Y] - nabla_[X,Y].
   $
-  The second term $nabla_[X,Y]$ is plainly a derivation, as it is a covariant derivative. It therefore suffices to verify the Leibniz property for the commutator $[nabla_X, nabla_Y]$. Consider $nabla_X nabla_Y (T otimes S)$. Using the product rule for $nabla$, we compute
+  The second term $nabla_[X,Y]$ is plainly a derivation, as it is but a covariant derivative. It therefore suffices to verify the Leibniz property for the commutator $[nabla_X, nabla_Y]$. Consider $nabla_X nabla_Y (T otimes S)$. Using the product rule for $nabla$, we compute
   $
     &nabla_X nabla_Y (T otimes S) = nabla_X ((nabla_Y T) otimes S + T otimes nabla_Y S)\
     &= (nabla_X nabla_Y T) otimes S + underbrace((nabla_Y T) otimes (nabla_X S) + (nabla_X T) otimes (nabla_Y S), "symmetric in" X "and" Y) + T otimes (nabla_X nabla_Y S),
@@ -2203,9 +2214,9 @@ Let us now examine the consequences of this definition in closer detail.
     tensor(R, +rho, -lambda mu nu) = diff_mu tensor(Gamma, +rho, -nu lambda) - diff_nu tensor(Gamma, +rho, -mu lambda) + tensor(Gamma, +rho, -mu sigma) tensor(Gamma, +sigma, -nu lambda) - tensor(Gamma, +rho, -nu sigma) tensor(Gamma, +sigma, -mu lambda).
   $<riemannTensorComponents>
 === Symmetries and Contractions of the Riemann Tensor
-The Riemann curvature tensor introduced in the previous section exhibits a variety of intrinsic algebraic symmetries and contraction properties that depend on the underlying connection's characteristics. In this section, we summarise and derive these symmetries, distinguishing those that hold purely by definition from those that arise under additional assumptions such as metric compatibility and the absence of torsion. This will enable us to identify a canonical contraction of the Riemann tensor---the Ricci tensor---which is unique up to sign for the Levi-Civita connection, along with its trace, the _scalar curvature_.
+The Riemann curvature tensor introduced in the previous section exhibits a variety of intrinsic algebraic symmetries and contraction properties that depend on the underlying connection's characteristics. In this section, we derive and summarise these symmetries, distinguishing those that hold purely by definition from those that arise under additional assumptions such as metric compatibility and the absence of torsion. This will enable us to identify a canonical contraction of the Riemann tensor---the Ricci tensor---along with its trace, the _Ricci scalar_ or _scalar curvature_.
 
-To discuss algebraic symmetries, i.e. relations between permutations of the tensor slots, we first introduce the fully covariant $(0,4)$-tensor associated to the Riemann curvature. This is defined by lowering the upper index of the $(1,3)$-curvature operator using the metric by defining
+To discuss algebraic symmetries, i.e. relations between permutations of the tensor slots, we introduce the fully covariant $(0,4)$-tensor associated to the Riemann curvature. It is defined by lowering the upper index of the $(1,3)$-curvature operator using the metric by defining
 $
   R(W,Z,X,Y) := g(R(X,Y)Z,W).
 $
@@ -2217,7 +2228,7 @@ or equivalently,
 $
   R_(rho lambda mu nu) = g_(rho sigma) tensor(R, +rho, -lambda mu nu).
 $
-Thus the fully covariant tensor arises simply by lowering the vector index of the curvature operator via the metric---in this sense, one could also write
+Thus, the fully covariant tensor arises simply by lowering the vector index of the curvature operator via the metric---one could also write
 $
   R(dot, Z,X,Y) = (R(X,Y)Z)^flat.
 $
@@ -2285,9 +2296,9 @@ We are now ready to discuss the symmetries of $R(W,Z,X,Y)$:
   $
     tensor(R, +rho, -[sigma mu nu]) = tensor(R, -rho, -[sigma mu nu]) = 0.
   $
-  Here, the cyclic permutation of the last three indices/slots is proportional to their anti-symmetrisation since we have anti-symmetry in the last two indices.
+  Here, the cyclic permutation of the last three indices/slots is proportional to their anti-symmetrisation since we have anti-symmetry in the last two indices/slots.
 
-+ *Symmetry in First and Second Pair* For a connection that is both metric-compatible and has vanishing torsion---i.e., a Levi-Civita connection---the above symmetries imply a further symmetry,
++ *Symmetry in First and Second Pair* For a connection that is both metric-compatible and has vanishing torsion---i.e., the Levi-Civita connection---the above symmetries imply a further symmetry,
   $
     R(W,Z,X,Y) = R(X,Y,W,Z).
   $
@@ -2303,7 +2314,7 @@ We are now ready to discuss the symmetries of $R(W,Z,X,Y)$:
       &attach(=, t: 1.) 2R(X,Y,W,Z) - R(W,Z,X,Y).
     $,
   )
-  The claim now follows from adding $R(W,Z,X,Y)$ to both sides. In terms of the tensor components, the symmetry reads
+  The claim now follows when adding $R(W,Z,X,Y)$ to both sides. In terms of the tensor components, the symmetry reads
   $
     R_(rho sigma mu nu) = R_(mu nu rho sigma).
   $
@@ -2353,7 +2364,7 @@ with
 $
   macron(R)(X,Y)Z = [mnabla_X,mnabla_Y] Z - mnabla_[X,Y]Z.
 $
-We refer to $macron(R)$ as the _intrinsic (Riemann) curvature_ of the foliation $Sigma$. On any individual leaf $Sigma_(t)$, $macron(R)$ is simply the Riemann tensor of the induced Levi-Civita connection---that is, the curvature one would assign having access only to the intrinsic geometry, i.e., without any knowledge of the ambient geometry.
+We refer to $macron(R)$ as the _intrinsic (Riemann) curvature_ of the foliation $Sigma$. On any individual leaf $Sigma_(t)$, $macron(R)$ is simply the Riemann tensor of the induced connection---that is, the curvature one would assign having access only to the intrinsic geometry, i.e., without any knowledge of the ambient geometry.
 
 Since both metric compatibility and absence of torsion are properties $mnabla$ inherits from $nabla$, the fully covariant tensors $R(W,Z,X,Y)$ as well as $macron(R)(W,Z,X,Y)$ exhibit the same algebraic symmetries (cf. previous section). In the case that $nabla$ is the Levi-Civita connection associated to the metric $g$ on $cal(M)$, then $mnabla$ is the Levi-Civita connection associated to the induced metric $gamma = iota^* g$ on the leaves of the foliation. This makes the components of $macron(R)$ computable entirely from the components of the induced metric, due to the relationships
 $
@@ -2380,7 +2391,7 @@ $
 $<naiveGuessAmbientIntrinsicCurvature>
 where $P$ denotes the orthogonal projector onto $T Sigma$.
 
-This would appear to follow the same pattern we observed for the connection: the action of $R(X,Y)Z$ is projected onto the tangent bundle $T Sigma$, and since $mnabla$ acts on $Sigma$, the result must also lie in $T Sigma$. That is, one might guess
+This would appear to follow the same pattern we observed for the connection: the action of $R(X,Y)Z$ is projected onto the tangent bundle $T Sigma$, and since $mnabla$ acts on $Sigma$, the result must also lie in $T Sigma$. Written out in full, this guess reads
 $
   macron(R)(X,Y)Z = P(R(X,Y)Z), quad X,Y,Z in Gamma(T Sigma) subset Gamma(T cal(M)).
 $
@@ -2819,7 +2830,7 @@ This is the result we anticipated in @intrinsicVsProjectedAmbient, now fully wor
 
   The second limitation is a bit more subtle. The objects on the right-hand side of @eq8117[equation] are defined for $X,Y,Z in Gamma(T Sigma)$ only. Hence, we obtain no expression for $P R(X,Y)Z$ on arbitrary vector fields in $Gamma(T cal(M))$, as these generally contain a normal component.
 
-== Hypersurface Foliation
+== Special Case: Hypersurface Foliation
 The Gauss-Codazzi @gaussEqn[equation] can be specialised to hypersurface foliations, where it simplifies a bit. This is done by making use of the relationship
 $
   K(X,Y) = k(X,Y) n^sharp
