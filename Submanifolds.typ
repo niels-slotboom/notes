@@ -1297,7 +1297,7 @@ $<ADMsplitMetric>
   $
     n = alpha dt,
   $
-  one might naively expect the associated vector to be proportional to $diff_t$, perhaps something like
+  one might naïvely expect the associated vector to be proportional to $diff_t$, perhaps something like
   $
     n^sharp = epsilon/alpha diff_t.
   $
@@ -1989,7 +1989,7 @@ and define the leaves of the foliation $Sigma = {Sigma_r}$ to be its level sets,
 $
   Sigma_r_0 := {p in cal(M) | r(p) = r_0} = r_0 S^2.
 $
-In spherical coordinates $(r,y^i) = (r,theta,phi)$ on $RR^3 without {0}$, the induced metric on a leaf $Sigma_r$ was derived to be
+In spherical coordinates $(r,y^i) = (r,theta,phi)$ on $RR^3 without {0}$, we already derived the induced metric on a leaf $Sigma_r$, with the result
 $
   gamma = gamma_(i j) dq^i otimes dq^j = r^2 dtheta otimes dtheta + r^2 sin^2 theta dphi otimes dphi,
 $
@@ -1999,9 +1999,9 @@ We equip the ambient manifold $RR^3 without {0}$ with the Levi-Civita connection
 $
   tensor(Gamma, +lambda, -mu nu) = 1/2 g^(lambda rho) (g_(rho mu, nu) + g_(rho nu,mu) - g_(mu nu, rho)) = 0,
 $
-since the metric components $g_(x x) = g_(y y) = g_(z z) = 1$ are constant.
+since the metric components $g_(mu nu) = delta_(mu nu)$ are constant.
 
-We now have two formulae to compute the components $tensor(macron(Gamma), +k, -i j)$ of the connection $mnabla$ induced by $nabla$ at our disposal; we can either use the @projectionConnectionCoeffs[projection formula], or calculate them directly using the @christoffelSymbolsInduced[Christoffel expression]. We now proceed to evaluate both.
+We have two formulae for the components $tensor(macron(Gamma), +k, -i j)$ of the connection $mnabla$ induced by $nabla$ at our disposal; we can either use the @projectionConnectionCoeffs[projection formula], or calculate them directly using the @christoffelSymbolsInduced[Christoffel expression]. Let us evaluate both and compare.
 
 The evaluation of the @projectionConnectionCoeffs[projection formula] requires us to compute the components of the pushforward matrix
 $
@@ -2025,7 +2025,7 @@ ensures the left-inverse property and
 $
   P_(mu nu) = g_(mu lambda) tensor(P, +lambda, -nu) = g_(mu lambda) E^lambda_i E^i_nu = g_(mu lambda) E^lambda_i gamma^(i j) g_(nu rho) E^rho_j
 $
-symmetry of $P_(mu nu)$ which is equivalent to orthogonality.
+the symmetry of $P_(mu nu)$ (which is equivalent to orthogonality).
 
 The components of the orthogonal left-inverse read
 $
@@ -2054,7 +2054,7 @@ We now proceed to recompute these coefficients using the standard Christoffel fo
 $
   tensor(macron(Gamma), -k i j) = 1/2(g_(k i, j) + g_(k j,i) - g_(i j, k))
 $
-and to then raise the first index with the inverse metric. Before wildly starting to evaluate all possible index combinations, we should first examine the nature of the components $gamma_(i j)$ of the induced metric. There is only one component, $gamma_(phi phi) = r^2 sin^2 theta$, which is non-constant#footnote[Recall that on a leaf, $r$ is constant.] and hence has a chance of contributing to $macron(Gamma)_(k i j)$. It only depends on $theta$, and hence the only non-zero component of the partial gradient of $gamma_(i j)$ is
+and to then raise the first index with the inverse metric. Before wildly starting to evaluate all possible index combinations, we should first examine the nature of the components $gamma_(i j)$ of the induced metric. There is only one component, $gamma_(phi phi) = r^2 sin^2 theta$, which is non-constant#footnote[Recall that on a leaf, $r$ is constant.] and hence has a chance of contributing to $macron(Gamma)_(k i j)$. It only depends on $theta$---thus, the only non-zero component of the partial gradient of $gamma_(i j)$ is
 $
   diff_theta gamma_(phi phi) = 2 r^2 sin theta cos theta.
 $
@@ -2072,12 +2072,12 @@ $
   tensor(macron(Gamma), +theta, -phi phi) &= g^(theta theta) macron(Gamma)_(theta phi phi) = -sin theta cos theta = -1/2 sin(2 theta),\
   tensor(macron(Gamma), +phi, -theta phi) = tensor(macron(Gamma), +phi, -phi theta) &= g^(phi phi)macron(Gamma)_(phi phi theta) = (cos theta)/(sin theta) = cot theta.
 $
-This reproduces exactly the same result as the projection formula, as we would expect from our derivations made for general manifolds---it is nevertheless satisfying to see that the abstract machinery does indeed work when applied to concrete examples.
+This reproduces exactly the same result as the projection formula, as we would expect from our derivations made for general manifolds. Nevertheless, it is satisfying to see that the abstract machinery does indeed work when applied to concrete examples.
 
 = Curvature
 In this section, we examine the different kinds of curvature that arise in the study of submanifolds and foliations. We begin by reviewing the definition of the Riemann curvature tensor and its contractions, which will allow us to define both the _ambient curvature_ of a manifold $cal(M)$ and the _instrinsic curvature_ of the leaves of a foliation $Sigma$ on it. The ambient curvature is defined via the ambient connection $nabla$ on $cal(M)$, whereas the intrinsic curvature is derived from the induced connection $nabla$, which---as established in the previous section---is the tangential projection of $nabla$ onto $Sigma$.
 
-This immediately suggests a relationship between the ambient and intrinsic curvatures. One might naïvely expect, by analogy  with the connections, that the intrinsic curvature is simply the projection of the ambient one. A simple counterexample will demonstrate that this cannot be entire picture. This leads us to the notion of _extrinsic curvature_, which---roughly speaking---captures the normal component of the ambient connection $nabla$ that is discarded when passing to $mnabla$.
+This immediately suggests a relationship between the ambient and intrinsic curvatures. One might naïvely expect that---analogous to the connections---the intrinsic curvature is simply the projection of the ambient one. A simple counterexample will demonstrate that this cannot be entire picture. This leads us to the notion of _extrinsic curvature_, which---roughly speaking---captures the normal component of the ambient connection $nabla$ that is discarded when passing to $mnabla$.
 
 This will prepare us for the derivation of the Gauss-Codazzi equation in the next section, which relates the intrinsic, extrinsic and projected ambient curvatures in a precise and elegant way.
 == Intrinsic Curvature
@@ -2096,7 +2096,7 @@ By contrast, consider the $2$-sphere $S^2$ with its standard round metric,
 $
   g = dtheta otimes dtheta + sin^2 theta dphi otimes dphi.
 $
-Here, the Christoffel symbols do not vanish, and more fundamentally, there is no coordinate system in which the basis vectors are parallel, i.e., in which @basisParallel[equation] holds. This reflects a key geometric difference: the tangent spaces on $S^2$ "tilt" as one moves across the surface, and vectors transported between them must adjust accordingly.
+Here, the Christoffel symbols do not vanish, and more fundamentally, there is no coordinate system in which the coordinate basis vectors are parallel, i.e., in which @basisParallel[equation] holds. This reflects a key geometric difference: the tangent spaces on $S^2$ "tilt" as one moves across the surface, and vectors transported between them must adjust accordingly.
 
 This geometric tilt can be detected via _parallel transport around a closed loop_. In $RR^2$, transporting a vector around any closed path will return it unchanged to its starting point. On $S^2$, however, the result typically differs: the transported vector may fail to return aligned with the original. This discrepancy encodes the _curvature_ of the manifold. Let us now formalise this by introducing the Riemann curvature tensor.
 \ \
@@ -2384,7 +2384,7 @@ This would appear to follow the same pattern we observed for the connection: the
 $
   macron(R)(X,Y)Z = P(R(X,Y)Z), quad X,Y,Z in Gamma(T Sigma) subset Gamma(T cal(M)).
 $
-However, this is _not_ the case. There are (at least) two ways to see this---first, through a concrete counterexample; and second, via an algebraic derivation that, while less geometrically intuitive, revelas the deeper structure behind the failure of this naive guess. Let us consider both perspectives in turn.
+However, this is _not_ the case. There are (at least) two ways to see this---first, through a concrete counterexample; and second, via an algebraic derivation that, while less geometrically intuitive, revelas the deeper structure behind the failure of this naïve guess. Let us consider both perspectives in turn.
 
 - *Curved Submanifolds of Flat Manifolds* Let us reconsider a recurring example from these notes: The foliation by origin-centered spheres of the ambient manifold $RR^3 without {0}$, equipped with the Euclidean metric
   $
@@ -2405,13 +2405,13 @@ However, this is _not_ the case. There are (at least) two ways to see this---fir
   $
     R(X,Y)Z = 0,quad forall X,Y,Z in Gamma(T cal(M)),
   $
-  If our earlier naive @naiveGuessAmbientIntrinsicCurvature[guess] were correct, this would imply that
+  If our earlier naïve @naiveGuessAmbientIntrinsicCurvature[guess] were correct, this would imply that
   $
     macron(R)(X,Y)Z = P(R(X,Y)Z) = 0,
   $
   and thus that the intrinsic curvature vanishes as well.
 
-  This already casts doubt on our naive guess---after all, the word "sphere" does not readily evoke "flatness". Let us indulge this suspicion and compute the components of the intrinsic curvature explicitly to see where the discrepancy lies. We already derived the induced connection coefficients for this foliation in @sectionInducedConnectionExample, arriving at the following non-zero Christoffel symbols:
+  This already casts doubt on our naïve guess---after all, the word "sphere" does not readily evoke "flatness". Let us indulge this suspicion and compute the components of the intrinsic curvature explicitly to see where the discrepancy lies. We already derived the induced connection coefficients for this foliation in @sectionInducedConnectionExample, arriving at the following non-zero Christoffel symbols:
   $
     tensor(macron(Gamma), +theta, -phi phi) -sin theta cos theta, wide
     tensor(macron(Gamma), +phi, -theta phi) = tensor(macron(Gamma), +phi, -phi theta) = cot theta.
@@ -2427,7 +2427,7 @@ However, this is _not_ the case. There are (at least) two ways to see this---fir
     &= -cos^2 theta + sin^2 theta + underbrace(sin theta cos theta cot theta, =cos^2 theta)\
     &= sin^2 theta.
   $
-  This is very clearly _not_ zero. We have thus found a counterexample to @naiveGuessAmbientIntrinsicCurvature[our naive guess]: the intrinsic curvature does not, in general, arise from a simple projection of the ambient curvature.
+  This is very clearly _not_ zero. We have thus found a counterexample to @naiveGuessAmbientIntrinsicCurvature[our naïve guess]: the intrinsic curvature does not, in general, arise from a simple projection of the ambient curvature.
 
   This is a good point to take a step back and generalise the insight, in order to build further intuition for why our guess cannot be correct. What we have done is the following: we took a flat manifold, $RR^3 without {0}$, and foliated it into surfaces that are scaled copies of the 2-sphere. Intuitively, spheres possess curvature---this is evident from the fact that their normal vector field varies as one moves along their surface. Our @naiveGuessAmbientIntrinsicCurvature[guess], however, attempted to capture something quite different: it projected the ambient curvature tensor (which vanishes in this case) onto the tangent bundle of the foliation (where it still vanishes). The projection $P R|_(T Sigma)$ captures only the part of the _ambient_ curvature that is tangential to the foliation; it entirely neglects how the surface itself bends within the ambient space. In other words, this projection measures the curvature of the background in which the leaves of the foliation live, but not how those leaves curve within it. The normal field vector plays no role in this projection. Hence, while $P R|_(T Sigma)$ may contribute to the intrinsic curvature $macron(R)$, it clearly does not suffice to determine it completely: the way in which the surface curves relative to the background also generates intrinsic curvature.
 
