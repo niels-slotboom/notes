@@ -1305,7 +1305,7 @@ $<ADMsplitMetric>
   $
     n^sharp = epsilon/alpha (diff_t - beta),
   $
-  which includes an additional component from $beta$ along the tangential directions $diff_i$. Since $n^sharp$ is normal to the foliation, this tells us that $diff_t$ itself is _not_ normal in general. The shift vector $beta = beta^i diff_i$ encodes precisely this discrepancy---it provides the spatial correction needed to turn $diff_t$ into a vector normal to the leaves.
+  which includes an additional component from $beta$ along the tangential directions $diff_i$. Since $n^sharp$ is normal to the foliation, this tells us that $diff_t$ itself is generally _not_ normal. The shift vector $beta = beta^i diff_i$ encodes precisely this discrepancy---it provides the spatial correction needed to turn $diff_t$ into a vector normal to the leaves.
 
   Put differently, the shift quantifies the failure of $diff_t$ to be orthogonal to the foliation. It tells us how much spatial displacement occurs---within the leaves themselves---when evolving forward in coordinate time. Alternatively, we can re-express this as
   $
@@ -2366,7 +2366,7 @@ $
 $
 We refer to $macron(R)$ as the _intrinsic (Riemann) curvature_ of the foliation $Sigma$. On any individual leaf $Sigma_(t)$, $macron(R)$ is simply the Riemann tensor of the induced connection---that is, the curvature one would assign having access only to the intrinsic geometry, i.e., without any knowledge of the ambient geometry.
 
-Since both metric compatibility and absence of torsion are properties $mnabla$ inherits from $nabla$, the fully covariant tensors $R(W,Z,X,Y)$ as well as $macron(R)(W,Z,X,Y)$ exhibit the same algebraic symmetries (cf. previous section). In the case that $nabla$ is the Levi-Civita connection associated to the metric $g$ on $cal(M)$, then $mnabla$ is the Levi-Civita connection associated to the induced metric $gamma = iota^* g$ on the leaves of the foliation. This makes the components of $macron(R)$ computable entirely from the components of the induced metric, due to the relationships
+Since both metric compatibility and absence of torsion are properties $mnabla$ inherits from $nabla$, the fully covariant tensors $R(W,Z,X,Y)$ and $macron(R)(W,Z,X,Y)$ exhibit the same algebraic symmetries (cf. previous section). In the case that $nabla$ is the Levi-Civita connection associated to the metric $g$ on $cal(M)$, then $mnabla$ is the Levi-Civita connection associated to the induced metric $gamma = iota^* g$ on the leaves of the foliation. This makes the components of $macron(R)$ computable entirely from the components of the induced metric, due to the relationships
 $
   tensor(macron(R), +k, -ell i j) &= diff_i tensor(macron(Gamma), +k, -j ell) - diff_j tensor(macron(Gamma), +k, -i ell) + tensor(macron(Gamma), +k, -i m) tensor(macron(Gamma), +m, -j ell) - tensor(macron(Gamma), +k, -j m) tensor(macron(Gamma), +m, -i ell),\
   tensor(macron(Gamma), +k, -i j) &= 1/2 gamma^(k ell)(gamma_(ell i, j) + gamma_(ell j, i) - gamma_(i j, ell))
@@ -2387,15 +2387,11 @@ $
 === Intrinsic vs Projected Ambient Curvature <intrinsicVsProjectedAmbient>
 A natural question following the above introduction of the intrinsic curvature $macron(R)$ on a foliation $Sigma$ is how it relates to the ambient curvature $R$. Since $mnabla$ is defined as the projection of $nabla$ onto $T Sigma$, one might expect a similar relationship between the intrinsic and ambient curvature---something like
 $
-  macron(R) = P R|_(T Sigma),
+  macron(R)(X,Y)Z = (iota_*)^(-1) lr((R(iota_* X,iota_* Y)(iota_* Z)),size:#135%), quad X,Y,Z in Gamma(T Sigma) subset Gamma(T cal(M)).
 $<naiveGuessAmbientIntrinsicCurvature>
-where $P$ denotes the orthogonal projector onto $T Sigma$.
+where $(iota_*)^(-1)$ denotes the orthogonal left-inverse of the pushforward $iota_*$. This would follow the same pattern we have for the connection: the action of $R(X,Y)Z$ is simply followed by a projection onto the tangent bundle $T Sigma$, removing any normal contributions that might emerge. 
 
-This would appear to follow the same pattern we observed for the connection: the action of $R(X,Y)Z$ is projected onto the tangent bundle $T Sigma$, and since $mnabla$ acts on $Sigma$, the result must also lie in $T Sigma$. Written out in full, this guess reads
-$
-  macron(R)(X,Y)Z = P(R(X,Y)Z), quad X,Y,Z in Gamma(T Sigma) subset Gamma(T cal(M)).
-$
-However, this is _not_ the case. There are (at least) two ways to see this---first, through a concrete counterexample; and second, via an algebraic derivation that, while less geometrically intuitive, revelas the deeper structure behind the failure of this naïve guess. Let us consider both perspectives in turn.
+However, @naiveGuessAmbientIntrinsicCurvature[equation] is _not_ correct. There are (at least) two ways to see this---first, through a concrete counterexample; and second, via an algebraic derivation that, while less geometrically intuitive, reveals the deeper structure behind the failure of this naïve guess. Let us consider both perspectives in turn.
 
 - *Curved Submanifolds of Flat Manifolds* Let us reconsider a recurring example from these notes: The foliation by origin-centered spheres of the ambient manifold $RR^3 without {0}$, equipped with the Euclidean metric
   $
@@ -2424,23 +2420,23 @@ However, this is _not_ the case. There are (at least) two ways to see this---fir
 
   This already casts doubt on our naïve guess---after all, the word "sphere" does not readily evoke "flatness". Let us indulge this suspicion and compute the components of the intrinsic curvature explicitly to see where the discrepancy lies. We already derived the induced connection coefficients for this foliation in @sectionInducedConnectionExample, arriving at the following non-zero Christoffel symbols:
   $
-    tensor(macron(Gamma), +theta, -phi phi) -sin theta cos theta, wide
+    tensor(macron(Gamma), +theta, -phi phi) = -sin theta cos theta, wide
     tensor(macron(Gamma), +phi, -theta phi) = tensor(macron(Gamma), +phi, -phi theta) = cot theta.
   $
   At first glance, computing the components of a rank-4 tensor like the Riemann curvature might seem daunting. However, in two dimensions---and with the Levi-Civita connection---the symmetries of the Riemann tensor drastically reduce the number of independent components. Specifically, the antisymmetry in both the first and second pair of indices,
   $
-    R_(rho sigma mu nu) = -R_(rho sigma nu mu) = -R_(sigma rho mu nu),
+    macron(R)_(rho sigma mu nu) = -macron(R)_(rho sigma nu mu) = -macron(R)_(sigma rho mu nu),
   $
-  implies that the indices $theta$ and $phi$ must each appear exactly once in both pairs. All valid permutations are then related by symmetry. Moreover, since the metric is diagonal, we only need to compute a single nontrivial component, say $tensor(R, +theta, -phi theta phi)$. We proceed by applying the standard formula:
+  implies that the indices $theta$ and $phi$ must each appear exactly once in both pairs. All valid permutations are then related by symmetry. Moreover, since the metric is diagonal, we only need to compute a single nontrivial component, say $tensor(macron(R), +theta, -phi theta phi)$. We proceed by applying the standard formula:
   $
     tensor(macron(R), +theta, -phi theta phi) &= diff_theta tensor(macron(Gamma), +theta, -phi phi) - diff_phi underbrace(tensor(macron(Gamma), +theta, -theta phi), =0) + underbrace(tensor(macron(Gamma), +theta, -theta i) tensor(macron(Gamma), +i, -phi phi), =0) - tensor(macron(Gamma), +theta, -phi i) tensor(macron(Gamma), +i, -theta phi)\
     &= - diff_theta (sin theta cos theta )- tensor(macron(Gamma), +theta, -phi phi) tensor(macron(Gamma), +phi, -theta phi)\
     &= -cos^2 theta + sin^2 theta + underbrace(sin theta cos theta cot theta, =cos^2 theta)\
     &= sin^2 theta.
   $
-  This is very clearly _not_ zero. We have thus found a counterexample to @naiveGuessAmbientIntrinsicCurvature[our naïve guess]: the intrinsic curvature does not, in general, arise from a simple projection of the ambient curvature.
+  This is very clearly _not_ zero. We have thus found a counterexample to @naiveGuessAmbientIntrinsicCurvature[our naïve guess]. We conclude that the intrinsic curvature does not, in general, arise from a simple projection of the ambient curvature.
 
-  This is a good point to take a step back and generalise the insight, in order to build further intuition for why our guess cannot be correct. What we have done is the following: we took a flat manifold, $RR^3 without {0}$, and foliated it into surfaces that are scaled copies of the 2-sphere. Intuitively, spheres possess curvature---this is evident from the fact that their normal vector field varies as one moves along their surface. Our @naiveGuessAmbientIntrinsicCurvature[guess], however, attempted to capture something quite different: it projected the ambient curvature tensor (which vanishes in this case) onto the tangent bundle of the foliation (where it still vanishes). The projection $P R|_(T Sigma)$ captures only the part of the _ambient_ curvature that is tangential to the foliation; it entirely neglects how the surface itself bends within the ambient space. In other words, this projection measures the curvature of the background in which the leaves of the foliation live, but not how those leaves curve within it. The normal field vector plays no role in this projection. Hence, while $P R|_(T Sigma)$ may contribute to the intrinsic curvature $macron(R)$, it clearly does not suffice to determine it completely: the way in which the surface curves relative to the background also generates intrinsic curvature.
+  This is a good point to take a step back and generalise the insight, in order to build further intuition for why our guess cannot be correct. What we have done is the following: we took a flat manifold, $RR^3 without {0}$, and foliated it into surfaces that are scaled copies of the 2-sphere. Intuitively, spheres possess curvature---this is evident from the fact that their normal vector field varies as one moves along their surface. Our @naiveGuessAmbientIntrinsicCurvature[guess], however, attempted to capture something quite different: it projected the ambient curvature tensor (which vanishes in this case) onto the tangent bundle of the foliation (where it still vanishes). The projection of the ambient curvature captures only the part of the it that is tangential to the foliation; it entirely neglects how the surface itself bends within the ambient space. In other words, this projection measures the curvature of the background in which the leaves of the foliation live, but not how those leaves curve within it. The change of the normal field vector plays no role in this projection. Hence, while the projected ambient curvature may contribute to the intrinsic curvature $macron(R)$, it clearly does not suffice to determine it completely: the way in which the surface curves relative to the background also generates intrinsic curvature.
 
 - *Algebraic Argument* In @sectionDefInducedConnection, we introduced the induced connection on a foliation $Sigma$ by defining its action on vector fields as
   $
@@ -2479,13 +2475,13 @@ However, this is _not_ the case. There are (at least) two ways to see this---fir
   $
     macron(R)(X,Y)Z = P R(X,Y)Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size: #130%).
   $<precursorGaussEqn>
-  This demonstrates that the intrinsic curvature contains more than just the projection of the ambient curvature. The second term involves the covariant derivative of the projector $P$ and encodes how $T Sigma$ varies under parallel transport within the ambient manifold. It is, in fact, the algebraic seed of the _Gauss-Codazzi equation_, which we will derive in the following sections.
+  This demonstrates that the intrinsic curvature contains more than just the projection of the ambient curvature. In fact, the above is the algebraic seed to the _Gauss-Codazzi equation_, a result we will steadily work towards throughout the following sections. 
 
-  However, to properly interpret this additional term, we must first introduce the concept of _extrinsic curvature_. As it stands, the expression
+  To properly interpret the additional term, we must however first introduce the concept of _extrinsic curvature_. As it stands, the expression
   $
     P lr(((nabla_X P) nabla_Y Z - (nabla_Y P) nabla_X Z), size: #130%)
   $<extraTermForIntrinsicCurvature>
-  clearly introduces a dependence on how the submanifold is situated within the ambient space---it involves the derivative of the projector onto the tangent bundle, and hence reflects how that bundle varies from point to point. This suggests that the _shape_ of the submanifold is encoded here---the part that we found to be missing in the concrete example above. However, the geometric content of this term is not transparent in its current algebraic form. The introduction of extrinsic curvature will allow us to isolate and interpret this shape-dependence more clearly, ultimately leading to the _Gauss-Codazzi equation_, which links intrinsic, extrinsic and ambient curvature in a precise way.
+  clearly introduces a dependence on how the submanifold is situated within the ambient space---it involves the derivative of the projector onto the tangent bundle, and hence reflects how that bundle varies from point to point. This suggests that the _shape_ of the submanifold is encoded here---the part that we found to be missing in the concrete example above. However, the precise geometric content of this term is not transparent in its current algebraic form. The introduction of extrinsic curvature will allow us to isolate and interpret this shape-dependence more clearly, ultimately leading to the Gauss-Codazzi equation. This equation links intrinsic, extrinsic and ambient curvature in a precise way.
 == Extrinsic Curvature
 === Algebraic Motivation for Extrinsic Curvature
 In this section, we introduce the concept of _extrinsic curvature_. Its connection to the @extraTermForIntrinsicCurvature[additional term] appearing in the expression for $macron(R)$ will not be immediate---we will establish that link later. For now, we treat it as a concept in its own right, motivated by the structure behind the ambient and induced connections.
@@ -2494,9 +2490,7 @@ Recall from the previous section that the induced connection can be written as
 $
   mnabla_X Y = P nabla_X Y,
 $
-when we regard $T Sigma subset T cal(M)$ as an actual subbundle via the embedding $iota_*$. This form makes it clear that $mnabla$ is simply the tangential projection of the ambient connection. Crucially, this means that certain components of $nabla_X Y$ are _discarded_ in the process.
-
-Which components are lost? The short answer is: the _normal_ ones---but this deserves a more precise formulation.
+when we regard $T Sigma subset T cal(M)$ as an actual subbundle via the embedding $iota_*$. This form makes it clear that $mnabla$ is simply the tangential projection of the ambient connection. Crucially, this means that certain components of $nabla_X Y$ are _discarded_ in the process. Which components are lost? The short answer is: the _normal_ ones---but this deserves a more precise formulation.
 
 To that end, recall that the metric $g$ on $cal(M)$ allows a decomposition into tangential and normal projectors,
 $
@@ -2518,7 +2512,7 @@ Now consider the action of the ambient connection on two tangent vector fields $
 $
   nabla_X Y = P nabla_X Y + Q nabla_X Y = mnabla_X Y + Q nabla_X Y.
 $
-This naturally leads to the definition of the _extrinsic curvature_ (also called the _second fundamental form_#footnote[The first fundamental form is the induced metric, but I will not use this terminology in these notes.]) as
+This leads us to make a definition: we now introduce the _extrinsic curvature_ (also called the _second fundamental form_#footnote[The first fundamental form is the induced metric, but I will not use this terminology in these notes.]) as
 $
   K(X,Y) := Q nabla_X Y.
 $<defnExtrinsicCurvature>
@@ -2528,21 +2522,21 @@ $
 $<relationAmbientInducedConnectionAndExtrCurv>
 which splits the ambient connection into its tangential and normal components relative to the foliation $Sigma$.
 
-This relationship can also be turned around:
+Let us now examine why this object might be referred to as the extrinsic curvature. Firstly, we note that the above relationship can be turned around:
 $
   mnabla_X Y = nabla_X Y - K(X,Y).
 $
 While this may appear trivial at first glance, it offers a useful geometric perspective: $K(X,Y)$ is the _correction_ necessary to make $nabla_X Y$ tangent to $Sigma$. Such a correction becomes necessary when the tangent plane "tilts"---for instance, on a sphere, moving from one point to another causes the tangent plane to rotate. The full derivative $nabla_X Y$ will generally not remain in the new tangent plane, and thus must have parts of it "chopped off" to become tangent. That "chopped-off" part is $K(X,Y)$. It hence encodes the change in orientation of the tangent spaces---or equivalently, the change in the normal spaces---as one moves along the submanifold. This makes it clear why $K$ is rightly referred to as the _extrinsic curvature_: it measures how the submanifold is shaped _within_ the ambient manifold. This is exactly what we found to be missing when guessing that $macron(R) = P R|_(T Sigma)$: a measure of how the leaves themselves curve on top of the background. How $K(X,Y)$ relates to $macron(R)$ precisely remains to be established---but it certainly feels like a step in the right direction.
 
-This idea is also reflected in the alternate expression
+The idea of $K$ encoding the change in orientation of the tangent/normal spaces is also reflected in an alternative expression one may derive for it. By partial integration, we obtain
 $
   K(X,Y) = Q nabla_X Y = nabla_X (Q Y) - (nabla_X Q) Y.
 $
 Since $Q Y= 0$ for $Y in Gamma(T Sigma)$, this reduces to
 $
-  K(X,Y) = -(nabla_X Q) Y.
+  K(X,Y) = -(nabla_X Q) Y,
 $
-This version highlights another aspect of the same idea: extrinsic curvature measures how the normal projection operator changes along $X$, when acting on $Y$. In other words, it tracks how the normal bundle twists and turns along the leaves of the foliation---consistent with our earlier interpretation in terms of tilting tangent spaces.
+an equivalent but different characterisation of the extrinsic curvature. This version highlights another aspect of the same idea: extrinsic curvature measures how the normal projection operator changes along $X$, with the change being probed by acting on $Y$. In other words, it tracks how the normal bundle twists and turns along the leaves of the foliation---consistent with our earlier interpretation in terms of tilting tangent spaces.
 
 
 === Geometric Interpretation via the Normal Vector <extCurvatureNormalVector>
@@ -2564,11 +2558,11 @@ where
 $
   k(X,Y) := epsilon g(K(X,Y), n^sharp)
 $
-is the proportionality factor $lambda$ from the previous equation. The map $k(X,Y)$ is a scalar-valued bilinear map,
+substitutes as the proportionality factor $lambda$ from the previous equation. The map $k(X,Y)$ is a scalar-valued bilinear map,
 $
   k : Gamma(T Sigma) times Gamma(T Sigma) -> RR,
 $
-and in components, it can be written as
+which---in components---can be written as
 $
   k = k_(mu nu) dx^mu otimes dx^nu.
 $
@@ -2578,7 +2572,7 @@ $
 $
 implying that $k$ is its own pullback; we have $k = iota^* k$. Its action on vector fields $X = X^mu diff_mu = X^i diff_i$ and $Y = Y^mu diff_mu = Y^i diff_i$, both in $Gamma(T Sigma)$, is given by
 $
-  k(X,Y) = k_(mu nu) X^mu X^nu = k_(i j) X^i X^j,
+  k(X,Y) = k_(mu nu) X^mu Y^nu = k_(i j) X^i Y^j,
 $
 making use of the fact that $T Sigma subset T cal(M)$ is a proper subspace via the embedding $iota_*$.
 
@@ -2598,9 +2592,9 @@ this becomes
 $
   k(X,Y) = epsilon g(S(X), Y).
 $
-Explicitly, the components of $k$ are given by
+Explicitly, the components of $k$ are thus given by
 $
-  k_(mu nu) = -epsilon gamma_(nu lambda) (nabla_mu n)#h(0em)^lambda = -epsilon (nabla_mu n)#h(0em) _nu = -epsilon nabla_mu (alpha dt)_nu,
+  k_(mu nu) = -epsilon g_(nu lambda) (nabla_mu n)#h(0em)^lambda = -epsilon (nabla_mu n)#h(0em) _nu = -epsilon nabla_mu (alpha dt)_nu,
 $<extrinsicCurvatureComponents>
 or equivalently,
 $
@@ -2621,7 +2615,7 @@ $
 $
 show that the extrinsic curvature is closely linked to the change in the normal vector field as one moves along the foliation. The shape operator $S(X)$ encodes how the normal vector evolves when traversing a leaf, revealing the curvature of the hypersurface within the ambient manifold. The scalar $k(X,Y)$ then measures the projection of this change along a tangent vector $Y$, providing a clear geometric interpretation of the curvature in the case of hypersurface foliations.
 
-In summary, the extrinsic curvature provides a measure of how the leaves are embedded and deformed within the ambient manifold, with $k(X,Y)$ quantifying the degree of this deformation. In the specific case of hypersurfaces, this bending is described by the change of the normal vector field $n^sharp$, as the normal bundle has one-dimensional fibres, simplifying the geometric interpretation of the curvature.
+In summary, the extrinsic curvature provides a measure of how the leaves are embedded and shaped within the ambient manifold, with $k(X,Y)$ quantifying the degree of this deformation. In the specific case of hypersurfaces, this bending is described by the change of the normal vector field $n^sharp$.
 === Symmetry of the Extrinsic Curvature
 We have previously observed that, under certain conditions such as metric compatibility or vanishing torsion, the Riemann curvature tensor acquires additional symmetries. A similar result holds for the extrinsic curvature $K(X,Y)$, which becomes a (vector-valued) symmetric bilinear form when the connection is torsion-free.
 
@@ -2647,18 +2641,18 @@ For the case of a hypersurface foliation, we also obtain symmetry for the scalar
 $
   k(X,Y) = k(Y,X),
 $
-showing that the scalar function $k(X,Y)$, which encodes the magnitude of the extrinsic curvature, is also symmetric.
+showing that the scalar function $k(X,Y)$, which encodes the magnitude of the extrinsic curvature, is symmetric as well.
 
 === Extrinsic Curvature as Lie Derivative of the Metric
 In the case that the ambient manifold $cal(M)$ is endowed with a metric-compatible and torsion-free connection $nabla$, and $Sigma$ is a hypersurface foliation of it, one can derive a further identity relating the magnitude factor $k(X,Y)$ of the extrinsic curvature to the Lie derivative $cal(L)_(n^sharp)$ of the metric along the normal flow generated by $n^sharp$.
 
-To derive this, we begin by expanding
+To derive this, consider $X,Y in Gamma(T Sigma)$. We begin by expanding
 $
   (cal(L)_(n^sharp) g)(X,Y) = n^sharp [g(X,Y)] - g([n^sharp,X],Y) - g(X,[n^sharp,Y]),quad X,Y in Gamma(T Sigma),
 $
 where we made use of the fact that $cal(L)$ fulfils a Leibniz rule, that it acts as a directional derivative on scalars, and $cal(L)_X Y =[X,Y]$ on vectors. We now treat the individual terms separately.
 
-For the first term, we may replace the directional with a covariant derivative, which after applying the product rule and metric compatibility yields
+For the first term, we may replace the directional with a covariant derivative since it is acting on a scalar. After applying the product rule and metric compatibility, we get
 $
   n^sharp [g(X,Y)] = nabla_(n^sharp) g(X,Y) = g(nabla_(n^sharp)X,Y) + g(X, nabla_(n^sharp) Y).
 $
@@ -2678,21 +2672,67 @@ $
 $
 implying the identity
 $
-  k(X,Y) = -epsilon/2 (cal(L)_(n^sharp) g)(X,Y),
+  k(X,Y) = -epsilon/2 (cal(L)_(n^sharp) g)(X,Y),quad X,Y in Gamma(T Sigma)
 $
 or equivalently,
 $
-  k = -epsilon/2 cal(L)_(n^sharp)g.
+  k = -epsilon/2 cal(L)_(n^sharp)g|_Gamma(T Sigma).
 $<extCurvatureNormalFlowMetric>
 
 This gives a direct relationship between the extrinsic curvature and the metric; more precisely, it tells us that its magnitude corresponds to the change of the metric along the normal flow of the foliation.
+
+We can make this more explicit in terms of the lapse $alpha$, the shift $beta$ and the induced metric $gamma$ that appear in the ADM-decomposed form of the metric we derived in @ADMDecompositionMetric. Recall that in terms of these quantities, the metric components with respect to the adapted coordinates $(t,y^i)$ are given by
+$
+  g_(t t) = epsilon alpha^2 + gamma_(i j) beta^i beta^j, quad g_(t i) = gamma_(i j) beta^j, quad g_(i j) = gamma_(i j).
+$<metricComponentsSectionLieFlow>
+Moreover, by the definition of $alpha$ and $beta$, the normal vector $n^sharp$ can be written as
+$
+  n^sharp = epsilon/alpha (diff_t - beta).
+$
+Since the right-hand side of @extCurvatureNormalFlowMetric[equation] is restricted to $Gamma(T Sigma)$, the only nonzero components#footnote[Notice that $cal(L)_(n^sharp) g$ generally also has $t i$ and $t t$ components. However, these encode what $(cal(L)_(n^sharp)g )(X,Y)$ evaluates to for general vectors $X,Y in Gamma(T cal(M))$, which do not concern us here---$k$ is a bilinear form on $Gamma(T Sigma)$. ] of $k$ are given by
+$
+  k_(i j) = -epsilon/2 (cal(L)_(n^sharp) g)\ _(i j) = -epsilon/2 lr((n^sharp \[g_(i j)\] + (diff_i n^mu)g_(mu j) + (diff_j n^mu) g_(i mu)),size:#135%).
+$
+The second equality simply carries out the Lie derivative explicitly. Let us now examine the terms individually by inserting the @metricComponentsSectionLieFlow[metric components]. 
+
+We begin with the first term. Here, we find
+$
+  n^sharp \[g_(i j)\] = epsilon/alpha diff_t gamma_(i j) - epsilon/alpha beta \[gamma_(i j)\].
+$
+This is simply a directional derivative of the induced metric, encoding both the change along the time direction $diff_t$ as well as the shift $beta$.
+
+Let us proceed to the second term. This one expands to
+$
+  (diff_i n^mu) g_(mu j) &= (diff_i n^t\) g_(t j) + (diff_i n^k\) g_(k j) = (diff_i epsilon/alpha) gamma_(j k) beta^k - (diff_i (epsilon/alpha beta^k)) gamma_(k j)\
+  &= -epsilon/alpha (diff_i beta^k\) gamma_(k j).
+$
+By analogy, the last term turns into
+$
+  (diff_j n^mu) g_(i mu) = -epsilon/alpha (diff_j beta^k) gamma_(i k).
+$
+Collecting the results and recombining the individual terms, we arrive at 
+$
+  k_(i j) = -1/(2 alpha) lr((diff_t gamma_(i j) - lr((beta\[gamma_(i j)\] + (diff_i beta^k) gamma_(k j) + (diff_j beta^k) gamma_(i k)),size:#125%)),size:#135%).
+$<lieFlowIntermResult>
+We recognise the inner parentheses as the Lie derivative $macron(cal(L))_beta gamma$. Since both $gamma$ and $beta$ are intrinsic to the foliation, this really is a Lie derivative on the leaves, hence the notation $macron(cal(L))$---the bar indicates a foliation-intrinsic object, i.e., an object that can be computed from only the submanifold geometry. In particular, this means that this term can be rewritten in terms of the induced covariant derivative $mnabla$:
+$
+  (macron(cal(L))_beta gamma)\ _(i j) &= lr((beta^k underbrace(mnabla_k gamma,=0)),size:#35%)\ 
+  _(i j) med + med  (mnabla_ i beta)\ ^k gamma_(k j) + (mnabla_j beta)\ ^k gamma_(i k)\
+  &= (mnabla_i beta)\ _j med + med (mnabla_j beta)\ _i
+$
+Plugging this back into @lieFlowIntermResult[equation], we conclude that
+$
+  k_(i j) = - 1/(2 alpha) lr((diff_t gamma_(i j) - (mnabla_i beta)\ _j med - med (mnabla_j beta)\ _i ), size:#135%).
+$
+This characterises the extrinsic curvature's components entirely in terms of the time derivative of the induced metric, the symmetrised covariant derivative of the shift, and a scaling factor involving the lapse. 
+
 
 === Example: Extrinsic Curvature of the Foliation of $RR^3 without {0}$ into Spheres <exampleExtrinsicCurvature>
 In this section, we compute the extrinsic curvature of (once again) the hypersurface foliation of $RR^3 without {0}$ into concentric spheres. We assume the standard metric
 $
   g = dr otimes dr + r^2 dtheta otimes dtheta + r^2 sin^2 theta dphi otimes dphi
 $
-in spherical coordinates $x^mu = (r,y^i) = (r,theta,phi)$, which, in @exampleR3ConcentricSpheres, we found to be a canonical choice to get the metric into an ADM-decomposed form with zero shift and unit lapse. The leaves of the foliation are given by scaled copies of $S^2$,
+in spherical coordinates $x^mu = (r,y^i) = (r,theta,phi)$. Recall that in @exampleR3ConcentricSpheres, we found this to be a canonical choice to get the metric into an ADM-decomposed form with zero shift and unit lapse. The leaves of the foliation are given by scaled copies of $S^2$,
 $
   Sigma_(r_0) = r^(-1)({r_0}) = r_0 S^2.
 $
@@ -2732,7 +2772,7 @@ establishing the expected result.
 
 
 = Gauss-Codazzi Equation
-Now that we have established the concepts of ambient, intrinsic and extrinsic curvature, we can finally deduce relationships between them. In this section we derive expressions for the tangential part $P R(X,Y)Z$ of the ambient curvature $R$ acting with arguments $X,Y,Z in Gamma(T Sigma)$. Specifically, we derive the Gauss-Codazzi equation, which we already touched upon very lightly at the end of @intrinsicVsProjectedAmbient. We first treat the case of a general foliation, and then specialise to the case of hypersurfaces, where terms simplify somewhat. In the following, $cal(M)$ will denote a (pseudo-)Riemannian manifold equipped with a metric $g$, an affine connection $nabla$, and a foliation $Sigma$. The leaves of the foliation are endowed with the induced metric $gamma = iota^* g$ as well as the induced connection $mnabla$. Moreover, if not stated otherwise, $X,Y,Z,W$ will denote foliation-tangent vector fields in $Gamma(T Sigma)$.
+Now that we have established the concepts of ambient, intrinsic and extrinsic curvature, we can finally deduce relationships between them. In this section we derive expressions for the tangential part $P R(X,Y)Z$ of the ambient curvature $R$ acting with arguments $X,Y,Z in Gamma(T Sigma)$. Specifically, this result is known as the Gauss-Codazzi equation, which we already touched upon very lightly at the end of @intrinsicVsProjectedAmbient. We first treat the case of a general foliation, and then specialise to hypersurface foliations, where terms simplify somewhat. In the following, $cal(M)$ will denote a (pseudo-)Riemannian manifold equipped with a metric $g$, an affine connection $nabla$, and a foliation $Sigma$. The leaves of the foliation are endowed with the induced metric $gamma = iota^* g$ as well as the induced connection $mnabla$. Moreover, if not stated otherwise, $X,Y,Z,W$ will denote foliation-tangent vector fields in $Gamma(T Sigma)$.
 == General Case
 To derive the Gauss-Codazzi equation, let us first collect some definitions and identities we have derived in the previous sections. The starting point of the derivation will be the @precursorGaussEqn[equation],
 $
@@ -2759,7 +2799,7 @@ $
   & = g lr((R(X,Y)Z + (nabla_X P) nabla_Y Z - (nabla_Y P) nabla_X Z, underbrace(P W, =W)), size: #55%) \
   & = R(W,Z,X,Y) + lr((g lr(((nabla_X P) nabla_Y Z, W), size: #135%) - (X <-> Y)), size: #135%)
 $<eq815>
-The first term is clear; it is nothing but the ambient Riemann tensor applied to the vector tuple $(W,Z,X,Y)$. The tangential projection $P$ drops out due to the fact that it is orthogonal and $P W = W$, as $W in Gamma(T Sigma)$. The second term requires a more detailed examination. It is an anti-symmetrisation in $X,Y$, so it is sufficient to consider only
+The first term is clear; it is nothing but the ambient Riemann tensor applied to the vector tuple $(W,Z,X,Y)$. The tangential projection $P$ drops out due to the fact that it is orthogonal and $P W = W$, as $W in Gamma(T Sigma)$. The second term requires a more detailed examination. It is an anti-symmetrisation in $X,Y$, so it is sufficient to begin by considering
 $
   g lr(((nabla_X P) nabla_Y Z, W), size: #135%)
 $
@@ -2776,7 +2816,7 @@ The steps are as follows:
   $
     nabla_X P = underbrace(nabla_X id, =0) - nabla_X Q = -nabla_X Q
   $
-+ Integrate first argument by parts,
++ Integrate the first argument by parts,
   $
     (nabla_X Q)nabla_Y Z = nabla_X (Q nabla_Y Z)- Q nabla_X nabla_Y Z
   $
@@ -2805,7 +2845,7 @@ This is the result we anticipated in @intrinsicVsProjectedAmbient, now fully wor
   $
     R(W,Z,X,Y) + R(W,X,Y,Z) + R(W,Y,Z,X) = 0.
   $
-  The extrinsic curvature terms must satisfy these as well to remain consistent. Let us verify that this is the case for the former symmetry. Recall that for a torsion-free connection, $K$ is symmetric, i.e.
+  The terms involving extrinsic curvature must satisfy these as well to remain consistent. Let us verify that this is the case for the former symmetry. Recall that for a torsion-free connection, $K$ is symmetric, i.e.
   $
     K(X,Y) = K(Y,X).
   $
@@ -2822,7 +2862,7 @@ This is the result we anticipated in @intrinsicVsProjectedAmbient, now fully wor
   $
     macron(R)(X,Y)Z = P R(X,Y)Z + g(K(X,dot),K(Y,Z))^sharp - g(K(Y,dot),K(X,Z))^sharp.
   $
-  In particular, this allows us to solve for $P R(X,Y)Z$, the foliation-tangential part of the ambient curvature, as
+  In particular, this allows us to solve for $P R(X,Y)Z$, the foliation-tangent part of the ambient curvature, as
   $
     P R(X,Y)Z = macron(R)(X,Y)Z - g(K(X,dot),K(Y,Z))^sharp + g(K(Y,dot),K(X,Z))^sharp.
   $<eq8117>
@@ -2860,7 +2900,7 @@ Let us once again revisit the example of the foliation of $RR without {0}$ into 
 $
   tensor(macron(R), +theta, -phi theta phi) = sin^2 theta,
 $
-to which all others are related to by symmetry. Further, from @exampleExtrinsicCurvature we know that the extrinsic curvature's magnitude $k(X,Y)$ has the components
+to which all others are related by symmetry. Further, from @exampleExtrinsicCurvature we know that the extrinsic curvature's magnitude $k(X,Y)$ has the components
 $
   k_(theta theta) = -r,quad k_(phi phi) = -r sin^2 theta.
 $
@@ -2885,7 +2925,7 @@ In this final section, we apply what we've learned to derive a core result in th
 $
   S[g] = integral_(cal(M)) d^m x sqrt(g) cal(R).
 $
-To do this, we require a decomposition of the Ricci scalar $cal(R)$ (associated to the Levi-Civita connection) in terms of quantities related to the foliation, such as the intrinsic and extrinsic curvatures and the normal vector field. This is the decomposition we derive in this section.
+To do this, we require a decomposition of the Ricci scalar $cal(R)$ (associated to the Levi-Civita connection) in terms of the metric functions $alpha, beta_i, gamma_(i j)$---these are the degrees of freedom of an ADM-decomposed metric. The goal of this section is to derive such a decomposition of the Ricci scalar, known as the ADM Lagrangian density.
 
 To carry out this derivation, it is instructive to use foliation-adapted coordinates $x^mu = (t,y^i)$ and to express components in the basis $E_A = (E_perp, E_i)$ with
 $
@@ -2922,7 +2962,7 @@ $
 $
 Here, $macron(cal(R))$ denotes the Ricci scalar of the intrinsic curvature, $k$ the trace of the extrinsic curvature with respect to the induced metric, and $k^(i j) = gamma^(i k) gamma^(j ell) k_(k ell)$.
 
-We now turn our attention to the second term in @ambientRicciScalarExpansion1[]. Unfortunately, this term requires a bit more work, as we do not have a neat result like the Gauss-Codazzi equation to lean on. We work in a mix of coordinate and $E_A$-basis components, with the goal of computing $tensor(R, +perp A, -perp A) = tensor(R, +perp mu, -perp mu)$. To compute this trace, we start with
+We now turn our attention to the second term in @ambientRicciScalarExpansion1[]. Unfortunately, this one requires a bit more work, as we do not have a compact result like the Gauss-Codazzi equation to lean on. We work in a mix of coordinate and $E_A$-basis components, with the goal of computing $tensor(R, +perp A, -perp A) = tensor(R, +perp mu, -perp mu)$. To compute this trace, we start with
 $
   tensor(R, +perp, -lambda mu nu) &= E^perp_rho tensor(R, +rho, -lambda mu nu) = epsilon n_rho tensor(R, +rho, -lambda mu nu) = -epsilon (R(diff_mu, diff_nu)n)#h(0em) _lambda\
   &= -epsilon((nabla_mu nabla_nu n)#h(0em) _lambda - (nabla_nu nabla_mu n)#h(0em) _lambda)
@@ -2935,9 +2975,9 @@ for the covariant divergence of a vector field $X in Gamma(T cal(M))$. With this
 #bottom-number([
   $
     -epsilon tensor(R, +perp nu, -perp nu) &= -epsilon E^mu_perp tensor(R, +perp nu, -mu nu) = -epsilon n^mu tensor(R, +perp nu, -mu nu)\
-    &= n^mu (nabla_mu nabla_nu n^sharp)\^nu - n^mu (nabla_nu nabla_mu n^sharp)\^nu\
-    &= underbrace(nabla_mu lr((n^sharp otimes underbrace((nabla_nu n^sharp)\^nu, =Div n^sharp)), size: #35%)\^mu, = Div(n^sharp dot Div n^sharp)) - (nabla_mu n^sharp)\^mu (nabla_nu n^sharp)\^nu - underbrace(nabla_nu lr((underbrace(n^mu nabla_mu n^sharp, =nabla_(n^sharp)n^sharp)), size: #32%)\^nu, =Div (nabla_(n^sharp) n^sharp)) + (nabla_nu n^sharp)\^mu (nabla_mu n^sharp)\^nu\
-    &=Div(n^sharp dot Div n^sharp - nabla_(n^sharp) n^sharp) - (nabla_mu n^sharp)\^mu (nabla_nu n^sharp)+ (nabla_nu n^sharp)\^mu (nabla_mu n^sharp)\^nu
+    &= n^mu (nabla_mu nabla_nu n^sharp)\ ^nu - n^mu (nabla_nu nabla_mu n^sharp)\ ^nu\
+    &= underbrace(nabla_mu lr((n^sharp otimes underbrace((nabla_nu n^sharp)\ ^nu, =Div n^sharp)), size: #35%)\ ^mu, = Div(n^sharp dot Div n^sharp)) - (nabla_mu n^sharp)\ ^mu (nabla_nu n^sharp)\ ^nu - underbrace(nabla_nu lr((underbrace(n^mu nabla_mu n^sharp, =nabla_(n^sharp)n^sharp)), size: #32%)\ ^nu, =Div (nabla_(n^sharp) n^sharp)) + (nabla_nu n^sharp)\ ^mu (nabla_mu n^sharp)\ ^nu\
+    &=Div(n^sharp dot Div n^sharp - nabla_(n^sharp) n^sharp) - (nabla_mu n^sharp)\ ^mu (nabla_nu n^sharp)\ ^nu+ (nabla_nu n^sharp)\ ^mu (nabla_mu n^sharp)\ ^nu
   $<derivationRperpAperpB>])
 The first term is a total derivative/divergence, and will hence only contribute to the action as a boundary term.
 
@@ -2947,11 +2987,11 @@ $
 $
 In components, this reads
 $
-  k_(mu nu) = epsilon g(diff_nu, -nabla_mu n^sharp) = -epsilon (nabla_mu n^sharp)\_nu quad <=> quad (nabla_mu n^sharp)\_nu = -epsilon k_(mu nu)
+  k_(mu nu) = epsilon g(diff_nu, -nabla_mu n^sharp) = -epsilon (nabla_mu n^sharp)\ _nu quad <=> quad (nabla_mu n^sharp)\ _nu = -epsilon k_(mu nu).
 $
-precisely the tensor appearing in the remaining terms of @derivationRperpAperpB[equation]. Thus, we find
+This is precisely the tensor appearing in the remaining terms of @derivationRperpAperpB[equation]. Thus, we find
 $
-  - (nabla_mu n^sharp)\^mu (nabla_nu n^sharp)+ (nabla_nu n^sharp)\^mu (nabla_mu n^sharp)\^nu &= - (-epsilon)^2 tensor(k, -mu, +mu) tensor(k, -nu, +nu) + (-epsilon)^2 k_(mu nu) k^(mu nu)\
+  - (nabla_mu n^sharp)\ ^mu (nabla_nu n^sharp)+ (nabla_nu n^sharp)\ ^mu (nabla_mu n^sharp)\ ^nu &= - (-epsilon)^2 tensor(k, -mu, +mu) tensor(k, -nu, +nu) + (-epsilon)^2 k_(mu nu) k^(mu nu)\
   &= -k^2 + k_(i j) k^(i j),
 $
 where we made use of the fact that $k_(mu nu)$ has no normal components and that $k = tensor(k, +mu, -mu) = tensor(k, +i, -i)$. Putting everything together, we find
@@ -2967,4 +3007,4 @@ This allows us to write down the full ADM action,
 $
   S_"ADM" [alpha,beta,gamma] = integral_cal(M) d^m x sqrt(g) [macron(cal(R)) + epsilon (k^2 - k_(i j) k^(i j))] + "(boundary terms)".
 $
-This is a significant result---given a foliation, it splits the Einstein-Hilbert action into purely foliation-intrinsic parts (the intrinsic Ricci scalar $macron(cal(R))$, associated to the Levi-Civita connection of the induced metric $gamma$) and extrinsic parts (the extrinsic curvature $k(X,Y)$). The ADM action is the starting point of the ADM formalism, which provides a Hamiltonian formulation of general relativity. At this point, the first step would be to compute the canonical momenta associated to the lapse $alpha$, the shift components $beta_i$ and the induced metric components $gamma_(i j)$ which together constitute the full metric $g$.
+This is a significant result---given a foliation, it splits the Einstein-Hilbert action into purely foliation-intrinsic parts (the intrinsic Ricci scalar $macron(cal(R))$, associated to the Levi-Civita connection of the induced metric $gamma$) and extrinsic parts (the extrinsic curvature $k(X,Y)$). The ADM action is the starting point of the ADM formalism, which provides a Hamiltonian formulation of general relativity. At this point, the first step would be to compute the canonical momenta associated to the degrees of freedom of the metric, i.e. the lapse $alpha$, the shift components $beta_i$ and the induced metric components $gamma_(i j)$.
