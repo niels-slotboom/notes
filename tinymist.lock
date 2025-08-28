@@ -3,6 +3,13 @@
 version = "0.1.0-beta0"
 
 [[document]]
+id = "file:Submanifolds.typ"
+inputs = []
+main = "file:Submanifolds.typ"
+root = "file:."
+system-fonts = true
+
+[[document]]
 id = "file:main.typ"
 inputs = []
 main = "file:main.typ"
@@ -12,6 +19,13 @@ system-fonts = true
 [[route]]
 id = "file:main.typ"
 priority = 256
+
+[[task]]
+document = "file:Submanifolds.typ"
+id = "file:Submanifolds.typ"
+output = ""
+type = "export-pdf"
+when = "never"
 
 [[task]]
 document = "file:main.typ"

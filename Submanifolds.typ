@@ -1007,7 +1007,7 @@ $
 $<equivalenceCoordIndep>
 in a coordinate-independent way. This is not that hard, and gives some additional geometric intuition as it makes use of the definition of tangent spaces in terms of derivatives along curves.
 
-_Proof_: (of @equivalenceCoordIndep[eq.]) We first prove the implication "$arrow.l.double$". Let $X in T_p Sigma_t(p)$. Then there exists a smooth curve $gamma:(-epsilon,epsilon)->Sigma_t(p) subset cal(M)$ with $gamma(0) = p$ and $dot(gamma)(0) = X$, such that for any $f in C^infty (cal(M))$,
+_Proof_: (of @equivalenceCoordIndep[eq.]) We first prove the implication "$arrow.l.double$". Let $X in T_p Sigma_t(p)$. Then there exists a smooth curve $gamma:(-epsilon,epsilon)->Sigma_t(p) subset cal(M)$ with $gamma(0) = p$ and $dot(gamma thin)(0) = X$, such that for any $f in C^infty (cal(M))$,
 $
   X[f] = d/(ds) f(gamma(s))|_(s=0).
 $
@@ -1873,7 +1873,7 @@ the _induced connection on $Sigma$_ (associated to $nabla$) if
   $
     tensor(macron(Gamma), +k, -i j)diff_k &= mnabla_i diff_j = (iota_*)^(-1) (nabla_(iota_* diff_i) (iota_* diff_j))\ &= (iota_*)^(-1) (nabla_(E^mu_i diff_mu) (E^nu_j diff_nu))\
     &= E^mu_i (iota_*)^(-1) (nabla_mu (E^nu_j diff_nu))\ &= E^mu_i (iota_*)^(-1) lr(((diff_mu E^nu_j)diff_nu + E^nu_j underbrace(nabla_mu diff_nu, =tensor(Gamma, +lambda, -mu nu) diff_lambda)), size: #30%)\
-    &= E^mu_i ((diff_mu E^lambda_j) + E^nu_j tensor(Gamma, +lambda, -mu nu)) underbrace((iota_*)^(-1)(diff_lambda), =E_lambda^k diff_k)\
+    &= E^mu_i (\(diff_mu E^lambda_j\) + E^nu_j tensor(Gamma, +lambda, -mu nu)) underbrace((iota_*)^(-1)(diff_lambda), =E_lambda^k diff_k)\
     &= (E^k_lambda E^mu_i E^nu_j tensor(Gamma, +lambda, -mu nu) + E^k_lambda diff_i E^lambda_j) diff_k.
   $
   From this we conclude that the induced connection coefficients are given by
@@ -1890,7 +1890,7 @@ the _induced connection on $Sigma$_ (associated to $nabla$) if
     mnabla_i dy^j = - tensor(macron(Gamma), +j, -i k) dy^k
   $
   by the @generalResultConnectionActionInComponents[general result]. Further, the linearity and Leibniz rule that hold for $mnabla$ allow for the extension onto any tensor $T$.
-== Proof: Induced Connection from Levi-Civita Connections
+== Proof: Levi-Civita Property is Inherited
 The previous section introduced the notion of a connection on the submanifolds of a foliation, induced from a connection on the ambient manifold. This construction defines a specific connection on each submanifold, but it is not immediately clear which properties of the ambient connection are preserved, or whether the induced connection might acquire new properties absent from the ambient. Such questions typically require case-by-case analysis.
 
 There is, however, an important special case, which we explore in this section. Recall that the Levi-Civita is uniquely characterised by two conditions: vanishing torsion and compatibility with the metric. We will show that if the ambient connection satisfies these conditions, then the induced connection does as well---in this sense, they are inherited. It follows that the connection induced by a Levi-Civita connection is itself Levi-Civita. In particular, this yields an alternative to the @projectionConnectionCoeffs[projection of connection coefficients], as the coefficients of the induced connection can now be computed directly from linear combinations of partial derivatives of the induced metric.
@@ -2083,51 +2083,152 @@ This immediately suggests a relationship between the ambient and intrinsic curva
 This will prepare us for the derivation of the Gauss-Codazzi equation in the next section, which relates the intrinsic, extrinsic and projected ambient curvatures in a precise and elegant way.
 == Intrinsic Curvature
 === Review: Parallel Transport
-Goal:
-- Introduce parallel transport of a single vector along a curve
-- Introduce transport operator $Phi_X (epsilon):Gamma(T cal(M))->Gamma(T cal(M))$
-- Give infinitesimal expression,
+The intuition behind the Riemann curvature tensor is closely tied to _parallel transport_. The idea behind parallel transport is to take a vector and some point $p$ on a manifold and moving it along a curve $gamma$ to another point $q$, keeping it "parallel" to its initial direction (and length) at $p$. In flat space $RR^n$ with the Levi-Civita connection, the idea of "being parallel" is very clear: the covariant derivative of the coordinate basis vectors vanishes in cartesian coordinates, $nabla_mu diff_nu = 0$, so a vector remains parallel if its components stay constant along $gamma$. 
+
+On a general manifold with an arbitrary connection $nabla$, this generalises. The connection is simply a measure of how a vector field changes across a manifold---it can thus be used to measure the change of a vector along a curve. The generalised notion of "being parallel" is now replaced by "keeping its direction according to the connection", or, more concisely, being constant with respect to the connection. Let us now make this concrete.
+\ \
+*Definition* (Pullback Bundle and Connection) Let $gamma:(a,b)->cal(M)$ be a smooth curve on a smooth manifold $cal(M)$ equipped with an affine connection $nabla$. The _pullback bundle_ of $T cal(M)$ along $gamma$ is the vector bundle
+$
+  gamma^* T cal(M) = T cal(M)|_gamma,
+$
+or equivalently,
+$
+  gamma^* T cal(M) = union.big.sq_(s in (a,b)) T_gamma(s) cal(M).
+$
+This is a vector bundle with fibres of dimension $dim cal(M)$ over the curve $gamma subset cal(M)$ viewed as a one-dimensional submanifold of $cal(M)$.
+
+The connection $nabla$ restricts to smooth sections $X in Gamma(gamma^* T cal(M))$ via
+$
+  nabla_dot(gamma thin) X = nabla_tilde(Y) tilde(X),
+$
+where $tilde(X),tilde(Y) in Gamma(T cal(M))$ extend $X$ and the tangent vector field $dot(gamma thin)$, respectively. 
+
+In local coordinates $x^mu (s)$ on $gamma$, this becomes
+$
+  nabla_dot(gamma thin) X &= (dX^lambda)/(ds) diff_lambda + X^mu nabla_dot(gamma thin) diff_mu,
+$
+with
+$
+  dot(gamma) = d/ds = dot(x)^mu diff_mu, quad nabla_dot(gamma thin) diff_mu = dot(x)^nu nabla_nu diff_mu = dot(x)^nu tensor(Gamma,+lambda,-nu mu) diff_lambda
+$
+Thus,
+$
+  nabla_dot(gamma thin) X = (dX^lambda/ds + dot(x)^nu tensor(Gamma,+lambda,-nu mu) X^mu) diff_lambda,
+$
+which describes how a vector field $X in Gamma(gamma^* T cal(M))$ changes along the curve, according to the connection.
+
+Now that we know how to compute how vectors change along curves, we are able to demand this change to be zero---that is, we are ready to define parallel transport. 
+\ \
+*Definition* (Parallel Transport) Let $cal(M)$ be a smooth manifold equipped with a connection $nabla$, and $gamma:(a,b)->cal(M)$ a smooth curve connecting two points $p,q in cal(M)$, that is, with $gamma(a) = p, gamma(b)=q$. Two vectors $X_p in T_p cal(M)$ and $X_q in T_q cal(M)$ are said to be _parallel_ if there exists a vector field $X in Gamma(gamma^* T cal(M))$ such that
+
++ $X(p) = X_p$, $X(q) = X_q$.
+
++ $nabla_dot(gamma thin) X = 0$
+
+We further call $X_q$ the _parallel transport of $X_p$ along $gamma$_.
+
+To unpack this definition: the requirement that $X$ agrees with $X_p$ at $p$ and with $X_q$ at $q$ ensures that $X$ is a smooth interpolation between them---a single smooth field along the curve. The second condition, $nabla_dot(gamma thin) X = 0$, then demands that this field does not "twist" or "deform" relative to the connection as we move along $gamma$. In other words, at each infinitesimal step the vector keeps its direction according to the connection, so that by the time we reach $q$, the resulting $X_q$ is precisely the parallel transport of $X_p$.
+
+Notice that parallel transport depends not only on the connection but also on the chosen curve $gamma$. Transporting $X_p$ from $p$ to $q$ along two different paths may yield different vectors at $q$. Intuitively, this happens because the connection coefficients $tensor(Gamma,+lambda,-mu nu)$ vary across the manifold, so distinct curves encounter different "configurations" of these coefficients. As a result, the differential equation $nabla_dot(gamma thin) X = 0$ may have different solutions depending on the path. If, however, parallel transport from $p$ to $q$ is independent of the path for all choices of $p in cal(M)$ and $X_p in T_p cal(M)$, then $(cal(M),nabla)$ is called _flat_---excatly as in the case of $RR^n$ with its Levi-Civita connection. 
+
+Let us examine the second condition more precisely and characterise the nature of the differential equation and its solutions. In terms of components, it may be expanded as
+$
+  d/ds X^lambda = - tensor(Gamma,+lambda,-nu mu) dot(x)^mu X^nu.
+$<parallelTransportEqn>
+This is a linear first order differential equation for the vector components $X^lambda$ with a non-constant coefficient matrix. We may introduce the linear operator $Gamma_dot(gamma thin) (s) : T_gamma(s) cal(M) -> T_gamma(s) cal(M)$, which maps
+$
+  X = X^mu diff_mu |-> Gamma_dot(gamma thin) X = dot(x)^lambda tensor(Gamma,+mu,-lambda nu) X^nu diff_mu.
+$
+Note that $Gamma_dot(gamma thin)$ is not a tensorial operator---we only introduce it to make notation more compact. In terms of $Gamma_dot(gamma thin)$, @parallelTransportEqn[equation] can be written as
+$
+  dX/ds (s) = - Gamma_dot(gamma thin)(s) X(s),
+$<parallelTransportEqnCompact>
+where we define
+$
+  dX/ds (s) = (d/ds X^mu (s)) diff_mu
+$
+to be the component-wise derivative.
+From the general theory of first order linear differential equations, we know that solutions to @parallelTransportEqnCompact[equation] above take the form
+$
+  X(s) = U(gamma,s,t) X(t)
+$
+for a propagator $U(s,t)$. Intuitively, the propagator $U(gamma,s,t)$ takes a vector in $T_gamma(t) cal(M)$ and produces its parallel transport in $T_gamma(s) cal(M)$ via a linear map. It has the following properties:
+
+- It reduces to the identity for equal arguments,
   $
-    Phi_X (epsilon) Z = Z + epsilon nabla_X Z + cal(O)(epsilon^2)
+    U(gamma,s,s) = id_(T_gamma(s) cal(M)),
   $
+- Has a group composition law,
+  $
+    U(gamma, s,r)U(gamma,r,t) = U(gamma, s,t), 
+  $
+- Is invertible,
+  $
+    U(gamma,t,s)^(-1) = U(gamma,s,t),
+  $
+- Satisfies the differential equation in both arguments, that is,
+  $
+    d/dt U(gamma,s,t) = Gamma_dot(gamma thin)(t) U(gamma,s,t) , quad d/ds U(gamma,s,t) = -Gamma_dot(gamma thin)(t) U(gamma,s,t).
+  $
+
+
+
+Though in general, no expression for $U(gamma,s,t)$ can be given in closed form, it is possible to derive explicit expressions for _infinitesimal_ parallel transport. To do so, we take the following perspective: Suppose we have a path $gamma:(-delta,delta)->cal(M)$ and a vector field $Z in Gamma(gamma^* T cal(M))$. We are interested in computing the parallel transport $tilde(Z) in T_gamma(0) cal(M)$ of the vector $Z(s) := Z(gamma(s))$ along $gamma$, where $s$ is some infinitesimal parameter distance away from $0$. That is, we take a vector at a point infinitesimally away from $gamma(0)$ and "pull" it onto $gamma(0)$ while keeping it parallel.
+
+The propagator $U$ gives us an explicit expression for $tilde(Z)$, namely
+$
+  tilde(Z) = U(gamma,0,s) Z(s).
+$
+At this point, we can simply Taylor-expand this to first order in $s$, making use of
+$
+  U(gamma,0,0) = id_(T_gamma(0) cal(M)), quad d/ds U(gamma,0,s)|_(s=0) = Gamma_dot(gamma thin) (0) 
+$ 
+leading to
+$
+  tilde(Z) &= underbrace(U(gamma,0,0),=id) Z(0) + s d/ds [U(gamma,0,s)Z(s)]_(s=0) + cal(O)(s^2)\
+  &= Z(0) + s lr([underbrace(U(gamma,0,0),=id) dZ/ds (0) + underbrace((d/ds U(gamma,0,s)|_(s=0)),=Gamma_(dot(gamma thin))(0) U(gamma,0,0))Z(0)],size:#60%) + cal(O)(s^2)\
+  &= Z(0) + s [dZ/ds (0) + Gamma_dot(gamma thin) Z(0)] + cal(O)(s^2)\
+  &= Z(0) + s nabla_dot(gamma thin) Z(0) + cal(O)(s^2).
+$<infinitesimalPointwiseTransport>
+Hence, the first order correction of parallel transport is the covariant derivative $nabla_dot(gamma) Z(0)$.
+
+Now that we know how to parallel transport a single vector infinitesimally along some curve, we can extend this to vectors fields in $T cal(M)$. After all, a vector field is nothing but a collection of individual vectors, which we can each parallel transport using the constructions above. All we need is a family of curves such that each point $p in cal(M)$ lies on exactly one curve; such a family is called a _congruence_. Congruences arise naturally as integral curves of a non-vanishing vector field $X$, obtained by solving $dot(gamma thin)(s) = X(gamma(s))$.
+
+ In particular, for a vector field $Z in Gamma(T cal(M))$, the parallel transport $tilde(Z)$ obtained by transporting each of its constituent vectors $Z_p in T_p cal(M)$ by some infinitesimal parameter distance $s$ along the flow of another vector field $X in Gamma(T cal(M))$ is given by
+$
+  tilde(Z) = Z + s nabla_X Z + cal(O)(s^2).
+$
+All that has changed compared to @infinitesimalPointwiseTransport[equation] is that the curve's tangent field $dot(gamma thin)$ is replaced by $X$---the tangent field of the congruence---and the point-wise expression has turned into a global one. The above expression will allow us to geometrically motivate _and_ derive the Riemann curvature tensor in the next section.
+
 === Curvature of Manifolds: the Riemann Tensor
-#comment[\<Rework\>]
-On a space like $RR^2$ equipped with the Euclidean metric,
+#comment[Give intuition, setup etc.]
 $
-  g = dx otimes dx + dy otimes dy,
+  tilde(Z)_1 &= lr((id med + med s nabla_Y med + med cal(O)(s^2)),size:#135%) lr((id med + med s nabla_X med + med cal(O)(s^2)),size:#135%) Z\
+  &= Z + s (nabla_X med + med nabla_Y) Z + s^2 nabla_Y nabla_X Z + cal(O)(s^3) \ \ \ 
+  tilde(Z)_2 &= (id med + med s nabla_s[X,Y] med + med cal(O)(s^3))lr((id med + med s nabla_X med + med cal(O)(s^2)),size:#135%) lr((id med + med s nabla_Y med + med cal(O)(s^2)),size:#135%) Z\
+  &= Z med + med s (nabla_X med + med nabla_Y)Z + s^2 (nabla_X nabla_Y med + med nabla_[X,Y])Z + cal(O)(s^3).
 $
-the Christoffel symbols of the Levi-Civita connection vanish in Cartesian coordinates. This means that the covariant derivatives of coordinate basis vectors vanish,
+The difference between the two is then
 $
-  nabla_mu diff_nu = 0.
-$<basisParallel>
-Informally speaking, the basis vectors are constant with respect to the connection---vectors with this property are called _parallel_.
-
-By contrast, consider the $2$-sphere $S^2$ with its standard round metric,
+  tilde(Z)_1 - tilde(Z)_2 = s^2 (nabla_X nabla_Y med - med nabla_Y nabla_X med - med nabla_[X,Y])Z + cal(O)(s^3).
 $
-  g = dtheta otimes dtheta + sin^2 theta dphi otimes dphi.
-$
-Here, the Christoffel symbols do not vanish, and more fundamentally, there is no coordinate system in which the coordinate basis vectors are parallel, i.e., in which @basisParallel[equation] holds. This reflects a key geometric difference: the tangent spaces on $S^2$ "tilt" as one moves across the surface, and vectors transported between them must adjust accordingly.
-
-This geometric tilt can be detected via _parallel transport around a closed loop_. In $RR^2$, transporting a vector around any closed path will return it unchanged to its starting point. On $S^2$, however, the result typically differs: the transported vector may fail to return aligned with the original. This discrepancy encodes the _curvature_ of the manifold. Let us now formalise this by introducing the Riemann curvature tensor.
+All $cal(O)(s)$ contributions cancel, making $cal(O)(s^2)$ the leading order. For infinitesimal $s$, this term is dominant---it hence encodes the information we are looking for. Let us summarise this result in a definition.
 \ \
 *Definition* (Riemann Curvature Tensor) Let $cal(M)$ be a smooth manifold equipped with an affine connection $nabla$, and let $X,Y,Z in Gamma(T cal(M))$ be vector fields. The _Riemann curvature tensor_ is the map
 $
   R : Gamma(T cal(M)) times Gamma(T cal(M)) times Gamma(T cal(M)) -> Gamma(T cal(M)),
 $
-defined by
+given by
 $
   R(X,Y)Z = nabla_X nabla_Y Z - nabla_Y nabla_X Z - nabla_[X,Y]Z.
 $
-The first two terms compare the changes $Z$ undergoes when transported along $Y$ and then $X$, versus along $X$ and then $Y$, respecitvely---they measure the failure of the transported versions of $Z$ to align when moving around a parallelogram. More algebraically speaking, their difference measures the non-commutativity of covariant derivatives. However, since the flows of $X$ and $Y$ do not necessarily form a closed parallelogram, the discrepancy induced by the transport along the gap, i.e. the commutator $[X,Y]$, must also be accounted for. This is implemented by the final term, $nabla_[X,Y]Z$.
-#comment[\</Rework\>]
-
 We define the components of the Riemann tensor through
 $
   R(diff_mu, diff_nu) diff_lambda = tensor(R, +rho, -lambda mu nu) diff_rho,
 $<RXYonBasisVectors>
 such that on arbitrary vector fields $X,Y,Z in Gamma (T cal(M))$ we have
 $
-  R(X,Y)Z = tensor(R, +rho, -lambda mu nu) X^mu Y^nu Z^lambda.
+  R(X,Y)Z = tensor(R, +rho, -lambda mu nu) X^mu Y^nu Z^lambda diff_rho.
 $
 In particular, along coordinate directions $diff_mu$, we have
 $
