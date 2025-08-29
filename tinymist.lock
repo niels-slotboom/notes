@@ -10,11 +10,22 @@ root = "file:."
 system-fonts = true
 
 [[document]]
+id = "file:macros.typ"
+inputs = []
+main = "file:macros.typ"
+root = "file:."
+system-fonts = true
+
+[[document]]
 id = "file:main.typ"
 inputs = []
 main = "file:main.typ"
 root = "file:."
 system-fonts = true
+
+[[route]]
+id = "file:macros.typ"
+priority = 256
 
 [[route]]
 id = "file:main.typ"
@@ -23,6 +34,13 @@ priority = 256
 [[task]]
 document = "file:Submanifolds.typ"
 id = "file:Submanifolds.typ"
+output = ""
+type = "export-pdf"
+when = "never"
+
+[[task]]
+document = "file:macros.typ"
+id = "file:macros.typ"
 output = ""
 type = "export-pdf"
 when = "never"

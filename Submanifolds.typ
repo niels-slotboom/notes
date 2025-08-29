@@ -4,7 +4,7 @@
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 
 = Introduction
-To formulate general relativity as a Hamiltonian field theory within the ADM formalism, one must choose a direction of evolution---essentially a preferred timelike parameter within spacetime. This is achieved through the use of a hypersurface foliation. These notes aim to present the concepts I have learned in the process of achieving my goal of deriving the ADM decomposition of the Einstein-Hilbert action, a result often referred to as the ADM action. This decomposition serves as the starting point for the Hamiltonian perspective on general relativity.
+The ADM formalism recasts general relativity in the language of Hamiltonian field theory. By slicing spacetime into a family of spacelike hypersurfaces through the introduction of a foliation, it establishes a natural notion of evolution in a chosen timelike direction. This framework is not only central for numerical relativity but also provides a clear geometric picture of dynamics in general relativity. In these notes my goal is to derive the ADM decomposition of the Einstein-Hilbert action---the ADM action---which forms the starting point for the Hamiltonian description of gravity.
 
 In working towards this goal, the notes introduce a variety of essential geometric structures. We begin with more general theory by defining submanifolds, pushforwards, pullbacks, and projectors onto tangent and normal spaces. After a brief exploration of vector bundles, the concept of foliations is introduced, followed by a detailed look at the structures they carry: the induced metric, projected covariant derivatives, as well as the intrinsic and extrinsic curvature tensors. Additionally, we decompose the tangential part of the ambient curvature into intrinsic and extrinsic components in the form of the Gauss-Codazzi equation. This result is what will enable us to derive the ADM action.
 
@@ -2844,7 +2844,7 @@ $
 Plugging this back into @lieFlowIntermResult[equation], we conclude that
 $
   k_(i j) = - 1/(2 alpha) lr((diff_t gamma_(i j) - (mnabla_i beta)\ _j med - med (mnabla_j beta)\ _i ), size:#135%).
-$
+$<extCurvatureADMDecomp>
 This characterises the extrinsic curvature's components entirely in terms of the time derivative of the induced metric, the symmetrised covariant derivative of the shift, and a scaling factor involving the lapse. 
 
 
@@ -3106,7 +3106,7 @@ The other two terms are more interesting; we recall that for hypersurface foliat
 $
   k(X,Y) = epsilon g(Y,-nabla_X n^sharp).
 $
-In components, this reads
+In components, this reads #comment[Correct normal components claim, not entirely correct or at least needs justification]
 $
   k_(mu nu) = epsilon g(diff_nu, -nabla_mu n^sharp) = -epsilon (nabla_mu n^sharp)\ _nu quad <=> quad (nabla_mu n^sharp)\ _nu = -epsilon k_(mu nu).
 $
@@ -3124,8 +3124,10 @@ $
   cal(R) &= macron(cal(R)) - epsilon (k^2 - k_(i j)k^(i j)) + 2 epsilon Div(nabla_(n^sharp) n^sharp - n^sharp dot Div n^sharp) + 2 epsilon (k^2 - k_(i j) k^(i j))\
   &= macron(cal(R)) + epsilon(k^2 - k_(i j) k^(i j)) + 2 epsilon Div(nabla_(n^sharp) n^sharp - n^sharp dot Div n^sharp)
 $
-This allows us to write down the full ADM action,
+This---together with $sqrt(g) = alpha sqrt(gamma)$---allows us to write down the full ADM action,
 $
-  S_"ADM" [alpha,beta,gamma] = integral_cal(M) d^m x sqrt(g) [macron(cal(R)) + epsilon (k^2 - k_(i j) k^(i j))] + "(boundary terms)".
+  S_"ADM" [alpha,beta,gamma] = integral_cal(M) d^m x alpha sqrt(gamma) [macron(cal(R)) + epsilon (k^2 - k_(i j) k^(i j))] + "(boundary terms)".
 $
-This is a significant result---given a foliation, it splits the Einstein-Hilbert action into purely foliation-intrinsic parts (the intrinsic Ricci scalar $macron(cal(R))$, associated to the Levi-Civita connection of the induced metric $gamma$) and extrinsic parts (the extrinsic curvature $k(X,Y)$). The ADM action is the starting point of the ADM formalism, which provides a Hamiltonian formulation of general relativity. At this point, the first step would be to compute the canonical momenta associated to the degrees of freedom of the metric, i.e. the lapse $alpha$, the shift components $beta_i$ and the induced metric components $gamma_(i j)$.
+This is a significant result---given a foliation, it splits the Einstein-Hilbert action into purely foliation-intrinsic parts (the intrinsic Ricci scalar $macron(cal(R))$, associated to the Levi-Civita connection of the induced metric $gamma$) and extrinsic parts (the extrinsic curvature $k(X,Y)$). In particular, this makes the dependenc of the action on $alpha,beta,gamma$ manifest. The intrinsic Ricci scalar only depends on $gamma$, whereas the dependence of $k$ on $alpha,beta, gamma$ is provided by the compact @extCurvatureADMDecomp[result].
+
+The ADM action is the starting point of the ADM formalism. At this point, the next step would be to compute the canonical momenta associated to the degrees of freedom of the metric, i.e. the lapse $alpha$, the shift components $beta_i$ and the induced metric components $gamma_(i j)$.
