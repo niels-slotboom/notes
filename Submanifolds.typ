@@ -2201,18 +2201,37 @@ $
 All that has changed compared to @infinitesimalPointwiseTransport[equation] is that the curve's tangent field $dot(gamma thin)$ is replaced by $X$---the tangent field of the congruence---and the point-wise expression has turned into a global one. The above expression will allow us to geometrically motivate _and_ derive the Riemann curvature tensor in the next section.
 
 === Curvature of Manifolds: the Riemann Tensor
-#comment[Give intuition, setup etc.]
+As we have already discussed in the previous section, parallel transport of a vector $Z_p in T_p cal(M)$ along a curve $gamma$ depends both on the connection $nabla$ and the curve itself. If $gamma_1,gamma_2 :[a,b]->cal(M)$ satisfy $gamma_1 (a) = gamma_2 (a) = p$ and $gamma_1 (b) = gamma_2 (b) = q$, then parallel transport of $Z_p$ along thes two curves may give distinct vectors $tilde(Z)_1 ,tilde(Z)_2 in T_q cal(M)$. Their difference,
 $
-  tilde(Z)_1 &= lr((id med + med s nabla_Y med + med cal(O)(s^2)),size:#135%) lr((id med + med s nabla_X med + med cal(O)(s^2)),size:#135%) Z\
-  &= Z + s (nabla_X med + med nabla_Y) Z + s^2 nabla_Y nabla_X Z + cal(O)(s^3) \ \ \ 
-  tilde(Z)_2 &= (id med + med s nabla_s[X,Y] med + med cal(O)(s^3))lr((id med + med s nabla_X med + med cal(O)(s^2)),size:#135%) lr((id med + med s nabla_Y med + med cal(O)(s^2)),size:#135%) Z\
-  &= Z med + med s (nabla_X med + med nabla_Y)Z + s^2 (nabla_X nabla_Y med + med nabla_[X,Y])Z + cal(O)(s^3).
+  Delta = tilde(Z)_1 - tilde(Z)_2,
 $
-The difference between the two is then
+encodes the so-called _holonomy_ of the connection. In particular, $Delta$ vanishes for all such choices if and only if the connection is flat---curvature is precisely the local obstruction to path-independent parallel transport. 
+
+This construction, which relies on transporting a single vector along two curves, is somewhat cumbersome. A more natural and most importantly, global approach is to extend the discussion to the parallel transport of an entire vector field $Z in Gamma(T cal(M))$. Since we now have a vector $Z_p$ at each $p in cal(M)$, we also require two curves that start at each $p in cal(M)$ and have the same endpoint. To construct these in a systematic way, we introduce two additional vector fields $X,Y in Gamma(T cal(M))$, each generating a congruence of curves. Starting from a point $p$, we may first follow the flow of $Y$ for an infinitesimal parameter distance $s$, and then that of $X$, or vice versa. This yields two distinct curves that form a "parallelogram" if $X$ and $Y$ commute. If they do not, i.e. if $[X,Y]!=0$, the parallelogram fails to close: for infinitesimal $s$, the two curves end at points separated by a displacement along $s[X,Y]$. By adjoining this missing segment to the second curve, we obtain two curves $gamma_1$ and $gamma_2$ with identical start- and endpoints. In particular, the common endpoint can be expressed as
+$
+  q = p + s X + s Y = p + s Y + s X + s^2 [X,Y],
+$ 
+where "$+s X$" denotes moving a parameter distance $s$ along the flow of $X$. Performing this construction for each $p in cal(M)$ allows us to parallel transport the entire vector field $Z$ along both choices and compare the results.
+
+For infinitesimal $s$, recall that the parallel transport of a vector field $Z$ along another vector field $X$ is
+$
+  tilde(Z) = Z + s nabla_X Z + cal(O)(s^2).
+$
+Transporting first along $Y$ and then $X$ therefore gives
+$
+  tilde(Z)_1 &= lr((id med + med s nabla_X med + med cal(O)(s^2)),size:#135%) lr((id med + med s nabla_Y med + med cal(O)(s^2)),size:#135%) Z\
+  &= Z + s (nabla_X med + med nabla_Y) Z + s^2 nabla_X nabla_Y Z + cal(O)(s^3).
+$
+For the second path---first following $X$, then $Y$, and finally the correction $s[X,Y]$---we apply infinitesimal transport three times:
+$
+  tilde(Z)_2 &= (id med + med s nabla_s[X,Y] med + med cal(O)(s^3))lr((id med + med s nabla_Y med + med cal(O)(s^2)),size:#135%) lr((id med + med s nabla_X med + med cal(O)(s^2)),size:#135%) Z\
+  &= Z med + med s (nabla_X med + med nabla_Y)Z + s^2 (nabla_Y nabla_X med + med nabla_[X,Y])Z + cal(O)(s^3).
+$
+The difference between the two---the quantity encoding curvature---is
 $
   tilde(Z)_1 - tilde(Z)_2 = s^2 (nabla_X nabla_Y med - med nabla_Y nabla_X med - med nabla_[X,Y])Z + cal(O)(s^3).
 $
-All $cal(O)(s)$ contributions cancel, making $cal(O)(s^2)$ the leading order. For infinitesimal $s$, this term is dominant---it hence encodes the information we are looking for. Let us summarise this result in a definition.
+All $cal(O)(s)$ terms cancel, so the leading contribution arises at order $s^2$. For infinitesimal $s$, this term dominates, and thus carrise the curvature information we seek. Moreover, since this construction involves only infinitesimal segments, the resulting description is entirely local. Let us now collect this into a formal definition.
 \ \
 *Definition* (Riemann Curvature Tensor) Let $cal(M)$ be a smooth manifold equipped with an affine connection $nabla$, and let $X,Y,Z in Gamma(T cal(M))$ be vector fields. The _Riemann curvature tensor_ is the map
 $
@@ -2693,6 +2712,7 @@ this becomes
 $
   k(X,Y) = epsilon g(S(X), Y).
 $
+#comment[Correct this, should involve an additional projection or at least a comment since $diff_mu$ is the basis of $T cal(M)$ and $k$ is not defined on all of it.]
 Explicitly, the components of $k$ are thus given by
 $
   k_(mu nu) = -epsilon g_(nu lambda) (nabla_mu n)#h(0em)^lambda = -epsilon (nabla_mu n)#h(0em) _nu = -epsilon nabla_mu (alpha dt)_nu,
