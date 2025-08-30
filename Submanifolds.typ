@@ -16,37 +16,35 @@ In the following, $cal(M)$ will denote a ((pseudo)-Riemannian) $m$-manifold, and
 $
   ds^2 = g = g_(mu nu) dx^mu otimes dx^nu.
 $
-A _submanifold_ of $cal(M)$ is a subset $cal(S) subset cal(M)$ that is itself a smooth manifold, say of dimension $s = dim cal(S) <= m$. Here it is understood that the topological structure on $cal(S)$ is the induced subtopology from $cal(M)$. Additional structures---such as the induced metric, connections and curvature---will be introduced gradually in the following sections.
+A _submanifold_ of $cal(M)$ is a subset $cal(S) subset cal(M)$ that is itself a smooth manifold, say of dimension $s = dim cal(S) <= m$. Here it is understood that the topological structure on $cal(S)$ is the induced subtopology from $cal(M)$. Additional structures---such as the induced metric, connection and curvature---will be introduced gradually in the following sections.
 
 We call the quantity
 $
   codim_cal(M) cal(S) = dim cal(M) - dim cal(S)
 $
-the _codimension_ of $cal(S)$. This is a simple but useful notion that conveys "how many dimensions less" the submanifold has in comparison to the ambient manifold $cal(M) supset cal(S)$, which sometimes is more important than the dimension itself.
+the _codimension_ of $cal(S)$. This is a simple but useful notion that conveys "how many dimensions less" the submanifold has in comparison to the ambient manifold $cal(M) supset cal(S)$, which is sometimes more important than the dimension itself. For example, a _hypersurface_ is---by definition---a submanifold $cal(S) subset cal(M)$ of codimension 1, and will be particularly important in the development of foliations and the ADM formalism.
 
-For example, a _hypersurface_ is, by definition, a submanifold $cal(S) subset cal(M)$ of codimension 1, and will be particularly important in the development of foliations and the ADM formalism. A simple way of generating (smooth) hypersurfaces is by considering a function $f:cal(M)->RR$ and constructing a level surface as
+A simple way of generating (smooth) hypersurfaces is by considering a function $f:cal(M)->RR$ and constructing a level surface as
 $
   cal(S) = f^(-1)({0}) = {p in cal(M) | f(p) = 0} subset cal(M).
 $
-For $cal(S)$ defined in this way to be a proper, smooth submanifold, $0$ has to be a regular value of $f$. This means that
+For the set $cal(S)$ defined in this way to be a proper, smooth submanifold, $0$ has to be a regular value of $f$. This means that
 $
-  d f|_cal(S) != 0
+  d f|_cal(S) != 0,
 $
-or in words, the differential (or equivalently, the gradient) of $f$ must not vanish on $cal(S)$.
-
-More generally, given a collection of smooth functions $f_i :cal(M)->RR$ for $i=1,...,k$, the common level set
+or in words, the differential (or equivalently, the gradient) of $f$ must vanish nowhere on $cal(S)$. More generally, given a collection of smooth functions $f_i :cal(M)->RR$ for $i=1,...,k$, the common level set
 $
   cal(S) = sect.big_i f_i^(-1)({0})
 $
 is a submanifold of codimension $k$, provided the $f_i$ are functionally independent, $cal(S)$ is non-empty and $0$ is a regular value of the map $f= (f_1,...,f_k)$.
 == Induced Metric <sectionInducedMetric>
-So far, we have established that a submanifold $cal(S) subset cal(M)$ inherits its topological structure from the subspace topology induced by $cal(M)$. This makes $cal(S)$ a topological manifold. However, since we are studying submanifolds of a (pseudo-)Riemannian manifold, it should come to no surprise that we also wish for $cal(S)$ to carry a (pseudo-)Riemannian structure.
+So far, we have established that a submanifold $cal(S) subset cal(M)$ obtains its topological structure in the form of the subspace topology induced by the topology on $cal(M)$. This makes $cal(S)$ a topological manifold. However, since we are studying submanifolds of a (pseudo-)Riemannian manifold, we typically wish for $cal(S)$ to carry a (pseudo-)Riemannian structure as well.
 
 As a smooth manifold in its own right, $cal(S)$ admits local coordinates $y^i$, where $i = 1,...,s = dim cal(S)$. In principle, endowing $cal(S)$ with a (pseudo-)Riemannian metric is straightforward: one simply picks a symmetric tensor field $gamma$ taking values in $gamma_p in T^*_p cal(S) otimes T^*_p cal(S)$ with the desired signature and defines the corresponding line element
 $
   dms^2 = gamma = gamma_(i j) dy^i otimes dy^j.
 $
-While this makes $cal(S)$ a (pseudo-)Riemannian manifold, it does so independently of the geometry on the ambient manifold $cal(M)supset cal(S)$---it disregards the structure already present on $cal(M)$.
+While this makes $cal(S)$ a (pseudo-)Riemannian manifold, it does so independently of the geometry on the ambient manifold $cal(M)$---it disregards the structure already present on it.
 
 Yet $cal(S)$ is fully contained in $cal(M)$; any point $p in cal(S)$ is also a point of $cal(M)$. That much is obvious---but it matters, because the metric on $cal(M)$ carries geometric information we may wish to preserve. What, after all, does a metric provide? In particular, it can be used to assign lengths to curves. If we consider a path lying in $cal(S)$, then this path is also a path in $cal(M)$. Naturally, we would want its length to be the same whether we compute it using the metric $ds^2 = g$ of the ambient manifold or the metric $dms^2 = gamma$ of the submanifold.
 
@@ -70,7 +68,7 @@ $
 $
 expressing the ambient coordinates as functions of the submanifold coordinates. This has a consequence for the differential of $x^mu$ restricted to $cal(S)$, namely
 $
-  dx^mu|_cal(S) = d(x^mu (y^i))|_cal(S) = (diff x^mu)/(diff y^i) dy^i =: E^mu_i dy^i,
+  dx^mu|_cal(S) = d(x^mu (y^i)) = (diff x^mu)/(diff y^i) dy^i =: E^mu_i dy^i,
 $
 where we defined the so-called _pushforward matrix_ or _vielbein_
 $
@@ -171,19 +169,19 @@ Suppose we have two smooth manifolds $cal(M)$ and $cal(N)$, with dimensions $m$ 
 
 To illustrate this, imagine a flexible sheet of rubber $(cal(M))$ that we smoothly press onto another, possibly curved surface $cal(N)$. Every point on the rubber sheet ends up on some point of the surface, but the way the rubber sheet bends or stretches as it moves gives us more than just a positional correspondence---it tells us how _directions_ and _infinitesimal displacements_ on $cal(M)$ are transformed under the map. For example, a tiny arrow drawn on the rubber sheet (a tangent vector) might point in some new direction or have a different length when the rubber sheet is fitted onto the surface.
 
-This is the essence of what the pushforward captures: it tells us how tangent vectors on $cal(M)$---representing directions of motion away from a point---are mapped to tangent vectors on $cal(N)$. Formally, the _pushforward of $phi$_, denoted by $phi_*$, is a map between tangent spaces,
+This is the essence of what the pushforward captures: it tells us how tangent vectors on $cal(M)$---representing directions away from a point---are mapped to tangent vectors on $cal(N)$. Formally, the _pushforward of $phi$_, denoted by $phi_*$, is a map between tangent spaces,
 $
   phi_* : T_p cal(M) -> T_(phi(p))cal(N).
 $
 We now develop this map explicitly and precisely.
 \ \
-*Definition:* (Pushforward) We begin by recalling what we want to construct: given a smooth map $phi:cal(M)-> cal(N)$, we aim to associate to any vector $X in T_p cal(M)$ a vector $phi_* X in T_(phi(p)) cal(N)$, which we call the _pushforward_ of $X$ under $phi$. This should represent the idea of how the direction $X$ "looks" after the map $phi$ has distorted the space onto $cal(N)$.
+*Definition:* (Pushforward) We begin by reviewing what we want to construct: given a smooth map $phi:cal(M)-> cal(N)$, we aim to associate to any vector $X in T_p cal(M)$ a vector $phi_* X in T_(phi(p)) cal(N)$, which we call the _pushforward_ of $X$ under $phi$. This should represent the idea of how the direction $X$ "looks" after the map $phi$ has distorted the space onto $cal(N)$.
 
-But how do we compare directions at two different points of two different manifolds? We us the fact that vectors act on functions as differential operators---they are directional derivatives. A vector $X in T_p cal(M)$ acting on a function on $cal(M)$ tells us how it changes as we move in the direction of $X$. Similarly, $phi_* X in T_phi(p) cal(N)$ should tell us how a function on $cal(N)$ changes in the "corresponding direction" under $phi$.
+But how do we compare directions at two different points of two different manifolds? We use the fact that vectors act on functions as differential operators---they are directional derivatives. A vector $X in T_p cal(M)$ acting on a function on $cal(M)$ tells us how it changes as we move in the direction of $X$. Similarly, $phi_* X in T_phi(p) cal(N)$ should tell us how a function on $cal(N)$ changes in the "corresponding direction" under $phi$.
 
 There is a caveat, though; we cannot directly evaluate how $X$ acts on a function on $cal(N)$, because $X$ lives on $cal(M)$. But we _can_ make any function on $cal(N)$ into a function on $cal(M)$ by composing it with $phi$. That is, given any smooth function $f : cal(N) -> RR$, the composition $f compose phi : cal(M) -> RR$ is a new function defined on $cal(M)$ to which we _can_ apply $X$.
 
-The function $f compose phi$ is, in essence, just $f$, but with the codomain rearranged according to $phi$. The function values don't change---only _where_ in the domain they are sampled from does. This captures the distortion $phi$ induces: how orientation, stretching, or compression affect the function's positions of values (but not the values themselves) when viewed on $cal(M)$. Hence, taking $X[f compose phi]$ tells us how $f$ changes along the image of the direction $X$ under the map $phi$.
+The function $f compose phi$ is, in essence, just $f$, but with the codomain rearranged according to $phi$. The function values don't change---only _where_ in the codomain they are sampled from does. This captures the distortion $phi$ induces: how orientation, stretching, or compression affect the function's positions of values (but not the values themselves) when viewed on $cal(M)$. Hence, taking $X[f compose phi]$ tells us how $f$ changes along the image of the direction $X$ under the map $phi$.
 
 This leads us naturally to the definition
 $
@@ -193,9 +191,9 @@ That is, $phi_* X$ is the unique vector at $phi(p)$ whose action on any function
 
 This is all very abstract, so let us make it more concrete with an analogy. Let us think of $cal(M)$ as the flat Mercator map, a rectangle showing latitude and longitude lines. Then, we think of $cal(N)$ as the actual globe, a $2$-sphere. The map $phi:cal(M)->cal(N)$ we envision as the wrapping map, which tells us how to take the rectangle and bend it into a globe. Suppose $f$ assigns temperature values across the globe---a real-valued function on $cal(N)$. Then $f compose phi$ is the pulled-back function: it contains the same information, the same temperature values, but now shown on the Mercator map instead of the globe. This function $f compose phi$ lets us look at the globe's data $f$ as if it lived on the Mercator map. We then ask: how does the temperature change when moving along some vector $X$ on that map? This is what $X[f compose phi]$ computes: how the pulled-back temperature map changes as we follow $X$ on the rectangle.
 
-Now, on the globe, there should be a corresponding direction, $phi_* X$, along which the same change occurs---after all, we have the same function values, just arranged differently in a smooth way. This is the direction we have to move towards on the sphere to see the same change in temperature. This should not just happen for this one temperature map---for any function $f$ on the globe, the pushforward $phi_* X$ must give us the corresponding direction whose action on $f$ replicates the directional derivative seen on the Mercator map. This precisely is what the @pushforwardDefn[definition] encodes.
+Now, on the globe, there should be a corresponding direction, $phi_* X$, along which the same change occurs---after all, we have the same function values, just arranged differently in a smooth way. This is the direction we have to move in on the sphere to see the same change in temperature. This should not just happen for this one temperature map---for any function $f$ on the globe, the pushforward $phi_* X$ must give us the corresponding direction whose action on $f$ replicates the directional derivative seen on the Mercator map. This precisely is what the @pushforwardDefn[definition] encodes.
 
-For explicit calculations, it is typically more convenient to move away from the abstract, coordinate-independent @pushforwardDefn[definition], and instead adopt a coordinate-based approach. To this end, let $p in cal(M)$ a point, with local coordinates $y^alpha$ around $p$, and let $x^mu$ be local coordinates on $cal(N)$ around the image point $phi(p)$. Then $phi$ induces a local map between coordinate systems,
+For explicit calculations, it is typically more convenient to move away from the abstract, coordinate-independent @pushforwardDefn[definition], and instead adopt a coordinate-based viewpoint. To this end, let $p in cal(M)$ a point, with local coordinates $y^alpha$ around $p$, and let $x^mu$ be local coordinates on $cal(N)$ around the image point $phi(p)$. Then $phi$ induces a local map between coordinate systems,
 $
   x^mu (y^alpha) :=x^mu (phi(p(y^alpha))):RR^m -> RR^n,
 $
@@ -224,7 +222,7 @@ $
 $
 This expression makes the pushforward entirely concrete: it is simply a linear transformation of the vector components under the coordinate ap induced by $phi$. In terms of implementation and computation, it behaves exactly like a Jacobian---and it reproduces the familiar coordinate transformation rule for vector components when $phi:cal(M)->cal(M)$ is a diffeomorphism.
 
-The ability to relate tangent vectors between the two manifolds $cal(M)$ and $cal(N)$ suggests that a similar association may be possible between covectors or 1-forms. We develop this now by establishing a dual relation.
+The ability to relate tangent vectors between the two manifolds $cal(M)$ and $cal(N)$ suggests that a similar association may be possible between covectors or 1-forms. We now develop this by establishing a dual relation.
 \ \
 *Definition* (Canonical Pairing) For a vector $X in T_p cal(M)$ and a 1-form $omega in T_p^* cal(M)$, we define their _canonical pairing_ (sometimes called an inner product)
 $
@@ -235,7 +233,6 @@ $
   inprod(omega, X)_cal(M) :=omega(X).
 $
 Here, $omega(X)$ denotes the natural pairing between a covector and a vector---i.e., the evaluation of the linear map $omega:T_p cal(M) ->RR$ on the argument $X in T_p cal(M)$. In coordinate components, this reads $omega(X) = omega_mu X^mu$. Notice that this pairing is defined independently of any metric structure.
-We will use it below to define the pullback $phi^*$, the dual operation to the pushforward, acting on cotangent spaces.
 \ \
 *Definition* (Pullback) We define the _pullback_ associated to $phi$ as the unique linear map
 $
@@ -252,7 +249,7 @@ $
 
 Another perspective is the following: a 1-form projects a component from a vector. But if the vector is altered---say, by a pushforward---then extracting the "same" component now requires a different projection. The pullback gives us precisely this adjusted 1-form: one that reproduces the same scalar when applied to the original vector as the original 1-form applied to the pushforward.
 
-As with the pushforward, let us now extract a coordinate-based expression for the pullback. This case turns out to be even simpler. Using the same coordinate setup---local coordinates $y^alpha$ around $p in cal(M)$, and $x^mu$ around $phi(p) in cal(N)$---we express
+As with the pushforward, let us extract a coordinate-based expression for the pullback. This case turns out to be even simpler. Using the same coordinate setup---local coordinates $y^alpha$ around $p in cal(M)$, and $x^mu$ around $phi(p) in cal(N)$---we express
 $
   X = X^alpha diff_alpha, quad omega = omega_mu dx^mu.
 $
@@ -289,7 +286,7 @@ In the best-case scenario $dim im phi_* = m$, we retain full information and the
 Therefore, in general, it is not possible to pull back vectors from $T_phi(p) cal(N)$ to $T_p cal(M)$.
 \ \
 *Generalisation to Tensors*
-Now that we know how we should associate vectors and 1-forms/covectors on two manifolds $cal(M)$ and $cal(N)$ between which we have an association of points given by $phi: cal(M)->cal(N)$, we can generalise to tensors. Due to the difference in "functorial direction" between the pushforward and pullback, it is not possible to define a combined map for arbitrary, mixed tensors. For fully covariant or fully contravariant tensors, however, it is possible---or, if $phi$ is a diffeomorphism. This latter case we will not consider, though---this is because it essentially reduces to a change of coordinates.
+Now that we know how we should associate vectors and 1-forms/covectors on two manifolds $cal(M)$ and $cal(N)$ between which we have an association of points given by $phi: cal(M)->cal(N)$, we can generalise to tensors. Due to the difference in "functorial direction" between the pushforward and pullback, it is not possible to define a combined map for arbitrary, mixed tensors. For fully covariant or fully contravariant tensors, however, it is possible---or, if $phi$ is a diffeomorphism. This latter case we will not consider, because it essentially reduces to a change of coordinates.
 
 Let us begin with the pullback of covariant tensors $T in T^((0,s))_phi(p) cal(N)$. Such a tensor can be written as
 $
@@ -303,7 +300,7 @@ To ensure compatibility between $T$ and its pullback $phi^* T in T_p^(0,s) cal(M
 $
   (phi^* T)(X_((1)),...,X_((s))) = T(phi_* X_((1)),...,phi_* X_((s)))
 $
-In words, we require the pullback of $T$ to "have the same opinion" about a set of vectors as the original tensor has about their pushforwards---which it should, if they are to encode the "same" tensorial structure on the two spaces related by $phi$. It shouldn't matter whether we ask $phi^*T$ on the original vectors for a scalar value, or first squish the space around and then ask the same question to $T$, with the correspondents $phi_* X_((i))$ as arguments.
+In other words, we require the pullback of $T$ to "have the same opinion" about a set of vectors as the original tensor has about their pushforwards---which it should, if they are to encode the "same" tensorial structure on the two spaces related by $phi$. It shouldn't matter whether we ask $phi^*T$ on the original vectors for a scalar value, or first squish the space around and then ask the same question to $T$, with the correspondents $phi_* X_((i))$ as arguments.
 
 Of course, this definition can also be given in terms of coordinate components. Expanding both sides of the equation, we get
 $
@@ -350,17 +347,17 @@ $
 $
 the _inclusion map_ or simply _inclusion_ of $cal(S)$ into $cal(M)$.
 
-At first glance, this may not seem particularly interesting---it merely sends each point to itself. But despite its simplicity, $iota$ is a smooth map between manifolds, and as such, all the machinery developed previously (pushforward, pullback, tensor behaviour) can and does apply. This makes the inclusion map a powerful conceptual tool, especially when studying how geometric or tensorial structures on the ambient manifold $cal(M)$ restrict or induce structure on the submanifold $cal(S)$. So, let us now examine $iota$ through this lens.
+At first glance, this may not seem particularly interesting---it merely sends each point to itself. But despite its simplicity, $iota$ is a smooth map between manifolds, and as such, all the machinery developed previously (pushforward, pullback, tensor behaviour) applies. This makes the inclusion map a powerful conceptual tool, especially when studying how geometric or tensorial structures on the ambient manifold $cal(M)$ restrict or induce structure on the submanifold $cal(S)$. So, let us now examine $iota$ through this lens.
 \ \
 *The Pushforward $iota_*$* Firstly, we consider the pushforward $iota_*$. Before diving into concrete definitions, it helps to build some intuition. In general, the pushforward $phi_*$ of a smooth map $phi:cal(M)->cal(N)$ maps tangent vectors from $T_p cal(M)$ to $T_phi(p) cal(N)$, capturing how directions around $p$ deform under $phi$.
 
-In our case, $phi = iota$ is the inclusion of a submanifold $cal(S) subset cal(M)$. Since $iota(p) = p$, the point itself remains unchanged, and so do the local relationships between points. A tangent vector $X in T_p cal(S)$ should therefore remain to be the same geometric object under the pushforward, just now interpreted as living inside the larger ambient space $T_p cal(M)$. We are thus led to expect that $iota_*$ simply embeds $T_p cal(S)$ into $T_p cal(M)$.
+In our case, $phi = iota$ is the inclusion of a submanifold $cal(S) subset cal(M)$. Since $iota(p) = p$, the point itself remains unchanged, and so do the local relationships between points. A tangent vector $X in T_p cal(S)$ should therefore remain to be the same geometric object under the pushforward, just now interpreted as living inside the larger ambient tangent space $T_p cal(M)$. We are thus led to expect that $iota_*$ simply embeds $T_p cal(S)$ into $T_p cal(M)$.
 
 This is what we will now make precise. For that, we consider the pushforward $iota_* X$ of some vector $X in T_p cal(S)$. By definition, for any function $f in C^infty (cal(M))$, its action is given by
 $
   (iota_* X)[f] = X[f compose iota].
 $
-Since $iota(p) = p$ for all $p in cal(S)$, the composition $f compose iota$ is simply the restriction of $f$ to the submanifold, i.e. $f|_cal(S)$. That is,
+Since $iota(p) = p$ for all $p in cal(S)$, the composition $f compose iota$ is merely the restriction of $f$ to the submanifold, i.e. $f|_cal(S)$. That is,
 $
   (iota_* X)[f] = X[f|_cal(S)].
 $
@@ -372,7 +369,7 @@ $
 $
 That is, we naturally identify each tangent space $T_p cal(S)$ with a subspace of the ambient tangent space $T_p cal(M)$, and the map $iota_*$ serves as a pointwise injective linear embedding.
 
-Let us now consider how the pushforward looks in coordinate components. To this end, let $p in cal(S) subset cal(M)$, and suppose $y^i$, $i = 1,...,s$ and $x^mu$, $1,...,m$, are local coordinates around $p$ on $cal(S)$ and $cal(M)$, respectively. We consider the pushforward of a vector $X in T_p cal(S)$, written in the coordinate basis $diff_i = diff/(diff y^i)$ as
+Let us now consider what the pushforward looks in coordinate components. To this end, let $p in cal(S) subset cal(M)$, and suppose $y^i$, $i = 1,...,s$ and $x^mu$, $1,...,m$, are local coordinates around $p$ on $cal(S)$ and $cal(M)$, respectively. We consider the pushforward of a vector $X in T_p cal(S)$, written in the coordinate basis $diff_i = diff/(diff y^i)$ as
 $
   X = X^i diff_i
 $
@@ -400,26 +397,26 @@ from which we identify the components of the pullback as
 $
   (iota^* omega)#h(0em) _i = tensor(E, +mu, -i) omega_mu.
 $
-*The Induced Metric* As we have seen in the previous section, we can also define the pushforward and pullback for purely contra- or covariant tensors, by applying the transformation with $tensor(E, +mu, -i)$ to each index separately. This arose from the requirement of compatibility under the map between manifolds of the multilinear map a tensor defines. A tensor of particular interest to differential geometry is the metric. Since it is a $(0,2)$-tensor, it is purely covariant, and we can apply the pullback to the metric on $cal(M)$ to get a $(0,2)$-tensor on $cal(S)$. Intuition would tell us that this is the induced metric, but let us go through this calmly. The metric on $cal(M)$ is the symmetric tensor
+*The Induced Metric* As we have seen in the previous section, we can also define the pushforward and pullback for purely contra- or covariant tensors, by applying the transformation with $tensor(E, +mu, -i)$ to each index separately. This arose from the requirement of compatibility under the map between manifolds of the multilinear map a tensor defines. A tensor of particular interest to differential geometry is the metric. Since it is a $(0,2)$-tensor, it is purely covariant, and we can apply the pullback to the metric on $cal(M)$ to get a $(0,2)$-tensor on $cal(S)$. Intuition would tell us that this is the induced metric, but let us go through this rigorously. The metric on $cal(M)$ is the symmetric tensor
 $
   ds^2 = g = g_(mu nu) dx^mu otimes dx^nu.
 $
-It is a symmetric bilinear map of two vectors $A,B in T_p cal(M)$ to $RR$, with
+It is a symmetric bilinear map of two vectors $V,W in T_p cal(M)$ to $RR$, with
 $
-  g(A,B) = g_(mu nu) dx^mu (A) dx^nu (B) = g_(mu nu) A^mu B^nu.
+  g(V,W) = g_(mu nu) dx^mu (V) dx^nu (W) = g_(mu nu) V^mu W^nu.
 $
 Its pullback $iota^* g$ is defined by the relationship
 $
   (iota^* g)(X,Y) = g(iota_* X, iota_* Y), quad X,Y in T_p cal(S).
 $<inducedMetricDefnAbstract>
-Let us briefly interpret this, then we move to the coordinate expression which will match the induced metric we derived in @sectionInducedMetric. @inducedMetricDefnAbstract tells us that the the pullback $iota^* g$ is a symmetric bilinear map that simply uses the metric on $cal(M)$ to measure the pushforwards $iota_* X$ and $iota_* Y$. Recall, however, that we had previously found $iota_* X$ and $iota_* Y$ to be nothing more than the natural embeddings of $X$ and $Y$ in $T_p cal(M)$. So, in essence, the equation states that $(iota^* g)$ simply returns the same value as $g$ would, if $X$ and $Y$ were to be seen as vectors in $T_p cal(M)$, which they can as $T_p cal(S)$ is embedded in it as a subspace by $iota_*$. This narrative of "asking the ambient metric what it thinks and reproducing that" is precisely the reasoning we used in @sectionInducedMetric to motivate its definition---but now, we have rediscovered it in a much more general context, in that of pushforwards and pullbacks associated to smooth maps between manifolds.
+Let us briefly interpret this before moving to the coordinate expression (which will match the induced metric we derived in @sectionInducedMetric). @inducedMetricDefnAbstract tells us that the the pullback $iota^* g$ is a symmetric bilinear map that simply uses the metric on $cal(M)$ to measure the pushforwards $iota_* X$ and $iota_* Y$. Recall, however, that we had previously found $iota_* X$ and $iota_* Y$ to be nothing more than the natural embeddings of $X$ and $Y$ in $T_p cal(M)$. So, in essence, the equation states that $(iota^* g)$ simply returns the same value as $g$ would, if $X$ and $Y$ were to be seen as vectors in $T_p cal(M)$---which they can be, as $T_p cal(S)$ is embedded in it as a subspace by $iota_*$. This narrative of "asking the ambient metric what it thinks and reproducing that" is precisely the reasoning we followed in @sectionInducedMetric to motivate its definition---but now, we have rediscovered it in a much more general context, in that of pushforwards and pullbacks associated to smooth maps between manifolds.
 
 Going through the component expressions, we find
 $
   (iota^* g)(X,Y) = g(iota_* X, iota_* Y) = g_(mu nu) tensor(E, +mu, -i) tensor(E, +nu, -j) X^i Y^j\
   = (g_(mu nu) tensor(E, +mu, -i) tensor(E, +nu, -j)) X^i X^j = gamma_(i j) X^i Y^j = gamma(X, Y).
 $
-This confirms explicitly that $iota^* g = gamma$; in other words, the induced metric on $cal(S)$ is simply the pullback of the metric from the ambient manifold $cal(M)$. We have come full circle: the geometric idea that guided our definition of the induced metric has now emerged naturally from algebraic considerations grounded in a broader theoretical framework. That coherence gives us confidence to admit the idea into our formal foundations---when algebra and intuition converge, we are likely on the right path.
+This confirms explicitly that $iota^* g = gamma$; in other words, the induced metric on $cal(S)$ can be identified with the pullback of the metric from the ambient manifold $cal(M)$. We have come full circle: the geometric idea that guided our definition of the induced metric has now emerged naturally from algebraic considerations grounded in a broader theoretical framework. That coherence gives us confidence to admit the idea into our formal foundations---when algebra and intuition converge, we are likely on the right path.
 == The Left-Inverse: Projections onto Tangent Spaces <sectionLeftInverse>
 We have previously remarked that for the pushforward
 $
@@ -439,7 +436,7 @@ $
 $
 is an injective linear embedding.
 
-Let us now examine this case in detail. We may define a (non-unique) left-inverse#footnote[We use the notation $(dot)^(-1)$ here to indicate just a left- and not a proper inverse.]
+Let us now examine this in detail. We may define a (non-unique) left-inverse#footnote[We use the notation $(dot)^(-1)$ here to indicate just a left- and not a proper inverse.]
 $
   (iota_*)#h(0em)^(-1) : T_p cal(M) -> T_p cal(S)
 $
@@ -447,9 +444,9 @@ as a linear map satisfying
 $
   (iota_*)#h(0em)^(-1) compose iota_* = id_(T_p cal(S)).
 $<leftInverseCondition>
-Though this constrains $(iota_*)#h(0em)^(-1)$ fully on $im(iota_*)$, its action on the complement of $im(iota_*)$ remains arbitrary---hence we have no uniqueness.
+Though this constrains $(iota_*)#h(0em)^(-1)$ fully on $im(iota_*)$, its action on a complement of $im(iota_*)$ remains arbitrary---hence we have no uniqueness.
 
-In components, using the same coordiante systems as before, let us expand both sides of this identity for a vector $X in T_p cal(S)$. On the right-hand side, we get
+In components, using the same coordiante systems as before, we can expand both sides of this identity for a vector $X in T_p cal(S)$. On the right-hand side, we get
 $
   id_(T_p cal(S))X = X = X^i diff_i = delta^i_j X^j diff_i
 $<eq337>
@@ -493,15 +490,15 @@ is an injective projector of $T_p cal(M)$ onto the embedding $im(iota_*)$ of $T_
 
 Recall that the left-inverse $(iota_*)#h(0em)^(-1)$ is non-unique---it depends on the choice of complement to $im(iota_*)$ during its construction. It is always possible to choose it such that $P$ satisfies the condition
 $
-  g(P(X),Y) = g(X,P(Y)),quad X,Y in T_p cal(M),
+  g(P X,Y) = g(X,P Y),quad X,Y in T_p cal(M),
 $<orthoCondition>
 turning $P$ into an orthogonal projection. #footnote[We give an explicit construction of this in terms of components in @explicitOrthogonalLeftInverse[equation]]
 
-In words, $P$ tells us the following: For any vector $X in T_p cal(M)$, the associated $P(X) in im(iota_*)$ represents the part of $X$ that aligns with the tangent space $T_p cal(S)$ of the submanifold. This construction of $P$ allows us to split any vector $X in T_p cal(M)$ into two parts: a component tangent to the submanifold $cal(S)$, and a component orthogonal to it. That is,
+As such, $P$ tells us the following: For any vector $X in T_p cal(M)$, the associated $P X in im(iota_*)$ represents the part of $X$ that aligns with the tangent space $T_p cal(S)$ of the submanifold. This construction of $P$ allows us to split any vector $X in T_p cal(M)$ into two parts: a component tangent to the submanifold $cal(S)$, and a component orthogonal to it. That is,
 $
-  X = P(X) + (X-P(X))
+  X = P X + (X-P X)
 $
-where $P(X) in im(iota_*)$ and $X-P(X) in im(iota_*)^perp$, where the complement is taken with respect to $g$.
+where $P X in im(iota_*)$ and $X-P X in im(iota_*)^perp$, with the complement being taken wrt. $g$.
 
 What we should take away from this section is the following. The left-inverse $(iota_*)#h(0em)^(-1)$ is not particularly interesting on its own, as it is inherently non-unique---its definition depends on an arbitrary choice of complement to $im(iota_*)$. However, it does enable the construction a projection $P:T_p cal(M) -> im(iota_*)$, which can be made into an orthogonal projection by @orthoCondition[condition], equivalent to the symmetry condition#footnote[$g(P(X),Y) = g_(mu nu) tensor(P, +mu, -lambda)X^lambda Y^nu = P_(nu mu) X^mu Y^nu$, and $g(X,P(Y)) =...= P_(mu nu) X^mu Y^nu$. ]
 $
@@ -542,15 +539,15 @@ Let us now approach the decomposition of the metric in terms of $tilde(P)$. We i
 $
   g(X,Y) = tilde(P)(X,Y) + tilde(Q)(X,Y), quad X,Y in T_p cal(M)
 $
-where $tilde(Q)$, trivially given by
+where $tilde(Q)$ is trivially given by
 $
-  tilde(Q)(X,Y) = g(X,Y) - tilde(P)(X,Y), quad X,Y in T_p cal(M),
+  tilde(Q)(X,Y) = g(X,Y) - tilde(P)(X,Y), quad X,Y in T_p cal(M).
 $
-is necessarily symmetric as well---due to symmetry of both $tilde(P)$ and $g$. The components of $tilde(Q)$ (and its associated $(1,1)$-tensor $Q$) are given by
+It is necessarily symmetric due to symmetry of both $tilde(P)$ and $g$. The components of $tilde(Q)$ (and its associated $(1,1)$-tensor $Q$) are given by
 $
   tilde(Q)_(mu nu) = g_(mu nu) - P_(mu nu) quad <=> quad tensor(Q, +mu, -nu) = g^(mu lambda) tilde(Q)_(lambda nu) = delta^mu_nu - tensor(P, +mu, -nu).
 $
-Notice that hence, $Q(X) = X- P(X)$ is nothing but the projection of $X$ onto the normal space $ker(P)$ in the @orthonormalDecompositionTpS[decomposition], and $tilde(Q)$ its associated bilinear form. The projections $P$ and $Q$ are orthogonally complete, as we have (this is easily verifiable by plugging in definitions)
+Notice that hence, $Q X  = X- P X$, and hence $Q$ is nothing but the projection of $X$ onto the normal space $ker(P)$ in the @orthonormalDecompositionTpS[decomposition], and $tilde(Q)$ its associated bilinear form. The projections $P$ and $Q$ are orthogonally complete, as we have (this is easily verifiable by plugging in definitions)
 $
   P + Q = id_(T_p cal(M)), wide P compose Q = Q compose P = 0.
 $
@@ -583,10 +580,10 @@ $
   gamma_(i j) = tensor(E, +mu, -i) tensor(E, +nu, -j) g_(mu nu) = tensor(E, +mu, -i) tensor(E, +nu, -j) P_(mu nu).
 $
 This result offers a clear structural interpretation of the induced metric $gamma$: it is precisely the tangential part of the ambient metric $g$, isolated by pulling back the tangential projection $P$. The normal component $Q$ plays no role in the geometry intrinsic to the submanifold, as expected---$gamma$ contains only the information relevant to distances and angles _within_ $cal(S)$.
-= Bundles
+= Vector Bundles
 This section aims to introduce the notion of _vector bundles_ one can define on a smooth manifold. Though this is not strictly necessary to study submanifolds, it seems like it would be a useful digression to prepare for the differential geometry lecture in Part III, so I will go over it briefly here.
-== Vector Bundles: Intuition and Definitions
-So far, when we discussed vectorial (or tensorial) objects, our expressions have been entirely pointwise. We have considered, for example, maps from $T_p cal(M)$ to $T_phi(p) cal(N)$, where $cal(N)$ is another manifold and $phi: cal(M)-> cal(N)$ is a smooth map between them. These are relations between tangent spaces at individual points.
+== Intuition and Definitions
+So far, when we discussed vectorial (or tensorial) objects, our expressions have been entirely pointwise. We have considered, for example, pushforwards $phi_*$ from $T_p cal(M)$ to $T_phi(p) cal(N)$, where $cal(N)$ is another manifold and $phi: cal(M)-> cal(N)$ is a smooth map between them. These are relations between tangent spaces at individual points.
 
 However, since there exists a tangent space at every point $p in cal(M)$, it is natural to seek a way to _assemble_ or _bundle together_ all these tangent spaces into a single structure. Intuitively, we take the manifold $cal(M)$ and, at each point, attach the to it its corresponding tangent space. This yields a new, higher-dimensional manifold-like object that encodes all the tangent spaces and their relation to points in $cal(M)$. This construction is known as the _tangent bundle_.
 
@@ -600,7 +597,7 @@ Of course, this is just a loose and purely intuitive description. In this sectio
 
 + For each $p in cal(M)$, the _fibre_ $cal(E)_p := pi^(-1)({p})$ is equipped with the structure of a real vector space of dimension $n$.
 
-+ We have _local triviality_, i.e. for each $p in cal(M)$ there exists an open neighbourhood $U subset cal(M)$ of $p$ and a diffeomorphism
++ We have _local triviality_, i.e., for each $p in cal(M)$ there exists an open neighbourhood $U subset cal(M)$ of $p$ and a diffeomorphism
   $
     Phi: pi^(-1) (U) -> U times RR^n
   $
@@ -624,7 +621,7 @@ Of course, this is just a loose and purely intuitive description. In this sectio
   $<fibrationDiagram>
   commutes, where $P_1$ is the projection onto the first component of the Cartesian product ($(a,b)|->a$).
 
-Let us now go through this definition calmly, and explain the meaning and intuition behind each of the constructions separately.
+Let us now go through this definition step by step, and explain the meaning and intuition behind each of the constructions separately.
 
 Firstly, we should give a summary of what a vector bundle is supposed to be. Intuitively, a vector bundle over $cal(M)$ is a smooth family of vector spaces ${cal(E)_p}#h(0em) _(p in cal(M))$, smoothly parameterised by $cal(M)$, such that near each point, the collection of fibres looks like a product $U times RR^n$. This means we can locally identify each fibre with $RR^n$ in a way that varies smoothly with the base point, and respects the vector space operations.
 
@@ -644,7 +641,7 @@ Now, let us go over each part of the definition in detail.
 
   The role of the bundle projection map $pi:cal(E)->cal(M)$ is straightforward: it takes such a pair $(p, X_p)$ and projects it onto the point $p in cal(M)$ to which the vector space is attached. In our analogy, this means that the bundle projection "reads" the position within the stack of paper and returns the corresponding piece of paper, or more formally, the point on the line to which the sheet is attached.
 
-  This map must be surjective: every point $p in cal(M)$ must have a corresponding vector space attached to it. If it were not surjec tive, there would exist a point $p in cal(M)$ without any associated vector, which would contradict the idea of "attaching a vector space to each point of the manifold".
+  This map must be surjective: every point $p in cal(M)$ must have a corresponding vector space attached to it. If it were not surjective, there would exist a point $p in cal(M)$ without any associated vector---this would contradict the idea of "attaching a vector space to each point of the manifold".
 
 + _Fibres_: The fibre at $p in cal(M)$ is the collection of all vectors attached to $p$, i.e. its preimage under the bundle projection $pi$. More precisely,
   $
@@ -672,11 +669,11 @@ $
   Gamma(cal(E)) & = {sigma:cal(M) -> cal(E) | pi compose sigma = id_cal(M), sigma "smooth"}, \
                 & = {sigma:cal(M)->cal(E) | sigma "smooth section on" cal(E)}.
 $
-This is a real vector space under pointwise addition and scalar multiplication. In the case where $cal(E) = T cal(M)$ is the tangent bundle (which we introduce in the next section), $Gamma(T cal(M))$ is the space of smooth vector fields on $cal(M)$.
+This is a real vector space under pointwise addition and scalar multiplication. In the case where $cal(E) = T cal(M)$ is the tangent bundle (which we introduce in the next section), $Gamma(T cal(M))$ is the space of smooth tangent vector fields on $cal(M)$.
 
 We are now prepared for the next section, in which we will define the tangent and cotangent bundles $T cal(M)$ and $T^* cal(M)$, and use smooth sections to give an alternative perspective on vector fields and differential 1-forms.
 == The Tangent and Cotangent Bundles
-The tangent bundle $T cal(M)$ and the cotangent bundle $T^* cal(M)$ are, arguably, the two most important vector bundles in differential geometry. In essence, these are the special cases of vector bundles where one chooses the fibres $cal(E)_p$ to be the (co)-tangent spaces $T_p cal(M)$ and $T_p^* cal(M)$, respectively---let us now introduce this rigorously.
+The tangent bundle $T cal(M)$ and the cotangent bundle $T^* cal(M)$ are, arguably, the two most important vector bundles in differential geometry. In essence, these are the special cases of vector bundles where one chooses the fibres $cal(E)_p$ to be the (co)tangent spaces $T_p cal(M)$ and $T_p^* cal(M)$, respectively. Let us now introduce this rigorously.
 \ \
 *Definition* (Tangent Bundle)
 Let $cal(M)$ be a smooth manifold of dimension $m$ and denote by $T_p cal(M)$ its tangent space at any point $p in cal(M)$. Define the $2m$-dimensional total space $T cal(M)$ by the disjoint union
@@ -728,11 +725,11 @@ choosing to write elements of $T cal(M)$ as pairs $(p,X)$ with $X in T_p cal(M)$
 $
   T^* cal(M) = union.sq.big_(p in cal(M)) T_p^* cal(M)
 $
-as our total space, and the bundle projection
+as our total space. Moreover, the bundle projection
 $
   pi: T^* cal(M) -> cal(M)
 $
-now given by the map
+is now given by the map
 $
   pi(p, omega) = p,
 $
@@ -790,11 +787,11 @@ An equivalent way to phrase this is to demand that $Phi$ maps each fibre $cal(E)
 $
   Phi|_cal(E)_p : cal(E)_p -> cal(F)_phi(p).
 $
-The content of the definition is precisely this: a bundle map over $phi$ is one that maps vectors attached to a point $p in cal(M)$ into vectors attached to $phi(p) in cal(N)$, without violating the structure of the fibration.
+The content of the definition is precisely this: a bundle map over $phi$ is one that maps vectors attached to a point $p in cal(M)$ into vectors attached to the associated point $phi(p) in cal(N)$, without violating the structure of the fibration.
 
 Besides the structure of the fibration, a vector bundle has additional algebraic structure that one could demand to be preserved; each fibre is a vector space, and we could require a bundle map to respect it by imposing linearity. This notion, called _bundle morphisms_, is what we now define rigorously.
 \ \
-*Definition* (Vector Bundle Morphism) Let $cal(M)$, $cal(N)$ be smooth manifolds, and let $(cal(E), pi_cal(M), cal(M))$ and $(cal(F), pi_cal(N), cal(N))$ be smooth real vector bundles over them. Suppose we are given a smooth map $phi:cal(M)->cal(N)$ and a bundle map $Phi:cal(E)->cal(F)$ covering $phi$, i.e. a map $Phi$ which satisfies
+*Definition* (Vector Bundle Morphism) Let $cal(M)$, $cal(N)$ be smooth manifolds, and let $(cal(E), pi_cal(M), cal(M))$ and $(cal(F), pi_cal(N), cal(N))$ be smooth real vector bundles over them. Suppose we are given a smooth map $phi:cal(M)->cal(N)$ and a bundle map $Phi:cal(E)->cal(F)$ covering $phi$, i.e., a map $Phi$ which satisfies
 $
   pi_cal(N) compose Phi = phi compose pi_cal(M).
 $
@@ -802,28 +799,28 @@ We say that $Phi$ is a _vector bundle morphism_ (over $phi$) if, for each $p in 
 $
   Phi|_(cal(E)_p) : cal(E)_p -> cal(F)_phi(p)
 $
-is a linear map of vector spaces.
+is a linear map of vector spaces. 
 
 Intuitively, a vector bundle morphism over $phi$ can be seen as a fibrewise linear transformation that "respects the base": it linearly transforms each vector in a fibre over $p in cal(M)$ to a vector in the fibre over $phi(p) in cal(N)$.
 
-While there are many abstract vector bundle morphisms on could define and study, there is a particularly natural one associated with a smooth map $phi: cal(M)->cal(N)$ that we have already encountered: the pushforward. Though we initially introduced the pushforward $phi_* : T_p cal(M) -> T_phi(p) cal(N)$ as a pointwise linear map between tangent spaces, it readily extends to a global vector bundle morphism.
+While there are many examples of vector bundle morphisms on could define and study, there is a particularly natural one associated with a smooth map $phi: cal(M)->cal(N)$ that we have already encountered: the pushforward. Though we initially introduced the pushforward $phi_* : T_p cal(M) -> T_phi(p) cal(N)$ as a pointwise linear map between tangent spaces, it readily extends to a global vector bundle morphism.
 
 To see this, consider the map
 $
-  Phi : T cal(M) -> T cal(N), quad (p,X) |-> (phi(p), phi_* X), quad p in cal(M), X in T_p cal(M).
+  Phi_* : T cal(M) -> T cal(N), quad (p,X) |-> (phi(p), phi_* X), quad p in cal(M), X in T_p cal(M).
 $
 This construction maps each element of the tangent bundle $T cal(M)$ to the tangent bundle $T cal(N)$ by pushing forward the vector $X$ and sending its base point $p$ to $phi(p)$. It is easy to check that this satisfies the bundle map condition
 $
-  pi_cal(N) compose Phi = phi compose pi_cal(M),
+  pi_cal(N) compose Phi_* = phi compose pi_cal(M),
 $
-and that the fibrewise maps $Phi|_(T_p cal(M)) = phi_* : T_p cal(M) -> T_phi(p) cal(N)$ are linear. Hence, $Phi$ defines a (vector) bundle morphism from $T cal(M)$ to $T cal(N)$ over $phi$. Because of this, it is common to write the pushforward as a map
+and that the fibrewise maps $Phi_*|_(T_p cal(M)) = phi_* : T_p cal(M) -> T_phi(p) cal(N)$ are linear. Hence, $Phi_*$ defines a (vector) bundle morphism from $T cal(M)$ to $T cal(N)$ over $phi$. Because of this, it is common to write the pushforward as a map
 $
   phi_* : T cal(M) -> T cal(N),
 $
 considering it as a vector bundle morphism.
 == The Normal Bundle and Orthogonal Decomposition
 
-In this section, we explore how the tangent bundle $T cal(S)$ of a submanifold $cal(S) subset cal(M)$ can be understood as a subbundle of the restriction $T cal(M)|_cal(S)$ of the tangent bundle $T cal(M)$ to $cal(S)$. Further, we define the normal bundle $N cal(S)$ and explain how the pointwise projections $P$ and $Q$ we introduced earlier extend naturally to smooth vector bundle morphisms between $T cal(M)|_cal(S)$, $T cal(S)$ and $N cal(S)$. While this may seem like an unnecessary abstraction at first glance, it will turn out to offer geometric clarity and prepare us for later constructions involving intrinsic curvature.
+In this section, we explore how the tangent bundle $T cal(S)$ of a submanifold $cal(S) subset cal(M)$ can be understood as a subbundle of the restriction $T cal(M)|_cal(S)$ of the tangent bundle $T cal(M)$ to $cal(S)$. Further, we define the normal bundle $N cal(S)$ and explain how the pointwise projections $P$ and $Q$ we introduced earlier extend naturally to smooth vector bundle morphisms between $T cal(M)|_cal(S)$, $T cal(S)$ and $N cal(S)$. While this may seem like an unnecessary abstraction at first glance, it will turn out to offer geometric clarity and prepare us for later constructions involving induced connections and curvature.
 \ \
 *Definition* (Restriction of vector bundles to submanifolds) Let $cal(M)$ be a smooth manifold of dimension $m$, and let $cal(S) subset cal(M)$ be a submanifold of dimension $s < m$. Given a vector bundle $(cal(E), pi, cal(M))$ over $cal(M)$, its _restriction to_ $cal(S)$ is defined as the triple
 $
@@ -905,7 +902,7 @@ In order for each $Sigma_(t_0)$ to be a smooth submanifold, we require $t_0$ to 
 $
   dt^A != 0 quad "everywhere" quad forall A = 1,...,k.
 $
-We thus arrive at an equivalent perspective: a codimension-$k$ foliation of $cal(M)$ may be defined by a set of $k$ (functionally independent, i.e. ${dt^A}$ is linearly independent) scalar fields $t = (t^A) : cal(M) -> RR^k$, $A = 1,...,k$, whose differentials are nowhere vanishing. The intersection of their level sets then define the leaves of the foliation.
+We thus arrive at an equivalent perspective: a codimension-$k$ foliation of $cal(M)$ may be defined by a set of $k$ (functionally independent, i.e. ${dt^A}$ is linearly independent) scalar fields $t = (t^A) : cal(M) -> RR^k$, $A = 1,...,k$, whose differentials are nowhere vanishing. The intersections of their level sets then define the leaves of the foliation.
 
 Note that because $dt^A != 0$, the map $t = (t^A)$ can be extended to a coordinate chart on $cal(M)$, where the coordinates $(t^A,y^i)$ consist of both the foliation parameters $t^A$ and the coordinates $y^i$ on the leaves. The number of transverse coordiantes $y^i$ is given by $dim Sigma_t = dim cal(M) - k$. Such coordinates are called _weakly adapted_ to the foliation. In particular, fixing $t^A = t^A_0$ to some constant value $t^A_0$ yields a coordinate chart $(y^i)$ on the leaf $Sigma_(t_0)$. For this reason, the $y^i$ are referred to as _transverse coordinates_.
 \ \
@@ -919,7 +916,7 @@ which can be extended to a coordinate chart as $(t,y^i)$, $i= 1,...,dim cal(M)-1
 
 == The Normal 1-Form and Normal Vector Field <sectionFoliationTangentBundleDecomposition>
 
-The choice of a foliation of a manifold $cal(M)$ naturally gives rise to a host of associated mathematical objects, each playing its own role in its geometry. Among the most central of these is the normal vector field, together with its corresponding one-form. In what follows, we shall first build some intuition for why such an object may be constructed, before proceeding to define it rigorously.
+The choice of a hypersurface foliation of a manifold $cal(M)$ naturally gives rise to a host of associated mathematical objects, each playing its own role in its geometry. Among the most central of these is the normal vector field, together with its corresponding one-form. In what follows, we shall first build some intuition for why such an object may be constructed, before proceeding to define it rigorously.
 
 As we have seen previously, a submanifold $cal(S) subset cal(M)$ induces, at each point $p in cal(S)$, a decomposition
 $
@@ -927,7 +924,7 @@ $
 $
 splitting the tangent space of $cal(M)$ into components tangent and normal to $cal(S)$. However, this decomposition is inherently local to $cal(S)$; at points $p in cal(M)$ outside of $cal(S)$, the notions $T_p cal(S)$ and $N_p cal(S)$ have no meaning. Hence one cannot define a vector field on $cal(M)$ with the property that it is normal to $cal(S)$ everywhere---this statement simply does not make sense away from $cal(S)$.
 
-A foliation $Sigma = {Sigma_t}#h(0em) _(t in RR)$ changes this picture dramatically. Given such a foliation, every point $p in cal(M)$ belongs to a unique leaf $Sigma_t(p)$, for a unique $t(p) in RR$. Consequently, we may write
+A foliation $Sigma = {Sigma_t}#h(0em) _(t in RR^n)$ changes this picture dramatically. Given such a foliation, every point $p in cal(M)$ belongs to a unique leaf $Sigma_t(p)$, for a unique $t(p) in RR^n$. Consequently, we may write
 $
   T_p cal(M) = T_p Sigma_t(p) plus.circle N_p Sigma_t(p),
 $<foliationTpMDecomp>
@@ -941,19 +938,19 @@ equipped with their canonical projections onto $cal(M)$, yield the tangent bundl
 $
   T cal(M) = T Sigma plus.circle N Sigma.
 $<foliationTangentBundleDecomp>
-We may now also formalise the notion of a _normal vector field_. Recall that a vector field on $cal(M)$ is a smooth section of the tangent bundle $T cal(M)$. Given the @foliationTangentBundleDecomp[decomposition] we call a vector field _tangent_ to the foliation $Sigma$ if it is a smooth section of $T Sigma$, and normal to $Sigma$ if it is a smooth section of $N Sigma$. In more elementray terms, a vector field $X$ is tangent (respectively normal), if at each point $p in cal(M)$, the vector $X(p)$ lies in the subspace $T_p Sigma_t$ (respectively, $N_p Sigma_t$) associated to the unique slice $Sigma_t$ containing $p$.
+We may now also formalise the notion of _normal vector fields_. Recall that a vector field on $cal(M)$ is a smooth section of the tangent bundle $T cal(M)$. Given the @foliationTangentBundleDecomp[decomposition] we call a vector field _tangent_ to the foliation $Sigma$ if it is a smooth section of $T Sigma$, and normal to $Sigma$ if it is a smooth section of $N Sigma$. In more elementray terms, a vector field $X$ is tangent (respectively normal), if at each point $p in cal(M)$, the vector $X(p)$ lies in the subspace $T_p Sigma_t(p)$ (respectively, $N_p Sigma_t(p)$).
 
 In the specific case of a codimension-one foliation, the normal spaces $N_p Sigma_t(p)$ are one-dimensional at every point. This observation is powerful. It implies that any vector field normal to the foliation can be written as a scalar multiple of a single, globally defined, nowhere-vanishing basis vector field. Concretely, we may express any such field $X$ as
 $
   X = lambda thin n^sharp,
 $
-where $n^sharp$ denotes a chosen normal vector field, and $lambda$ is a smooth scalar function on $cal(M)$. The use of the musical isomorphism in this notation is deliberate: rather than constructing $n^sharp$ directly, it is often more natural to begin with a normal one-form $n$, and then obtain the vector field $n^sharp$ via the defining identity
+where $n^sharp$ denotes a chosen normal vector field, and $lambda$ is a smooth scalar function on $cal(M)$. The use of the musical isomorphism in this notation is deliberate: rather than constructing $n^sharp$ directly, it is often more natural to begin with a normal one-form $n = n_mu dx^mu$, and then obtain the vector field $n^sharp$ via the defining identity
 $
   g(n^sharp, X) = n(X) quad forall X quad <=> quad \(n^sharp\)^mu = n^mu = g^(mu nu) n_nu.
 $<sharpDefinition>
 If the normal subspaces $N_p Sigma_t(p)$ are timelike (or spacelike) everywhere, then we may impose a canonical normalisation to fix $n^sharp$ uniquely (up to sign),
 $
-  g(n^sharp,n^sharp) = cases(-1\,quad&"timelike"\,, +1\,quad&"spacelike".)
+  g(n^sharp,n^sharp) = epsilon :=  cases(-1\,quad&"timelike"\,, +1\,quad&"spacelike".)
 $<normalisationCondition>
 Since the normal bundle has one-dimensional leaves, this condition pins down a distinguished unit normal vector field (up to sign).
 
@@ -989,7 +986,7 @@ $
 $
 Here, $alpha$ is a smooth scalar field on $cal(M)$, necessary to adjust the magnitude in order to satisfy the normalisation @normalisationCondition[condition]. If we require $n^sharp$ to be unit-normalised, this yields the relation
 $
-  pm 1 =: epsilon = g(n^sharp,n^sharp) = g^(mu nu) n_mu n_nu = alpha^2 g^(t t) quad <=> quad g^(t t) = epsilon/alpha^2.
+  epsilon = g(n^sharp,n^sharp) = g^(mu nu) n_mu n_nu = alpha^2 g^(t t) quad <=> quad g^(t t) = epsilon/alpha^2.
 $
 Moreover, the components of $n^sharp$ can be written in terms of the metric as well,
 $
@@ -1017,7 +1014,7 @@ $
 $
 since $gamma(s) subset Sigma_t = t^(-1)(t(p))$ implies $t(gamma(s)) = t(p) = const$ identically.
 
-For the converse, note that $dt != 0$ everywhere by construction, and $codim T_p Sigma_t (p) = 1$. Hence, for any vector $X in T_p cal(M) without T_p Sigma_t(p)$, we must have $dt(X) != 0$, otherwise $dt_p$ would vanish on all of $T_p cal(M)$, contradicting $dt != 0$. This implies
+For the converse direction "$arrow.double.l$", note that $dt != 0$ everywhere by construction, and $codim T_p Sigma_t (p) = 1$. Hence, for any vector $X in T_p cal(M) without T_p Sigma_t(p)$, we must have $dt(X) != 0$, otherwise $dt_p$ would vanish on all of $T_p cal(M)$, contradicting $dt != 0$. This implies
 $
   T_p Sigma_t(p) = ker(dt_p),
 $<pointwiseIdentificationkerdt>
@@ -1119,7 +1116,7 @@ $
 $
 Notice that we were able to replace partial by covariant derivatives due to the antisymmetrisation, which removes the (here torsion-free) connection components from the expression.
 
-As announced, we will not prove the Frobenius condition here, at least not the difficult implication that $omega wedge domega = 0$ guarantees a decomposition into $omega = lambda dphi$. To make the claim somewhat more plausible, though, we can opt to briefly examine the converse direction, which is immediate from a direct computation---let us assume $omega = lambda dphi$, and plug in:
+As announced, we will not prove the Frobenius condition here, at least not the difficult implication that $omega wedge domega = 0$ guarantees a decomposition into $omega = lambda dphi$. To make the claim somewhat more plausible, though, we can opt to briefly examine the converse direction, which is immediate from an explicit computation---let us assume $omega = lambda dphi$, and plug in:
 $
   omega wedge domega = lambda dphi wedge d(lambda dphi) = lambda dphi wedge dlambda wedge dphi = 0,
 $
@@ -1135,7 +1132,7 @@ We begin by recalling from @sectionFoliationTangentBundleDecomposition that give
 $
   T cal(M) = T Sigma plus.circle N Sigma.
 $<orthoDecompFoliationTangentNormalBundles>
-This decomposition is implemented by the corresponding bundle maps
+This decomposition is implemented by the corresponding bundle morphisms
 $
   P : T cal(M) -> T Sigma, quad Q : T cal(M) -> N Sigma
 $
@@ -1157,21 +1154,21 @@ such that $P_p (X_p) in T_p Sigma_t(p)$ and $Q_p (X_p) in N_p Sigma_t(p)$, and h
 $
   g(P_p (X_p), Q_p (X_p)) = 0.
 $
-Further recall that the associated $(0,2)$-tensors of $P$ and $Q$ decompose the metric as
+Further recall that the $(0,2)$-tensors associated to $P$ and $Q$ decompose the metric as
 $
   g = P + Q.
 $
 Having set the stage for orthogonal decompositions of the metric, we now turn to the special case where $Sigma$ is a hypersurface foliation generated by $t in C^infty (cal(M))$ with $dt != 0$ everywhere. Our goal is to derive the orthogonal projection $Q$ onto $N Sigma$, as this will enable us to decompose the metric as $P+Q$ using $P = g - Q$.
 
-To make this decomposition explicit, we now compute the form of $Q$ in terms of the normal 1-form $n$ we introduced in @sectionFoliationTangentBundleDecomposition. More precisely, it is given by
+To make this decomposition explicit, we now compute the form of $Q$ in terms of the normal 1-form $n$ we introduced in @sectionFoliationTangentBundleDecomposition, which is given by
 $
   n = alpha dt,
 $
-with $alpha in C^infty (cal(M))$ fixed by the condition
+where $alpha in C^infty (cal(M))$ is fixed by the condition
 $
   g(n^sharp, n^sharp) = epsilon = pm 1,
 $
-where the sign $epsilon$ reflects whether $n^sharp$ is spacelike or timelike (we do not consider the null case here). Further recall that $n$ annihilates vectors tangent to $Sigma$, i.e.
+with the sign $epsilon$ indicating whether $n^sharp$ is spacelike or timelike (we do not consider the null case here). Further recall that $n$ annihilates vectors tangent to $Sigma$, i.e.
 $
   g(n^sharp, X) = n(X) = 0 quad forall X in Gamma(T Sigma).
 $
@@ -1191,7 +1188,7 @@ Let us briefly digest this last result. It tells us that the map
 $
   epsilon n^sharp otimes n : T cal(M) -> N Sigma
 $
-acts as the identity when restricted to $N Sigma$. Moreover, since $n$ annihilates any vector in $Gamma(T Sigma)$ and due to the orthogonal @orthoDecompFoliationTangentNormalBundles[decomposition], we conclude that $epsilon n^sharp otimes n$ is the orthogonal projection of $T cal(M)$ onto $N Sigma$. Consequently, we have
+acts as the identity when restricted to $N Sigma$. Moreover, since $n$ annihilates any vector in $Gamma(T Sigma)$ and due to the orthogonal @orthoDecompFoliationTangentNormalBundles[decomposition], we conclude that $epsilon n^sharp otimes n$ is the orthogonal projection of $T cal(M)$ onto $N Sigma$---that is,
 $
   Q = epsilon n^sharp otimes n.
 $<generalResultNormalProjector>
@@ -1220,7 +1217,7 @@ subject to the condition
 $
   g(n^sharp, n^sharp) = epsilon.
 $<normalisationConditionAlpha>
-Our goal will be to write the metric $g$ in terms of the components of $n^sharp$---i.e. of the function $alpha$ and a vector $beta^i$ we will introduce momentarily---as well as the induced metric on the leaves, which has the components
+Our goal will be to write the metric $g$ in terms of the components of $n^sharp$---of the function $alpha$ and a vector $beta=beta^i diff_i$ we will introduce momentarily---as well as the induced metric on the leaves, which has the components
 $
   gamma_(i j) := gamma(diff_i, diff_j) = g(diff_i, diff_j).
 $
@@ -1245,7 +1242,7 @@ We now introduce the _shift vector_ $beta^i$ as
 $
   beta^i = - epsilon alpha^2 g^(t i),
 $
-where the factor is chosen such one can extract $epsilon\/alpha$ as a common factor in $n^sharp$, i.e.
+where the factor is chosen such that one can extract $epsilon\/alpha$ as a common factor in $n^sharp$, i.e.
 $
   n^sharp = epsilon/alpha ( diff_t - beta^i diff_i).
 $
@@ -1259,7 +1256,7 @@ $
   &= epsilon alpha^2 + gamma_(i j) beta^i beta^j,\ \
   g_(t i) &= g(diff_t, diff_i) = epsilon alpha underbrace(g(n^sharp, diff_i), =0) + g(beta, diff_i) = beta^i g(diff_i, diff_j) = gamma_(i j) beta^j
 $
-Here, we made use of the fact that $n^sharp$ is normal to the foliation, whereas the $diff_i$ and hence also $beta$ are tangent to it---or, algebraically,
+Here, we made use of the fact that $n^sharp$ is normal to the foliation, whereas the $diff_i$ and thus also $beta$ are tangent to it---or, algebraically,
 $
   g(n^sharp, diff_i) = n(diff_i) = alpha underbrace(dt(diff_i), =0) = 0.
 $
@@ -1273,9 +1270,10 @@ $
 $<ADMmetricComponents>
 The metric tensor is hence given by
 $
-  g = g_(mu nu) dx^mu otimes dx^nu = epsilon alpha^2 dt otimes dt + gamma_(i j) (dy^i + beta^i dt) (dy^j + beta^j dt).
+  g = g_(mu nu) dx^mu otimes dx^nu = epsilon alpha^2 dt otimes dt + gamma_(i j) (dy^i + beta^i dt) otimes (dy^j + beta^j dt).
 $<ADMsplitMetric>
-
+This result is known as the ADM split of the metric.
+\ \
 *Remarks*
 - *The Lapse* In the literature, the function $alpha$ is known as the _lapse function_. To understand its meaning (assuming $t$ is a timelike coordinate), consider an observer moving orthogonally to the spatial slices $Sigma_t$, i.e. following the integral curves of the normal vector field $n^sharp$. Since $n^sharp$ is normalised, the tangent vector to such a path $gamma(tau)$, parameterised by proper time $tau$, satisfies
   $
@@ -1339,7 +1337,7 @@ $<ADMsplitMetric>
 
   If the shift is zero, though, then $P = gamma$ not just in effect but in substance. One can see this either algebraically, or intuitively as follows: when the shift vanishes, we have $diff_t prop n^sharp$, meaning $diff_t$ is fully normal. In that case, $P$ never has to process $diff_t$ at all---there is no tangential contribution to extract. Hence, no $dt$ terms need to appear, and $P$ reduces directly to $gamma$.
 
-- *Inverse Metric* Besides the ADM split of the metric, @ADMsplitMetric[], one frequently needs to use the inverse metric,
+- *Inverse Metric* Besides the ADM split of the metric, @ADMsplitMetric[], one frequently needs to make use of the corresponding split of the inverse metric,
   $
     g^(-1) = g^(mu nu) diff_mu otimes diff_nu,
   $
@@ -1360,7 +1358,7 @@ $<ADMsplitMetric>
     g^(-1) & = epsilon/alpha^2 (diff_t - beta^i diff_i) otimes (diff_t - beta^j diff_j) + gamma^(i j) diff_i otimes diff_j \
            & = epsilon n^sharp otimes n^sharp + gamma^(i j) diff_i otimes diff_j .
   $
-  Notice that also here, we have a clean separation into a normal and a tangential part.
+  Notice that also here, we have a clean separation into a normal and a tangential part (arguably even cleaner than for the metric).
 - *Metric Determinant* Another commonly encountered object related to the metric is its determinant (or the square root thereof)---let us compute it here. Recall from linear algebra the formula for the determinant of a block matrix,
   $
     det mat(A, B; C, D) = det(A - C D^(-1) B) det(D),
@@ -1382,13 +1380,13 @@ At this point, we should consider an example to solidify our grasp of hypersurfa
 $
   g = dx otimes dx + dy otimes dy + dz otimes dz
 $
-where $x,y,z$ are the Cartesian coordinates on $cal(M)$. We foliate it into origin-centered spheres of varying radii. Here, we will derive the objects we defined generally in the previous sections---the normal 1-form, its associated normal vector, the lapse, the shift, and the ADM decomposition of the metric, as well as the projectors $P$ and $Q$ onto the tangent and normal bundles of the foliation.
+where $x,y,z$ are the Cartesian coordinates on $cal(M)$. We foliate it into origin-centered spheres of varying radii. Here, we study the objects we defined generally in the previous sections---the normal 1-form, its associated normal vector, the lapse, the shift, and the ADM decomposition of the metric, as well as the projectors $P$ and $Q$ onto the tangent and normal bundles of the foliation.
 
 First, let us define the foliation by introducing the function
 $
   r : cal(M) -> RR, quad r(p) = sqrt(x^2 + y^2 + z^2), quad p = (x,y,z)
 $
-and specify the leaves of the foliation $Sigma = {Sigma_r}$ to be its level sets,
+and specify the leaves of the foliation $Sigma = {Sigma_r}$ to be the collection of its level sets
 $
   Sigma_r_0 := {p in cal(M) | r(p) = r_0} = r_0 S^2.
 $
@@ -1406,19 +1404,19 @@ Since the (inverse) metric in Cartesian coordinates is trivial, we have
 $
   n^sharp = alpha dr^sharp = alpha(x/r diff_x + y/r diff_y + z/r diff_z).
 $
-The normalisation condition on $n$ hence yields
+The normalisation condition on $n$ thus yields
 $
   1 & attach(=, t: !) g(n^sharp ,n^sharp) = n(n^sharp) =alpha^2 dr (x/r diff_x + y/r diff_y + z/r diff_z) \
     & = alpha^2 (x^2 /r^2 dx(diff_x) + y^2/r^2 dy(diff_y) + z^2/r^2 dz(diff_z)) \
     & = alpha^2/r^2 underbrace((x^2 + y^2 + z^2), =r^2) = alpha^2,
 $
-which fixes the lapse as $alpha = pm 1$---we choose the positive sign, i.e. $alpha = +1$. Moreover, we now have the concrete expressions
+which fixes the lapse as $alpha = pm 1$---we choose the positive sign, $alpha = +1$. Moreover, we now have the concrete expressions
 $
         n & = dr = x/r dx + y/r dy + z/r dz, \
   n^sharp & = x/r diff_x + y/r diff_y + z/r diff_z.
 $
 
-Let us now consider the shift vector $beta$. For this, we need to introduce additional coordinates $q^i$, $i=1,2$ to amend $r$ into a full coordinate system. Naturally, a great candidate for the $q^i$ are the angles $theta,phi$ used with spherical coordinates---for now though, let us remain general. What we have now is a relationship between two sets of coordinates,
+Let us now consider the shift vector $beta$. For this, we need to introduce additional coordinates $q^i$, $i=1,2$ to amend $r$ to a full coordinate system. Naturally, a great candidate for the $q^i$ are the angles $theta,phi$ used with spherical coordinates---for now though, let us remain general. What we have now is a relationship between two sets of coordinates,
 $
   cases(r &= r(x,y,z), q^i &= q^i (x,y,z), reverse: #true) quad<-->quad cases(x &= x(r,q^i), y&=y(r,q^i), z&=z(r,q^i))
 $
@@ -1434,7 +1432,7 @@ employing the multi-dimensional chain rule. We can now explicitly write down the
 $
   beta = diff_r - n^sharp = ((diff x)/(diff r) - x/r ) diff_x + ((diff y)/(diff r) - y/r ) diff_y +((diff z)/(diff r) - z/r ) diff_z.
 $
-At this point, we cannot really proceed without some sort of assumption on the functions $x(r,q^i)$, $y(r,q^i)$ and $z(r,q^i)$, and by that, without assumption on the $q^i$. So, let us do this: we require that $beta = 0$. In other words, we want the $q^i$ to be such that we have zero shift, that $diff_r$ is normal to $T Sigma$.
+At this point, we cannot really proceed without some sort of assumption on the functions $x(r,q^i)$, $y(r,q^i)$ and $z(r,q^i)$---and by that, without assumption on the $q^i$. So, let us do this: we require that $beta = 0$. In other words, we want the $q^i$ to be such that we have zero shift, that $diff_r$ is normal to $T Sigma$.
 
 This requires that each of the coefficients of $beta$ above must be zero. Notice that
 $
