@@ -547,7 +547,7 @@ It is necessarily symmetric due to symmetry of both $tilde(P)$ and $g$. The comp
 $
   tilde(Q)_(mu nu) = g_(mu nu) - P_(mu nu) quad <=> quad tensor(Q, +mu, -nu) = g^(mu lambda) tilde(Q)_(lambda nu) = delta^mu_nu - tensor(P, +mu, -nu).
 $
-Notice that hence, $Q X  = X- P X$, and hence $Q$ is nothing but the projection of $X$ onto the normal space $ker(P)$ in the @orthonormalDecompositionTpS[decomposition], and $tilde(Q)$ its associated bilinear form. The projections $P$ and $Q$ are orthogonally complete, as we have (this is easily verifiable by plugging in definitions)
+Notice that hence, $Q X = X- P X$, and hence $Q$ is nothing but the projection of $X$ onto the normal space $ker(P)$ in the @orthonormalDecompositionTpS[decomposition], and $tilde(Q)$ its associated bilinear form. The projections $P$ and $Q$ are orthogonally complete, as we have (this is easily verifiable by plugging in definitions)
 $
   P + Q = id_(T_p cal(M)), wide P compose Q = Q compose P = 0.
 $
@@ -799,7 +799,7 @@ We say that $Phi$ is a _vector bundle morphism_ (over $phi$) if, for each $p in 
 $
   Phi|_(cal(E)_p) : cal(E)_p -> cal(F)_phi(p)
 $
-is a linear map of vector spaces. 
+is a linear map of vector spaces.
 
 Intuitively, a vector bundle morphism over $phi$ can be seen as a fibrewise linear transformation that "respects the base": it linearly transforms each vector in a fibre over $p in cal(M)$ to a vector in the fibre over $phi(p) in cal(N)$.
 
@@ -950,7 +950,7 @@ $
 $<sharpDefinition>
 If the normal subspaces $N_p Sigma_t(p)$ are timelike (or spacelike) everywhere, then we may impose a canonical normalisation to fix $n^sharp$ uniquely (up to sign),
 $
-  g(n^sharp,n^sharp) = epsilon :=  cases(-1\,quad&"timelike"\,, +1\,quad&"spacelike".)
+  g(n^sharp,n^sharp) = epsilon := cases(-1\,quad&"timelike"\,, +1\,quad&"spacelike".)
 $<normalisationCondition>
 Since the normal bundle has one-dimensional leaves, this condition pins down a distinguished unit normal vector field (up to sign).
 
@@ -1482,13 +1482,13 @@ This is what one would expect: an appropriately scaled metric on $S^2$.
 
 
 = Covariant Derivatives on Foliations and Submanifolds
-In addition to the metric, a manifold can be endowed with various other geometric structures. This section focuses on _affine connections_, with an emphasis on how a connection on a manifold $cal(M)$ induces a connection on the leaves of a foliation $Sigma$ of $cal(M)$. We begin by reviewing the definition of a connection $nabla$ (briefly, familiarity with the concept is assumed), and then explore how the conditions of vanishing torsion and metric compatibility uniquely determine the Levi-Civita connection. Next, we define the induced connection $mnabla$ on $Sigma$ as the tangential projection of $nabla$ on $cal(M)$, and demonstrate that if $nabla$ is Levi-Civita, then so is $nabla$.
+In addition to the metric, a manifold can be endowed with various other geometric structures. This section focuses on _affine connections_, with an emphasis on how a connection on a manifold $cal(M)$ induces a connection on the leaves of a foliation $Sigma$ of $cal(M)$. We begin by reviewing the definition of a connection $nabla$ (briefly, familiarity with the concept is assumed), and then explore how the conditions of vanishing torsion and metric compatibility uniquely determine the Levi-Civita connection. Next, we define the induced connection $mnabla$ on $Sigma$ as the tangential projection of $nabla$ on $cal(M)$, and demonstrate that if $nabla$ is Levi-Civita, then so is $mnabla$.
 == Review: Affine Connections
 To review the notion of affine connections, we must first introduce some additional notation. Let
 $
   T^((r,s)) cal(M) = (T cal(M))^(otimes r) otimes (T^* cal(M))#h(0em)^(otimes s)
 $
-denote the _bundle of $(r,s)$-tensors on $cal(M)$_, where the tensor product between vector bundles is to be understood pointwise---i.e., as a tensor product of the fibres at each point. Tensor fields are smooth sections of this bundle; in other words, an $(r,s)$-tensor field $T$ is a section of $T^((r,s))cal(M)$, that is, $T in Gamma(T^((r,s)) cal(M))$. With this notational preface out of the way, we are now ready to give the definition of affine connections.
+denote the _bundle of $(r,s)$-tensors on $cal(M)$_, where the tensor product between vector bundles is to be understood pointwise---i.e., as a tensor product of the fibres at each point. Tensor fields are smooth sections of this bundle; in other words, an $(r,s)$-tensor field $T$ is a section of $T^((r,s))cal(M)$, that is, $T in Gamma\(T^((r,s)) cal(M)\)$. With this notational preface out of the way, we are now ready to give the definition of affine connections.
 \ \
 *Definition* (Affine Connection) Let $cal(M)$ be a smooth manifold, and consider a linear map
 $
@@ -1536,7 +1536,7 @@ This is a rather abstract (though likely familiar, if you got this far in these 
   $
     nabla X = nabla (X^mu otimes diff_mu) = dX^mu otimes diff_mu + X^mu otimes nabla diff_mu.
   $
-  The components $X^mu$ are smooth functions, so by the first axiom of the connection, $nabla X^mu = dX^mu$. However, the axioms impose no direct condition on $nabla diff_mu$. Its role is to restore tensoriality: the first term alone is not a tensor, which we now demonstrate.
+  The components $X^mu$ are smooth functions, so by the first axiom of the connection, $nabla X^mu = dX^mu$. However, the axioms impose no direct condition on $nabla diff_mu$. Its role is to restore tensoriality---the first term alone is not a tensor, which we now demonstrate.
 
   Consider the term $dX^mu otimes diff_mu$ in components, i.e.
   $
@@ -1564,7 +1564,7 @@ This is a rather abstract (though likely familiar, if you got this far in these 
   $<connectionTransformationRulePrecursor>
   The final term determines how $nabla diff_mu$ must transform in order to make $nabla X$ a genuine tensor. We will return to this structure momentarily when introducing the connection coefficients explicitly.
 
-- *Connection Coefficients* As we have seen in the previous remark, the object $nabla diff_mu$ is of particular interest---we should write it in terms of components. To this end, let us introduce additional shorthand notation for covariant derivatives along the coordinate directions $diff_mu$, as
+- *Connection Coefficients* As we have seen in the previous remark, the object $nabla diff_mu$ is of particular interest---let us write it out in terms of components. For this, we introduce an additional shorthand notation for covariant derivatives along the coordinate directions $diff_mu$ by defining
   $
     nabla_mu := nabla_(diff_mu).
   $
@@ -1614,11 +1614,11 @@ This is a rather abstract (though likely familiar, if you got this far in these 
   $
     nabla T &= nabla (T^(mu_1...mu_r) diff_mu_1 otimes ... otimes diff_mu_r)\
     &= dT^(mu_1 ... mu_r) otimes diff_mu_1 otimes ... otimes diff_mu_r + T^(mu_1...mu_r) (nabla diff_mu_1) otimes diff_mu_2 otimes ... otimes diff_mu_r + ...\
-    &= (diff_nu T^(mu_1 ... mu_r) + tensor(Gamma, +mu_1, -nu lambda) T^(lambda mu_2 ... mu_r) + ... + tensor(Gamma, +mu_r, -nu lambda) T^(mu_1...mu_(r-1) nu)) dx^nu otimes diff_mu_1 otimes ... otimes diff_mu_r.
+    &= (diff_nu T^(mu_1 ... mu_r) + tensor(Gamma, +mu_1, -nu lambda) T^(lambda mu_2 ... mu_r) + ... + tensor(Gamma, +mu_r, -nu lambda) T^(mu_1...mu_(r-1) lambda)) dx^nu otimes diff_mu_1 otimes ... otimes diff_mu_r.
   $
-  In essence, every contravariant index produces a term where the connection coefficients are contracted with the tensor components, as by the Leibniz rule, $nabla$ acts on each of the basis vectors once.
+  In essence, every contravariant index produces a term where the connection coefficients are contracted with the tensor components, since by the Leibniz rule, $nabla$ acts on each of the basis vectors once.
 
-  For tensors that are not purely contravariant, i.e., for general tensors $T in Gamma(T^((r,s)) cal(M))$, the general basis expansion reads
+  For tensors that are not purely contravariant---that is, for general tensors $T in Gamma(T^((r,s)) cal(M))$---the general basis expansion reads
   $
     tensor(T, +mu_1...mu_r, -nu_1...nu_s) diff_mu_1 otimes ... otimes diff_mu_r otimes dx^(nu_1) otimes ... otimes dx^(nu_s).
   $
@@ -1677,7 +1677,7 @@ We will now introduce the meaning of both conditions rigorously and examine thei
 \ \
 *Vanishing Torsion* A connection provides us with a means of comparing vectors at nearby points and describing how they change as we move infinitesimally along a given direction. Given two vector fields $X,Y in Gamma(T cal(M))$, the covariant derivatives $nabla_X Y$ and $nabla_Y X$ describe how $Y$ changes along the flow of $X$, and how $X$ changes along the flow of $Y$, respectively.
 
-On a flat space, one can think of the vectors $X,Y,X+epsilon nabla_Y X$, and $Y + epsilon nabla_X Y$ as forming a parallelogram for infinitesimal $alpha$, assuming $[X,Y] = 0$. However, on a general manifold with arbitrary connection, this parallelogram may fail to close. There are two distinct reasons for this failure:
+On a flat space, one can think of the vectors $X,Y,X+alpha nabla_Y X$, and $Y + alpha nabla_X Y$ as forming a parallelogram for infinitesimal $alpha$, assuming $[X,Y] = 0$. However, on a general manifold with arbitrary connection, this parallelogram may fail to close. There are two distinct reasons for this failure:
 + The flow paths of $X$ and $Y$ do not commute, i.e., following $X$ then $Y$ leads to a different point than following $Y$ then $X$. This is encoded by the Lie bracket $[X,Y]$.
 + The change in the transported vector fields differs, i.e., $nabla_X Y != nabla_Y X$. This is an intrinsic feature of the connection.
 
@@ -1771,7 +1771,7 @@ Since we are attempting to single out a specific connection by imposing constrai
 $
   tensor(Gamma, +lambda, -mu nu) = 1/2 g^(lambda rho) [g_(rho mu,nu) + g_(rho nu, mu) - g_(mu nu, rho)].
 $<ChristoffelSymbols>
-The fact that this is the correct expression can also be checked by inserting @metricGradientAndConnection[equation] to replace the expressions $g_(mu nu, lambda)$ with the appropriate index permutations and verifying that the terms cancel correctly. This can be done in a few lines.
+The validity of this expression can also be checked by inserting @metricGradientAndConnection[equation] to replace the expressions $g_(mu nu, lambda)$ with the appropriate index permutations and verifying that the terms cancel correctly. This can be done in a few lines.
 \ \
 *Remark* The @ChristoffelSymbols[Christoffel symbols] above are the coefficients of the so-called _Levi-Civita connection_, which is the _unique_ connection that is both torsion-free and metric-compatible.
 
@@ -1803,7 +1803,7 @@ Since we want the connection $mnabla$ on $Sigma$ to "mimic" the ambient connecti
 $
   mnabla_X Y = nabla_(iota_* X)(iota_*Y).
 $
-In words, this says that $mnabla$ measures change of $Y$ along $X$ in precisely the same way that the ambient connection $nabla$ measures change of the embedded version of $Y$ along that of $X$ within $T cal(M)$.
+Put into words, this says that $mnabla$ measures change of $Y$ along $X$ in precisely the same way that the ambient connection $nabla$ measures change of the embedded version of $Y$ along that of $X$ within $T cal(M)$.
 
 This is a good starting point---essentially all of the geometric structure of $nabla$ is being transferred to $mnabla$. However, this definition has a fundamental flaw. It is subtle but crucial: an induced connection on the foliation $Sigma$ must restrict to a connection on each individual leaf $Sigma_(t)$, which is a map
 $
@@ -1879,7 +1879,7 @@ the _induced connection on $Sigma$_ (associated to $nabla$) if
     tensor(macron(Gamma), +k, -i j) = E^k_lambda E^mu_i E^nu_j tensor(Gamma, +lambda, -mu nu) + E^k_lambda diff_i E^lambda_j.
   $<projectionConnectionCoeffs>
   In particular, this matches the structure of the @connectionCoeffTransformRule[coordinate transformation behaviour] of the connection.
-- Since $mnabla$ is an affine connection connection, the above relationship
+- Since $mnabla$ is an affine connection, the above relationship
   $
     mnabla_i diff_j = tensor(macron(Gamma), +k, -i j) diff_k
   $
@@ -1891,7 +1891,7 @@ the _induced connection on $Sigma$_ (associated to $nabla$) if
 == Proof: Levi-Civita Property is Inherited
 The previous section introduced the notion of a connection on the submanifolds of a foliation, induced from a connection on the ambient manifold. This construction defines a specific connection on each submanifold, but it is not immediately clear which properties of the ambient connection are preserved, or whether the induced connection might acquire new properties absent from the ambient. Such questions typically require case-by-case analysis.
 
-There is, however, an important special case, which we explore in this section. Recall that the Levi-Civita is uniquely characterised by two conditions: vanishing torsion and compatibility with the metric. We will show that if the ambient connection satisfies these conditions, then the induced connection does as well---in this sense, they are inherited. It follows that the connection induced by a Levi-Civita connection is itself Levi-Civita. In particular, this yields an alternative to the @projectionConnectionCoeffs[projection of connection coefficients], as the coefficients of the induced connection can now be computed directly from linear combinations of partial derivatives of the induced metric.
+There is, however, an important special case, which we explore in this section. Recall that the Levi-Civita connection is uniquely characterised by two conditions: vanishing torsion and compatibility with the metric. We will show that if the ambient connection satisfies these conditions, then the induced connection does as well---in this sense, they are inherited. It follows that the connection induced by a Levi-Civita connection is itself Levi-Civita. In particular, this yields an alternative formula to the @projectionConnectionCoeffs[projection of connection coefficients], as the coefficients of the induced connection can now be computed directly from linear combinations of partial derivatives of the induced metric.
 
 In the following, let $cal(M)$ denote a (pseudo-)Riemannian manifold with metric tensor $g in Gamma(T^((0,2))cal(M))$, $Sigma = {Sigma_(t)}$ a foliation of $cal(M)$, and $gamma = iota^* g$ the induced metric on $Sigma_(t)$. Further, let $nabla$ be a connection on $cal(M)$ and $mnabla$ the connection on $Sigma$ induced by $nabla$.
 \ \
@@ -1942,7 +1942,7 @@ which is equivalent to
 $
   nabla_X g(Y,Z) - (nabla_X g)(Y,Z) = g(nabla_X Y, Z) + g(Y, nabla_X Z).
 $<metricConnectionIdentity>
-In particular, a connection $nabla$ is compatible with a metric $g$ if and only if the first term vanishes, i.e. if
+In particular, a connection $nabla$ is compatible with a metric $g$ if and only if the first second term on the left hand side vanishes, i.e. if
 $
   nabla_X g(Y,Z) = g(nabla_X Y, Z) + g(Y, nabla_X Z) quad forall X,Y,Z in Gamma(T cal(M)).
 $<compatibleMetricConnectionIdentity>
@@ -1974,7 +1974,7 @@ $
 $<christoffelSymbolsInduced>
 This is a direct construction of the connection coefficients that makes no reference to the ambient connection.
 == Example: Induced Connection on the Foliation of $RR^3 without {0}$ into Spheres <sectionInducedConnectionExample>
-To see the machinery of induced connections as well as the inheritance of the Levi-Civita propery in action, in this section, we reconsider the example of $cal(M) = RR^3 without {0}$, foliated into concentric origin-centered spheres from @exampleR3ConcentricSpheres. Let us briefly reestablish the setting.
+To see the machinery of induced connections as well as the inheritance of the Levi-Civita propery in action, in this section, we reconsider the example from @exampleR3ConcentricSpheres, $cal(M) = RR^3 without {0}$ foliated into concentric origin-centered spheres . Let us briefly reestablish the setting.
 
 On $RR^3 without {0}$, in Cartesian coordinates $x^mu = (x,y,z)$, the Euclidean metric reads
 $
@@ -1990,9 +1990,9 @@ $
 $
 In spherical coordinates $(r,y^i) = (r,theta,phi)$ on $RR^3 without {0}$, we already derived the induced metric on a leaf $Sigma_r$, with the result
 $
-  gamma = gamma_(i j) dq^i otimes dq^j = r^2 dtheta otimes dtheta + r^2 sin^2 theta dphi otimes dphi,
+  gamma = gamma_(i j) dy^i otimes dy^j = r^2 dtheta otimes dtheta + r^2 sin^2 theta dphi otimes dphi,
 $
-with nonzero components $gamma_(theta theta) = r^2$, $gamma_(phi phi) = r^2 sin^2 theta$.
+In particular, the nonzero components are $gamma_(theta theta) = r^2$, $gamma_(phi phi) = r^2 sin^2 theta$.
 
 We equip the ambient manifold $RR^3 without {0}$ with the Levi-Civita connection, which in Cartesian coordinates has vanishing coefficients, i.e.
 $
@@ -2018,7 +2018,7 @@ $
 $<explicitOrthogonalLeftInverse>
 as then
 $
-  E^i_mu E^mu_k = gamma^(i j) underbrace(g_(mu nu) E^nu_j E^mu_k, =gamma_(j k)) = gamma^(i j) gamma_(j k) = delta^i_k,
+  E^i_mu E^mu_k = gamma^(i j) underbrace(g_(mu nu) E^nu_j E^mu_k, =gamma_(j k)) = gamma^(i j) gamma_(j k) = delta^i_k
 $
 ensures the left-inverse property and
 $
@@ -2074,16 +2074,16 @@ $
 This reproduces exactly the same result as the projection formula, as we would expect from our derivations made for general manifolds. Nevertheless, it is satisfying to see that the abstract machinery does indeed work when applied to concrete examples.
 
 = Curvature
-In this section, we examine the different kinds of curvature that arise in the study of submanifolds and foliations. We begin by reviewing the definition of the Riemann curvature tensor and its contractions, which will allow us to define both the _ambient curvature_ of a manifold $cal(M)$ and the _instrinsic curvature_ of the leaves of a foliation $Sigma$ on it. The ambient curvature is defined via the ambient connection $nabla$ on $cal(M)$, whereas the intrinsic curvature is derived from the induced connection $nabla$, which---as established in the previous section---is the tangential projection of $nabla$ onto $Sigma$.
+In this section, we examine the different kinds of curvature that arise in the study of submanifolds and foliations. We begin by reviewing the definition of the Riemann curvature tensor and its contractions, which will allow us to define both the _ambient curvature_ of a manifold $cal(M)$ and the _instrinsic curvature_ of the leaves of a foliation $Sigma$ on it. The ambient curvature is defined via the ambient connection $nabla$ on $cal(M)$, whereas the intrinsic curvature is derived from the induced connection $mnabla$, which---as established in the previous section---is the tangential projection of $nabla$ onto $Sigma$.
 
-This immediately suggests a relationship between the ambient and intrinsic curvatures. One might naïvely expect that---analogous to the connections---the intrinsic curvature is simply the projection of the ambient one. A simple counterexample will demonstrate that this cannot be entire picture. This leads us to the notion of _extrinsic curvature_, which---roughly speaking---captures the normal component of the ambient connection $nabla$ that is discarded when passing to $mnabla$.
+This immediately suggests a relationship between the ambient and intrinsic curvatures. One might naïvely expect that---analogous to the connections---the intrinsic curvature is simply the projection of the ambient one. A simple counterexample will demonstrate that this cannot be the entire picture. This will lead us to the notion of _extrinsic curvature_, which---roughly speaking---captures the normal component of the ambient connection $nabla$ that is discarded when passing to $mnabla$.
 
 This will prepare us for the derivation of the Gauss-Codazzi equation in the next section, which relates the intrinsic, extrinsic and projected ambient curvatures in a precise and elegant way.
 == Intrinsic Curvature
 === Review: Parallel Transport
-The intuition behind the Riemann curvature tensor is closely tied to _parallel transport_. The idea behind parallel transport is to take a vector and some point $p$ on a manifold and moving it along a curve $gamma$ to another point $q$, keeping it "parallel" to its initial direction (and length) at $p$. In flat space $RR^n$ with the Levi-Civita connection, the idea of "being parallel" is very clear: the covariant derivative of the coordinate basis vectors vanishes in cartesian coordinates, $nabla_mu diff_nu = 0$, so a vector remains parallel if its components stay constant along $gamma$. 
+The intuition behind the Riemann curvature tensor is closely tied to _parallel transport_, which we review here, in preparation of its introduction. The idea behind parallel transport is to take a vector and some point $p$ on a manifold and moving it along a curve $gamma$ to another point $q$, keeping it "parallel" to its initial direction (and length) at $p$. In flat space $RR^n$ with the Levi-Civita connection, the idea of "being parallel" is very clear: the covariant derivative of the coordinate basis vectors vanishes in cartesian coordinates, $nabla_mu diff_nu = 0$, so a vector remains parallel if its components stay constant along $gamma$.
 
-On a general manifold with an arbitrary connection $nabla$, this generalises. The connection is simply a measure of how a vector field changes across a manifold---it can thus be used to measure the change of a vector along a curve. The generalised notion of "being parallel" is now replaced by "keeping its direction according to the connection", or, more concisely, being constant with respect to the connection. Let us now make this concrete.
+On a general manifold with an arbitrary connection $nabla$, this generalises. The connection is simply a measure of how a vector field changes across a manifold---it can thus be used to measure the change of a vector along a curve. The generalised notion of "being parallel" is now replaced by "keeping its direction according to the connection", or, more concisely, being constant with respect to it. Let us now make this concrete.
 \ \
 *Definition* (Pullback Bundle and Connection) Let $gamma:(a,b)->cal(M)$ be a smooth curve on a smooth manifold $cal(M)$ equipped with an affine connection $nabla$. The _pullback bundle_ of $T cal(M)$ along $gamma$ is the vector bundle
 $
@@ -2099,25 +2099,25 @@ The connection $nabla$ restricts to smooth sections $X in Gamma(gamma^* T cal(M)
 $
   nabla_dot(gamma thin) X = nabla_tilde(Y) tilde(X),
 $
-where $tilde(X),tilde(Y) in Gamma(T cal(M))$ extend $X$ and the tangent vector field $dot(gamma thin)$, respectively. 
+where $tilde(X),tilde(Y) in Gamma(T cal(M))$ extend $X$ and the tangent vector field $dot(gamma thin)$, respectively.
 
 In local coordinates $x^mu (s)$ on $gamma$, this becomes
 $
-  nabla_dot(gamma thin) X &= (dX^lambda)/(ds) diff_lambda + X^mu nabla_dot(gamma thin) diff_mu,
+  nabla_dot(gamma thin) X & = (dX^lambda)/(ds) diff_lambda + X^mu nabla_dot(gamma thin) diff_mu,
 $
 with
 $
-  dot(gamma) = d/ds = dot(x)^mu diff_mu, quad nabla_dot(gamma thin) diff_mu = dot(x)^nu nabla_nu diff_mu = dot(x)^nu tensor(Gamma,+lambda,-nu mu) diff_lambda
+  dot(gamma thin) = d/ds = dot(x)^mu diff_mu, quad nabla_dot(gamma thin) diff_mu = dot(x)^nu nabla_nu diff_mu = dot(x)^nu tensor(Gamma, +lambda, -nu mu) diff_lambda
 $
 Thus,
 $
-  nabla_dot(gamma thin) X = (dX^lambda/ds + dot(x)^nu tensor(Gamma,+lambda,-nu mu) X^mu) diff_lambda,
+  nabla_dot(gamma thin) X = (dX^lambda/ds + dot(x)^nu tensor(Gamma, +lambda, -nu mu) X^mu) diff_lambda,
 $
 which describes how a vector field $X in Gamma(gamma^* T cal(M))$ changes along the curve, according to the connection.
 
-Now that we know how to compute how vectors change along curves, we are able to demand this change to be zero---that is, we are ready to define parallel transport. 
+Now that we know how to compute how vectors change along curves, we are able to demand this change to be zero---that is, we are ready to define parallel transport.
 \ \
-*Definition* (Parallel Transport) Let $cal(M)$ be a smooth manifold equipped with a connection $nabla$, and $gamma:(a,b)->cal(M)$ a smooth curve connecting two points $p,q in cal(M)$, that is, with $gamma(a) = p, gamma(b)=q$. Two vectors $X_p in T_p cal(M)$ and $X_q in T_q cal(M)$ are said to be _parallel_ if there exists a vector field $X in Gamma(gamma^* T cal(M))$ such that
+*Definition* (Parallel Transport) Let $cal(M)$ be a smooth manifold equipped with a connection $nabla$, and $gamma:(a,b)->cal(M)$ a smooth curve connecting two points $p,q in cal(M)$, that is, with $gamma(a) = p, gamma(b)=q$. Two vectors $X_p in T_p cal(M)$ and $X_q in T_q cal(M)$ are said to be _parallel along $gamma$_ if there exists a vector field $X in Gamma(gamma^* T cal(M))$ such that
 
 + $X(p) = X_p$, $X(q) = X_q$.
 
@@ -2127,15 +2127,15 @@ We further call $X_q$ the _parallel transport of $X_p$ along $gamma$_.
 
 To unpack this definition: the requirement that $X$ agrees with $X_p$ at $p$ and with $X_q$ at $q$ ensures that $X$ is a smooth interpolation between them---a single smooth field along the curve. The second condition, $nabla_dot(gamma thin) X = 0$, then demands that this field does not "twist" or "deform" relative to the connection as we move along $gamma$. In other words, at each infinitesimal step the vector keeps its direction according to the connection, so that by the time we reach $q$, the resulting $X_q$ is precisely the parallel transport of $X_p$.
 
-Notice that parallel transport depends not only on the connection but also on the chosen curve $gamma$. Transporting $X_p$ from $p$ to $q$ along two different paths may yield different vectors at $q$. Intuitively, this happens because the connection coefficients $tensor(Gamma,+lambda,-mu nu)$ vary across the manifold, so distinct curves encounter different "configurations" of these coefficients. As a result, the differential equation $nabla_dot(gamma thin) X = 0$ may have different solutions depending on the path. If, however, parallel transport from $p$ to $q$ is independent of the path for all choices of $p in cal(M)$ and $X_p in T_p cal(M)$, then $(cal(M),nabla)$ is called _flat_---excatly as in the case of $RR^n$ with its Levi-Civita connection. 
+Notice that parallel transport depends not only on the connection but also on the chosen curve $gamma$. Transporting $X_p$ from $p$ to $q$ along two different paths may yield different vectors at $q$. Intuitively, this happens because the connection coefficients $tensor(Gamma, +lambda, -mu nu)$ vary across the manifold, so distinct curves encounter different "configurations" of these coefficients. As a result, the differential equation $nabla_dot(gamma thin) X = 0$ may have different solutions depending on the path. If, however, parallel transport from $p$ to $q$ is independent of the path for all choices of curves between any points $p,q in cal(M)$ and any initial vector $X_p in T_p cal(M)$, then $(cal(M),nabla)$ is called _flat_---excatly as in the case of $RR^n$ with its Levi-Civita connection.
 
-Let us examine the second condition more precisely and characterise the nature of the differential equation and its solutions. In terms of components, it may be expanded as
+Let us examine the second condition more precisely by characterising the nature of the differential equation and its solutions. In terms of components, it may be expanded as
 $
-  d/ds X^lambda = - tensor(Gamma,+lambda,-nu mu) dot(x)^mu X^nu.
+  d/ds X^lambda = - tensor(Gamma, +lambda, -nu mu) dot(x)^mu X^nu.
 $<parallelTransportEqn>
 This is a linear first order differential equation for the vector components $X^lambda$ with a non-constant coefficient matrix. We may introduce the linear operator $Gamma_dot(gamma thin) (s) : T_gamma(s) cal(M) -> T_gamma(s) cal(M)$, which maps
 $
-  X = X^mu diff_mu |-> Gamma_dot(gamma thin) X = dot(x)^lambda tensor(Gamma,+mu,-lambda nu) X^nu diff_mu.
+  X = X^mu diff_mu |-> Gamma_dot(gamma thin) X = dot(x)^lambda tensor(Gamma, +mu, -lambda nu) X^nu diff_mu.
 $
 Note that $Gamma_dot(gamma thin)$ is not a tensorial operator---we only introduce it to make notation more compact. In terms of $Gamma_dot(gamma thin)$, @parallelTransportEqn[equation] can be written as
 $
@@ -2158,7 +2158,7 @@ for a propagator $U(s,t)$. Intuitively, the propagator $U(gamma,s,t)$ takes a ve
   $
 - Has a group composition law,
   $
-    U(gamma, s,r)U(gamma,r,t) = U(gamma, s,t), 
+    U(gamma, s,r)U(gamma,r,t) = U(gamma, s,t),
   $
 - Is invertible,
   $
@@ -2179,12 +2179,12 @@ $
 $
 At this point, we can simply Taylor-expand this to first order in $s$, making use of
 $
-  U(gamma,0,0) = id_(T_gamma(0) cal(M)), quad d/ds U(gamma,0,s)|_(s=0) = Gamma_dot(gamma thin) (0) 
-$ 
+  U(gamma,0,0) = id_(T_gamma(0) cal(M)), quad d/ds U(gamma,0,s)|_(s=0) = Gamma_dot(gamma thin) (0)
+$
 leading to
 $
-  tilde(Z) &= underbrace(U(gamma,0,0),=id) Z(0) + s d/ds [U(gamma,0,s)Z(s)]_(s=0) + cal(O)(s^2)\
-  &= Z(0) + s lr([underbrace(U(gamma,0,0),=id) dZ/ds (0) + underbrace((d/ds U(gamma,0,s)|_(s=0)),=Gamma_(dot(gamma thin))(0) U(gamma,0,0))Z(0)],size:#60%) + cal(O)(s^2)\
+  tilde(Z) &= underbrace(U(gamma,0,0), =id) Z(0) + s d/ds [U(gamma,0,s)Z(s)]_(s=0) + cal(O)(s^2)\
+  &= Z(0) + s lr([underbrace(U(gamma,0,0), =id) dZ/ds (0) + underbrace((d/ds U(gamma,0,s)|_(s=0)), =Gamma_(dot(gamma thin))(0) U(gamma,0,0))Z(0)], size: #60%) + cal(O)(s^2)\
   &= Z(0) + s [dZ/ds (0) + Gamma_dot(gamma thin) Z(0)] + cal(O)(s^2)\
   &= Z(0) + s nabla_dot(gamma thin) Z(0) + cal(O)(s^2).
 $<infinitesimalPointwiseTransport>
@@ -2192,7 +2192,7 @@ Hence, the first order correction of parallel transport is the covariant derivat
 
 Now that we know how to parallel transport a single vector infinitesimally along some curve, we can extend this to vectors fields in $T cal(M)$. After all, a vector field is nothing but a collection of individual vectors, which we can each parallel transport using the constructions above. All we need is a family of curves such that each point $p in cal(M)$ lies on exactly one curve; such a family is called a _congruence_. Congruences arise naturally as integral curves of a non-vanishing vector field $X$, obtained by solving $dot(gamma thin)(s) = X(gamma(s))$.
 
- In particular, for a vector field $Z in Gamma(T cal(M))$, the parallel transport $tilde(Z)$ obtained by transporting each of its constituent vectors $Z_p in T_p cal(M)$ by some infinitesimal parameter distance $s$ along the flow of another vector field $X in Gamma(T cal(M))$ is given by
+In particular, for a vector field $Z in Gamma(T cal(M))$, the parallel transport $tilde(Z)$ obtained by transporting each of its constituent vectors $Z_p in T_p cal(M)$ by some infinitesimal parameter distance $s$ along the flow of another vector field $X in Gamma(T cal(M))$ is given by
 $
   tilde(Z) = Z + s nabla_X Z + cal(O)(s^2).
 $
@@ -2203,12 +2203,12 @@ As we have already discussed in the previous section, parallel transport of a ve
 $
   Delta = tilde(Z)_1 - tilde(Z)_2,
 $
-encodes the so-called _holonomy_ of the connection. In particular, $Delta$ vanishes for all such choices if and only if the connection is flat---curvature is precisely the local obstruction to path-independent parallel transport. 
+encodes the so-called _holonomy_ of the connection. In particular, $Delta$ vanishes for all such choices if and only if the connection is flat---curvature is precisely the local obstruction to path-independent parallel transport.
 
 This construction, which relies on transporting a single vector along two curves, is somewhat cumbersome. A more natural and most importantly, global approach is to extend the discussion to the parallel transport of an entire vector field $Z in Gamma(T cal(M))$. Since we now have a vector $Z_p$ at each $p in cal(M)$, we also require two curves that start at each $p in cal(M)$ and have the same endpoint. To construct these in a systematic way, we introduce two additional vector fields $X,Y in Gamma(T cal(M))$, each generating a congruence of curves. Starting from a point $p$, we may first follow the flow of $Y$ for an infinitesimal parameter distance $s$, and then that of $X$, or vice versa. This yields two distinct curves that form a "parallelogram" if $X$ and $Y$ commute. If they do not, i.e. if $[X,Y]!=0$, the parallelogram fails to close: for infinitesimal $s$, the two curves end at points separated by a displacement along $s[X,Y]$. By adjoining this missing segment to the second curve, we obtain two curves $gamma_1$ and $gamma_2$ with identical start- and endpoints. In particular, the common endpoint can be expressed as
 $
   q = p + s X + s Y = p + s Y + s X + s^2 [X,Y],
-$ 
+$
 where "$+s X$" denotes moving a parameter distance $s$ along the flow of $X$. Performing this construction for each $p in cal(M)$ allows us to parallel transport the entire vector field $Z$ along both choices and compare the results.
 
 For infinitesimal $s$, recall that the parallel transport of a vector field $Z$ along another vector field $X$ is
@@ -2217,12 +2217,12 @@ $
 $
 Transporting first along $Y$ and then $X$ therefore gives
 $
-  tilde(Z)_1 &= lr((id med + med s nabla_X med + med cal(O)(s^2)),size:#135%) lr((id med + med s nabla_Y med + med cal(O)(s^2)),size:#135%) Z\
+  tilde(Z)_1 &= lr((id med + med s nabla_X med + med cal(O)(s^2)), size: #135%) lr((id med + med s nabla_Y med + med cal(O)(s^2)), size: #135%) Z\
   &= Z + s (nabla_X med + med nabla_Y) Z + s^2 nabla_X nabla_Y Z + cal(O)(s^3).
 $
 For the second path---first following $X$, then $Y$, and finally the correction $s[X,Y]$---we apply infinitesimal transport three times:
 $
-  tilde(Z)_2 &= (id med + med s nabla_s[X,Y] med + med cal(O)(s^3))lr((id med + med s nabla_Y med + med cal(O)(s^2)),size:#135%) lr((id med + med s nabla_X med + med cal(O)(s^2)),size:#135%) Z\
+  tilde(Z)_2 &= (id med + med s nabla_s[X,Y] med + med cal(O)(s^3))lr((id med + med s nabla_Y med + med cal(O)(s^2)), size: #135%) lr((id med + med s nabla_X med + med cal(O)(s^2)), size: #135%) Z\
   &= Z med + med s (nabla_X med + med nabla_Y)Z + s^2 (nabla_Y nabla_X med + med nabla_[X,Y])Z + cal(O)(s^3).
 $
 The difference between the two---the quantity encoding curvature---is
@@ -2505,9 +2505,9 @@ $
 === Intrinsic vs Projected Ambient Curvature <intrinsicVsProjectedAmbient>
 A natural question following the above introduction of the intrinsic curvature $macron(R)$ on a foliation $Sigma$ is how it relates to the ambient curvature $R$. Since $mnabla$ is defined as the projection of $nabla$ onto $T Sigma$, one might expect a similar relationship between the intrinsic and ambient curvature---something like
 $
-  macron(R)(X,Y)Z = (iota_*)^(-1) lr((R(iota_* X,iota_* Y)(iota_* Z)),size:#135%), quad X,Y,Z in Gamma(T Sigma) subset Gamma(T cal(M)).
+  macron(R)(X,Y)Z = (iota_*)^(-1) lr((R(iota_* X,iota_* Y)(iota_* Z)), size: #135%), quad X,Y,Z in Gamma(T Sigma) subset Gamma(T cal(M)).
 $<naiveGuessAmbientIntrinsicCurvature>
-where $(iota_*)^(-1)$ denotes the orthogonal left-inverse of the pushforward $iota_*$. This would follow the same pattern we have for the connection: the action of $R(X,Y)Z$ is simply followed by a projection onto the tangent bundle $T Sigma$, removing any normal contributions that might emerge. 
+where $(iota_*)^(-1)$ denotes the orthogonal left-inverse of the pushforward $iota_*$. This would follow the same pattern we have for the connection: the action of $R(X,Y)Z$ is simply followed by a projection onto the tangent bundle $T Sigma$, removing any normal contributions that might emerge.
 
 However, @naiveGuessAmbientIntrinsicCurvature[equation] is _not_ correct. There are (at least) two ways to see this---first, through a concrete counterexample; and second, via an algebraic derivation that, while less geometrically intuitive, reveals the deeper structure behind the failure of this naïve guess. Let us consider both perspectives in turn.
 
@@ -2593,7 +2593,7 @@ However, @naiveGuessAmbientIntrinsicCurvature[equation] is _not_ correct. There 
   $
     macron(R)(X,Y)Z = P R(X,Y)Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size: #130%).
   $<precursorGaussEqn>
-  This demonstrates that the intrinsic curvature contains more than just the projection of the ambient curvature. In fact, the above is the algebraic seed to the _Gauss-Codazzi equation_, a result we will steadily work towards throughout the following sections. 
+  This demonstrates that the intrinsic curvature contains more than just the projection of the ambient curvature. In fact, the above is the algebraic seed to the _Gauss-Codazzi equation_, a result we will steadily work towards throughout the following sections.
 
   To properly interpret the additional term, we must however first introduce the concept of _extrinsic curvature_. As it stands, the expression
   $
@@ -2810,9 +2810,9 @@ $
 $
 Since the right-hand side of @extCurvatureNormalFlowMetric[equation] is restricted to $Gamma(T Sigma)$, the only nonzero components#footnote[Notice that $cal(L)_(n^sharp) g$ generally also has $t i$ and $t t$ components. However, these encode what $(cal(L)_(n^sharp)g )(X,Y)$ evaluates to for general vectors $X,Y in Gamma(T cal(M))$, which do not concern us here---$k$ is a bilinear form on $Gamma(T Sigma)$. ] of $k$ are given by
 $
-  k_(i j) = -epsilon/2 (cal(L)_(n^sharp) g)\ _(i j) = -epsilon/2 lr((n^sharp \[g_(i j)\] + (diff_i n^mu)g_(mu j) + (diff_j n^mu) g_(i mu)),size:#135%).
+  k_(i j) = -epsilon/2 (cal(L)_(n^sharp) g)\_(i j) = -epsilon/2 lr((n^sharp \[g_(i j)\] + (diff_i n^mu)g_(mu j) + (diff_j n^mu) g_(i mu)), size: #135%).
 $
-The second equality simply carries out the Lie derivative explicitly. Let us now examine the terms individually by inserting the @metricComponentsSectionLieFlow[metric components]. 
+The second equality simply carries out the Lie derivative explicitly. Let us now examine the terms individually by inserting the @metricComponentsSectionLieFlow[metric components].
 
 We begin with the first term. Here, we find
 $
@@ -2829,21 +2829,20 @@ By analogy, the last term turns into
 $
   (diff_j n^mu) g_(i mu) = -epsilon/alpha (diff_j beta^k) gamma_(i k).
 $
-Collecting the results and recombining the individual terms, we arrive at 
+Collecting the results and recombining the individual terms, we arrive at
 $
-  k_(i j) = -1/(2 alpha) lr((diff_t gamma_(i j) - lr((beta\[gamma_(i j)\] + (diff_i beta^k) gamma_(k j) + (diff_j beta^k) gamma_(i k)),size:#125%)),size:#135%).
+  k_(i j) = -1/(2 alpha) lr((diff_t gamma_(i j) - lr((beta\[gamma_(i j)\] + (diff_i beta^k) gamma_(k j) + (diff_j beta^k) gamma_(i k)), size: #125%)), size: #135%).
 $<lieFlowIntermResult>
 We recognise the inner parentheses as the Lie derivative $macron(cal(L))_beta gamma$. Since both $gamma$ and $beta$ are intrinsic to the foliation, this really is a Lie derivative on the leaves, hence the notation $macron(cal(L))$---the bar indicates a foliation-intrinsic object, i.e., an object that can be computed from only the submanifold geometry. In particular, this means that this term can be rewritten in terms of the induced covariant derivative $mnabla$:
 $
-  (macron(cal(L))_beta gamma)\ _(i j) &= lr((beta^k underbrace(mnabla_k gamma,=0)),size:#35%)\ 
-  _(i j) med + med  (mnabla_ i beta)\ ^k gamma_(k j) + (mnabla_j beta)\ ^k gamma_(i k)\
-  &= (mnabla_i beta)\ _j med + med (mnabla_j beta)\ _i
+  (macron(cal(L))_beta gamma)\_(i j) &= lr((beta^k underbrace(mnabla_k gamma, =0)), size: #35%)\_(i j) med + med (mnabla_i beta)\^k gamma_(k j) + (mnabla_j beta)\^k gamma_(i k)\
+  &= (mnabla_i beta)\_j med + med (mnabla_j beta)\_i
 $
 Plugging this back into @lieFlowIntermResult[equation], we conclude that
 $
-  k_(i j) = - 1/(2 alpha) lr((diff_t gamma_(i j) - (mnabla_i beta)\ _j med - med (mnabla_j beta)\ _i ), size:#135%).
+  k_(i j) = - 1/(2 alpha) lr((diff_t gamma_(i j) - (mnabla_i beta)\_j med - med (mnabla_j beta)\_i ), size: #135%).
 $<extCurvatureADMDecomp>
-This characterises the extrinsic curvature's components entirely in terms of the time derivative of the induced metric, the symmetrised covariant derivative of the shift, and a scaling factor involving the lapse. 
+This characterises the extrinsic curvature's components entirely in terms of the time derivative of the induced metric, the symmetrised covariant derivative of the shift, and a scaling factor involving the lapse.
 
 
 === Example: Extrinsic Curvature of the Foliation of $RR^3 without {0}$ into Spheres <exampleExtrinsicCurvature>
@@ -3094,9 +3093,9 @@ for the covariant divergence of a vector field $X in Gamma(T cal(M))$. With this
 #bottom-number([
   $
     -epsilon tensor(R, +perp nu, -perp nu) &= -epsilon E^mu_perp tensor(R, +perp nu, -mu nu) = -epsilon n^mu tensor(R, +perp nu, -mu nu)\
-    &= n^mu (nabla_mu nabla_nu n^sharp)\ ^nu - n^mu (nabla_nu nabla_mu n^sharp)\ ^nu\
-    &= underbrace(nabla_mu lr((n^sharp otimes underbrace((nabla_nu n^sharp)\ ^nu, =Div n^sharp)), size: #35%)\ ^mu, = Div(n^sharp dot Div n^sharp)) - (nabla_mu n^sharp)\ ^mu (nabla_nu n^sharp)\ ^nu - underbrace(nabla_nu lr((underbrace(n^mu nabla_mu n^sharp, =nabla_(n^sharp)n^sharp)), size: #32%)\ ^nu, =Div (nabla_(n^sharp) n^sharp)) + (nabla_nu n^sharp)\ ^mu (nabla_mu n^sharp)\ ^nu\
-    &=Div(n^sharp dot Div n^sharp - nabla_(n^sharp) n^sharp) - (nabla_mu n^sharp)\ ^mu (nabla_nu n^sharp)\ ^nu+ (nabla_nu n^sharp)\ ^mu (nabla_mu n^sharp)\ ^nu
+    &= n^mu (nabla_mu nabla_nu n^sharp)\^nu - n^mu (nabla_nu nabla_mu n^sharp)\^nu\
+    &= underbrace(nabla_mu lr((n^sharp otimes underbrace((nabla_nu n^sharp)\^nu, =Div n^sharp)), size: #35%)\^mu, = Div(n^sharp dot Div n^sharp)) - (nabla_mu n^sharp)\^mu (nabla_nu n^sharp)\^nu - underbrace(nabla_nu lr((underbrace(n^mu nabla_mu n^sharp, =nabla_(n^sharp)n^sharp)), size: #32%)\^nu, =Div (nabla_(n^sharp) n^sharp)) + (nabla_nu n^sharp)\^mu (nabla_mu n^sharp)\^nu\
+    &=Div(n^sharp dot Div n^sharp - nabla_(n^sharp) n^sharp) - (nabla_mu n^sharp)\^mu (nabla_nu n^sharp)\^nu+ (nabla_nu n^sharp)\^mu (nabla_mu n^sharp)\^nu
   $<derivationRperpAperpB>])
 The first term is a total derivative/divergence, and will hence only contribute to the action as a boundary term.
 
@@ -3106,11 +3105,11 @@ $
 $
 In components, this reads #comment[Correct normal components claim, not entirely correct or at least needs justification]
 $
-  k_(mu nu) = epsilon g(diff_nu, -nabla_mu n^sharp) = -epsilon (nabla_mu n^sharp)\ _nu quad <=> quad (nabla_mu n^sharp)\ _nu = -epsilon k_(mu nu).
+  k_(mu nu) = epsilon g(diff_nu, -nabla_mu n^sharp) = -epsilon (nabla_mu n^sharp)\_nu quad <=> quad (nabla_mu n^sharp)\_nu = -epsilon k_(mu nu).
 $
 This is precisely the tensor appearing in the remaining terms of @derivationRperpAperpB[equation]. Thus, we find
 $
-  - (nabla_mu n^sharp)\ ^mu (nabla_nu n^sharp)+ (nabla_nu n^sharp)\ ^mu (nabla_mu n^sharp)\ ^nu &= - (-epsilon)^2 tensor(k, -mu, +mu) tensor(k, -nu, +nu) + (-epsilon)^2 k_(mu nu) k^(mu nu)\
+  - (nabla_mu n^sharp)\^mu (nabla_nu n^sharp)+ (nabla_nu n^sharp)\^mu (nabla_mu n^sharp)\^nu &= - (-epsilon)^2 tensor(k, -mu, +mu) tensor(k, -nu, +nu) + (-epsilon)^2 k_(mu nu) k^(mu nu)\
   &= -k^2 + k_(i j) k^(i j),
 $
 where we made use of the fact that $k_(mu nu)$ has no normal components and that $k = tensor(k, +mu, -mu) = tensor(k, +i, -i)$. Putting everything together, we find
