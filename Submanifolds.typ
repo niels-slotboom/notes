@@ -2411,11 +2411,11 @@ We are now ready to discuss the symmetries of $R(W,Z,X,Y)$:
   $
     R(W,Z,X,Y) + R(W,X,Y,Z) + R(W,Y,Z,X) = 0.
   $
-  or in terms of components,
+  Alternatively, in terms of components,
   $
     tensor(R, +rho, -[sigma mu nu]) = tensor(R, -rho, -[sigma mu nu]) = 0.
   $
-  Here, the cyclic permutation of the last three indices/slots is proportional to their anti-symmetrisation since we have anti-symmetry in the last two indices/slots.
+  Here, the cyclic permutation of the last three indices/slots is proportional to their anti-symmetrisation since we already have anti-symmetry in the last two indices/slots.
 
 + *Symmetry in First and Second Pair* For a connection that is both metric-compatible and has vanishing torsion---i.e., the Levi-Civita connection---the above symmetries imply a further symmetry,
   $
@@ -2517,7 +2517,7 @@ However, @naiveGuessAmbientIntrinsicCurvature[equation] is _not_ correct. There 
     g & = dx otimes dx + dy otimes dy + dz otimes dz \
       & = dr otimes dr + r^2 (dtheta otimes dtheta + sin^2 theta dphi otimes dphi),
   $
-  ---where $x^mu = (x,y,z)$ are Cartesian and $y^alpha = (r,y^i) = (r,theta,phi)$ spherical coordinates. The connection under consideration is the Levi-Civita connection associated with this metric. Our goal is to compute and compare the ambient and induced Riemann tensor components.
+  where $x^mu = (x,y,z)$ are Cartesian and $y^alpha = (r,y^i) = (r,theta,phi)$ spherical coordinates. The connection under consideration is the Levi-Civita connection associated with this metric. Our goal is to compute and compare the ambient and induced Riemann tensor components.
 
   Observe that, in Cartesian coordinates, the Levi-Civita has vanishing coefficients, i.e.
   $
@@ -2529,11 +2529,11 @@ However, @naiveGuessAmbientIntrinsicCurvature[equation] is _not_ correct. There 
   $
   due to the @riemannTensorComponents[formula]. In contrast to @cartesianChristoffelSymbols[equation], the above equation is tensorial---that is, it holds in any coordinate system---and we conclude that the ambient manifold is flat:
   $
-    R(X,Y)Z = 0,quad forall X,Y,Z in Gamma(T cal(M)),
+    R(X,Y)Z = 0,quad forall X,Y,Z in Gamma(T cal(M)).
   $
   If our earlier naïve @naiveGuessAmbientIntrinsicCurvature[guess] were correct, this would imply that
   $
-    macron(R)(X,Y)Z = P(R(X,Y)Z) = 0,
+    macron(R)(X,Y)Z = (iota_*)^(-1) lr((R(iota_* X,iota_* Y)(iota_* Z)), size: #135%) = 0,
   $
   and thus that the intrinsic curvature vanishes as well.
 
@@ -2546,7 +2546,7 @@ However, @naiveGuessAmbientIntrinsicCurvature[equation] is _not_ correct. There 
   $
     macron(R)_(rho sigma mu nu) = -macron(R)_(rho sigma nu mu) = -macron(R)_(sigma rho mu nu),
   $
-  implies that the indices $theta$ and $phi$ must each appear exactly once in both pairs. All valid permutations are then related by symmetry. Moreover, since the metric is diagonal, we only need to compute a single nontrivial component, say $tensor(macron(R), +theta, -phi theta phi)$. We proceed by applying the standard formula:
+  implies that the indices $theta$ and $phi$ must each appear exactly once in both pairs. All non-zero permutations are then related by symmetry. Moreover, since the metric is diagonal, we only need to compute a single nontrivial component, say $tensor(macron(R), +theta, -phi theta phi)$. We proceed by applying the standard formula:
   $
     tensor(macron(R), +theta, -phi theta phi) &= diff_theta tensor(macron(Gamma), +theta, -phi phi) - diff_phi underbrace(tensor(macron(Gamma), +theta, -theta phi), =0) + underbrace(tensor(macron(Gamma), +theta, -theta i) tensor(macron(Gamma), +i, -phi phi), =0) - tensor(macron(Gamma), +theta, -phi i) tensor(macron(Gamma), +i, -theta phi)\
     &= - diff_theta (sin theta cos theta )- tensor(macron(Gamma), +theta, -phi phi) tensor(macron(Gamma), +phi, -theta phi)\
@@ -2555,7 +2555,7 @@ However, @naiveGuessAmbientIntrinsicCurvature[equation] is _not_ correct. There 
   $
   This is very clearly _not_ zero. We have thus found a counterexample to @naiveGuessAmbientIntrinsicCurvature[our naïve guess]. We conclude that the intrinsic curvature does not, in general, arise from a simple projection of the ambient curvature.
 
-  This is a good point to take a step back and generalise the insight, in order to build further intuition for why our guess cannot be correct. What we have done is the following: we took a flat manifold, $RR^3 without {0}$, and foliated it into surfaces that are scaled copies of the 2-sphere. Intuitively, spheres possess curvature---this is evident from the fact that their normal vector field varies as one moves along their surface. Our @naiveGuessAmbientIntrinsicCurvature[guess], however, attempted to capture something quite different: it projected the ambient curvature tensor (which vanishes in this case) onto the tangent bundle of the foliation (where it still vanishes). The projection of the ambient curvature captures only the part of the it that is tangential to the foliation; it entirely neglects how the surface itself bends within the ambient space. In other words, this projection measures the curvature of the background in which the leaves of the foliation live, but not how those leaves curve within it. The change of the normal field vector plays no role in this projection. Hence, while the projected ambient curvature may contribute to the intrinsic curvature $macron(R)$, it clearly does not suffice to determine it completely: the way in which the surface curves relative to the background also generates intrinsic curvature.
+  This is a good point to take a step back and generalise the insight, in order to build further intuition for why our guess cannot be correct. What we have done is the following: we took a flat manifold, $RR^3 without {0}$, and foliated it into surfaces that are scaled copies of the 2-sphere. Intuitively, spheres possess curvature---this is evident from the fact that their normal vector field varies as one moves along their surface. Our @naiveGuessAmbientIntrinsicCurvature[guess], however, attempted to capture something quite different: it projected the ambient curvature tensor (which vanishes in this case) onto the tangent bundle of the foliation (where it still vanishes). The projection of the ambient curvature captures only the part of it that is tangential to the foliation; it entirely neglects how the surface itself bends within the ambient space. In other words, this projection measures the curvature of the background in which the leaves of the foliation live, but not how those leaves curve within it. The change of the normal field vector plays no role in this projection. Hence, while the projected ambient curvature may contribute to the intrinsic curvature $macron(R)$, it clearly does not suffice to determine it completely: the way in which the surface curves relative to the background also generates intrinsic curvature.
 
 - *Algebraic Argument* In @sectionDefInducedConnection, we introduced the induced connection on a foliation $Sigma$ by defining its action on vector fields as
   $
@@ -2569,7 +2569,7 @@ However, @naiveGuessAmbientIntrinsicCurvature[equation] is _not_ correct. There 
 
   In practice, however---particularly when working with foliations---it is often more convenient to treat $T Sigma$ as a proper subbundle of $T cal(M)$, which we may do via the linear embedding map $iota_*$. From this perspective, the induced connection takes a simpler and more direct form:
   $
-    mnabla_X Y = P nabla_X Y, quad X,Y in T Sigma.
+    mnabla_X Y = P nabla_X Y, quad X,Y in Gamma(T Sigma).
   $<altDefnInducedConnection>
   Since $T Sigma subset T cal(M)$, both $X$ and $Y$ are valid inputs for the ambient connection $nabla$. The appearance of the full projector $P$ on the right-hand side is then a result of pushing forward the image of $(iota_*)^(-1)$ into $T cal(M)$, which gives rise to the @eq7168[combination]. We will adopt this more algebraic, embedded viewpoint for the remainder of the discussion, as it makes many derivations more transparent: @altDefnInducedConnection[equation] makes clear that the induced connection is simply the projection of the ambient connection onto the tangent bundle of the foliation.
 
@@ -2588,15 +2588,15 @@ However, @naiveGuessAmbientIntrinsicCurvature[equation] is _not_ correct. There 
   $
     [P nabla_X, P nabla_Y] Z & = P nabla_X (P nabla_Y Z) - (X<->Y) \
                              & = underbrace(P^2, =P) nabla_X nabla_Y Z + P (nabla_X P) nabla_Y Z - (X<->Y) \
-                             & = P [nabla_X, nabla_Y] Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size: #130%)
+                             & = P [nabla_X, nabla_Y] Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size: #130%).
   $
-  We can see that there is an additional term involving covariant derivatives of the projector $P$---we hence obtain the identity
+  We can see that there is an additional term involving covariant derivatives of the projector $P$---we obtain the identity
   $
     macron(R)(X,Y)Z = P R(X,Y)Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size: #130%).
   $<precursorGaussEqn>
   This demonstrates that the intrinsic curvature contains more than just the projection of the ambient curvature. In fact, the above is the algebraic seed to the _Gauss-Codazzi equation_, a result we will steadily work towards throughout the following sections.
 
-  To properly interpret the additional term, we must however first introduce the concept of _extrinsic curvature_. As it stands, the expression
+  To properly interpret the additional term, we must first introduce the concept of _extrinsic curvature_. As it stands, the expression
   $
     P lr(((nabla_X P) nabla_Y Z - (nabla_Y P) nabla_X Z), size: #130%)
   $<extraTermForIntrinsicCurvature>
@@ -3106,12 +3106,12 @@ $
 $
 In components, this reads #comment[Correct normal components claim, not entirely correct or at least needs justification]
 $
-  k_(mu nu) = epsilon g(diff_nu, -nabla_mu n^sharp) = -epsilon (nabla_mu n^sharp)\_nu quad <=> quad (nabla_mu n^sharp)\_nu = -epsilon k_(mu nu).
+  k_(mu nu) = -epsilon \(nabla_mu n^sharp\)_nu quad <=> quad \(nabla_mu n^sharp\)_nu = -epsilon k_(mu nu).
 $
 This is precisely the tensor appearing in the remaining terms of @derivationRperpAperpB[equation]. Thus, we find
 $
-  - (nabla_mu n^sharp)\^mu (nabla_nu n^sharp)+ (nabla_nu n^sharp)\^mu (nabla_mu n^sharp)\^nu &= - (-epsilon)^2 tensor(k, -mu, +mu) tensor(k, -nu, +nu) + (-epsilon)^2 k_(mu nu) k^(mu nu)\
-  &= -k^2 + k_(i j) k^(i j),
+  - \(nabla_mu n^sharp\)^mu \(nabla_nu n^sharp\)^nu+ \(nabla_nu n^sharp\)^mu \(nabla_mu n^sharp\)^nu & = - (-epsilon)^2 tensor(k, -mu, +mu) tensor(k, -nu, +nu) + (-epsilon)^2 k_(mu nu) k^(mu nu) \
+  & = -k^2 + k_(i j) k^(i j),
 $
 where we made use of the fact that $k_(mu nu)$ has no normal components and that $k = tensor(k, +mu, -mu) = tensor(k, +i, -i)$. Putting everything together, we find
 $
