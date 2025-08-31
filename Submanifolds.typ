@@ -2148,43 +2148,44 @@ $
 to be the component-wise derivative.
 From the general theory of first order linear differential equations, we know that solutions to @parallelTransportEqnCompact[equation] above take the form
 $
-  X(s) = U(gamma,s,t) X(t)
+  X(s) = U_gamma (s,t) X(t)
 $
-for a propagator $U(s,t)$. Intuitively, the propagator $U(gamma,s,t)$ takes a vector in $T_gamma(t) cal(M)$ and produces its parallel transport in $T_gamma(s) cal(M)$ via a linear map. It has the following properties:
+for a propagator $U_gamma (s,t)$. Intuitively, the propagator $U_gamma (s,t)$ takes a vector in $T_gamma(t) cal(M)$ and produces its parallel transport in $T_gamma(s) cal(M)$ via a linear map, that is,
+$
+  U_gamma (s,t):T_gamma(t) cal(M) -> T_gamma(s) cal(M)
+$
+It has the following properties:
 
 - It reduces to the identity for equal arguments,
   $
-    U(gamma,s,s) = id_(T_gamma(s) cal(M)),
+    U_gamma (s,s) = id_(T_gamma(s) cal(M)),
   $
 - Has a group composition law,
   $
-    U(gamma, s,r)U(gamma,r,t) = U(gamma, s,t),
+    U_gamma ( s,r)U_gamma (r,t) = U_gamma ( s,t),
   $
 - Is invertible,
   $
-    U(gamma,t,s)^(-1) = U(gamma,s,t),
+    U_gamma (t,s)^(-1) = U_gamma (s,t),
   $
 - Satisfies the differential equation in both arguments, that is,
   $
-    d/dt U(gamma,s,t) = Gamma_dot(gamma thin)(t) U(gamma,s,t) , quad d/ds U(gamma,s,t) = -Gamma_dot(gamma thin)(t) U(gamma,s,t).
+    d/dt U_gamma (s,t) = Gamma_dot(gamma thin)(t) U_gamma (s,t) , quad d/ds U_gamma (s,t) = -Gamma_dot(gamma thin)(t) U_gamma (s,t).
   $
+Though in general, no closed-form expression can be given for $U_gamma (s,t)$, it is possible to derive explicit expressions for _infinitesimal_ parallel transport. To do so, we take the following perspective: Suppose we have a path $gamma:(-delta,delta)->cal(M)$ and a vector field $Z in Gamma(gamma^* T cal(M))$. We are interested in computing the parallel transport $tilde(Z) in T_gamma(0) cal(M)$ of the vector $Z(s) := Z(gamma(s))$ along $gamma$, where $s$ is some infinitesimal parameter distance away from $0$. That is, we take a vector at a point infinitesimally away from $gamma(0)$ and "pull" it onto $gamma(0)$ while keeping it parallel.
 
-
-
-Though in general, no expression for $U(gamma,s,t)$ can be given in closed form, it is possible to derive explicit expressions for _infinitesimal_ parallel transport. To do so, we take the following perspective: Suppose we have a path $gamma:(-delta,delta)->cal(M)$ and a vector field $Z in Gamma(gamma^* T cal(M))$. We are interested in computing the parallel transport $tilde(Z) in T_gamma(0) cal(M)$ of the vector $Z(s) := Z(gamma(s))$ along $gamma$, where $s$ is some infinitesimal parameter distance away from $0$. That is, we take a vector at a point infinitesimally away from $gamma(0)$ and "pull" it onto $gamma(0)$ while keeping it parallel.
-
-The propagator $U$ gives us an explicit expression for $tilde(Z)$, namely
+The propagator $U_gamma$ gives us an explicit expression for $tilde(Z)$, namely
 $
-  tilde(Z) = U(gamma,0,s) Z(s).
+  tilde(Z) = U_gamma (0,s) Z(s).
 $
 At this point, we can simply Taylor-expand this to first order in $s$, making use of
 $
-  U(gamma,0,0) = id_(T_gamma(0) cal(M)), quad d/ds U(gamma,0,s)|_(s=0) = Gamma_dot(gamma thin) (0)
+  U_gamma (0,0) = id_(T_gamma(0) cal(M)), quad d/ds U_gamma (0,s)|_(s=0) = Gamma_dot(gamma thin) (0).
 $
-leading to
+This leads to
 $
-  tilde(Z) &= underbrace(U(gamma,0,0), =id) Z(0) + s d/ds [U(gamma,0,s)Z(s)]_(s=0) + cal(O)(s^2)\
-  &= Z(0) + s lr([underbrace(U(gamma,0,0), =id) dZ/ds (0) + underbrace((d/ds U(gamma,0,s)|_(s=0)), =Gamma_(dot(gamma thin))(0) U(gamma,0,0))Z(0)], size: #60%) + cal(O)(s^2)\
+  tilde(Z) &= underbrace(U_gamma (0,0), =id) Z(0) + s d/ds [U_gamma (0,s)Z(s)]_(s=0) + cal(O)(s^2)\
+  &= Z(0) + s lr([underbrace(U_gamma (0,0), =id) dZ/ds (0) + underbrace((d/ds U_gamma (0,s)|_(s=0)), =Gamma_(dot(gamma thin))(0))Z(0)], size: #60%) + cal(O)(s^2)\
   &= Z(0) + s [dZ/ds (0) + Gamma_dot(gamma thin) Z(0)] + cal(O)(s^2)\
   &= Z(0) + s nabla_dot(gamma thin) Z(0) + cal(O)(s^2).
 $<infinitesimalPointwiseTransport>
@@ -2199,13 +2200,13 @@ $
 All that has changed compared to @infinitesimalPointwiseTransport[equation] is that the curve's tangent field $dot(gamma thin)$ is replaced by $X$---the tangent field of the congruence---and the point-wise expression has turned into a global one. The above expression will allow us to geometrically motivate _and_ derive the Riemann curvature tensor in the next section.
 
 === Curvature of Manifolds: the Riemann Tensor
-As we have already discussed in the previous section, parallel transport of a vector $Z_p in T_p cal(M)$ along a curve $gamma$ depends both on the connection $nabla$ and the curve itself. If $gamma_1,gamma_2 :[a,b]->cal(M)$ satisfy $gamma_1 (a) = gamma_2 (a) = p$ and $gamma_1 (b) = gamma_2 (b) = q$, then parallel transport of $Z_p$ along thes two curves may give distinct vectors $tilde(Z)_1 ,tilde(Z)_2 in T_q cal(M)$. Their difference,
+As we already discussed in the previous section, parallel transport of a vector $Z_p in T_p cal(M)$ along a curve $gamma$ depends both on the connection $nabla$ and the curve itself. If $gamma_1,gamma_2 :[a,b]->cal(M)$ satisfy $gamma_1 (a) = gamma_2 (a) = p$ and $gamma_1 (b) = gamma_2 (b) = q$, then parallel transport of $Z_p$ along thes two curves may give distinct vectors $tilde(Z)_1 ,tilde(Z)_2 in T_q cal(M)$. Their difference,
 $
   Delta = tilde(Z)_1 - tilde(Z)_2,
 $
-encodes the so-called _holonomy_ of the connection. In particular, $Delta$ vanishes for all such choices if and only if the connection is flat---curvature is precisely the local obstruction to path-independent parallel transport.
+encodes the so-called _holonomy_ of the connection---the failure of a vector's transport to align along different paths. In particular, $Delta$ vanishes for all such choices if and only if the connection is flat---curvature is precisely the local obstruction to path-independent parallel transport.
 
-This construction, which relies on transporting a single vector along two curves, is somewhat cumbersome. A more natural and most importantly, global approach is to extend the discussion to the parallel transport of an entire vector field $Z in Gamma(T cal(M))$. Since we now have a vector $Z_p$ at each $p in cal(M)$, we also require two curves that start at each $p in cal(M)$ and have the same endpoint. To construct these in a systematic way, we introduce two additional vector fields $X,Y in Gamma(T cal(M))$, each generating a congruence of curves. Starting from a point $p$, we may first follow the flow of $Y$ for an infinitesimal parameter distance $s$, and then that of $X$, or vice versa. This yields two distinct curves that form a "parallelogram" if $X$ and $Y$ commute. If they do not, i.e. if $[X,Y]!=0$, the parallelogram fails to close: for infinitesimal $s$, the two curves end at points separated by a displacement along $s[X,Y]$. By adjoining this missing segment to the second curve, we obtain two curves $gamma_1$ and $gamma_2$ with identical start- and endpoints. In particular, the common endpoint can be expressed as
+This construction, which relies on transporting a single vector along two curves, is somewhat cumbersome. A more natural and, most importantly, global approach is to extend the discussion to the parallel transport of an entire vector field $Z in Gamma(T cal(M))$. Since we now have a vector $Z_p$ at each $p in cal(M)$, we also require ---per point $p in cal(M)$---two curves that start at $p$ and have the same endpoint. To construct these in a systematic way, we introduce two additional vector fields $X,Y in Gamma(T cal(M))$, each generating a congruence of curves. Starting from a point $p$, we may first follow the flow of $Y$ for an infinitesimal parameter distance $s$, and then that of $X$, or vice versa. This yields two distinct curves that form a "parallelogram" if $X$ and $Y$ commute. If they do not, i.e. if $[X,Y]!=0$, the parallelogram fails to close: for infinitesimal $s$, the two curves end at points separated by a displacement along $s[X,Y]$. By adjoining this missing segment to the second curve, we obtain two curves $gamma_1$ and $gamma_2$ with identical start- and endpoints. In particular, the common endpoint can be expressed as
 $
   q = p + s X + s Y = p + s Y + s X + s^2 [X,Y],
 $
@@ -2229,7 +2230,7 @@ The difference between the two---the quantity encoding curvature---is
 $
   tilde(Z)_1 - tilde(Z)_2 = s^2 (nabla_X nabla_Y med - med nabla_Y nabla_X med - med nabla_[X,Y])Z + cal(O)(s^3).
 $
-All $cal(O)(s)$ terms cancel, so the leading contribution arises at order $s^2$. For infinitesimal $s$, this term dominates, and thus carrise the curvature information we seek. Moreover, since this construction involves only infinitesimal segments, the resulting description is entirely local. Let us now collect this into a formal definition.
+All $cal(O)(s)$ terms cancel, so the leading contribution arises at order $s^2$. For infinitesimal $s$, this term dominates, and thus carries the curvature information we seek. Moreover, since this construction involves only infinitesimal segments, the resulting description is entirely local. Let us now collect this into a formal definition.
 \ \
 *Definition* (Riemann Curvature Tensor) Let $cal(M)$ be a smooth manifold equipped with an affine connection $nabla$, and let $X,Y,Z in Gamma(T cal(M))$ be vector fields. The _Riemann curvature tensor_ is the map
 $
@@ -2239,7 +2240,7 @@ given by
 $
   R(X,Y)Z = nabla_X nabla_Y Z - nabla_Y nabla_X Z - nabla_[X,Y]Z.
 $
-We define the components of the Riemann tensor through
+By the derivation above, it collects the leading  order contribution of the holonomy of parallel transport along infinitesimal loops. We define the components of the Riemann tensor through
 $
   R(diff_mu, diff_nu) diff_lambda = tensor(R, +rho, -lambda mu nu) diff_rho,
 $<RXYonBasisVectors>
@@ -2279,7 +2280,7 @@ Let us now examine some properties of this definition in closer detail.
   $
     R(X,Y) = [nabla_X, nabla_Y] - nabla_[X,Y].
   $
-  The second term $nabla_[X,Y]$ is plainly a derivation, as it is but a covariant derivative. It therefore suffices to verify the Leibniz property for the commutator $[nabla_X, nabla_Y]$. Consider $nabla_X nabla_Y (T otimes S)$. Using the product rule for $nabla$, we compute
+  The second term $nabla_[X,Y]$ is plainly a derivation, as it is but a covariant derivative. It therefore suffices to verify the Leibniz property for the commutator $[nabla_X, nabla_Y]$. For this, consider $nabla_X nabla_Y (T otimes S)$. Using the product rule for $nabla$, we compute
   $
     &nabla_X nabla_Y (T otimes S) = nabla_X ((nabla_Y T) otimes S + T otimes nabla_Y S)\
     &= (nabla_X nabla_Y T) otimes S + underbrace((nabla_Y T) otimes (nabla_X S) + (nabla_X T) otimes (nabla_Y S), "symmetric in" X "and" Y) + T otimes (nabla_X nabla_Y S),
@@ -2290,7 +2291,7 @@ Let us now examine some properties of this definition in closer detail.
   $
   Combining this with the Leibniz property of $nabla_[X,Y]$, we conclude that $R(X,Y)$ is indeed a derivation.
 
-- *Action on 1-Forms* The derivation property of $R(X,Y)$ allows the explicit computation of its action on 1-forms, and thus the extension to arbitrary tensors. Given a 1-form $omega in Gamma(T^* cal(M))$ and a vector field $Z in Gamma(T cal(M))$, we have
+- *Action on 1-Forms* The derivation property of $R(X,Y)$ allows the explicit computation of its action on 1-forms, and by that the extension to arbitrary tensors. Given a 1-form $omega in Gamma(T^* cal(M))$ and a vector field $Z in Gamma(T cal(M))$, we have
   $
     0 & = R(X,Y) omega(Z) = R(X,Y) (tr^1_1 omega otimes Z) = tr_1^1 R(X,Y) (omega otimes Z) \
       & = tr_1^1 [(R(X,Y) omega) otimes Z + omega otimes (R(X,Y)Z)] \
