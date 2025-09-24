@@ -43,6 +43,12 @@
 #let mhighlight(T) = {box([$#T$], fill:rgb("#fdff9c"), radius: 4pt, outset: 0.13em)}
 #let rank = math.op("rank")
 
+#let ae = math.op("a.e.")
+#let esssup = math.op("ess sup",limits: true)
+#let essinf = math.op("ess inf",limits: true)
+#let sgn = math.op("sgn")
+#let supp = math.op("supp")
+
 #let Ric = math.op("Ric")
 #let mRic = overline(math.op("Ric"))
 #let Div = math.op("div")

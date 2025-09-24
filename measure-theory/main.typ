@@ -114,3 +114,956 @@ $
 is measurable as a composition of measurable functions.#qed
 
 = The Lebesgue Integral w.r.t. $mu$
+In the following, $(X,cal(A),mu)$ will denote a measure space, and we will consider measurable functions $f:X->RR$ where $RR$ is equipped with the Borel $sigma$-algebra $B(RR)$. That is, $f^(-1)(E)in cal(A)$ for all Borel sets $E subset RR$. 
+
+For characteristic functions $chi_A$, $A in cal(A)$, a meaningful notion of integration is given by
+$
+  integral_X chi_A dmu := mu(A).
+$<integralCharFunction>
+This is because $chi_A$ is a set of "height 1" and a base area of $mu(A)$, which multiplies to a volume of $mu(A)$.
+\ \
+*Definition* (Simple Functions) A function $f:X -> RR$ is called simple function if $f$ is a linear combination of characteristic functions $chi_A$ for $A in cal(A)$, 
+$
+  f = sum_(i = 1)^n c_i chi_A_i
+$
+where $A_i in cal(A)$, $c_i in RR$. Since linear combinations of measurable functions are measurable, any simple function is measurable.
+\ \ 
+The @integralCharFunction[notion of integration for characteristic functions] above can be straightforwardly generalised to simple functions $f:X -> RR$ as
+$
+  integral_X f dmu := sum_(i = 1)^n c_i mu(A_i).
+$
+However, this leads to a problem: If multiple $A_i$ have infinite measure, then problems like $3 dot infty - 2 dot infty$ can arise, which are undefined. To alleviate this, for the moment, we will restrict ourselves to non-negative simple functions.
+\ \
+*Definition* (Space of Non-Negative Simple Functions) We define 
+$
+  S^+ := {f:X-> RR | f "simple", f >= 0}.
+$
+The space $S^+$ is called the _space of non-negative simple functions_ on $X$. Note that any simple function takes only finitely many function values. Moreover, any simple function has the canonical representation
+$
+  f = sum_(t in f^(-1)(X)) t chi_(f^(-1)({t})).
+$
+*Definition* (Lebesgue Integral of Non-Negative Simple Functions)
+We define the Lebesgue integral of $f in S^+$ as 
+$
+  integral_X f dmu = sum_(i = 1)^n c_i mu(A_i) = sum_(t in f^(-1)(X)) t mu(f^(-1)({t})).
+$
+This definition has the properties
+
++ Linearity with non-negative scalars:
+  $ 
+    integral_X (alpha f + beta g) dmu = alpha integral_X f dmu + beta   integral_X g dmu, quad alpha, beta>=0, 
+  $
++ Monotonicity:
+  $ 
+    f<=g quad ==> quad integral_X f dmu <= integral_X g dmu. 
+  $
+This definition can be extended to arbitrary non-negative measurable $f:X->RR$:
+\ \
+*Definition* (Lebesgue Integral w.r.t. $mu$) Let $f:X-> [0,infty)$ measurable. We define
+$
+  integral_X f dmu := sup{integral_X h dmu mid(|) h in S^+ , h <= f }.
+$
+That is, we approximate $f$ from below by non-negative simple functions, which we know how to integrate. The supremum of the integrals of all these simple functions is then the actual "area" under $f$. 
+
+A function $f$ is called $mu$-integrable if 
+$
+  integral_X f dmu < infty.
+$
+
+*Definition* (almost everywhere) We call an equality/inequality valid _almost everywhere with respect to $mu$_ or $mu$-_a.e._ if it is satisfied everywhere except on a set of measure zero as measured by $mu$.
+\ \
+*Properties* (of the Lebesgue integral) Let $f,g : X-> [0, infty)$ be measurable. Then
+
++ $f = g$ $mu-ae$ $=>$ $integral_X f dmu = integral_X g dmu$
+
++ $f <= g$ $mu-ae$ $=>$ $integral_X f dmu <= integral_X g dmu$
+
++ $f = 0$ $mu-ae$ $=>$ $integral_X f dmu = 0$.
+#pagebreak()
+= Monotone Convergence Theorem and Fatou's Lemma
+*Theorem* (Monotone Convergence Theorem, MCT) Let $(X,cal(A),mu)$ be a measure space, $f_n : X -> [0,infty)$ and $f : X-> [0,infty)$ measurable for all $n in NN$ with
+$
+  f_1 <= f_2 <= f_3 <= ... quad mu-ae\ 
+  lim_(n -> infty) f_n (x) = f(x) quad mu-ae.
+$
+Then,
+$
+  lim_(n -> infty) integral_X f_n dmu = integral_X f dmu.
+$
+
+*Lemma* (Fatou's Lemma) Let $(X,cal(A),mu)$ be a measure space and $f_n :X->[0,infty]$ a sequence of measurable functions. Then,
+$
+  integral_X liminf_(n->infty) f_n dmu <= liminf_(n->infty) integral_X f_n dmu.
+$
+_Proof._ By definition, 
+$
+  liminf_(n->infty) f_n = lim_(n->infty) underbrace(inf_(k >= n) f_k,=: g_n).
+$
+Introducing $g:X->[0,infty]$ by
+$
+  g(x) := lim_(n->infty) g_n (x),
+$
+we have
+$
+  g_1 <= g_2 <= ..., quad g_n <= f_n.
+$
+Moreover, $g_n$ and $g$ are measurable for all $n in NN$, which allows us to derive
+$
+  integral_X liminf_(n->infty) f_n dmu &= integral_X lim_(n->infty) g_n dmu attach(=,t:"MCT") lim_(n -> infty) integral_X g_n dmu\ 
+  &= liminf_(n->infty) integral_X g_n dmu <= liminf_(n->infty) integral_X f_n dmu.
+$#qed
+
+= Lebesgue Dominated Convergence Theorem
+We may extend the Lebesgue integral to arbitrary real-valued measurable functions $f:X->RR$ by means of the decomposition
+$
+  f = f_+ - f_-,
+$
+where 
+$
+  f_+ (x) = cases(f(x)\,quad& f(x)>=0\,, 0\, quad& f(x)<0,) wide f_- (x) = cases(0\,quad&f(x)>=0\,,-f(x)\,quad&f(x)<0.)
+$
+We then define
+$
+  integral_X f dmu := integral_X f_+ dmu - integral_X f_- dmu,
+$
+which is well-defined since $f_pm$ are non-negative measurable functions. 
+\ \
+*Theorem* (Lebesgue Dominated Convergence Theorem, DCT) Let $f_n :X -> RR$ be measurable for all $n in NN$, $f:X->RR$ with $f_n (x) -> f(x)$, $n-> infty$ for almost all $x in X$, and $|f_n| <= g$ for a function $g in cal(L)^1 (mu)$, where
+$
+  cal(L)^1 (mu) = {f:X->RR "measurable" mid(|) integral_X |f| dmu < infty}.
+$
+Then, $f_n, f in cal(L)^1 (mu)$, $n in NN$ and
+$
+  lim_(n->infty) integral f_n dmu = integral_X f dmu.
+$<DCT>
+In other words, if $f_n$ is a sequence of measurable functions that converges pointwise to a measurable function $f$ almost everywhere and is dominated by $g in cal(L)^1 (mu)$, that is, $|f_n|<= g$, then we can exchange limit and integration. 
+
+_Proof._ The claims that $f_n$ and $f$ are $cal(L)^1 (mu)$ follow from
+$
+  |f_n| <= g quad ==> quad integral_X |f_n| dmu <= integral_X g dmu < infty,
+$
+and the fact that $f_n -> f$ pointwise a.e. so that $f <= g$ holds a.e. as well. To show the @DCT[convergence result], consider
+$
+  |f_n - f| <= |f_n| + |f| <= 2 g.
+$
+This implies that
+$
+  h_n := 2g - |f_n - f| >= 0, quad n in NN.
+$
+Since the $h_n$ are also measurable, Fatou's lemma applies, that is,
+$
+  integral_X liminf_(n-> infty) h_n dmu <= liminf_(n->infty) integral_X h_n dmu.
+$
+Let us examine both sides separately. For the left-hand side, we have
+$
+  integral_X liminf_(n->infty) h_n dmu = integral_X [2g - liminf_(n->infty) |f_n-f| ]dmu = integral_X 2g dmu
+$
+since $|f_n-f|$ converges pointwise to $0$. For the right-hand side we first-line-indent
+$
+  liminf_(n-> infty) integral_X h_n dmu &= integral_X 2g dmu + liminf_(n->infty) (-integral_X |f_n-f| dmu)\ 
+  &= integral_X 2g dmu - limsup_(n->infty) integral_X |f_n - f| dmu
+$
+Together with the left-hand side above, this implies
+$
+  limsup_(n->infty) integral_X |f_n -f| dmu <= 0.
+$
+Since the integral is non-negative for any $n in NN$, this implies convergence to zero,
+$
+  lim_(n-> infty) integral |f_n -f | = 0,
+$ 
+and further,
+$
+  lr(|integral_X f_n dmu )- integral_X f dmu|) = lr(|integral_X (f_n-f)dmu|) <= integral |f_n-f| dmu xarrow(n->infty) 0.
+$#qed
+
+= The Lebesgue Measure
+*Definition* (Semiring of Sets) Let $X$ be a set and $cal(A) subset P(X)$ any subset of the power set. We call $cal(A)$ a _semiring (of sets)_ if
+
++ $nothing in cal(A)$,
+
++ $A,B in cal(A)$ $=>$ $A sect B in cal(A)$,
+
++ For $A,B in cal(A)$, there exist pairwise disjoint sets $S_1,...,S_n in cal(A)$ such that
+$
+  A without B = union.big_(j=1)^n S_j.
+$
+
+*Example* The arguably most important example of a semiring is one that generates the Borel $sigma$-algebra $B(RR)$. As we will see, it guarantees the existence and uniqueness of the Lebesgue measure. It is defined by
+$
+  cal(A) := lr({[a,b) | a,b in RR, a<=b},size:#135%) subset P(RR),
+$
+and satisfies $sigma(cal(A)) = B(RR)$. To check that this is indeed a semiring, we verify the axioms:
+
++ This is satisfied when $a=b$ since $[a,a) = nothing$.
+
++ For any $[a,b),[c,d) in cal(A)$, we have 
+  $
+    [a,b) sect [c,d) in {nothing, [c,b), [a,d),[a,b), [c,d)}.
+  $
+
++ This is also satisfied since
+  $
+    [a,b) without [c,d) in {nothing, [a,c), [c,a), [b,d), [d,b), [a,b) union [c,d)}.
+  $
+\ \
+*Definition* (Pre-measure) Let $cal(A) subset P(X)$ be a semiring of sets. We call a map $mu : cal(A) -> [0,infty]$ a _pre-measure_ if 
+
++ $mu(nothing) = 0$,
+
++ For all $A_i in cal(A)$, $i in NN$ with $A_i sect A_j = nothing$ when $i != j$ and $union.big_(i in NN) A_i in cal(A)$,
+  $
+    mu(union.big_(i in NN) A_i) = sum_(i in NN) mu (A_i).
+  $
+\ \
+*Example* (Lebesgue pre-measure on $RR$) Consider the semiring of sets $cal(A)$ from the previous example and define
+$
+  mu([a,b)) = b-a.
+$
+This is a pre-measure, since
++ $mu(nothing) = mu([a,a)) = a - a= 0$,
+
++ Any collection of disjoint sets that lie in $cal(A)$ whose union lies in $cal(A)$ is of the form $[a_i,a_(i+1))$ with $a_i in RR$, $i in RR$ monotone increasing. The sum of the individual measures is telescoping and the union takes the form $[a_i,a)$ with $a = lim_(i->infty) a_i in RR union {infty}$.
+
+*Theorem* (Carathédory's extension theorem) Let $X$ be a set, $cal(A) subset P(X)$ a semiring of sets and $mu:cal(A)->[0,infty]$ a pre-measure. Then,
+
++ $mu$ has an extension
+  $
+    tilde(mu) : sigma(cal(A)) -> [0,infty]
+  $
+  such that $mu(A) = tilde(mu)(A)$ for all $A in cal(A)$,
+
++ and if there exists a sequence $(S_i)#h(0em)_(i in NN) subset cal(A)$, such that
+  $
+    union.big_(i=1)^infty S_i = X, quad mu(S_i) < infty,
+  $
+  the the extension $tilde(mu)$ is _unique_. 
+
+This theorem guarantees a unique extension of the Lebesgue pre-measure on $RR$ we defined above, which is the Lebesgue measure. The uniqueness is provided since the sequence
+$
+  (S_i)#h(0em)_(i in NN) = lr(([0,1),[-1,0),[1,2),[-2,1),...),size:#135%)
+$
+covers $RR$ and has $mu(S_i) = 1$ for all $i in NN$.
+= Radon-Nikodym and Lebesgue Decomposition Theorems
+In the following, let $(X,cal(A))$ be a measurable space and $lambda,mu : cal(A)-> [0,infty]$ two measures on it. 
+\ \
+*Definition* (Absolute Continuity of Measures) The measure $mu$ is called _absolutely continuous_ with respect to $lambda$ if
+$
+  lambda(A) = 0 quad ==> quad mu(A) = 0
+$
+for all $A in cal(A)$. One then writes $mu << lambda$.
+
+This definition means that $mu$ agrees with $lambda$ on what sets have zero length. They might not agree on the lengths of other sets (in particular, $mu$ might say a set $A$ has measure zero while $lambda(A) >0$), but $mu$ is not allowed to "create mass" when $lambda$ says there is none. 
+\ \
+*Definition* (Singular Measures) The measure $mu$ is called _singular_ with respect to $lambda$ if there exists a measurable set $N in cal(A)$ such that $lambda(N) = 0$ and $mu(N^c) = 0$. This property is denoted by $mu perp lambda$.
+
+This can be interpreted as $mu$ and $lambda$ assigning weight to "opposite" kinds of sets. Where $lambda$ might ignore a set $N$ by assigning it a measure of zero, $mu$ ignores its complement. In a sense, they live on disjoint parts of the space. One measure concentrates on one set, and the other measure focuses entirely on the complement of that set. 
+\ \
+*Examples*
+Let $X = RR$, $cal(A) = B(RR)$ and $lambda$ the Lebesgue measure, i.e. the unique measure with $mu([a,b)) = b-a$. Then, 
+- $lambda$ is obviously absolutely continuous with respect to itself.
+- The Dirac measure $delta_0$ is singular with respect to $lambda$, as for $N = {0}$, $lambda(N) = 0$ and $delta_0({0}^c) = delta_0 (RR without {0}) = 0$.
+
+*Theorem* (Lebesgue Decomposition Theorem) Let $(X,cal(A))$ be a measurable space and $mu, lambda : cal(A) -> [0,infty]$ two $sigma$-finite measures#footnote[A measure $mu$ is $sigma$-finite if there exists a decomposition of $X$ into measurable sets $S_j in cal(A)$, $j in NN$ with $mu(S_j) < infty$.]. Then, there exist uniquely determined measures $mu_"ac"$ and $mu_"sing"$ such that 
+$
+  mu = mu_"ac" + mu_"sing",
+$
+where $mu_"ac"$ is absolutely continuous and $mu_"sing"$ is singular wrt.$lambda$.
+
+Following the spirit of the intuitions behind absolutely continuous and singular measures, the Lebesgue decomposition theorem can be given the following interpretation. It says that any measure $mu$ has a part $mu_"ac"$ that ignores all sets $lambda$ ignores by assigning them a measure of zero. However, $mu$ might assign a nonzero measure to some of them, which can intuitively be absorbed by adding another measure $mu_"sing"$ that is singular wrt. $mu$ and hence ignores "opposite" sets. This is a terrible explanation but I tried. 
+\ \
+*Theorem* (Radon-Nikodym Theorem)  Let $(X,cal(A))$ be a measurable space and $mu, lambda : cal(A) -> [0,infty]$ two $sigma$-finite measures. Then there exists a measurable map $h:X -> [0,infty)$ such that
+$
+  mu_"ac" (A) = integral_A h dlambda,
+$
+where $mu_"ac"$ is the absolutely continuous part of the Lebesgue decomposition of $mu$. In particular, if $mu << lambda$, we have
+$
+  mu(A) = integral_A h dlambda.
+$
+
+This last equality can be given an intuitive explanation. It says that if $mu$ is absolutely continuous with respect to $lambda$, then there exists a "conversion function" $h$ that tells us how to convert between the infinitesimal weight $mu$ assigns to a point when compared to the infinitesimal weight assigned to it by $lambda$. Integrating up all these weights over the full set $A$, we recover the measure $mu(A)$ from $lambda$. Because of this, $h$ is called a _density_. 
+
+= Image Measure and Substitution Rule
+*Definition* (Image Measure) Let $(X,cal(A),mu)$ be a measure space, $(Y,cal(B))$ a measurable space and $h:X->Y$ a measurable function. Let
+$
+  tilde(cal(B)) := {B in cal(B) | B subset h(X)}
+$
+be the $sigma$-algebra on $h(X) subset Y$. We define the image measure $h^* mu$ on the measurable space $(h(X), tilde(cal(B)))$ by
+$
+  (h^*mu)(B) := mu(h^(-1)(B)).
+$
+This is akin to the pushforward of the volume form $phi^* (star 1)$ in differential geometry, where the isomorphism $phi$ takes the role of $h$. 
+\ \
+*Proposition* (Substitution Rule)
+Let $(X,cal(A),mu)$ be a measure space, $(Y,cal(B))$ a measurable space, $h:X->Y$ a measurable map and $(h(X),tilde(cal(B)),h^* mu)$ the image measure space. For a measurable function $g : Y->RR$ which is integrable with respect to $h^* mu$ on $h(X)$, we have
+$
+  integral_h(X) g thin d(h^*mu) = integral_X (g compose h) dmu.
+$
+In particular, $g compose h : X->RR$ is integrable with respect to $mu$ on $X$. 
+
+_Proof._ The proof proceeds in multiple steps. We begin by proving the claim for characteristic functions $chi_B : h(X)->RR$ for $B in tilde(cal(B))$. In this case, the left-hand side becomes
+$
+  integral_h(X) chi_B thin d(h^* mu) = (h^* mu)(B) = mu(h^(-1)(B)).
+$
+Correspondingly, the right-hand side can be expanded as
+$
+  integral_X (chi_B compose h) dmu =  integral_X chi_(h^(-1)(B)) dmu = mu(h^(-1)(B)),
+$
+which establishes the substitution rule for characteristic functions. Note that we made use of
+$
+  chi_B (h(x)) = cases(1\,quad&h(x) in B\,,0\,quad& h(x) in.not B) = cases(1\,quad&x in h^(-1)(B)\,,0\,quad& x in.not h^(-1)(B)) = chi_(h^(-1)(B)) (x).
+$
+
+The next step is the generalisation to simple functions---fortunately, this is trivial by the linearity of the Lebesgue integral. 
+
+Then for a non-negative measurable function $g : h(X)->[0,infty)$, we have
+$
+  integral_h(X) g thin d(h^*mu) &= sup {integral_h(X) s thin d(h^*mu) mid(|) s in S^+(h(X)), s <= g}\
+  &= sup{integral_X (s compose h) dmu mid(|) s in S^+ (h(X)), s compose h<= g compose h}\
+  &= sup{integral_X tilde(s) thin dmu mid(|) tilde(s) in S^+ (X), tilde(s) <= g compose h}\
+  &= integral_X (g compose h)dmu.
+$
+The extension to arbitrary measurable functions $g:h(X)->RR$ then follows by the standard decomposition $g=g_+ - g_-$.#qed
+
+= Product Measure, Cavalieri's Principle and Fubini's Theorem
+*Definition* (Product measure) Let $(X_1,cal(A)_1, mu_1)$ as well as $(X_2, cal(A)_2, mu_2)$ be measure spaces, and llet
+$
+  X := X_1 times X_2, quad tilde(cal(A)) := cal(A)_1 times cal(A)_2.
+$
+We define the product pre-measure $tilde(mu)$ on the semiring of sets $tilde(cal(A))$ by its action on a set $A = A_1 times A_2 in tilde(cal(A))$ as
+$
+  tilde(mu)(A) = mu_1 (A_1) dot mu_2 (A_2).
+$
+By Carathédory's Extension theorem, there exists a so-called _product measure_ $mu$ which is an extension of $tilde(mu)$ onto the $sigma$-algebra $cal(A) = sigma(tilde(cal(A)))$, turning $(X,cal(A),mu)$ into a measure space. If, in addition, both $cal(A)_1$ and $cal(A)_2$ are $sigma$-finite, then also $tilde(cal(A))$ is $sigma$-finite, making the extension $mu$ unique.
+\ \
+_Proof._ There are three things to prove here:
+- $tilde(cal(A))$ is a semiring of sets: This is shown by checking the axioms:
+  + $nothing in tilde(cal(A))$ is satisfied since $nothing in cal(A)_i$, $i=1,2$ and $nothing times nothing = nothing$.
+
+  + Let $A = A_1 times A_2, B= B_1 times B_2 in tilde(cal(A))$. Then,
+    $
+      A sect B = (A_1 times A_2) sect (B_1 times B_2) = underbrace((A_1 sect B_1),in cal(A_1)) times underbrace((A_2 sect B_2), in  cal(A)_2) in cal(A)_1 times cal(A)_2 = tilde(cal(A)).
+    $
+  + Let $A = A_1 times A_2, B= B_1 times B_2 in tilde(cal(A))$. Then,
+    $
+      A without B &= (A_1 times A_2) without (B_1 times B_2) \
+      &= lr(((A_1 without B_1) times (A_2 without B_2)),size:#135%) union lr((B_1 times (A_2 without B_2)),size:#135%)union lr(((A_1 without B_1) times B_2),size:#135%)
+    $
+    which is a disjoint union of elements in $tilde(cal(A))$.
+
+- $tilde(mu)$ is a pre-measure:
+  + $tilde(mu)(nothing) = tilde(mu)(nothing times nothing) = mu_1 (nothing) dot mu_2 (nothing) = 0 dot 0 = 0$.
+
+  + Let $A^i = A^i_1 times A^i_2 in cal(A)$ for $i in NN$, such that $A^i sect A^j = nothing$ for $i != j$ and that $A = A_1 times A_2 = union.big_(i in NN) A^i in cal(A)$. Fix a point $x in A_1$. Then, for each $y in A_2$, the point $(x,y) in A$ belongs to exactly one $A^i = A^i_1 times A^i_2$, and thus,
+    $
+      A_2 = union.big_{i | x in A^i_1} A_2^i.
+    $
+    By the $sigma$-additivity of $mu_2$, we have
+    $
+      mu_2 (A_2) = sum_{i | x in A_1^i} mu_2(A_2^i) = sum_(i in NN\ x in A_1^i) mu_2(A_2^i) = sum_(i in NN) chi_(A_1^i)(x) mu_2(A_2^i)
+    $
+    for all $x in A_1$. Since for $x in X_1 without A_1$, the right-hand side evaluates to zero, we may extend this to $X_1$ by
+    $
+      chi_A_1 mu_2 (A_2) = sum_(i in NN) chi_(A_1^i) mu_2(A_2^i).
+    $
+    Integrating this over $X_1$ yields
+    $
+      integral_(X_1) chi_(A_1) mu_2 (A_2) dmu_1 = mu_1 (A_1) dot mu_2 (A_2)
+    $
+    for the left-hand side and
+    $
+      integral_X_1 sum_(i in NN) chi_(A_1^i) mu_2 (A_2^i) dmu_1 attach(=,t:"MCT") sum_(i in NN) mu_2 (A_2^i) integral_X_1  chi_(A_1^i) dmu_1 = sum_(i in NN) mu_1 (A_1^i) dot mu_2 (A_2^i)
+    $
+    for the right-hand side. Overall, we have shown that
+    $
+      tilde(mu) (union.big_(i in NN) A^i) = tilde(mu)(A) = mu_1(A_1) dot mu_2 (A_2) = sum_(i in NN) mu_1 (A_1^i) dot mu_2 (A_2^i) = sum_(i in NN) tilde(mu)(A_i).
+    $
+- If $mu_1,mu_2$ are $sigma$-finite, then so is $tilde(mu)$: Let $(A_1^i)#h(0em)_(i in NN) subset cal(A)_1$ and $(A_2^i)#h(0em)_(i in NN) subset cal(A)_2$ be disjoint sequences that cover $X_1$ and $X_2$, respectively, and have finite measure. Then, the sets $A^(i j) = A_1^i times A_2^j in cal(A)$ cover $X$ and have finite pre-measure,
+  $
+    tilde(mu)(A^(i j)) = mu_1(A_1^i) mu_2 (A_1^j) < infty.
+  $
+  Since $NN$ and $NN^2$ have the same cardinality, $(A^(i j))#h(0em)_(i,j in NN)$ is a countable collection of sets, and hence $tilde(mu)$ is $sigma$-finite.#qed  
+  
+*Proposition* (Cavalieri's Principle)
+Let $(X_1,cal(A)_1,mu_1)$ and $(X_2,cal(A)_2,mu_2)$ be $sigma$-finite measure spaces and $(X,cal(A),mu)$ the corresponding product measure space, that is,
+$
+  X = X_1 times X_2, quad cal(A) = sigma(cal(A)_1 times cal(A)_2)
+$
+and $mu$ is the unique extension of the pre-measure $tilde(mu)$ given by
+$
+  tilde(mu)(A) = mu_1(A_1) dot mu_2 (A_2), quad A = A_1 times A_2 in cal(A)_1 times cal(A)_2.
+$
+Then, the measure of an arbitrary set $A in cal(A)$ can be computed as
+$
+  mu(A) = integral_X_2 mu_1 (M_(x_2)) dmu_2 (x_2) = integral_(X_1) mu_2 (N_(x_1)) dmu_1(x_1),
+$
+where
+$
+  N_(x_1) = {x_2 in X_2 | (x_1,x_2) in A}\
+  M_(x_2) = {x_1 in X_1 | (x_1,x_2) in A}\
+$
+are slices of $A$ at fixed values of either the first or second component.
+
+In other words, Cavalieri's principle states that the measure of a measurable set $A$ on $X = X_1 times X_2$ can be determined by slicing it up along one component, determining the measures of the slices, and integrating those measures up over the whole set. Note that
+$
+  mu_1 (M_(x_2)) = integral chi_A (x_1,x_2) dmu_1 (x_1),\
+  mu_2 (N_(x_1)) = integral chi_A (x_1,x_2) dmu_2 (x_2),
+$
+and hence, Cavalieri's principle can be rephrased as
+$
+  mu(A) &= integral_(X_2) (integral_(X_1) chi_A (x_1,x_2) dmu_1(x_1))dmu_2 (x_2)\ &= integral_(X_1) (integral_(X_2) chi_A (x_1,x_2) dmu_2(x_2))dmu_1 (x_1).
+$
+*Theorem* (Fubini's Theorem) Let $(X_1, cal(A)_1, mu_1)$ and $(X_2,cal(A)_2,mu_2)$ be $sigma$-finite measure spaces and denote by $(X_1 times X_2 ,cal(A),mu)$ the unique product measure space. Then, for any function $f:X_1 times X_2 ->[0,infty]$ that is measurable with respect to $mu$,
+$
+  integral_(X_1 times X_2) f dmu &= integral_(X_2)(integral_(X_1) f(x_1,x_2) dmu_1(x_1))dmu_2 (x_2)\
+  &= integral_(X_1)(integral_(X_2) f(x_1,x_2) dmu_2(x_2))dmu_1 (x_1).
+$ 
+= $cal(L)^p$- and $L^p$-Spaces
+*Definition* ($cal(L)^p$-Spaces) Let $(X,cal(A),mu)$ be a measure space and $p in [1,infty)$. We define 
+$
+  cal(L)^p (X) := {f:X->RR union {pm infty} "measurable" mid(|) integral_X |f|^p dmu < infty},
+$
+which is a vector space of measurable functions. 
+\ \
+*Properties*: 
+- For any $f in cal(L)^1 (X)$, we have
+  $
+    lr(|integral_X f dmu|)
+  <= integral_X |f| dmu < infty.
+  $
+  In other words, any function in $cal(L)^1(X)$ is integrable. For other values of $p$, this is not necessarily true. Consider, for example, $X = (1,infty)$ endowed with the Lebesgue measure, and let $f(x) = 1\/x$. Then, for all $p>1$,
+  $
+    integral_X |f|^p dmu = integral_1^infty 1/x^p dx = lr(-1/(p+1)1/x^(p+1)|)^infty_1 = 1/(p+1) < infty
+  $
+  but the function $f$ itself is not integrable:
+  $
+    integral_X f dmu = integral_1^infty 1/x  dx = log x |_1^infty = infty.
+  $
+
+- The map $||dot ||_p : cal(L)^p (X) -> [0,infty)$, 
+  $
+    ||f||_p := (integral_X |f|^p dmu)^(1\/p)
+  $
+  is a well-defined semi-norm on $cal(L)^p (X)$:
+
+  + It is compatible with scalars: for $c in RR$, we have
+    $
+      ||c f||_p = (integral_X |c f|^p dmu)^(1\/p) = (|c|^p integral_X |f|^p dmu)^(1\/p) = |c| ||f||_p
+    $
+  + The triangle inequality holds; for $f,g in cal(L)^p (X)$, we have 
+    $
+      ||f + g||_p <= ||f||_p + ||g||_p.
+    $
+    This is known as the _Minkowski inequality_, of which we will give a general proof in @inequalities below. The special case $p=1$ is simpler to show, as obviously
+    $
+      ||f+g||_1 = integral_X |f + g| dmu <= integral_X |f| + |g| dmu <= integral_X |f| dmu + integral_X |g| dmu = ||f||_1 + ||g||_1.
+    $<casep1>
+- The reason that $||dot||_p$ is only a _semi-_norm and not a norm is because the axiom
+  $
+    ||f||_p = 0 quad <==> quad f = 0
+  $
+  is not satisfied. The backwards direction is certainly true, but the forward direction is not. To see this, let $N in cal(A)$ be a non-empty null set, i.e., a set for which $mu(N) = 0$. Then, $chi_N in cal(L)^p (X)$ for any $p in [1,infty)$, and we have
+  $
+    integral |chi_N|^p dmu = integral chi_N dmu = mu(N) = 0.
+  $
+  However, since $N$ is non-empty, $chi_N != 0$, and we have thus established an example for which $||f||_p = 0$ but $f != 0$. 
+
+Let us dwell a bit on that last observation. Functions that differ from the $f equiv 0$ function only on a set of measure zero can be viewed as "essentially zero", as the set of points on which it is nonzero has no "mass". This can be made concrete by introducing an equivalence relation $sim$ on $cal(L)^p$, 
+$
+  f sim g quad :<==> quad f(x) = g(x) quad ae
+$
+Using this equivalence relation, we may introduce another space:
+\ \
+*Definition* ($L^p$-spaces) Let $(X,cal(A),mu)$ be a measure space and $p>=1$. We define
+$
+  L^p (X) := cal(L)^p (X) \/ sim
+$ 
+as the quotient of $cal(L)^p (X)$ under $sim$, that is,
+$
+  L^p (X) = {[f] | f in cal(L)^p (X)}, quad "where" quad [f] = {g in cal(L)^p (X) | g sim f}
+$
+denotes the equivalence class of $f in cal(L)^p (X)$. With the definitions
+$ 
+  [f] + [g] = [f+g], quad c[f] = [c f], quad f,g in cal(L)^p (X), c in RR,
+$
+$L^p (X)$ defines a vector space over $RR$. This space can be given a norm
+$
+  ||[f]||_p := (integral_X |f|^p dmu)^(1\/p).
+$
+Note that all of the definitions above are well-defined, since they are independent of the choice of representative $g in [f]$. We show this for the norm: suppose we have $f_1, f_2 in [f]$. Then $f_1 (x) = f_2 (x) ae$, thus $|f_1 (x)|^p = |f_2 (x)|^p ae$ and consequently,
+$
+  ||[f_1]||_p = (integral_X |f_1|^p dmu)^(1\/p) = (integral_X |f_2|^p dmu)^(1\/p) = ||[f_2]||_p.
+$ 
+This map $||dot||_p : L^p (X)->[0,infty)$ is indeed a norm, as 
+$
+  ||[f]|| = (integral_X |f|^p dmu)^(1\/p) =0
+$
+can hold if and only if $f(x) = 0 ae$, that is, if $f sim 0$ or equivalently, $[f] = [0]$.
+\ \
+*Notation*: One often writes $f in L^p (X)$ and treats it like a function instead of an equivalence class of functions. Under algebraic operations and integration, this makes no difference: but one must always be aware that elements of $L^p (X)$ are equivalence classes and that equations involving point-wise expressions like $f(x)$ always hold only $ae$ and that $f$ should be interpreted as "one of the representatives of $[f]$" rather than a proper function.
+= Inequalities <inequalities>
+In this section, a list of inequalities is given that are useful when working with $cal(L)^p$ and $L^p$ spaces. 
+\ \
+*Lemma* (Young Inequality for Products)
+Let $a,b>=0$ be non-negative real numbers and $p,q in (1,infty)$ such that 
+$
+  1/p + 1/q = 1,
+$
+where $1\/infty = 0$. Then,
+$
+  a b <= a^p /p + b^q / q.
+$
+_Proof._ Note that 
+$
+  1/p + 1/q = 1 quad <=> quad p = q/(q-1) quad <=> quad p-1 = 1/(q-1).
+$
+This implies that for $f(x) = x^(p-1)$, $x>0$, the inverse function $f^(-1)(y)$ is given by
+$
+  f^(-1)(y) = y^(1/(p-1)) = y^(q-1).
+$
+The area of the rectangle $[0,a] times [0,b]$ in the $x y$-plane is covered by the areas between the graph of $f$ and the $x$ axis, when restricting to $[0,a]$, and that between $f^(-1)$ and the $y$ axis, when restricting to $[0,b]$. Hence, we have
+$
+  a b <= integral_0^a f(x) dx + integral_0^b f^(-1)(y) dy = integral_0^a x^(p-1) dx + integral_0^b y^(q-1) dy = a^p/p + b^q/q
+$<youngInequality>#qed
+\ \
+*Lemma* (Hölder Inequality) Let $(X,cal(A),mu)$ be a measure space, $p,q in (1,infty)$ such that 
+$
+  1/p + 1/q = 1,
+$
+and $f in L^p (X)$, $g in L^q (X)$. Then, $f g in L^1 (X)$, and it holds that
+$
+  ||f g||_1 <= ||f||_p||g||_q.
+$<hölderInequality>
+_Proof._ If either $||f||_p$ or $||g||_q$ are zero, then both sides of the inequality are zero and we are done. Hence, we may assume that $f,g$ have non-zero norms. By @youngInequality[Young's inequality], we find that
+$
+  (|f(x)|)/(||f||_p) (|g(x)|)/(||g||_p) <= (|f(x)|^p)/(p||f||_p^p) + (|g(x)|^q)/(q||g||_q^q)
+$
+Integrating both sides yields
+$
+  1/(||f||_p||g||_q) integral_X |f g| dmu <= 1/(p||f||_p^p) underbrace(integral_X |f|^p dmu,=||f||_p^p) + 1/(q||f||_q^q)underbrace(integral_X |g|^q dmu,=||g||_q^q) = 1/p + 1/q = 1.
+$
+This shows that $integral_X |f g| dmu$ is finite, i.e., $f g in L^1 (X)$, and 
+$
+  ||f g||_1 <= ||f||_p||g||_q.
+$
+\ \
+*Lemma* (Minkowski Inequality) Let $(X,cal(A),mu)$ be a measure space, $p in [1,infty)$ and $f,g in L^p (X)$. Then,
+$
+  ||f+g||_p <= ||f||_p + ||g||_p.
+$
+This is the triangle inequality for the $p$-norm $||dot||_p$ on $L^p (X)$.
+\ \
+_Proof._ If either $||f||_p=0$ or $||g||_p=0$, then $f+g sim g$ or $f+g sim f$, respectively, in which case the inequality holds (with $=$). Hence, in the following, we may assume $||f||_p != 0$ and $||g||_p != 0$. The case $p=1$ is trivial to show (cf. @casep1[eq.]), so we focus on $p>1$. We derive
+$
+  ||f+g||_p^p &= integral_X |f + g|^p dmu\
+  &<= integral_X (|f|+|g|)|f+g|^(p-1) dmu\
+  &= underbrace(integral_X |f||f+g|^(p-1) dmu,= |||f||f+g|^(p-1)||_1) + underbrace(integral_X |g||f+g|^(p-1) dmu,= |||g||f+g|^(p-1)||_1))\
+  &<= ||f||_p lr(|||f+g|^(p-1)||,size:#125%)#h(0em)_q + ||g||_p lr(|||f+g|^(p-1)||,size:#125%)#h(0em)_q\
+  &=(||f||_p + ||g||_p)lr(|||f+g|^(p-1)||,size:#125%)#h(0em)_q,
+$
+where $q$ is conjugate to $p$, that is,
+$
+  1/p + 1/q = 1 quad <=> quad q = p/(p-1).
+$
+We may further expand the second factor as
+$
+  lr(|||f+g|^(p-1)||,size:#125%)#h(0em)_q = (integral_X |f+g|^(q(p-1))dmu)^(1\/q) = (integral_X |f+g|^p dmu)^((p-1)\/p) = ||f+g||_p^(p-1).
+$
+Reinserting this into the previous result yields
+$
+  ||f+g||_p^p <= (||f||_p + ||g||_p)||f+g||_p^(p-1)
+$
+which is equivalent to
+$
+  ||f+g||_p <= ||f||_p + ||g||_p.
+$
+#qed
+\ \
+*Lemma* (Jensen's Inequality) Let $(X,cal(A),mu)$ be a measure space and $f, phi.alt in L^1 (X)$ such that $phi.alt>=0, ||phi.alt||_1 = 1$. Further, let $h : RR -> RR$ convex, that is, for any $a,b in RR$ and $t in [0,1]$,
+$
+  h lr(((1-t)a + t b),size:#135%) <= (1-t) h(a) + t h(b). 
+$
+Then, _Jensen's inequality_ holds,
+$
+  h(integral_X f phi.alt thin dmu) <= integral_X (h compose f) phi.alt thin dmu
+$
+*Remark* If $mu(X)$ is finite, then one can set $phi.alt equiv 1/mu(X)$, which yields the special case
+$
+  h(1/mu(X) integral_X f dmu) <= 1/mu(X) integral_X (h compose f) dmu
+$
+
+_Proof._ Define
+$
+  t_0 := integral_X f phi.alt thin dmu.
+$
+By convexity of $h$, there exists an $alpha in RR$ such that
+$
+  h(t) >= alpha (t-t_0) + h(t_0).
+$
+Therefore,
+$
+  integral_(X) (h compose f) phi.alt thin dmu &= integral_X h(f(x))phi.alt thin dmu >= alpha integral_X (f(x)-t_0) phi.alt(x) dmu + h(t_0) underbrace(integral phi.alt thin dmu,=1)\
+  &=  alpha underbrace(lr((underbrace(integral_X f phi.alt thin dmu,=t_0) - t_0),size:#50%),=0) + h(t_0) = h(integral_X f phi.alt thin dmu),
+$
+which establishes the inequality.#qed
+\ \
+*Definition* (Inner Product on $L^2$) Let $(X,cal(A),mu)$ be a measure space and consider $L^2 (X)$ (valued either in $RR$ or in $CC$). We define the inner product $inprod(dot,dot):L^2(X) times L^2 (X) -> RR$ or $CC$ as 
+$
+  inprod(f,g)= integral_X f  overline(g)thin dmu
+$
+where $overline(g)$ denotes the complex conjugate of $g$ in case the functions are $CC$-valued. In particular, we have
+$
+  ||f||_2^2 = inprod(f,f).
+$
+
+*Lemma* (Cauchy-Schwarz-Bunyakowski inequality, CSB) Let $(X,cal(A),mu)$ be a measure space and $f,g in L^2 (X)$. Then, the _Cauchy-Schwarz-Bunyakowski inequality_ holds, which states that
+$
+  |inprod(f,g)| <= ||f||_2||g||_2.
+$
+_Proof._ 
+Note that $p=2$ is self-conjugate in the Hölder sense,
+$
+  1/2 + 1/2 = 1.
+$
+Hence, by the Hölder inequality, we have
+$
+  |inprod(f,g)| <= integral_X |f||g| dmu = lr(||\|f|\|g\|||,size:#135%)_1 <= ||f||_2||g||_2.
+$
+#qed
+
+= Essential Boundedness/Supremum/Infimum and $L^infty$
+*Definition* (Essential Boundedness) Let $(X,cal(A),mu)$ be a measure space and $f:X->macron(RR):=RR union {pm infty}$ a measurable function. We call $f$
+- _essentially bounded from above_ if there existst a $C in RR$ such that 
+  $
+    f(x) < C quad ae,
+  $
+  that is, if the function values exceed $C$ only on a null set. The definition of _essentialy bounded from below_ is analogous.
+- _essentially bounded_ if there exists a finite $C>0$ such that 
+  $
+    |f(x)| < C quad ae,
+  $
+  that is, if $|f|$ is bounded from above.
+
+*Definition* (Essential Infimum and Supremum)
+Let $f:X->macron(RR)$ be a measurable function. We define its _essential supremum_ on $X$ as
+$
+  esssup_X f := sup{C in RR | f(x) < C ae}.
+$
+In analogy, the _essential infimum_ is defined as
+$
+  essinf_X f := inf{C in RR | f(x) > C ae}.
+$
+*Definition* ($cal(L)^infty$ and $L^infty$) Let $(X,cal(A),mu)$ be a measure space. We define the _space of essentially bounded functions on $X$_ as 
+$
+  cal(L)^infty (X) := {f : X -> macron(RR) "measurable" | f "essentially bounded"}.
+$ 
+We introduce the semi-norm 
+$
+  ||dot||_infty : cal(L)^infty (X) -> [0,infty), quad ||f||_infty = esssup_(X) |f|.
+$
+To obtain a normed space, we must again form the quotient
+$
+  L^infty (X) := cal(L)^infty (X) \/ sim,
+$
+defining
+$
+  [f + g] := [f] + [g], quad c[f] := [c f], quad ||[f]||_infty := ||f||_infty, quad f,g in cal(L)^infty (X), quad c in RR.
+$
+This extends $cal(L)^p (X)$ and $L^p (X)$ to $p in [1,infty]$. 
+
+Further, the Minkowski and Hölder inequalities also hold for $p = infty$, with the Hölder conjugate $q=1$; for $f,g in L^infty (X)$, we have
+$
+  ||f+g||_infty &= esssup_X |f+g| <= esssup_X (|f| + |g|)\ &<= esssup_X |f| + esssup_X |g| =||f||_infty + ||g||_infty,
+$
+and for $f in L^infty (X)$ and $h in L^1 (X)$,
+$
+  ||f h||_1 = integral_X underbrace(|f(x)|,<= ||f||_infty ae)\|h(x)| dmu(x) <= ||f||_infty integral_X |h| dmu = ||f||_infty ||h||_1.
+$
+
+= Completeness and Duals of $L^p$
+In the following, $(X,cal(A), mu)$ denotes a measure space.
+\ \
+*Theorem* The space $(L^p (X), ||dot||_p)$ is a Banach space, that is, a complete normed space.
+
+_Proof._ We show that any Cauchy sequence $([f_n])#h(0em)_(n in NN) subset L^p (X)$ converges. Since it is a Cauchy sequence, there exists a subsequence $\(\[f_n_k\]\)_(k in NN)$ such that
+$
+  lr(||f_n_(k+1)-f_n_k||)_p <= 1/2^(k\/p).
+$
+We define
+$
+  g_n (x) = sum_(k=1)^(n-1) (f_n_(k+1) (x) - f_n_k (x)) = f_n_n (x) - f_n_1 (x)
+$
+and
+$
+  g(x) = sum_(k = 1)^infty (f_n_(k+1) (x) - f_n_k (x)).
+$
+We have 
+$
+  integral_X |g|^p dmu <= integral_X sum_(k=1)^infty |f_n_(k+1) - f_n_k|^p dmu attach(<=,t:"Fatou") sum_(k=1)^infty ||f_n_(k+1) - f_n_k||_p^p <= sum_(k=1)^infty 1/2^k = 1
+$
+and
+$
+  integral_X |g(x) - g_n (x)|^p dmu(x) &<= integral_X sum_(k=n)^infty |f_n_(k+1)  (x) - f_n_k (x)|^p dmu(x)\
+    &attach(<=, t:"Fatou") sum_(k=n)^infty ||f_n_(k+1) - f_n_k||^p_p <=  sum_(k=n)^infty 1/2^k xarrow(n->infty) 0
+$
+Hence, $[g] in L^p (X)$ and $[g_n] -> [g]$ as $ n-> infty$ with respect to the $L^p (X)$-norm. This implies that
+$
+  g_n (x) xarrow(n->infty) g(x) quad ae,
+$
+i.e., we have pointwise convergence almost everywhere. We set
+$
+  f(x) = g(x) + f_n_1(x)
+$
+wherever $g$ converges and $f(x) = 0$ on the null set where it does not. Clearly, $f in L^p (X)$---it is the candidate for the limit of the Cauchy sequence: we have
+$
+  lim_(k->infty) f_n_k (x) = f(x) quad ae
+$
+(since $f_n_k (x) = g_n (x) + f_n_1(x)$). Let us verify this. 
+
+To this end, choose $epsilon > 0$ arbitrary and let $N in NN$ such that for all $n,m in NN$, 
+$
+  ||f_n - f_m||_p <= epsilon. 
+$
+Then,
+$
+  ||f-f_n||_p^p = integral_X |f-f_n|^p dmu  = integral_X lim_(k->infty) |f_n_k - f_n|^p dmu <= liminf_(k->infty) thin underbrace(||f_n_k - f_n||_p^p,<= epsilon^p) <= epsilon^p.
+$
+Therefore, $[f_n]->[f]$ as $n->infty$ in $L^p (X)$.#qed
+\ \
+*Definition* (Dual Space) Let $E$ be a Banach space. We define its dual $E'$ as
+$
+  E' = {phi:E->RR | phi "linear bd. functional"}.
+$
+Here, the bounded property means that there exists a constant $C>0$ such that
+$
+  |phi(f)| <= C||f||_E 
+$
+for all $f in E$. The operator norm of $phi$ is the smallest such constant---that is, as
+$
+  ||phi|| := sup_(f in E) (|phi(f)|)/(||f||_E) = sup_(||f||=1) |phi(f)|,
+$
+so that
+$
+  |phi(f)| <= ||phi||||f||_E.
+$
+\ \ 
+*Theorem* Let $p, q in (1, infty)$ such that $1/p + 1/q = 1$. Then there exists an isometric isomorphism 
+$
+  Phi : L^q (X) -> (L^p (X))', 
+$
+that is, $(L^p (X))' tilde.equiv L^q (X)$.
+
+_Proof._ For $f in L^p (X)$, $g in L^q (X)$, define $Phi g$  as
+$
+  (Phi g)(f) := integral_X g f dmu.
+$
+We now show that this is an isometric isomorphism. 
+- *Well-Definedness and Linearity*: We must first show that $Phi g in (L^p (X))$. The fact that it is a linear functional on $L^p (X)$ is clear; we must show that it is bounded:
+  $
+    |(Phi g)(f)| <= integral_X |g f| dmu <= ||g||_q ||f||_p.
+  $
+  This holds by the @hölderInequality[Hölder inequality] and shows, in particular, that $||Phi g|| <= ||g||_q$.
+
+- *Injective Isometry*: Since $Phi$ is linear, it is sufficient to show that if $Phi g = 0$ then $[g] = 0$, i.e. if $g(x) = 0$ for almost all $x in X$. Suppose, for a contradiction, that $Phi g = 0$ but $g sim.not 0$ and define
+$
+  f(x) = (|g(x)|^(q-1) sgn(g(x)))/(||g||_q^(q-1)). 
+$
+Then, $f in L^p (X)$ since
+$
+  integral_X |f|^p dmu = 1/(||g||^(q-1)_q) integral_X |g|^p(q-1) dmu = 1/(||g||^(q-1)_q) integral_X |g|^q dmu < infty, 
+$
+as $p(q-1) = q$ and $g in L^q (X)$. Moreover, we have
+$
+  (Phi g)(f) = 1/(||g||_q^(q-1))integral_X g\|g|^(q-1) sgn(g)dmu = 1/(||g||_q^(q-1)) integral |g|^q dmu = ||g||_q != 0.
+$
+This establishes the contradiction. In addition, since $f in L^p (X)$ and $(Phi g)(f) = ||g||_q$ hold for any choice of $g in L^q (X)$, this shows $||Phi g|| >= ||g||_q$, so that overall, $||Phi g|| = ||g||_q$.
+
+- *Surjectivity*: This is very difficult to show and I will omit it here because I don't know enough. As a rough sketch, one can use the Riesz representation theorem (see below) to show that for any $phi in (L^p (X))'$ there exists a signed measure $nu$ such that 
+  $
+    phi(f) = integral_X f dnu, quad f in L^p (X).
+  $
+  Then, the Radon-Nikodym theorem can be used to replace $dnu = h dmu$ for some measurable function $h$. One then also has to show that $h in L^q (X)$. 
+
+\ \
+*Definition* (Signed Measure) Let $(X,cal(A))$ be a measure space. We call a map $mu : cal(A)->macron(RR)$ a _signed measure_ if 
++ $mu(nothing) = 0$,
++ For any disjoint sequence of sets $A_1, A_2,... in cal(A)$, we have
+  $
+    mu(union.big_(n=1)^infty A_n) = sum_(n=1)^infty mu(A_n)
+  $
+\ \
+*Theorem* (Riesz Representation Theorem)
+Let $p in (1,infty)$ and $phi in (L^p (X))'$. Then, there exists a unique signed measure $nu$ on $X$ such that 
+$
+  phi(f) = integral_X f dnu.
+$
+
+
+= Weak Derivatives
+*Definition* (Smooth Functions with Compact Support) Let $Omega subset RR^n$ be open. We define the _space of smooth functions with compact support_ as
+$
+  C^infty_c (Omega) :={f in C^infty (Omega) | supp f "is compact"}.
+$
+This space is also referred to as the _space of test functions_.
+\ \ 
+*Definition* (Locally Integrable Functions) Let $Omega subset RR^n$ be open. A measurable function $f:Omega->RR$ belongs to $cal(L)^1_"loc" (Omega)$ if, for every compact set $K subset Omega$,
+$
+  integral_K |f| dmu < infty.
+$
+*Remarks*
+- Any function $f in cal(L)^1 (Omega)$ lies in $cal(L)^1_"loc" (Omega)$. We thus have the inclusion $cal(L)^1 (Omega) subset cal(L)^1_"loc" (Omega)$. 
+
+- The function $f(x) = 1\/x$, $x in (0,1)$, is an element of $cal(L)^1_"loc" ((0,1))$, but not of $cal(L)^1((0,1))$.
+
+*Definition* (Weak Derivative) Let $Omega subset RR^n$ be open. We call a function $v in cal(L)^1_"loc" (Omega)$ the _weak derivative_ of $u in cal(L)^1_"loc" (Omega)$ along $diff_i$ if 
+$
+  integral_Omega u thin diff_i phi thin dmu = -integral_Omega v phi thin dmu wide forall phi in C_c^infty (Omega).
+$
+That is, we call $v$ the weak derivative of $u$ if it matches the pattern of integration by parts. Here, boundary terms are killed by the requirement that $Omega$ is open and test functions have compact support. We denote the weak derivative by
+$
+  v = D_i u.
+$
+By definition, it is linear:
+$
+  D_i (alpha u + beta v) = alpha D_i u + beta D_i v, quad alpha, beta in KK, quad u,v in cal(L)^1_"loc" (Omega).
+$
+
+*Example* Set $Omega = (-1,1)$ and choose $u in cal(L)^1_"loc" (Omega)$ as
+$
+  u(x) = cases(0\,quad&x<=0\,,x\,&x>0.)
+$
+Then, $u$ is not differentiable everywhere in the classical sense, but we have
+$
+  integral_Omega u phi' dmu= integral_0^1 x phi' dmu = -integral_0^1 (x)' phi dmu = -integral_0^1 phi dmu.
+$
+Thus, by setting 
+$
+  v(x) = cases(0\,quad&x<=0\,,1\,&x>0\,), quad x in Omega 
+$
+we obtain the relationship
+$
+  integral_Omega u phi' dmu = -integral_Omega v phi dmu,
+$
+showing that $u' = v$ is a weak derivative. We can observe a few things: 
+
+- The function $u$ is differentiable for $x != 0$, with the regular derivative coinciding with $v$. 
+
+- The function value of $v$ in $0$ is irrelevant. It could take any value since the defining condition that
+  $
+    integral_Omega u phi'dmu = -integral_Omega v phi thin dmu
+  $
+  does not depend on the function values on a null set. 
+
+= Uniqueness of Weak Derivatives
+*Proposition* (Uniqueness in the Lebesgue Sense) Let $Omega subset RR^n$ open, $u in L^1_"loc" (Omega)$ and $v,w in L^1_"loc" (Omega)$ such that 
+$
+  -integral v phi dmu = integral_Omega u phi' dmu = -integral w phi dmu, quad phi in C^infty_c (Omega), 
+$
+i.e. such that both $v$ and $w$ are weak derivatives of $u$. Then, we have
+$
+  v(x) = w(x) quad ae  
+$
+_Proof._ Since we can rearrange the above equation into
+$
+  integral_Omega (v-w)phi dmu = 0, 
+$
+we have to show that if for some $f in L^1_"loc" (Omega)$,
+$
+  integral_Omega f phi dmu = 0 quad forall phi in C^infty_c (Omega),
+$<hypothesis>
+then $f sim 0$. This is known as the _fundamental lemma of the calculus of variations_, shown as follows: Choose $K subset Omega$ compact and let $psi in C^infty_c (Omega)$ such that 
+$
+  psi(x) = 1, quad x in K.
+$
+We extend $f$ to $RR^n$ using this function as
+$
+  f_psi (x) = cases(0\, quad &x in.not Omega\,,f(x)psi(x)\, quad& x in Omega,) quad x in RR^n.
+$
+In particular, we have $f_psi in L^1 (RR^n)$. We now pick an arbitrary mollifier $phi in C_c^infty (RR^n)$, noting that $phi_epsilon * f_psi -> f_psi$ in $L^1_"loc" (RR^n)$ as $epsilon-> 0$. We have
+$
+  (phi_epsilon * f_psi)(x) = integral_Omega f(y) psi(y) phi_epsilon (x-y) dmu(y).
+$
+For any fixed $x in RR^n$, the map $y |-> psi(y)phi_epsilon (x-y)$ lies in $C^infty_c (Omega)$, so that by the @hypothesis[hypothesis],
+$
+  phi_epsilon * f_psi = 0.
+$
+In the limit $epsilon->0$, this turns into $f_psi = 0 ae$ on $Omega$, implying that $f = 0 ae$ on $K$. Since $K$ is an arbitrary compact subset of $Omega$, we have $f = 0 ae$ on $Omega$.#qed
+\ \
+*Proposition* Let $Omega subset RR^n$ open and $u in C^1 (Omega)$ a differentiable function. Then, $D_i u$ exists and it holds that
+$
+  D_i u(x) = diff_i u(x) quad ae,
+$
+that is, the weak and strong derivatives coincide in the Lebesgue sense.
+
+_Proof._ Since $u$ is differentiable, we have
+$
+  integral_Omega u diff_i phi dmu  = -integral_Omega (diff_i u) phi dmu quad forall phi in C^infty_c (Omega).
+$
+Hence, $diff_i u$ is also a weak derivative of $u$. Since weak derivatives are unique in the Lebesgue sense, it follows that 
+$
+  D_i u (x) = diff_i u (x) quad ae
+$#qed
+\ \
+Naturally, the concept of weak derivatives extends to higher orders, e.g. $D_i D_j u$ must satisfy 
+$
+  integral_Omega (D_i D_j u) phi dmu = integral_Omega u (diff_i diff_j phi) dmu.
+$
+More generally, this can be written using a multi-index $alpha = (alpha_1,...,alpha_r)$ as
+$
+  integral_Omega (D^alpha u) phi dmu = (-1)^(|alpha|) integral_Omega u thin diff^alpha phi,
+$
+where
+$
+  |alpha| = r, quad D^alpha u = D_alpha_1 ... D_alpha_r u, quad "and" quad diff^alpha phi = diff_(alpha_1) ...diff_(alpha_r) phi.
+$
+= Sobolev Spaces $W^(k,p)$
+*Definition* ((Weak) Gradient) In the following, we denote by
+$
+  nabla u = (diff_1 u ,...,diff_n u), quad u in C^1 (Omega)
+$
+the ordinary gradient and by
+$
+  D u = (D_1 u,..., D_n u), 
+$
+the weak gradient. In the latter case, we require $u in cal(L)^1_"loc" (Omega)$ to be weakly differentiable.
+\ \
+*Definition* (Sobolev Space) Let $Omega subset RR^n$ be open, $k in NN_0$ and $p in [1,infty]$. We define the Sobolev space $W^(k,p) (Omega)$ as
+$
+  W^(k,p)(Omega) := {u in L^p (Omega) mid(|) D^alpha u "ex. and lies in" L^p (Omega) med forall "multi-indices" alpha "with" |alpha|<=k}
+$
+That is, $W^(k,p)(Omega)$ is the vector space of all $k$-times weakly differentiable functions in $L^p (Omega)$ whose weak derivatives lie in $L^p (Omega)$. We equip this space with a norm
+$
+  ||dot||_(W^(k,p)(Omega)) : W^(k,p)(Omega) -> [0,infty),
+$
+$
+  ||u||_(W^(k,p)(Omega)) := (sum_(|alpha|<= k) ||D^alpha u||^p_p)^(1\/p), quad 1<= p <infty
+$
+and
+$
+  ||u||_(W^(k,infty)(Omega)) = max_(|alpha|<= k) ||D^alpha||_(L^infty (Omega)).
+$
+*Example* Some of the most important Sobolev space are $W^(k,2)(Omega)$, as these are Hilbert spaces (we will show completeness later on), with the inner product
+$
+  inprod(u,v)_(W^(k,2)(Omega)) := sum_(|alpha|<=k) inprod(D^alpha u, D^alpha v)_(L^p (Omega)).
+$
+In particular, if $k = 1$, we have
+$
+  inprod(u,v)_(W^(1,2)(Omega)) &= inprod(u,v)_(L^2 (Omega)) + sum_(i = 1)^n inprod(D_i u, D_i v)_(L^2 (Omega))\
+  &= integral_Omega [u macron(v) thin + (D u)dot overline((D v))] dmu
+$
+This induces the norm as
+$
+  ||u||^2_(W^(1,2)(Omega))  = integral_Omega (|u|^2 + |D u|^2) dmu.
+$
+Because of their importance, a shorthand is introduced:
+$
+  H^k (Omega) := W^(k,2)(Omega).  
+$
+= Properties of Sobolev Spaces
+
+= Sobolev Embedding Theorems
+
+= Lax-Milgram Theorem
+
+= CoV Stuff?
+
+= Functional Analysis Revision
