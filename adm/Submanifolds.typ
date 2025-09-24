@@ -2148,43 +2148,44 @@ $
 to be the component-wise derivative.
 From the general theory of first order linear differential equations, we know that solutions to @parallelTransportEqnCompact[equation] above take the form
 $
-  X(s) = U(gamma,s,t) X(t)
+  X(s) = U_gamma (s,t) X(t)
 $
-for a propagator $U(s,t)$. Intuitively, the propagator $U(gamma,s,t)$ takes a vector in $T_gamma(t) cal(M)$ and produces its parallel transport in $T_gamma(s) cal(M)$ via a linear map. It has the following properties:
+for a propagator $U_gamma (s,t)$. Intuitively, the propagator $U_gamma (s,t)$ takes a vector in $T_gamma(t) cal(M)$ and produces its parallel transport in $T_gamma(s) cal(M)$ via a linear map, that is,
+$
+  U_gamma (s,t):T_gamma(t) cal(M) -> T_gamma(s) cal(M)
+$
+It has the following properties:
 
 - It reduces to the identity for equal arguments,
   $
-    U(gamma,s,s) = id_(T_gamma(s) cal(M)),
+    U_gamma (s,s) = id_(T_gamma(s) cal(M)),
   $
 - Has a group composition law,
   $
-    U(gamma, s,r)U(gamma,r,t) = U(gamma, s,t),
+    U_gamma ( s,r)U_gamma (r,t) = U_gamma ( s,t),
   $
 - Is invertible,
   $
-    U(gamma,t,s)^(-1) = U(gamma,s,t),
+    U_gamma (t,s)^(-1) = U_gamma (s,t),
   $
 - Satisfies the differential equation in both arguments, that is,
   $
-    d/dt U(gamma,s,t) = Gamma_dot(gamma thin)(t) U(gamma,s,t) , quad d/ds U(gamma,s,t) = -Gamma_dot(gamma thin)(t) U(gamma,s,t).
+    d/dt U_gamma (s,t) = Gamma_dot(gamma thin)(t) U_gamma (s,t) , quad d/ds U_gamma (s,t) = -Gamma_dot(gamma thin)(t) U_gamma (s,t).
   $
+Though in general, no closed-form expression can be given for $U_gamma (s,t)$, it is possible to derive explicit expressions for _infinitesimal_ parallel transport. To do so, we take the following perspective: Suppose we have a path $gamma:(-delta,delta)->cal(M)$ and a vector field $Z in Gamma(gamma^* T cal(M))$. We are interested in computing the parallel transport $tilde(Z) in T_gamma(0) cal(M)$ of the vector $Z(s) := Z(gamma(s))$ along $gamma$, where $s$ is some infinitesimal parameter distance away from $0$. That is, we take a vector at a point infinitesimally away from $gamma(0)$ and "pull" it onto $gamma(0)$ while keeping it parallel.
 
-
-
-Though in general, no expression for $U(gamma,s,t)$ can be given in closed form, it is possible to derive explicit expressions for _infinitesimal_ parallel transport. To do so, we take the following perspective: Suppose we have a path $gamma:(-delta,delta)->cal(M)$ and a vector field $Z in Gamma(gamma^* T cal(M))$. We are interested in computing the parallel transport $tilde(Z) in T_gamma(0) cal(M)$ of the vector $Z(s) := Z(gamma(s))$ along $gamma$, where $s$ is some infinitesimal parameter distance away from $0$. That is, we take a vector at a point infinitesimally away from $gamma(0)$ and "pull" it onto $gamma(0)$ while keeping it parallel.
-
-The propagator $U$ gives us an explicit expression for $tilde(Z)$, namely
+The propagator $U_gamma$ gives us an explicit expression for $tilde(Z)$, namely
 $
-  tilde(Z) = U(gamma,0,s) Z(s).
+  tilde(Z) = U_gamma (0,s) Z(s).
 $
 At this point, we can simply Taylor-expand this to first order in $s$, making use of
 $
-  U(gamma,0,0) = id_(T_gamma(0) cal(M)), quad d/ds U(gamma,0,s)|_(s=0) = Gamma_dot(gamma thin) (0)
+  U_gamma (0,0) = id_(T_gamma(0) cal(M)), quad d/ds U_gamma (0,s)|_(s=0) = Gamma_dot(gamma thin) (0).
 $
-leading to
+This leads to
 $
-  tilde(Z) &= underbrace(U(gamma,0,0), =id) Z(0) + s d/ds [U(gamma,0,s)Z(s)]_(s=0) + cal(O)(s^2)\
-  &= Z(0) + s lr([underbrace(U(gamma,0,0), =id) dZ/ds (0) + underbrace((d/ds U(gamma,0,s)|_(s=0)), =Gamma_(dot(gamma thin))(0) U(gamma,0,0))Z(0)], size: #60%) + cal(O)(s^2)\
+  tilde(Z) &= underbrace(U_gamma (0,0), =id) Z(0) + s d/ds [U_gamma (0,s)Z(s)]_(s=0) + cal(O)(s^2)\
+  &= Z(0) + s lr([underbrace(U_gamma (0,0), =id) dZ/ds (0) + underbrace((d/ds U_gamma (0,s)|_(s=0)), =Gamma_(dot(gamma thin))(0))Z(0)], size: #60%) + cal(O)(s^2)\
   &= Z(0) + s [dZ/ds (0) + Gamma_dot(gamma thin) Z(0)] + cal(O)(s^2)\
   &= Z(0) + s nabla_dot(gamma thin) Z(0) + cal(O)(s^2).
 $<infinitesimalPointwiseTransport>
@@ -2199,13 +2200,13 @@ $
 All that has changed compared to @infinitesimalPointwiseTransport[equation] is that the curve's tangent field $dot(gamma thin)$ is replaced by $X$---the tangent field of the congruence---and the point-wise expression has turned into a global one. The above expression will allow us to geometrically motivate _and_ derive the Riemann curvature tensor in the next section.
 
 === Curvature of Manifolds: the Riemann Tensor
-As we have already discussed in the previous section, parallel transport of a vector $Z_p in T_p cal(M)$ along a curve $gamma$ depends both on the connection $nabla$ and the curve itself. If $gamma_1,gamma_2 :[a,b]->cal(M)$ satisfy $gamma_1 (a) = gamma_2 (a) = p$ and $gamma_1 (b) = gamma_2 (b) = q$, then parallel transport of $Z_p$ along thes two curves may give distinct vectors $tilde(Z)_1 ,tilde(Z)_2 in T_q cal(M)$. Their difference,
+As we already discussed in the previous section, parallel transport of a vector $Z_p in T_p cal(M)$ along a curve $gamma$ depends both on the connection $nabla$ and the curve itself. If $gamma_1,gamma_2 :[a,b]->cal(M)$ satisfy $gamma_1 (a) = gamma_2 (a) = p$ and $gamma_1 (b) = gamma_2 (b) = q$, then parallel transport of $Z_p$ along thes two curves may give distinct vectors $tilde(Z)_1 ,tilde(Z)_2 in T_q cal(M)$. Their difference,
 $
   Delta = tilde(Z)_1 - tilde(Z)_2,
 $
-encodes the so-called _holonomy_ of the connection. In particular, $Delta$ vanishes for all such choices if and only if the connection is flat---curvature is precisely the local obstruction to path-independent parallel transport.
+encodes the so-called _holonomy_ of the connection---the failure of a vector's transport to align along different paths. In particular, $Delta$ vanishes for all such choices if and only if the connection is flat---curvature is precisely the local obstruction to path-independent parallel transport.
 
-This construction, which relies on transporting a single vector along two curves, is somewhat cumbersome. A more natural and most importantly, global approach is to extend the discussion to the parallel transport of an entire vector field $Z in Gamma(T cal(M))$. Since we now have a vector $Z_p$ at each $p in cal(M)$, we also require two curves that start at each $p in cal(M)$ and have the same endpoint. To construct these in a systematic way, we introduce two additional vector fields $X,Y in Gamma(T cal(M))$, each generating a congruence of curves. Starting from a point $p$, we may first follow the flow of $Y$ for an infinitesimal parameter distance $s$, and then that of $X$, or vice versa. This yields two distinct curves that form a "parallelogram" if $X$ and $Y$ commute. If they do not, i.e. if $[X,Y]!=0$, the parallelogram fails to close: for infinitesimal $s$, the two curves end at points separated by a displacement along $s[X,Y]$. By adjoining this missing segment to the second curve, we obtain two curves $gamma_1$ and $gamma_2$ with identical start- and endpoints. In particular, the common endpoint can be expressed as
+This construction, which relies on transporting a single vector along two curves, is somewhat cumbersome. A more natural and, most importantly, global approach is to extend the discussion to the parallel transport of an entire vector field $Z in Gamma(T cal(M))$. Since we now have a vector $Z_p$ at each $p in cal(M)$, we also require ---per point $p in cal(M)$---two curves that start at $p$ and have the same endpoint. To construct these in a systematic way, we introduce two additional vector fields $X,Y in Gamma(T cal(M))$, each generating a congruence of curves. Starting from a point $p$, we may first follow the flow of $Y$ for an infinitesimal parameter distance $s$, and then that of $X$, or vice versa. This yields two distinct curves that form a "parallelogram" if $X$ and $Y$ commute. If they do not, i.e. if $[X,Y]!=0$, the parallelogram fails to close: for infinitesimal $s$, the two curves end at points separated by a displacement along $s[X,Y]$. By adjoining this missing segment to the second curve, we obtain two curves $gamma_1$ and $gamma_2$ with identical start- and endpoints. In particular, the common endpoint can be expressed as
 $
   q = p + s X + s Y = p + s Y + s X + s^2 [X,Y],
 $
@@ -2229,7 +2230,7 @@ The difference between the two---the quantity encoding curvature---is
 $
   tilde(Z)_1 - tilde(Z)_2 = s^2 (nabla_X nabla_Y med - med nabla_Y nabla_X med - med nabla_[X,Y])Z + cal(O)(s^3).
 $
-All $cal(O)(s)$ terms cancel, so the leading contribution arises at order $s^2$. For infinitesimal $s$, this term dominates, and thus carrise the curvature information we seek. Moreover, since this construction involves only infinitesimal segments, the resulting description is entirely local. Let us now collect this into a formal definition.
+All $cal(O)(s)$ terms cancel, so the leading contribution arises at order $s^2$. For infinitesimal $s$, this term dominates, and thus carries the curvature information we seek. Moreover, since this construction involves only infinitesimal segments, the resulting description is entirely local. Let us now collect this into a formal definition.
 \ \
 *Definition* (Riemann Curvature Tensor) Let $cal(M)$ be a smooth manifold equipped with an affine connection $nabla$, and let $X,Y,Z in Gamma(T cal(M))$ be vector fields. The _Riemann curvature tensor_ is the map
 $
@@ -2239,7 +2240,7 @@ given by
 $
   R(X,Y)Z = nabla_X nabla_Y Z - nabla_Y nabla_X Z - nabla_[X,Y]Z.
 $
-We define the components of the Riemann tensor through
+By the derivation above, it collects the leading  order contribution of the holonomy of parallel transport along infinitesimal loops. We define the components of the Riemann tensor through
 $
   R(diff_mu, diff_nu) diff_lambda = tensor(R, +rho, -lambda mu nu) diff_rho,
 $<RXYonBasisVectors>
@@ -2279,7 +2280,7 @@ Let us now examine some properties of this definition in closer detail.
   $
     R(X,Y) = [nabla_X, nabla_Y] - nabla_[X,Y].
   $
-  The second term $nabla_[X,Y]$ is plainly a derivation, as it is but a covariant derivative. It therefore suffices to verify the Leibniz property for the commutator $[nabla_X, nabla_Y]$. Consider $nabla_X nabla_Y (T otimes S)$. Using the product rule for $nabla$, we compute
+  The second term $nabla_[X,Y]$ is plainly a derivation, as it is but a covariant derivative. It therefore suffices to verify the Leibniz property for the commutator $[nabla_X, nabla_Y]$. For this, consider $nabla_X nabla_Y (T otimes S)$. Using the product rule for $nabla$, we compute
   $
     &nabla_X nabla_Y (T otimes S) = nabla_X ((nabla_Y T) otimes S + T otimes nabla_Y S)\
     &= (nabla_X nabla_Y T) otimes S + underbrace((nabla_Y T) otimes (nabla_X S) + (nabla_X T) otimes (nabla_Y S), "symmetric in" X "and" Y) + T otimes (nabla_X nabla_Y S),
@@ -2290,7 +2291,7 @@ Let us now examine some properties of this definition in closer detail.
   $
   Combining this with the Leibniz property of $nabla_[X,Y]$, we conclude that $R(X,Y)$ is indeed a derivation.
 
-- *Action on 1-Forms* The derivation property of $R(X,Y)$ allows the explicit computation of its action on 1-forms, and thus the extension to arbitrary tensors. Given a 1-form $omega in Gamma(T^* cal(M))$ and a vector field $Z in Gamma(T cal(M))$, we have
+- *Action on 1-Forms* The derivation property of $R(X,Y)$ allows the explicit computation of its action on 1-forms, and by that the extension to arbitrary tensors. Given a 1-form $omega in Gamma(T^* cal(M))$ and a vector field $Z in Gamma(T cal(M))$, we have
   $
     0 & = R(X,Y) omega(Z) = R(X,Y) (tr^1_1 omega otimes Z) = tr_1^1 R(X,Y) (omega otimes Z) \
       & = tr_1^1 [(R(X,Y) omega) otimes Z + omega otimes (R(X,Y)Z)] \
@@ -2410,11 +2411,11 @@ We are now ready to discuss the symmetries of $R(W,Z,X,Y)$:
   $
     R(W,Z,X,Y) + R(W,X,Y,Z) + R(W,Y,Z,X) = 0.
   $
-  or in terms of components,
+  Alternatively, in terms of components,
   $
     tensor(R, +rho, -[sigma mu nu]) = tensor(R, -rho, -[sigma mu nu]) = 0.
   $
-  Here, the cyclic permutation of the last three indices/slots is proportional to their anti-symmetrisation since we have anti-symmetry in the last two indices/slots.
+  Here, the cyclic permutation of the last three indices/slots is proportional to their anti-symmetrisation since we already have anti-symmetry in the last two indices/slots.
 
 + *Symmetry in First and Second Pair* For a connection that is both metric-compatible and has vanishing torsion---i.e., the Levi-Civita connection---the above symmetries imply a further symmetry,
   $
@@ -2516,7 +2517,7 @@ However, @naiveGuessAmbientIntrinsicCurvature[equation] is _not_ correct. There 
     g & = dx otimes dx + dy otimes dy + dz otimes dz \
       & = dr otimes dr + r^2 (dtheta otimes dtheta + sin^2 theta dphi otimes dphi),
   $
-  ---where $x^mu = (x,y,z)$ are Cartesian and $y^alpha = (r,y^i) = (r,theta,phi)$ spherical coordinates. The connection under consideration is the Levi-Civita connection associated with this metric. Our goal is to compute and compare the ambient and induced Riemann tensor components.
+  where $x^mu = (x,y,z)$ are Cartesian and $y^alpha = (r,y^i) = (r,theta,phi)$ spherical coordinates. The connection under consideration is the Levi-Civita connection associated with this metric. Our goal is to compute and compare the ambient and induced Riemann tensor components.
 
   Observe that, in Cartesian coordinates, the Levi-Civita has vanishing coefficients, i.e.
   $
@@ -2528,11 +2529,11 @@ However, @naiveGuessAmbientIntrinsicCurvature[equation] is _not_ correct. There 
   $
   due to the @riemannTensorComponents[formula]. In contrast to @cartesianChristoffelSymbols[equation], the above equation is tensorial---that is, it holds in any coordinate system---and we conclude that the ambient manifold is flat:
   $
-    R(X,Y)Z = 0,quad forall X,Y,Z in Gamma(T cal(M)),
+    R(X,Y)Z = 0,quad forall X,Y,Z in Gamma(T cal(M)).
   $
   If our earlier naïve @naiveGuessAmbientIntrinsicCurvature[guess] were correct, this would imply that
   $
-    macron(R)(X,Y)Z = P(R(X,Y)Z) = 0,
+    macron(R)(X,Y)Z = (iota_*)^(-1) lr((R(iota_* X,iota_* Y)(iota_* Z)), size: #135%) = 0,
   $
   and thus that the intrinsic curvature vanishes as well.
 
@@ -2545,7 +2546,7 @@ However, @naiveGuessAmbientIntrinsicCurvature[equation] is _not_ correct. There 
   $
     macron(R)_(rho sigma mu nu) = -macron(R)_(rho sigma nu mu) = -macron(R)_(sigma rho mu nu),
   $
-  implies that the indices $theta$ and $phi$ must each appear exactly once in both pairs. All valid permutations are then related by symmetry. Moreover, since the metric is diagonal, we only need to compute a single nontrivial component, say $tensor(macron(R), +theta, -phi theta phi)$. We proceed by applying the standard formula:
+  implies that the indices $theta$ and $phi$ must each appear exactly once in both pairs. All non-zero permutations are then related by symmetry. Moreover, since the metric is diagonal, we only need to compute a single nontrivial component, say $tensor(macron(R), +theta, -phi theta phi)$. We proceed by applying the standard formula:
   $
     tensor(macron(R), +theta, -phi theta phi) &= diff_theta tensor(macron(Gamma), +theta, -phi phi) - diff_phi underbrace(tensor(macron(Gamma), +theta, -theta phi), =0) + underbrace(tensor(macron(Gamma), +theta, -theta i) tensor(macron(Gamma), +i, -phi phi), =0) - tensor(macron(Gamma), +theta, -phi i) tensor(macron(Gamma), +i, -theta phi)\
     &= - diff_theta (sin theta cos theta )- tensor(macron(Gamma), +theta, -phi phi) tensor(macron(Gamma), +phi, -theta phi)\
@@ -2554,7 +2555,7 @@ However, @naiveGuessAmbientIntrinsicCurvature[equation] is _not_ correct. There 
   $
   This is very clearly _not_ zero. We have thus found a counterexample to @naiveGuessAmbientIntrinsicCurvature[our naïve guess]. We conclude that the intrinsic curvature does not, in general, arise from a simple projection of the ambient curvature.
 
-  This is a good point to take a step back and generalise the insight, in order to build further intuition for why our guess cannot be correct. What we have done is the following: we took a flat manifold, $RR^3 without {0}$, and foliated it into surfaces that are scaled copies of the 2-sphere. Intuitively, spheres possess curvature---this is evident from the fact that their normal vector field varies as one moves along their surface. Our @naiveGuessAmbientIntrinsicCurvature[guess], however, attempted to capture something quite different: it projected the ambient curvature tensor (which vanishes in this case) onto the tangent bundle of the foliation (where it still vanishes). The projection of the ambient curvature captures only the part of the it that is tangential to the foliation; it entirely neglects how the surface itself bends within the ambient space. In other words, this projection measures the curvature of the background in which the leaves of the foliation live, but not how those leaves curve within it. The change of the normal field vector plays no role in this projection. Hence, while the projected ambient curvature may contribute to the intrinsic curvature $macron(R)$, it clearly does not suffice to determine it completely: the way in which the surface curves relative to the background also generates intrinsic curvature.
+  This is a good point to take a step back and generalise the insight, in order to build further intuition for why our guess cannot be correct. What we have done is the following: we took a flat manifold, $RR^3 without {0}$, and foliated it into surfaces that are scaled copies of the 2-sphere. Intuitively, spheres possess curvature---this is evident from the fact that their normal vector field varies as one moves along their surface. Our @naiveGuessAmbientIntrinsicCurvature[guess], however, attempted to capture something quite different: it projected the ambient curvature tensor (which vanishes in this case) onto the tangent bundle of the foliation (where it still vanishes). The projection of the ambient curvature captures only the part of it that is tangential to the foliation; it entirely neglects how the surface itself bends within the ambient space. In other words, this projection measures the curvature of the background in which the leaves of the foliation live, but not how those leaves curve within it. The change of the normal field vector plays no role in this projection. Hence, while the projected ambient curvature may contribute to the intrinsic curvature $macron(R)$, it clearly does not suffice to determine it completely: the way in which the surface curves relative to the background also generates intrinsic curvature.
 
 - *Algebraic Argument* In @sectionDefInducedConnection, we introduced the induced connection on a foliation $Sigma$ by defining its action on vector fields as
   $
@@ -2568,7 +2569,7 @@ However, @naiveGuessAmbientIntrinsicCurvature[equation] is _not_ correct. There 
 
   In practice, however---particularly when working with foliations---it is often more convenient to treat $T Sigma$ as a proper subbundle of $T cal(M)$, which we may do via the linear embedding map $iota_*$. From this perspective, the induced connection takes a simpler and more direct form:
   $
-    mnabla_X Y = P nabla_X Y, quad X,Y in T Sigma.
+    mnabla_X Y = P nabla_X Y, quad X,Y in Gamma(T Sigma).
   $<altDefnInducedConnection>
   Since $T Sigma subset T cal(M)$, both $X$ and $Y$ are valid inputs for the ambient connection $nabla$. The appearance of the full projector $P$ on the right-hand side is then a result of pushing forward the image of $(iota_*)^(-1)$ into $T cal(M)$, which gives rise to the @eq7168[combination]. We will adopt this more algebraic, embedded viewpoint for the remainder of the discussion, as it makes many derivations more transparent: @altDefnInducedConnection[equation] makes clear that the induced connection is simply the projection of the ambient connection onto the tangent bundle of the foliation.
 
@@ -2587,15 +2588,15 @@ However, @naiveGuessAmbientIntrinsicCurvature[equation] is _not_ correct. There 
   $
     [P nabla_X, P nabla_Y] Z & = P nabla_X (P nabla_Y Z) - (X<->Y) \
                              & = underbrace(P^2, =P) nabla_X nabla_Y Z + P (nabla_X P) nabla_Y Z - (X<->Y) \
-                             & = P [nabla_X, nabla_Y] Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size: #130%)
+                             & = P [nabla_X, nabla_Y] Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size: #130%).
   $
-  We can see that there is an additional term involving covariant derivatives of the projector $P$---we hence obtain the identity
+  We can see that there is an additional term involving covariant derivatives of the projector $P$---we obtain the identity
   $
     macron(R)(X,Y)Z = P R(X,Y)Z + P lr(((nabla_X P)nabla_Y Z - (nabla_Y P)nabla_X Z), size: #130%).
   $<precursorGaussEqn>
   This demonstrates that the intrinsic curvature contains more than just the projection of the ambient curvature. In fact, the above is the algebraic seed to the _Gauss-Codazzi equation_, a result we will steadily work towards throughout the following sections.
 
-  To properly interpret the additional term, we must however first introduce the concept of _extrinsic curvature_. As it stands, the expression
+  To properly interpret the additional term, we must first introduce the concept of _extrinsic curvature_. As it stands, the expression
   $
     P lr(((nabla_X P) nabla_Y Z - (nabla_Y P) nabla_X Z), size: #130%)
   $<extraTermForIntrinsicCurvature>
@@ -3102,12 +3103,13 @@ $
 $
 In components, this can be expressed as#footnote[Note here that this equation would technically need projections $P$ applied to both indices of $k_(mu nu)$. However, this is not necessary because $(nabla_mu k)#h(0em)_nu$ has no normal components for a metric-compatible and torsion-free connection: Metric compatibility implies $0=nabla_mu (g(n^sharp,n^sharp)) = 2 n^nu (nabla_mu n)#h(0em)_nu$. Moreover, vanishing torsion makes $(nabla_mu n)#h(0em)_nu$ symmetric, so that also $n^mu (nabla_mu n)#h(0em)_nu = 0$] 
 $
-  k_(mu nu) = epsilon g(diff_nu, -nabla_mu n^sharp) = -epsilon (nabla_mu n^sharp)#h(0em)_nu quad <=> quad (nabla_mu n^sharp)#h(0em)_nu = -epsilon k_(mu nu).
+  k_(mu nu) = -epsilon \(nabla_mu n^sharp\)_nu quad <=> quad \(nabla_mu n^sharp\)_nu = -epsilon k_(mu nu).
 $
 This is precisely the tensor appearing in the remaining terms of @derivationRperpAperpB[equation]. Thus, we find
 $
-  - (nabla_mu n^sharp)#h(0em)^mu (nabla_nu n^sharp)+ (nabla_nu n^sharp)#h(0em)^mu (nabla_mu n^sharp)#h(0em)^nu &= - (-epsilon)^2 tensor(k, -mu, +mu) tensor(k, -nu, +nu) + (-epsilon)^2 k_(mu nu) k^(mu nu)\
-  &= -k^2 + k_(i j) k^(i j),
+  - \(nabla_mu n^sharp\)^mu \(nabla_nu n^sharp\)^nu+ \(nabla_nu n^sharp\)^mu \(nabla_mu n^sharp\)^nu & = - (-epsilon)^2 tensor(k, -mu, +mu) tensor(k, -nu, +nu) + (-epsilon)^2 k_(mu nu) k^(mu nu) \
+  & = -k^2 + k_(i j) k^(i j),
+
 $
 where we made use of the fact that $k_(mu nu)$ has no normal components and that $k = tensor(k, +mu, -mu) = tensor(k, +i, -i)$. Putting everything together, we find
 $
