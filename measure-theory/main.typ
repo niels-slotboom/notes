@@ -1059,7 +1059,9 @@ $
   H^k (Omega) := W^(k,2)(Omega).  
 $
 = Properties of Sobolev Spaces
-
+- $W^(k,p)(Omega) subset L^p (Omega)$
+- $W^(k,p)(Omega)$ is complete
+- $H^k (Omega)$ is a Hilbert space
 = Sobolev Embedding Theorems
 
 = Lax-Milgram Theorem
