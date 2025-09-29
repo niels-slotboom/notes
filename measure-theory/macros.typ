@@ -39,6 +39,8 @@
 #let cancelr(T) = math.cancel(T,stroke:(paint:color.red,thickness:0.8pt));
 #let comment(T) = text(color.red)[*Comment:* #T];
 
+#let h0 = h(0em)
+
 #let inprod(T,S) = {$lr(angle.l #T , #S angle.r)$}
 #let mhighlight(T) = {box([$#T$], fill:rgb("#fdff9c"), radius: 4pt, outset: 0.13em)}
 #let rank = math.op("rank")

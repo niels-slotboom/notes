@@ -1044,7 +1044,7 @@ $
 *Example* Some of the most important Sobolev space are $W^(k,2)(Omega)$, as these are Hilbert spaces (we will show completeness later on), with the inner product
 $
   inprod(u,v)_(W^(k,2)(Omega)) := sum_(|alpha|<=k) inprod(D^alpha u, D^alpha v)_(L^p (Omega)).
-$
+$<Hkinnerprod>
 In particular, if $k = 1$, we have
 $
   inprod(u,v)_(W^(1,2)(Omega)) &= inprod(u,v)_(L^2 (Omega)) + sum_(i = 1)^n inprod(D_i u, D_i v)_(L^2 (Omega))\
@@ -1059,9 +1059,60 @@ $
   H^k (Omega) := W^(k,2)(Omega).  
 $
 = Properties of Sobolev Spaces
-- $W^(k,p)(Omega) subset L^p (Omega)$
-- $W^(k,p)(Omega)$ is complete
-- $H^k (Omega)$ is a Hilbert space
+Sobolev spaces have the following properties (and more, of course):
+- By definition, we have the inclusion $W^(k,p)(Omega) subset L^p (Omega)$. Moreover, for any function $u in W^(k,p)(Omega)$, all its weak derivatives lie in $L^p (Omega)$ as well---that is, $D^alpha u in L^p (Omega)$ for any multi-index $alpha$ with $|alpha| <= k$.
+
+- Since any strongly differentiable function is weakly differentiable, it holds that
+  $
+    (C^n (Omega),||dot||_infty) subset W^(k,p) (Omega)
+  $
+  for any $n >= k$, including $n=infty$, if $mu(Omega) < infty$. If $mu(Omega) = infty$, one needs to further restrict $C^n (Omega)$ to the subset that has finite $L^p (Omega)$-norm.
+
+- $W^(k,p)(Omega)$ is a Banach space.\
+  _Proof._ We need to show completeness. To that end, let $(u_n)h0_(n in NN) subset W^(k,p)(Omega)$ be a Cauchy sequence with respect to $||dot||_(W^(k,p)(Omega))$. Let $alpha$ be a multi-index with $|alpha|<k$. Then, $(D^alpha u_n)h0_(n in NN)$ is a Cauchy sequence in $L^p (Omega)$ with respect to $||dot||_p$, since
+  $
+    ||D^alpha u_n- D^alpha u_m||_p <= ||u_n-u_m||_(W^(k,p)(Omega)).
+  $
+  By completeness of $(L^p(Omega), ||dot||_p)$, there exist limits $u,v^alpha in L^p (Omega)$ such that
+  $
+    u_n xarrow(n-> infty) u, quad "wrt." ||dot||_p,\
+    D^alpha u_n xarrow(n->infty) v^alpha, quad "wrt." ||dot||_p.
+  $ 
+  We need to show that 
+  $
+    ||u_n - u||_(W^(k,p)(Omega)) xarrow(n->infty) 0,
+  $
+  which is equivalent to showing that for all multi-indices $alpha$ with $|alpha|<= k$, 
+  $
+    v^alpha = D^alpha u,
+  $
+  or equivalently,
+  $
+    integral_Omega u diff^alpha phi thin dmu = (-1)^(|alpha|) integral_Omega v^alpha phi thin dmu, quad phi in C^infty_c (Omega)
+  $<limitsD>
+  By definition of the weak derivative, we know that for all $n in NN$,
+  $
+    integral_Omega u_n diff^alpha phi dmu = (-1)^(|alpha|) integral_Omega (D^alpha u_n) phi dmu, quad phi in C^infty_c (Omega).
+  $<limitsn>
+  We establish the above @limitsD[equality] for the limits by showing that both sides @limitsn[of] converge as anticipated. For the left-hand side, denoting $M_phi := supp phi$ and for $q$ such that $1/p + 1/q = 1$, we find
+  $
+    lr(|integral_Omega (u_n -u) diff^alpha phi thin dmu|) &<= integral_M_phi |u_n-u|\|diff^alpha phi| dmu <= ||diff^alpha phi||_infty integral_M_phi |u_n - u|dmu\
+    &attach(<=,t:"Hölder")||diff^alpha phi||_infty underbrace((integral_M_phi |u_n-u|^p)^(1\/p),<=||u_n-u||_p) underbrace((integral_M_phi 1^q)^(1\/q),=mu(M_phi)^(1\/q) < infty)\
+    &<= C||u_n - u||_p xarrow(n->infty) 0.
+  $ 
+  Analogously, for the right-hand side, we have
+  $
+    lr(|integral_Omega (D^alpha u_n - v^alpha) phi dmu|) &<= integral_M_phi |D^alpha u_n - v^alpha|\|phi| dmu <= ||phi||_infty integral_M_phi |D^alpha u_n - v^alpha| dmu\
+    &attach(<=,t:"Hölder") ||phi||_infty underbrace((integral_M_phi |D^alpha u_n-v^alpha|^p)^(1\/p),<=||D^alpha u_n-v^alpha||_p) underbrace((integral_M_phi 1^q)^(1\/q),=mu(M_phi)^(1\/q) < infty)\
+    &<=C||D^alpha u_n - v^alpha||_p xarrow(n->infty)0.
+  $
+  Thence,
+  $
+    ||u_n - u||_(W^(k,p)(Omega)) = (||u_n - u||_p^p + sum_(1<= |alpha|<=k) ||D^alpha u_n - v^alpha||_p^p)^(1\/p)xarrow(n->infty)0
+  $
+  since the individual terms converge to 0.#qed
+
+- $H^k (Omega)$ is a Hilbert space: by the above, $H^k (Omega) = W^(k,2)(Omega)$ is complete, and with the inner product defined in @Hkinnerprod[equation], it becomes a Hilbert space. 
 = Sobolev Embedding Theorems
 
 = Lax-Milgram Theorem
