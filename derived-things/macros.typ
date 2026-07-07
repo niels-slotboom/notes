@@ -91,6 +91,7 @@
 #let dim = math.op("dim")
 #let mnabla = math.macron(math.nabla)
 
+#let diff = math.partial
 
 //lowercase bold vectors
 #let va = math.bold("a")

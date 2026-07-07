@@ -5,7 +5,7 @@
 
 #show: project.with(
   //title: "Dirac-Bergmann and Hamiltonian Field Theory",
-  title: "Things I've derived and can trust",
+  title: "Things I've derived before",
   authors: (
     (name: "Niels Slotboom", email: "slotboom.n@gmail.com"),
   ),
@@ -38,4 +38,28 @@ Five-point stencil with error:
 $
   f''(x) &= (-f(x+2epsilon) + 16 f(x+epsilon) - 30 f(x) + 16 f(x-
   epsilon) - f(x-2epsilon))/(12 epsilon^2)\ &quad- epsilon^4/90 f^((6))(x) + cal(O)(epsilon^6)
+$
+
+== Laplacian
+27-point stencil: 
+$
+  Delta f = 1/epsilon^2 ((-8 lambda -6) dot "(center)" + (4 lambda+1) dot "(faces)" - 2lambda dot "(edges)" + lambda dot "(corners)")
+$
+where, using $f_(+0-) = f(x+epsilon,y,z-epsilon)$ etc., 
+$
+  "(center)" &= f_(000)\
+  "(faces)" &= f_(+00) + f_(-00) + f_(0+0) + f_(0-0) +  f_(0 0 +) + f_(0 0 -)\
+  "(edges)" &= f_(++0) + f_(+-0) + f_(-+0) + f_(--0)\
+  &quad f_(+0+) + f_(+0-) + f_(-0+) + f_(-0-)\
+  &quad f_(0++) + f_(0+-) + f_(0-+) + f_(0--)\
+  "(corners)" &= f_(+++) + f_(++-) + f_(+-+) + f_(-++)\
+  &quad f_(+--) + f_(-+-) + f_(--+) + f_(---).
+$
+The error is $cal(O)(epsilon^4)$, with leading contribution given by
+$
+  epsilon^2/12 ((diff^4 f)/(diff x^4) + (diff^4 f)/(diff y^4) + (diff^4 f)/(diff z^4)).
+$
+The choice of $lambda$ doesn't change this leading error order, but it changes the anisotropy of the error. Useful choices are $lambda = 1/22$ or $lambda = 1/26$. The latter minimises the anisotropy for Fourier modes, and its full expression reads
+$
+  Delta f = (-164 dot "(center)" + 30 dot "(faces)" - 2 dot "(edges)" + 1 dot "(corners)")/(26 epsilon^2) + cal(O)(epsilon^2)_"iso" + cal(O)(epsilon^4)_"aniso". wide
 $
