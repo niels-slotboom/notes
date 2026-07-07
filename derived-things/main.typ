@@ -55,7 +55,7 @@ $
   "(corners)" &= f_(+++) + f_(++-) + f_(+-+) + f_(-++)\
   &quad f_(+--) + f_(-+-) + f_(--+) + f_(---).
 $
-The error is $cal(O)(epsilon^4)$, with leading contribution given by
+The error is $cal(O)(epsilon^2)$, with leading contribution given by
 $
   epsilon^2/12 ((diff^4 f)/(diff x^4) + (diff^4 f)/(diff y^4) + (diff^4 f)/(diff z^4)).
 $
