@@ -1,3 +1,12 @@
+#import "@preview/lemmify:0.1.8": *
+
+// for lemmify
+#let (
+  theorem, lemma, corollary,
+  remark, proposition, example, definition,
+  proof, rules: thm-rules
+) = default-theorems("thm-group", lang: "en", thm-numbering: thm-numbering-heading.with(max-heading-level: 1),max-reset-level: 1)
+
 // The project function defines how your document looks.
 // It takes your content and some metadata and formats it.
 // Go ahead and customize it to your liking!
@@ -8,7 +17,7 @@
   set text(font: "New Computer Modern", lang: "en")
   show math.equation: set text(weight: 400)
   set heading(numbering: "1.1")
-
+  
   // Title row.
   align(center)[
     #block(text(weight: 700, 1.75em, title))
@@ -35,8 +44,10 @@
   set par(leading: 0.55em, first-line-indent: 1.8em, justify: true)
   set text(font: "Computer Modern")
   //#set math.equation(numbering: "(1.1)")
+  set enum(numbering: "(i)")
   show raw: set text(font: "Cascadia Code")
   show par: set block(spacing: 0.55em)
+  show: thm-rules
   show heading: set block(above: 1.4em, below: 1em)
   set text(font: "New Computer Modern", lang: "en")
   // set math.equation(number-align: bottom + right)
@@ -47,7 +58,7 @@
   
   // show math.equation.where(block:true): set math.lr(size: 115%)
 
-  set math.equation(numbering: num => numbering("(1.1)", counter(heading).get().first(), counter(heading).get().at(1, default: 0), num))
+  set math.equation(numbering: num => numbering("(1.1)", counter(heading).get().first(), counter(heading).get().at(1, default: 0), num),supplement: "equation")
 
   body
 }

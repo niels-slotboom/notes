@@ -142,7 +142,7 @@ We denote the trace of the extrinsic curvature by $K$, and note that
 $
   K = g^(mu nu) K_(mu nu) = gamma^(mu nu) K_(mu nu)
 $
-due to the transverse property 3.
+due to the transverse property (iii).
 
 Finally, we can relate $K_(mu nu)$ to the Lie derivative of $gamma$ along $n$ as follows:
 $
@@ -210,3 +210,15 @@ $
   (mnabla_mu mnabla_nu thin - thin mnabla_nu mnabla_mu)V^lambda = tensor(macron(R),+lambda,-rho mu nu) V^rho
 $
 holds.
+
+== Gauss-Codazzi-Mainardi Equations
+#theorem(name: "Gauss Equation")[
+  With the definitions given in the above, the _Gauss equation_
+  $
+    tensor(macron(R),+lambda,-rho mu nu) = tensor((P R),+gamma,-delta alpha beta) + tensor(K,+lambda,-mu) K_(rho nu) - tensor(K,+lambda,-nu) K_(rho mu)
+  $
+  holds. Contracting over $lambda mu$ leads to (after renaming indices)
+  $
+    macron(R)_(mu nu) = (P R)_(mu nu) + R_(lambda mu rho nu) n^lambda n^rho + K K_(mu nu) - tensor(K,+lambda,-mu) K_(nu lambda)
+  $
+]
