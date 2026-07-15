@@ -205,6 +205,10 @@
 #let fY = math.cal("Y")
 #let fZ = math.cal("Z")
 
+#let TM = $T cal(M)$
+#let TN = $T cal(N)$
+#let TS = $T cal(S)$
+
 //highlithing in green for math mode
 #let mhilite(T) = {
   (text(color.green)[$#T$])

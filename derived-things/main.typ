@@ -144,7 +144,7 @@ $
 $
 due to the transverse property 3.
 
-Finally, we can relate $K_(mu nu)$ to the Lie-derivative of $gamma$ along $n$ as follows:
+Finally, we can relate $K_(mu nu)$ to the Lie derivative of $gamma$ along $n$ as follows:
 $
   K_(mu nu) = -1/2 \(fL_n gamma\)_(mu nu).
 $
@@ -152,6 +152,61 @@ This follows by expanding the right-hand side and making use of
 $
   fL_n n^flat = a^flat.
 $
-Note that the Lie-derivative of the _vector_ $n$ would be zero, $fL_n n = [n,n] = 0$---in the identity above, we take the Lie-derivative of the _covector_ $n^flat$.
+Note that the Lie derivative of the _vector_ $n$ would be zero, $fL_n n = [n,n] = 0$---in the identity above, we take the Lie derivative of the _covector_ $n^flat$.
 
 == Induced Connection and Intrinsic Curvature
+=== Induced Connection
+Given the Levi-Civita connection $nabla$ on $(fM,g)$, we define the _induced/three-dimensional/spatial covariant derivative_ $mnabla$ on the foliation $Sigma = {Sigma_t}$ as 
+$
+  mnabla T = P (nabla T) quad <=>quad tensor((mnabla_lambda T),+mu...,-nu...) = tensor(P,+alpha,-lambda) tensor(P,+mu,-beta) ... tensor(P,+gamma,-nu)... nabla_alpha tensor(T,+beta...,-gamma...) 
+$
+for any $T in Gamma(T^((r,s)) Sigma)$. Note that $T$ must be tangent to $Sigma$---i.e. have no normal components---for this to define a connection on $T Sigma$. The direction $X$ of the derivative does not necessarily have to be in $T Sigma$, but if it is, it holds that
+$
+  mnabla_X T = P (nabla_X T), quad "if" X in Gamma(T Sigma).
+$
+Otherwise, for general $X in Gamma(TM))$, we have
+$
+  mnabla_X T = P(nabla_(P X)T).
+$
+The fact that $mnabla$ defines a connection on $T Sigma$ is clear from the fact that $nabla$ is a connection, and that $P$ is $C^infty (fM)$-linear. In particular, we have the Leibniz rule
+$
+  mnabla_X (T otimes S) &= P (nabla_(P X) (T otimes S)) = P (nabla_(P X) T) otimes P S + P T otimes P(nabla_(P X) S)\
+  &= (mnabla_X T) otimes S + T otimes (mnabla_X S).
+$
+Hence, for example, on a $1$-form $eta in Gamma(T^* Sigma)$,
+$
+  (mnabla_X eta)(Y) = X(eta(Y)) - eta(mnabla_X Y).
+$
+
+Further, $mnabla$ is torsion-free and metric-compatible with $gamma$:
+- Torsion: For any $X,Y in Gamma(T Sigma)$, we have
+  $
+    macron(T)(X,Y) &= mnabla_X Y - mnabla_Y X - underbrace([X,Y],in Gamma(T Sigma))= P(nabla_X Y - nabla_Y X - [X,Y]) \ 
+    &= P T(X,Y) = 0
+  $
+
+- Metricity: For any $X,Y,Z in Gamma(T Sigma)$,
+  $
+    X(gamma(Y,Z)) &= X(g(Y,Z)) = g(nabla_X Y,Z) + g(Y,nabla_X Z) \
+    &= g(P nabla_X Y, Z) + g(Y,P nabla_X Z) = gamma(mnabla_X Y,Z) + gamma(Y,mnabla_X Z).
+  $
+=== Intrinsic Curvature
+Since $mnabla$ defines a connection on $T Sigma$, and by that on each of the leaves of the foliation, it comes with an associated Riemannian curvature tensor, defined by
+$
+  macron(R)(X,Y)Z = mnabla_X mnabla_Y Z - mnabla_Y mnabla_X Z - mnabla_[X,Y]Z
+$
+In components, this reads
+$
+  (macron(R)(X,Y)Z)^mu = tensor(macron(R),+mu,-nu rho sigma) Z^nu X^rho Y^sigma.
+$
+We further have an associated Ricci tensor and scalar,
+$
+  macron(R)_(mu nu) = tensor(macron(R),+lambda,-mu lambda nu), quad macron(R) = g^(mu nu) macron(R)_(mu nu) = gamma^(mu nu) macron(R)_(mu nu),
+$
+where the last equality holds because $tensor(macron(R),+mu,-nu rho sigma)$ vanishes when contracted with the foliation normal $n$ on any index. 
+
+Since $mnabla$ is the Levi-Civita connection with respect to $gamma$, $macron(R)_(mu nu rho sigma)$ enjoys the same symmetries as the ambient Riemann tensor. Further, the Ricci identity
+$
+  (mnabla_mu mnabla_nu thin - thin mnabla_nu mnabla_mu)V^lambda = tensor(macron(R),+lambda,-rho mu nu) V^rho
+$
+holds.
