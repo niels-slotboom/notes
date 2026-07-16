@@ -211,14 +211,41 @@ $
 $
 holds.
 
-== Gauss-Codazzi-Mainardi Equations
+== Gauss-Codazzi-Ricci Equations
 #theorem(name: "Gauss Equation")[
   With the definitions given in the above, the _Gauss equation_
   $
-    tensor(macron(R),+lambda,-rho mu nu) = tensor((P R),+gamma,-delta alpha beta) + tensor(K,+lambda,-mu) K_(rho nu) - tensor(K,+lambda,-nu) K_(rho mu)
+    tensor((P R),+lambda,-rho mu nu) = tensor(macron(R),+lambda,-rho mu nu) + tensor(K,+lambda,-mu) K_(rho nu) - tensor(K,+lambda,-nu) K_(rho mu)
   $
   holds. Contracting over $lambda mu$ leads to (after renaming indices)
   $
-    macron(R)_(mu nu) = (P R)_(mu nu) + R_(lambda mu rho nu) n^lambda n^rho + K K_(mu nu) - tensor(K,+lambda,-mu) K_(nu lambda)
+    (P R)_(mu nu) + R_(lambda mu rho nu) n^lambda n^rho = macron(R)_(mu nu) + K K_(mu nu) - tensor(K,+lambda,-mu) K_(nu lambda).
   $
+  Tracing with respect to $gamma^(mu nu)$ (or equivalently, $g^(mu nu)$) leads to
+  $
+    R + 2 R_(mu nu) n^mu n^nu = macron(R) + K^2 - K_(mu nu) K^(mu nu).
+  $
+]
+#proof[(Hint) To show this, first compute $mnabla_mu mnabla_nu X^sigma$ for $X in Gamma(T Sigma)$. Use $K_(mu nu) = -tensor(P,+lambda,-mu) nabla_lambda n_nu$ to trade derivatives of $n$ for the extrinsic curvature.]
+
+#theorem(name: "Codazzi Equation")[
+  Under the same assumptions, the _Codazzi equation_
+  $
+    P(R_(rho lambda mu nu ) n^rho) = mnabla_mu K_(nu lambda) - mnabla_nu K_(mu lambda)
+  $
+  holds. Tracing over $lambda mu$ with respect to $gamma^(lambda mu)$ (or equivalently, $g^(lambda mu)$) leads to
+  $
+    tensor(P,+mu,-lambda) n^nu R_(mu nu) = mnabla_lambda K - mnabla_mu tensor(K,+mu,-lambda) 
+  $
+]
+
+#lemma[
+  With the setup from the above, we have:
+  +
+  +
+  + 
+]
+
+#theorem(name: "Ricci Equation")[
+
 ]
