@@ -268,8 +268,61 @@ holds.
   $
   Since both sides yield zero when contracted with $n$, the traces with respect to $g^(mu nu)$ and $gamma^(mu nu)$ are identical and read
   $
-    R_(mu nu) n^mu n^nu = fL_n K + K_(mu nu) K^(mu nu) + 1/alpha mnabla^mu mnabla_mu alpha.
+    R_(mu nu) n^mu n^nu = fL_n K - K_(mu nu) K^(mu nu) + 1/alpha mnabla^mu mnabla_mu alpha.
   $
 ]
 
-With the triad of the Gauss-Codazzi-Ricci equations, we now know expressions for all projections of the Riemann and Ricci tensors onto $T Sigma$ and $N Sigma$. In particular, this allows us to express the full Ricci tensor and scalar in terms of the extrinsic and intrinsic curvature contributions as well as the lapse $alpha$.
+With the triad of the Gauss-Codazzi-Ricci equations, we can now isolate the final projection of the Ricci tensor, the purely spatial one, and find an expression for the full Ricci scalar in terms of the intrinsic and extrinsic quantities.
+#theorem[
+  The above results combine into 
+  $
+    (P R)_(mu nu) &= - fL_n K_(mu nu) + K K_(mu nu) - 2 K_(mu lambda) tensor(K,+lambda,-nu) + macron(R)_(mu nu) - 1/alpha mnabla_mu mnabla_nu alpha,\
+    R &= -2 fL_n K + K^2 + K_(mu nu) K^(mu nu) + macron(R) - 2/alpha mnabla^mu mnabla_mu alpha
+  $<eqProjectionsRicci>
+]
+== The Einstein Equations in the $3+1$-Formalism
+We work with the Einstein equations in the convention where
+$
+  R_(mu nu) - 1/2 R g_(mu nu) + Lambda g_(mu nu) = 8 pi T_(mu nu).
+$
+Taking the trace of this equation with respect to $g^(mu nu)$, we obtain
+$
+  1/2 R = 2 Lambda - 1/2 8 pi T ,
+$
+with $T = g^(mu nu) T_(mu nu)$ the trace of the energy-momentum tensor. Inserting this into the Einstein equations yields their trace-reversed counterpart,
+$
+  R_(mu nu) = 8pi (T_(mu nu) - 1/2 T g_(mu nu)) + Lambda g_(mu nu).
+$
+Note that a second trace-reversal brings us back to the original form, implying that the Einstein equations and their trace-reverse are equivalent.
+
+We define the energy density $rho$, the energy current $j^mu$, and the stress tensor $S_(mu nu)$ as measured by Eulerian observers traveling along the integral lines of $n$ by
+$
+  rho &= n^mu n^nu T_(mu nu),\
+  j_mu &= - tensor(P,+alpha,-mu) n^nu T_(alpha nu)\
+  S_(mu nu) &= tensor(P,+alpha,-mu) tensor(P,+beta,-nu) T_(alpha beta)
+$
+These are simply the time-time, time-space and space-space projections of the energy-momentum tensor, and allow us to decompose it as
+$
+  T_(mu nu) = rho n_mu n_nu + j_mu n_nu + j_nu n_mu + S_(mu nu).
+$
+Its trace $T$ is given by
+$
+  T = S - rho
+$
+where $S = g^(mu nu) S_(mu nu) = gamma^(mu nu) S_(mu nu)$.
+
+Together with the results from the previous section, these definitions now allow us to cast the Einstein equations into a first-order system for a second-order in time evolution of the spatial metric $gamma_(mu nu)$, with the extrinsic curvature $K_(mu nu)$ serving as an auxiliary variable:
+#theorem[
+  The Einstein equations written in terms of $alpha, n, gamma, K, rho, j$ and $S$ read
+  $
+    cal(H) &:= macron(R) + K^2 - K_(mu nu) K^(mu nu) - 2Lambda - 16 pi rho = 0,\ \
+    cal(M)_mu &:= mnabla_mu K - mnabla_nu tensor(K,+nu,-mu) + 8 pi j_mu = 0,\ \
+    fL_n gamma_(mu nu) &= -2 K_(mu nu),\ \
+    fL_n K_(mu nu) &= K K_(mu nu) - 2 K_(mu lambda) tensor(K,+lambda,-nu) + macron(R)_(mu nu) - 1/alpha mnabla_mu mnabla_nu alpha\ &wide - Lambda gamma_(mu nu) - 8pi ((S_(mu nu) - 1/2 S gamma_(mu nu)) - 1/2 rho gamma_(mu nu)).
+  $
+]
+The first two equations are derived by taking the normal-normal and normal-tangential projections of the original Einstein equations and subsequently identifying the definitions of $rho$ and $j$ as well as applying the Gauss and Codazzi equations, respectively. These two equations involve no time derivatives, and are hence a set of four constraints. 
+
+The remaining two equations are first order in time (by the presence of the $fL_n$ normal derivatives), and hence dynamical. The first of the two is simply a consequence of the definition of the extrinsic curvature. The latter is the result of projecting the trace-reversed Einstein equations onto $T Sigma$ by contracting with $P$ on both indices, and subsequently applying the first equation in @eqProjectionsRicci[] to re-express the projected Ricci tensor $(P R)_(mu nu)$.
+
+== Adapted Coordinates
