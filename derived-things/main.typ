@@ -241,11 +241,35 @@ holds.
 
 #lemma[
   With the setup from the above, we have:
-  +
-  +
-  + 
+  + The following Lie derivatives of the projector/induced metric:
+    $
+      fL_n gamma^(mu nu) &= 2 K^(mu nu) + n^mu a^nu + a^mu n^nu,\
+      fL_n tensor(P,+mu,-nu) &= n^mu a_nu,\
+      fL_n gamma_(mu nu) &= -2 K_(mu nu)
+    $
+  + If $T in Gamma(T^((0,s)) Sigma)$, that is, if $T$ is a foliation-tangent covariant tensor, then so is $fL_n T$. That is,
+    $
+      fL_n T = P (fL_n T), quad T in Gamma(T^((0,s))Sigma).
+    $
+  + The acceleration covector $a_mu$ and the lapse $alpha$ satisfy the identity
+    $
+      a_mu = tensor(P,+lambda,-mu) nabla_lambda log alpha = mnabla_mu log alpha.
+    $
 ]
 
 #theorem(name: "Ricci Equation")[
-
+  Again with the same setup, it holds the _Ricci equation_
+  $
+    tensor(P,+alpha,-mu) n^rho tensor(P,+beta,-nu) n^sigma R_(alpha rho beta sigma) = fL_n K_(mu nu) + K_(mu lambda) tensor(K,+lambda,-nu) + 1/alpha mnabla_mu mnabla_nu alpha
+  $
+  Note that on the left-hand side, the projections of the $alpha$ and $beta$ indices are superfluous, since the $n otimes n^flat$-part of $P$ vanishes when contracted due to the symmetries of the Riemann tensor. That is, we may write the Ricci equation more compactly as
+  $
+    R_(mu rho nu sigma) n^rho n^sigma = fL_n K_(mu nu) + K_(mu lambda) tensor(K,+lambda,-nu) + 1/alpha mnabla_mu mnabla_nu alpha.
+  $
+  Since both sides yield zero when contracted with $n$, the traces with respect to $g^(mu nu)$ and $gamma^(mu nu)$ are identical and read
+  $
+    R_(mu nu) n^mu n^nu = fL_n K + K_(mu nu) K^(mu nu) + 1/alpha mnabla^mu mnabla_mu alpha.
+  $
 ]
+
+With the triad of the Gauss-Codazzi-Ricci equations, we now know expressions for all projections of the Riemann and Ricci tensors onto $T Sigma$ and $N Sigma$. In particular, this allows us to express the full Ricci tensor and scalar in terms of the extrinsic and intrinsic curvature contributions as well as the lapse $alpha$.
