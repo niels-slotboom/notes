@@ -314,15 +314,70 @@ where $S = g^(mu nu) S_(mu nu) = gamma^(mu nu) S_(mu nu)$.
 Together with the results from the previous section, these definitions now allow us to cast the Einstein equations into a first-order system for a second-order in time evolution of the spatial metric $gamma_(mu nu)$, with the extrinsic curvature $K_(mu nu)$ serving as an auxiliary variable:
 #theorem[
   The Einstein equations written in terms of $alpha, n, gamma, K, rho, j$ and $S$ read
-  $
+  #bottom-number[$
     cal(H) &:= macron(R) + K^2 - K_(mu nu) K^(mu nu) - 2Lambda - 16 pi rho = 0,\ \
     cal(M)_mu &:= mnabla_mu K - mnabla_nu tensor(K,+nu,-mu) + 8 pi j_mu = 0,\ \
     fL_n gamma_(mu nu) &= -2 K_(mu nu),\ \
     fL_n K_(mu nu) &= K K_(mu nu) - 2 K_(mu lambda) tensor(K,+lambda,-nu) + macron(R)_(mu nu) - 1/alpha mnabla_mu mnabla_nu alpha\ &wide - Lambda gamma_(mu nu) - 8pi ((S_(mu nu) - 1/2 S gamma_(mu nu)) - 1/2 rho gamma_(mu nu)).
-  $
+  $<eqEvSys>]
 ]
 The first two equations are derived by taking the normal-normal and normal-tangential projections of the original Einstein equations and subsequently identifying the definitions of $rho$ and $j$ as well as applying the Gauss and Codazzi equations, respectively. These two equations involve no time derivatives, and are hence a set of four constraints. 
 
 The remaining two equations are first order in time (by the presence of the $fL_n$ normal derivatives), and hence dynamical. The first of the two is simply a consequence of the definition of the extrinsic curvature. The latter is the result of projecting the trace-reversed Einstein equations onto $T Sigma$ by contracting with $P$ on both indices, and subsequently applying the first equation in @eqProjectionsRicci[] to re-express the projected Ricci tensor $(P R)_(mu nu)$.
 
 == Adapted Coordinates
+We can amend the time function $t:fM->RR$ (for which $dt != 0$) which defines the foliation $Sigma_t$ to a coordinate system _adapted to $Sigma_t$_ by introducing three additional functions $x^i : fM -> RR$ such that $dx^i != 0$ and $x^i|_Sigma_t$ label points uniquely on any leaf $Sigma_t$. This defines a basis ${diff_t, diff_i}$ of $TM$ and an associated dual basis ${dt,dx^i}$ of $T^*fM$. 
+
+A natural question is to ask how the two time directions that we now have are related---we have the (coordinate-independent) timelike normal vector $n$, and additionally, the coordinate time direction $diff_t$. To this end, we introduce the shift vector $beta$, defined by
+$
+  beta := diff_t - alpha n quad <=> quad diff_t = alpha n + beta quad<=> quad n = 1/alpha (diff_t - beta).
+$
+This vector is tangent to the foliation, since
+$
+  dt(beta) = dt(diff_t) thin underbrace(- thin alpha dt,=n^flat)(n) = 1 - g(n,n) = 0.
+$
+Hence, it quantifies the failure of $diff_t$ to be normal to the foliation; that is, how much the coordinate lines of $t$ _shift_ with respect to the geometric normal direction specified by $n$.
+
+With the lapse $alpha$, the shift $beta$, and the induced metric $gamma$, we now have all the objects we need for the 3+1-decomposition of the metric tensor $g$. Its components in the basis ${diff_t,diff_i}$  read
+$
+  g_(i j) &= g(diff_i,diff_j) = gamma(diff_i,diff_j) =: gamma_(i j)\
+g_(t i) &= g(diff_t,diff_i) =  gamma_(i j) beta^j =: beta_i, \
+  g_(t t) &= g(diff_t,diff_t) = -alpha^2 + beta_i beta^i.\
+$
+In matrix form, this reads
+$
+  [g_(mu nu)]_(mu,nu in {t,i}) = mat(-alpha^2 + beta_k beta^k, beta_j;beta_i,gamma_(i j)),
+$
+and tensorially, we may write
+$
+  g &= g_(mu nu) dx^mu otimes dx^nu\ &= -alpha^2 dt otimes dt + gamma_(i j) (dx^i + beta^i dt)(dx^j + beta^j dt).
+$
+The corresponding inverse metric has the components
+$
+  g^(t t) = -1/alpha^2, quad g^(t i) = beta^i/alpha^2, quad g^(i j) = gamma^(i j) - (beta^i beta^j)/alpha^2,
+$
+which takes the matrix form
+$
+  [g^(mu nu)]_(mu,nu in {t,i}) = mat(-1\/alpha^2, beta^j\/alpha^2;beta^i\/alpha^2, gamma^(i j) - beta^i beta^j\/alpha^2).
+$
+Here, $gamma^(i j)$ denotes the matrix inverse of $gamma_(i j)$, characterised uniquely by the condition
+$
+  gamma^(i j) gamma_(j k) = tensor(delta,+i,-k).
+$
+Tensorially, the inverse metric can be expressed compactly as 
+$
+  g^(-1) = -n otimes n + gamma^(i j) diff_i otimes diff_j.
+$
+As we have seen in the previous sections, we often care about normal projections of tensors, not their coordinate time components. Because of this, another useful basis is ${n,diff_i}$, alongside its dual ${-n^flat, dx^i} = {alpha dt, dx^i}$, with indices $perp, i$. Generically, this is _not_ a coordinate basis. However, it does give the metric a nice block-diagonal structure:
+$
+  g_(perp perp) = g(n,n) = -1, quad g_(perp i) = g(n,diff_i) = 0, quad g_(i j) = g(diff_i,diff_j) = gamma_(i j),
+$
+and
+$
+  g^(perp perp) = -1, quad g^(perp i) = 0, quad g^(i j) = gamma^(i j).
+$
+For example, in terms of this basis, the Hamiltonian and momentum constraints are nothing but the Einstein equations
+$
+  fH = G_(perp perp) - 8pi T_(perp perp) = 0, quad fM_i = G_(perp i) - 8pi T_(perp i).
+$
+We will return to this shortly, when we rewrite the full @eqEvSys[constrained evolution system] in terms of the coordinate basis.
