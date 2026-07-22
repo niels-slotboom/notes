@@ -381,3 +381,33 @@ $
   fH = G_(perp perp) - 8pi T_(perp perp) = 0, quad fM_i = G_(perp i) - 8pi T_(perp i).
 $
 We will return to this shortly, when we rewrite the full @eqEvSys[constrained evolution system] in terms of the coordinate basis.
+== Adapted Coordinates
+The conservation equation $nabla_mu T^(mu nu) = 0$ implies equations of motion for the energy density $rho$ and $j_i$. To derive them, we must first relate $rho$ and $j_i$ to components of the energy-momentum tensor in adapted coordinates. To this end, we should recall that in adapted coordinates,
+$
+  n^t &= 1/alpha, &quad&& n^i &= -beta^i/alpha,\
+  n_t &= -alpha, &quad&& n_i &= 0.
+$
+Consequently, the projector $tensor(P,+mu,-nu)$ has the components
+$
+  tensor(P,+t,-t) &= 0, &&quad&
+  tensor(P,+t,-i) &= 0,\
+  tensor(P,+i,-t) &= beta^i, &&&
+  tensor(P,+i,-j) &= tensor(delta,+i,-j),
+$
+which may be summarised as $tensor(P,+t,-mu) = 0$ and $tensor(P,+i,-mu) = tensor(delta,+i,-mu) + beta^i tensor(delta,+t,-mu)$
+With this projector and the components of $n$, we can directly evaluate
+$
+  rho &= T^(mu nu) n_mu n_nu = alpha^2 T^(t t),\
+  j^i &= -tensor(P,+i,-mu) T^(mu nu) n_nu = alpha (beta^i T^(t t) + T^(i t)),\
+  S^(i j) &= tensor(P,+i,-mu) tensor(P,+j,-nu) T^(mu nu) = T^(i j) + 2 beta^(\(i) T^(j\) t) + beta^i beta^j T^(t t).
+$
+Here, we recall that $j^t = 0$, $S^(t mu) = 0$, and that hence, we may raise and lower indices with $gamma_(i j)$. Note that $j_t$ and $S_(t mu)$ are not necessarily zero, but by the reasoning given earlier, these components are not independent of the purely spatial ones and hence carry no additional information. 
+
+The above puts $rho,j^i$ and $S^(i j)$ in terms of the components of $T^(mu nu)$. To evaluate projections of $nabla_mu T^(mu nu) = 0$, however, we need to invert this relationship, and express $T^(mu nu)$ in terms of $rho,j^i$ and $S^(i j)$. Carrying out this inversion leads to
+$
+  T^(t t) = 1/alpha^2 rho, wide T^(i t) = 1/alpha j^i - beta^i/alpha^2 rho, wide T^(i j) = S^(i j) - 2/alpha beta^(\(i) j^(j\)) + (beta^i beta^j)/alpha^2 rho.
+$
+Note that this is simply saying that
+$
+  T = rho n otimes n + j otimes n + n otimes j + S.
+$
