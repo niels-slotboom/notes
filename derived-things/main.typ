@@ -5,7 +5,7 @@
 
 #show: project.with(
   //title: "Dirac-Bergmann and Hamiltonian Field Theory",
-  title: "Things I've derived before",
+  title: "Stuff I've derived before",
   authors: (
     (name: "Niels Slotboom", email: "slotboom.n@gmail.com"),
   ),
@@ -318,7 +318,7 @@ Together with the results from the previous section, these definitions now allow
     cal(H) &:= macron(R) + K^2 - K_(mu nu) K^(mu nu) - 2Lambda - 16 pi rho = 0,\ \
     cal(M)_mu &:= mnabla_mu K - mnabla_nu tensor(K,+nu,-mu) + 8 pi j_mu = 0,\ \
     fL_n gamma_(mu nu) &= -2 K_(mu nu),\ \
-    fL_n K_(mu nu) &= K K_(mu nu) - 2 K_(mu lambda) tensor(K,+lambda,-nu) + macron(R)_(mu nu) - 1/alpha mnabla_mu mnabla_nu alpha\ &wide - Lambda gamma_(mu nu) - 8pi ((S_(mu nu) - 1/2 S gamma_(mu nu)) - 1/2 rho gamma_(mu nu)).
+    fL_n K_(mu nu) &= K K_(mu nu) - 2 K_(mu lambda) tensor(K,+lambda,-nu) + macron(R)_(mu nu) - 1/alpha mnabla_mu mnabla_nu alpha\ &wide - Lambda gamma_(mu nu) - 8pi ((S_(mu nu) - 1/2 S gamma_(mu nu)) + 1/2 rho gamma_(mu nu)).
   $<eqEvSys>]
 ]
 The first two equations are derived by taking the normal-normal and normal-tangential projections of the original Einstein equations and subsequently identifying the definitions of $rho$ and $j$ as well as applying the Gauss and Codazzi equations, respectively. These two equations involve no time derivatives, and are hence a set of four constraints. 
@@ -326,6 +326,7 @@ The first two equations are derived by taking the normal-normal and normal-tange
 The remaining two equations are first order in time (by the presence of the $fL_n$ normal derivatives), and hence dynamical. The first of the two is simply a consequence of the definition of the extrinsic curvature. The latter is the result of projecting the trace-reversed Einstein equations onto $T Sigma$ by contracting with $P$ on both indices, and subsequently applying the first equation in @eqProjectionsRicci[] to re-express the projected Ricci tensor $(P R)_(mu nu)$.
 
 == Adapted Coordinates
+=== The Metric and Bases
 We can amend the time function $t:fM->RR$ (for which $dt != 0$) which defines the foliation $Sigma_t$ to a coordinate system _adapted to $Sigma_t$_ by introducing three additional functions $x^i : fM -> RR$ such that $dx^i != 0$ and $x^i|_Sigma_t$ label points uniquely on any leaf $Sigma_t$. This defines a basis ${diff_t, diff_i}$ of $TM$ and an associated dual basis ${dt,dx^i}$ of $T^*fM$. 
 
 A natural question is to ask how the two time directions that we now have are related---we have the (coordinate-independent) timelike normal vector $n$, and additionally, the coordinate time direction $diff_t$. To this end, we introduce the shift vector $beta$, defined by
@@ -380,4 +381,60 @@ For example, in terms of this basis, the Hamiltonian and momentum constraints ar
 $
   fH = G_(perp perp) - 8pi T_(perp perp) = 0, quad fM_i = G_(perp i) - 8pi T_(perp i).
 $
-We will return to this shortly, when we rewrite the full @eqEvSys[constrained evolution system] in terms of the coordinate basis.
+In this basis, foliation-tangent tensors, i.e. objects $T in Gamma(T^((r,s)) Sigma)$, only have components where all indices are spatial. That is, a component vanishes if any of its indices is $perp$. 
+
+Back in the coordinate basis ${diff_t,diff_i}$, the same is true for upstairs indices; for example, for a vector $X in Gamma(T Sigma)$, we have
+$
+  X^t = dt(X) = -1/alpha n^flat (X) = 0,
+$
+since $X perp n$. For downstairs indices, this is generally not true, as, for instance,
+$
+  X_t = g_(t mu) X^mu = g_(t i) X^i = beta_i X^i.
+$
+However, the $X_t$-component is not independent of the other three, $X_i = gamma_(i j) X^j$. Because of this, it is irrelevant, and hence, the full information about any foliation-tangent tensor $T in Gamma(T^((r,s)) Sigma)$ (such as $gamma_(mu nu)$, $K_(mu nu)$, $macron(R)_(mu nu rho sigma)$, $S_(mu nu)$ etc.) is stored in its purely spatial components. We also dont need the downstairs-, $t$ components for contractions; it will always be contracted with an upstairs-$t$ component, which is zero. Concretely, this implies that for example,
+$
+  K_(mu nu) K^(mu nu) = K_(i j) K^(i j) quad "and" quad tensor(macron(R),-i j) = tensor(macron(R),+mu,-i mu j) = tensor(macron(R),+k,-i k j).
+$
+
+=== Extrinsic and Intrinsic Curvature
+#lemma[
+  For any vector field $N$ that is normal to $T Sigma$ (not necessarily the unit-normal $n$), and a contravariant tangential tensor $T in Gamma(T^((0,s))Sigma)$, we have
+  $
+    fL_(f N) T = f fL_N T.
+  $
+  Note that this is not necessarily true if $T$ is not foliation-tangential or has upstairs indices.
+]
+This lemma might seem kind of useless, but it allows us to write down an explicit expression for the extrinsic curvature in an adapted coordinate basis: 
+$
+  K_(mu nu) = -1/2 fL_n gamma_(mu nu) = -1/2 fL_(1/alpha (diff_t-beta)) gamma_(mu nu) = -1/(2 alpha) (diff_t gamma_(mu nu) - fL_beta gamma_(mu nu))
+$
+Since the extrinsic curvature itself is also a foliation-tangent tensor, an analogous result holds. Writing directly in the adapted basis (and dropping any $t$-components), we obtain
+$
+  K_(i j) &= -1/(2alpha) (diff_t gamma_(i j) - fL_beta gamma_(i j)),\
+  fL_n K_(i j) &= 1/alpha (diff_t K_(i j) - fL_beta K_(i j))
+$
+Writing out the Lie derivatives along $beta$, we obtain the following relationships:
+$
+  diff_t gamma_(i j) &= beta^k diff_k gamma_(i j) + 2 gamma_(k \(i) diff_(j\)) beta^k -2 alpha K_(i j), \
+  diff_t K_(i j) &= beta^k diff_k K_(i j) + 2 K_(k \(i) diff_(j\)) beta^k +  alpha fL_n K_(i j).
+$
+These will be useful to recast the 3+1 Einstein equations we derived in the previous section into adapted coordinates, in a form where they clearly describe the first-order time evolution of $(gamma_(i j),K_(i j))$.
+
+In the 3+1 Einstein equations, beyond the extrinsic curvature, the intrinsic connection $mnabla$ as well as its associated curavture $macron(R)$ appears. We therefore also need to write these in terms of the adapted coordinate basis. Since $mnabla$ is the Levi-Civita connection on any of the leaves with respect to the induced metric $gamma$, its components in adapted coordinates read
+$
+  tensor(macron(Gamma),+k,-i j) = 1/2 gamma^(k ell) (diff_i gamma_(j ell) + diff_j gamma_(i ell) - diff_ell gamma_(i j))
+$
+Correspondingly, the associated Riemann curvature has the components
+$
+  tensor(macron(R),+k,-ell i j) = diff_i tensor(macron(Gamma),+k,-ell j) - diff_j tensor(macron(Gamma),+k,-ell i) + tensor(macron(Gamma),+k,-n i) tensor(macron(Gamma),+n,-ell j) - tensor(macron(Gamma),+k,-n j) tensor(macron(Gamma),+n,-ell i)
+$<eqTimeDerivGammaK>
+=== The Einstein Equations in $3+1$-Adapted Coordinates
+The @eqTimeDerivGammaK[equations] directly imply that the Einstein equations in adapted coordinates reads
+$
+  fH &= macron(R) + K^2 - K_(i j) K^(i j) - 2Lambda - 16pi rho = 0, \ \ \
+  fM_i &= mnabla_i K - mnabla_j tensor(K,+j,-i) + 8pi j_i \ \ \
+  diff_t gamma_(i j) &= beta^k diff_k gamma_(i j) + 2 gamma_(k \(i) diff_(j\)) beta^k - 2 alpha K_(i j), \ \ \
+  diff_t K_(i j)&= beta^k diff_k K_(i j) + 2K_(k \(i) diff_(j\)) beta^k - mnabla_i mnabla_j alpha + alpha(K K_(i j) - 2 K_(i k) tensor(K,+k,-j) + macron(R)_(i j))\
+  &quad - alpha Lambda gamma_(i j) - 8pi alpha (S_(i j) - 1/2 (S-rho) gamma_(i j))
+
+$
