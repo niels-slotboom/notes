@@ -475,5 +475,40 @@ This is derived by first integrating by parts, $(nabla_mu T^(mu nu)) n_nu = nabl
 
 A similar equation of motion can be derived for $diff_t j_i$ by projecting $nabla_mu T^(mu nu) = 0$ onto $T Sigma$ using $P$, but I will not do this here. 
 = BSSNOK
-== Metric Derivative and Curvature identities
-== Reparametrisation
+== Metric Derivative and Curvature Identities
+=== Jacobi Formula
+For the variation $delta$ of a matrix $M$, we have the _Jacobi formula_
+$
+  delta det M = det M dot tr(M^(-1) delta M).
+$
+Using $g = det [g_(mu nu)]$, this implies that
+$
+  delta g = g g^(mu nu) delta g_(mu nu) = - g g_(mu nu) delta g^(mu nu).
+$
+For a derivative variation, $delta = diff_lambda$, this can be expressed in terms of Christoffel symbols as
+$
+  diff_lambda g = g g^(mu nu) diff_lambda g_(mu nu) = 2 g tensor(Gamma,+mu,-mu lambda).
+$
+This expression further implies expressions for the divergence of $X in Gamma(TM)$ and the wave operator on $f in C^infty (fM)$, reading
+$
+  Div X = nabla_mu X^mu = 1/sqrt(g) diff_mu (sqrt(g) X^mu)\ \ "and"\ \ Box_g f = g^(mu nu) nabla_mu nabla_nu f = 1/sqrt(g) diff_mu (sqrt(g) g^(mu nu) diff_nu f),
+$
+respectively.
+=== Connection and Curvature of Conformal Metrics
+In the following, let $g_(mu nu)$ and $tilde(g)_(mu nu)$ be two metrics on a $d$-dimensional manifold $fM$, related by
+$
+  tilde(g)_(mu nu) = chi g_(mu nu).
+$
+Trivially, their inverses and determinants are then related by
+$
+  tilde(g)^(mu nu) = chi^(-1) g^(mu nu) quad "and" quad tilde(g) = chi^d g.
+$
+Denoting their Christoffel symbols by $Gamma$ and $tilde(Gamma)$, respectively, we have the identity
+$
+  tensor(tilde(Gamma),+lambda,-mu nu) = tensor(Gamma,+lambda,-mu nu) + 1/(2 chi) (tensor(delta,+lambda,-mu) diff_nu chi + tensor(delta,+lambda,-nu) diff_mu chi - g_(mu nu) g^(lambda rho) diff_rho chi)
+$
+or equivalently
+$
+  tensor(Gamma,+lambda,-mu nu) = tensor(tilde(Gamma),+lambda,-mu nu) - 1/(2 chi) (tensor(delta,+lambda,-mu) diff_nu chi + tensor(delta,+lambda,-nu) diff_mu chi - tilde(g)_(mu nu) tilde(g)^(lambda rho) diff_rho chi)
+$
+== BSSNOK Reparametrisation
