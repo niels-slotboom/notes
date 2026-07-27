@@ -467,3 +467,11 @@ Note that this is simply saying that
 $
   T = rho n otimes n + j otimes n + n otimes j + S.
 $
+The normal projection $(nabla_mu T^(mu nu)) n_nu = 0$ then implies the equation of motion for $rho$, reading
+$
+  diff_t rho = beta^k diff_k rho - 2 j^k diff_k alpha + alpha (K rho + K_(i j) S^(i j) - mnabla_i j^i).
+$
+This is derived by first integrating by parts, $(nabla_mu T^(mu nu)) n_nu = nabla_mu (T^(mu nu) n_nu) - T^(mu nu) nabla_mu n_nu$, and then applying identities from the above to replace derivatives of $n$ with the extrinsic curvature. The standard formula $nabla_mu X^mu = 1/sqrt(g)diff_mu (sqrt(g)X^mu)$, together with $sqrt(g) = alpha sqrt(gamma)$, then allows the deduction of the result.
+
+A similar equation of motion can be derived for $diff_t j_i$ by projecting $nabla_mu T^(mu nu) = 0$ onto $T Sigma$ using $P$, but I will not do this here. 
+= BSSNOK
