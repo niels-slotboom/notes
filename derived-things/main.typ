@@ -475,3 +475,5 @@ This is derived by first integrating by parts, $(nabla_mu T^(mu nu)) n_nu = nabl
 
 A similar equation of motion can be derived for $diff_t j_i$ by projecting $nabla_mu T^(mu nu) = 0$ onto $T Sigma$ using $P$, but I will not do this here. 
 = BSSNOK
+== Metric Derivative and Curvature identities
+== Reparametrisation
