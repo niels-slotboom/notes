@@ -507,8 +507,8 @@ Denoting their Christoffel symbols by $Gamma$ and $tilde(Gamma)$, respectively, 
 $
   tensor(tilde(Gamma),+lambda,-mu nu) = tensor(Gamma,+lambda,-mu nu) + 1/(2 chi) (tensor(delta,+lambda,-mu) diff_nu chi + tensor(delta,+lambda,-nu) diff_mu chi - g_(mu nu) g^(lambda rho) diff_rho chi)
 $
-or equivalently
+or equivalently,
 $
-  tensor(Gamma,+lambda,-mu nu) = tensor(tilde(Gamma),+lambda,-mu nu) - 1/(2 chi) (tensor(delta,+lambda,-mu) diff_nu chi + tensor(delta,+lambda,-nu) diff_mu chi - tilde(g)_(mu nu) tilde(g)^(lambda rho) diff_rho chi)
+  tensor(Gamma,+lambda,-mu nu) = tensor(tilde(Gamma),+lambda,-mu nu) - 1/(2 chi) (tensor(delta,+lambda,-mu) diff_nu chi + tensor(delta,+lambda,-nu) diff_mu chi - tilde(g)_(mu nu) tilde(g)^(lambda rho) diff_rho chi).
 $
 == BSSNOK Reparametrisation
