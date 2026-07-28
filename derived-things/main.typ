@@ -474,9 +474,8 @@ $
 This is derived by first integrating by parts, $(nabla_mu T^(mu nu)) n_nu = nabla_mu (T^(mu nu) n_nu) - T^(mu nu) nabla_mu n_nu$, and then applying identities from the above to replace derivatives of $n$ with the extrinsic curvature. The standard formula $nabla_mu X^mu = 1/sqrt(g)diff_mu (sqrt(g)X^mu)$, together with $sqrt(g) = alpha sqrt(gamma)$, then allows the deduction of the result.
 
 A similar equation of motion can be derived for $diff_t j_i$ by projecting $nabla_mu T^(mu nu) = 0$ onto $T Sigma$ using $P$, but I will not do this here. 
-= BSSNOK
-== Metric Derivative and Curvature Identities
-=== Jacobi Formula
+= Metric Derivative and Curvature Identities
+== Jacobi Formula
 For the variation $delta$ of a matrix $M$, we have the _Jacobi formula_
 $
   delta det M = det M dot tr(M^(-1) delta M).
@@ -494,7 +493,7 @@ $
   Div X = nabla_mu X^mu = 1/sqrt(g) diff_mu (sqrt(g) X^mu)\ \ "and"\ \ Box_g f = g^(mu nu) nabla_mu nabla_nu f = 1/sqrt(g) diff_mu (sqrt(g) g^(mu nu) diff_nu f),
 $
 respectively.
-=== Connection and Curvature of Conformal Metrics
+== Connection and Curvature of Conformal Metrics
 In the following, let $g_(mu nu)$ and $tilde(g)_(mu nu)$ be two metrics on a $d$-dimensional manifold $fM$, related by
 $
   tilde(g)_(mu nu) = chi g_(mu nu).
@@ -505,10 +504,32 @@ $
 $
 Denoting their Christoffel symbols by $Gamma$ and $tilde(Gamma)$, respectively, we have the identity
 $
-  tensor(tilde(Gamma),+lambda,-mu nu) = tensor(Gamma,+lambda,-mu nu) + 1/(2 chi) (tensor(delta,+lambda,-mu) diff_nu chi + tensor(delta,+lambda,-nu) diff_mu chi - g_(mu nu) g^(lambda rho) diff_rho chi)
+  tensor(tilde(Gamma),+lambda,-mu nu) = tensor(Gamma,+lambda,-mu nu) + 1/2 (tensor(delta,+lambda,-mu) diff_nu log chi + tensor(delta,+lambda,-nu) diff_mu log chi - g_(mu nu) g^(lambda rho) diff_rho log chi)
 $
 or equivalently,
 $
-  tensor(Gamma,+lambda,-mu nu) = tensor(tilde(Gamma),+lambda,-mu nu) - 1/(2 chi) (tensor(delta,+lambda,-mu) diff_nu chi + tensor(delta,+lambda,-nu) diff_mu chi - tilde(g)_(mu nu) tilde(g)^(lambda rho) diff_rho chi).
+  tensor(Gamma,+lambda,-mu nu) = tensor(tilde(Gamma),+lambda,-mu nu) - 1/2 (tensor(delta,+lambda,-mu) diff_nu log chi + tensor(delta,+lambda,-nu) diff_mu log chi - tilde(g)_(mu nu) tilde(g)^(lambda rho) diff_rho log chi).
 $
+We note that the difference between the two connection coefficients,
+$
+  tensor(C,+lambda,-mu nu) := tensor(tilde(Gamma),+lambda,-mu nu) - tensor(Gamma,+lambda,-mu nu) = 1/2 (tensor(delta,+lambda,-mu) Upsilon_nu + tensor(delta,+lambda,-nu) Upsilon_mu - g_(mu nu) g^(lambda rho) Upsilon_rho), wide Upsilon_mu = nabla_mu log chi,
+$
+is a tensor, and independent of whether one writes it in terms of $g_(mu nu)$ or $tilde(g)_(mu nu)$ in the last term. This means that the Levi-Civita connection actions on an arbitrary tensor $T in Gamma(T^((r,s))fM)$ are related by
+$
+  tilde(nabla)_lambda tensor(T,+mu...,-nu...) = nabla_lambda tensor(T,+mu...,-nu...) + tensor(C,+mu,-rho lambda)tensor(T,+rho...,-nu...) +... - tensor(C,+rho,-nu lambda)tensor(T,+mu...,-rho...) - ...
+$
+Concretely, using the action on vectors, one can derive that
+$
+  tensor(tilde(R),+lambda,-rho mu nu) = tensor(R,+lambda,-rho mu nu) + nabla_mu tensor(C,+lambda,-rho nu) - nabla_nu tensor(C,+lambda,-rho mu) + tensor(C,+lambda,-sigma mu) tensor(C,+sigma,-rho nu) - tensor(C,+lambda,-sigma nu) tensor(C,+sigma,-rho mu).
+$
+By contracting over $lambda mu$, we a relationship between the Ricci tensors reading
+$
+  tilde(R)_(mu nu) &= R_(mu nu) - 1/2 g_(mu nu) nabla^lambda Upsilon_lambda - 1/2 (d-2)(nabla_mu Upsilon_nu - 1/2 Upsilon_mu Upsilon_nu + 1/2 g_(mu nu) Upsilon_lambda Upsilon^lambda)
+$
+For the Ricci scalars---taking note that $tilde(R) = tilde(g)^(mu nu) tilde(R)_(mu nu)$ and $R = g^(mu nu) R_(mu nu)$ are traced with respect to their respective metric---we obtain
+$
+  tilde(R) = chi^(-1)(R - (d-1)nabla_mu Upsilon^mu -1/4 (d-2)(d-1) Upsilon_mu Upsilon^mu).
+$
+= BSSNOK
 == BSSNOK Reparametrisation
+== Relating Connection and Curvature
