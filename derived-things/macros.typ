@@ -90,6 +90,7 @@
 #let codim = math.op("codim")
 #let dim = math.op("dim")
 #let mnabla = math.macron(math.nabla)
+#let tnabla = math.tilde(math.nabla)
 
 #let diff = math.partial
 

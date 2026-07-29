@@ -496,23 +496,23 @@ respectively.
 == Connection and Curvature of Conformal Metrics
 In the following, let $g_(mu nu)$ and $tilde(g)_(mu nu)$ be two metrics on a $d$-dimensional manifold $fM$, related by
 $
-  tilde(g)_(mu nu) = chi g_(mu nu).
+  tilde(g)_(mu nu) = e^(4 phi.alt) g_(mu nu).
 $
 Trivially, their inverses and determinants are then related by
 $
-  tilde(g)^(mu nu) = chi^(-1) g^(mu nu) quad "and" quad tilde(g) = chi^d g.
+  tilde(g)^(mu nu) = e^(-4 phi.alt) g^(mu nu) quad "and" quad tilde(g) = e^(4d phi.alt) g.
 $
 Denoting their Christoffel symbols by $Gamma$ and $tilde(Gamma)$, respectively, we have the identity
 $
-  tensor(tilde(Gamma),+lambda,-mu nu) = tensor(Gamma,+lambda,-mu nu) + 1/2 (tensor(delta,+lambda,-mu) diff_nu log chi + tensor(delta,+lambda,-nu) diff_mu log chi - g_(mu nu) g^(lambda rho) diff_rho log chi)
+  tensor(tilde(Gamma),+lambda,-mu nu) = tensor(Gamma,+lambda,-mu nu) + 2 (tensor(delta,+lambda,-mu) diff_nu phi.alt + tensor(delta,+lambda,-nu) diff_mu phi.alt - g_(mu nu) g^(lambda rho) diff_rho phi.alt)
 $
 or equivalently,
 $
-  tensor(Gamma,+lambda,-mu nu) = tensor(tilde(Gamma),+lambda,-mu nu) - 1/2 (tensor(delta,+lambda,-mu) diff_nu log chi + tensor(delta,+lambda,-nu) diff_mu log chi - tilde(g)_(mu nu) tilde(g)^(lambda rho) diff_rho log chi).
+  tensor(Gamma,+lambda,-mu nu) = tensor(tilde(Gamma),+lambda,-mu nu) - 2 (tensor(delta,+lambda,-mu) diff_nu phi.alt + tensor(delta,+lambda,-nu) diff_mu phi.alt - g_(mu nu) g^(lambda rho) diff_rho phi.alt).
 $
 We note that the difference between the two connection coefficients,
 $
-  tensor(C,+lambda,-mu nu) := tensor(tilde(Gamma),+lambda,-mu nu) - tensor(Gamma,+lambda,-mu nu) = 1/2 (tensor(delta,+lambda,-mu) Upsilon_nu + tensor(delta,+lambda,-nu) Upsilon_mu - g_(mu nu) g^(lambda rho) Upsilon_rho), wide Upsilon_mu = nabla_mu log chi,
+  tensor(C,+lambda,-mu nu) := tensor(tilde(Gamma),+lambda,-mu nu) - tensor(Gamma,+lambda,-mu nu) = 2 (tensor(delta,+lambda,-mu) tnabla_nu phi.alt + tensor(delta,+lambda,-nu) tnabla_mu phi.alt - tilde(g)_(mu nu) tilde(g)^(lambda rho) tnabla_rho phi.alt)
 $
 is a tensor, and independent of whether one writes it in terms of $g_(mu nu)$ or $tilde(g)_(mu nu)$ in the last term. This means that the Levi-Civita connection actions on an arbitrary tensor $T in Gamma(T^((r,s))fM)$ are related by
 $
@@ -520,16 +520,16 @@ $
 $
 Concretely, using the action on vectors, one can derive that
 $
-  tensor(tilde(R),+lambda,-rho mu nu) = tensor(R,+lambda,-rho mu nu) + nabla_mu tensor(C,+lambda,-rho nu) - nabla_nu tensor(C,+lambda,-rho mu) + tensor(C,+lambda,-sigma mu) tensor(C,+sigma,-rho nu) - tensor(C,+lambda,-sigma nu) tensor(C,+sigma,-rho mu).
+  tensor(R,+lambda,-rho mu nu) = tensor(tilde(R),+lambda,-rho mu nu) - nabla_mu tensor(C,+lambda,-rho nu) + nabla_nu tensor(C,+lambda,-rho mu) + tensor(C,+lambda,-sigma mu) tensor(C,+sigma,-rho nu) - tensor(C,+lambda,-sigma nu) tensor(C,+sigma,-rho mu).
 $
-By contracting over $lambda mu$, we a relationship between the Ricci tensors reading
+By contracting over $lambda mu$, we find a relationship between the Ricci tensors reading
 $
-  tilde(R)_(mu nu) &= R_(mu nu) - 1/2 g_(mu nu) nabla^lambda Upsilon_lambda - 1/2 (d-2)(nabla_mu Upsilon_nu - 1/2 Upsilon_mu Upsilon_nu + 1/2 g_(mu nu) Upsilon_lambda Upsilon^lambda)
+   R_(mu nu) &= tilde(R)_(mu nu) + 2 tilde(g)_(mu nu) tilde(g)^(rho sigma) tnabla_rho tnabla_sigma phi.alt  + 2 (d-2)(tnabla_mu tnabla_nu phi.alt + 2 tnabla_mu phi.alt tnabla_nu phi.alt - 2 tilde(g)_(mu nu) tilde(g)^(rho sigma) tnabla_rho phi.alt tnabla_sigma phi.alt)
 $
 For the Ricci scalars---taking note that $tilde(R) = tilde(g)^(mu nu) tilde(R)_(mu nu)$ and $R = g^(mu nu) R_(mu nu)$ are traced with respect to their respective metric---we obtain
 $
-  tilde(R) = chi^(-1)(R - (d-1)nabla_mu Upsilon^mu -1/4 (d-2)(d-1) Upsilon_mu Upsilon^mu).
+  R = e^(4phi.alt)(tilde(R) + 4(d-1)tilde(g)^(mu nu) tnabla_mu tnabla_nu phi.alt -4(d-2)(d-1) tilde(g)^(mu nu) tnabla_mu phi.alt tnabla_nu phi.alt).
 $
 = BSSNOK
 == BSSNOK Reparametrisation
-== Relating Connection and Curvature
+== Relating Induced and Conformal Connection and Curvature 
