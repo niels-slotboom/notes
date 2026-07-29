@@ -548,4 +548,30 @@ $
 This expression will motivate why in BSSNOK, one promotes a version of $Gamma^mu$ to be a dynamical variable; in this case, the only second-order part in $R_(mu nu)$ is the well-behaved (in that case, elliptic) expression $g^(lambda rho) diff_lambda diff_rho g_(mu nu).$
 = BSSNOK
 == BSSNOK Reparametrisation
-== Relating Induced and Conformal Connection and Curvature 
+#definition(name: "BSSN Variables")[The dynamical variables in the BSSN formulation of GR are
+
++ the _conformal factor_ $phi.alt$, defined as
+  $
+    phi.alt = -1/12 det gamma,
+  $
++ the _conformal metric_ $tilde(gamma)_(i j)$, given by
+  $
+    tilde(gamma)_(i j) = e^(4 phi.alt) gamma_(i j),
+  $
++ the trace of the extrinsic curvature $K$, defined by
+  $
+    K = gamma^(i j) K_(i j),
+  $
++ the traceless conformal extrinsic curvature $tilde(A)_(i j)$, expressed as
+  $
+    tilde(A)_(i j) = e^(-4phi.alt)(K_(i j) - 1/3 K gamma_(i j))
+  $
++ and the contracted conformal connection $tilde(Gamma)^i$, defined as
+  $
+    tilde(Gamma)^i = tilde(gamma)^(k ell) tensor(tilde(Gamma),+i,-k ell), quad "with" quad tensor(tilde(Gamma),+i,-k ell) = 1/2 tilde(gamma)^(i j) (diff_k tilde(gamma)_(ell j) + diff_ell tilde(gamma)_(k j) - diff_j tilde(gamma)_(k ell)).
+  $
+]
+#corollary[
+  These definitions have a number of important immediate corollaries:
+  
+]
