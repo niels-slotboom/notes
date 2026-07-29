@@ -530,6 +530,22 @@ For the Ricci scalars---taking note that $tilde(R) = tilde(g)^(mu nu) tilde(R)_(
 $
   R = e^(4phi.alt)(tilde(R) + 4(d-1)tilde(g)^(mu nu) tnabla_mu tnabla_nu phi.alt -4(d-2)(d-1) tilde(g)^(mu nu) tnabla_mu phi.alt tnabla_nu phi.alt).
 $
+== Bochner Formula and the Ricci Tensor
+For two scalar fields $phi$ and $psi$, the _Bochner formula_
+$
+  1/2 Box_g (nabla_mu phi nabla^mu psi) &= 1/2 (nabla_mu Box_g phi) nabla^mu psi + 1/2 nabla_mu phi (nabla^mu Box_g psi) \ 
+  &quad+ nabla_mu nabla_nu phi nabla^mu nabla^nu psi + R^(mu nu) nabla_mu phi nabla_b psi.
+$
+Using the coordinate functions $phi = x^mu$, $psi = x^nu$, it follows that
+$
+  R^(mu nu) = 1/2 g^(rho sigma) diff_rho diff_sigma g^(mu nu) + diff^(\(mu) Gamma^(nu\)) - tensor(Gamma,+mu,-rho sigma) Gamma^(nu rho sigma),
+$
+where $Gamma^mu = g^(rho sigma) tensor(Gamma,+mu,-rho sigma)$.
+Explicitly lowering the indices leads to
+$
+  R_(mu nu) = -1/2 g^(lambda rho) diff_lambda diff_rho g_(mu nu) + g_(lambda \(mu) diff_(nu\)) Gamma^lambda + g^(lambda rho) g^(sigma tau) diff_lambda g_(mu sigma) diff_r g_(nu tau) - Gamma_(mu rho sigma) tensor(Gamma,-nu,+rho sigma).
+$
+This expression will motivate why in BSSNOK, one promotes a version of $Gamma^mu$ to be a dynamical variable; in this case, the only second-order part in $R_(mu nu)$ is the well-behaved (in that case, elliptic) expression $g^(lambda rho) diff_lambda diff_rho g_(mu nu).$
 = BSSNOK
 == BSSNOK Reparametrisation
 == Relating Induced and Conformal Connection and Curvature 
