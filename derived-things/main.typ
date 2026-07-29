@@ -520,7 +520,7 @@ $
 $
 Concretely, using the action on vectors, one can derive that
 $
-  tensor(R,+lambda,-rho mu nu) = tensor(tilde(R),+lambda,-rho mu nu) - nabla_mu tensor(C,+lambda,-rho nu) + nabla_nu tensor(C,+lambda,-rho mu) + tensor(C,+lambda,-sigma mu) tensor(C,+sigma,-rho nu) - tensor(C,+lambda,-sigma nu) tensor(C,+sigma,-rho mu).
+  tensor(R,+lambda,-rho mu nu) = tensor(tilde(R),+lambda,-rho mu nu) - tnabla_mu tensor(C,+lambda,-rho nu) + tnabla_nu tensor(C,+lambda,-rho mu) + tensor(C,+lambda,-sigma mu) tensor(C,+sigma,-rho nu) - tensor(C,+lambda,-sigma nu) tensor(C,+sigma,-rho mu).
 $
 By contracting over $lambda mu$, we find a relationship between the Ricci tensors reading
 $
