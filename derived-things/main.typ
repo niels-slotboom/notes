@@ -538,21 +538,42 @@ $
 $
 Using the coordinate functions $phi = x^mu$, $psi = x^nu$, it follows that
 $
-  R^(mu nu) = 1/2 g^(rho sigma) diff_rho diff_sigma g^(mu nu) + diff^(\(mu) Gamma^(nu\)) - tensor(Gamma,+mu,-rho sigma) Gamma^(nu rho sigma),
+  R^(mu nu) = 1/2 g^(lambda rho) diff_lambda diff_rho g^(mu nu) - 1/2 Gamma^lambda diff_lambda g^(mu nu) + diff^(\(mu) Gamma^(nu\)) - tensor(Gamma,+mu,-lambda rho) Gamma^(nu lambda rho),
 $
-where $Gamma^mu = g^(rho sigma) tensor(Gamma,+mu,-rho sigma)$.
+where $Gamma^mu = g^(lambda rho) tensor(Gamma,+mu,-lambda rho)$.
 Explicitly lowering the indices leads to
 $
-  R_(mu nu) = -1/2 g^(lambda rho) diff_lambda diff_rho g_(mu nu) + g_(lambda \(mu) diff_(nu\)) Gamma^lambda + g^(lambda rho) g^(sigma tau) diff_lambda g_(mu sigma) diff_r g_(nu tau) - Gamma_(mu rho sigma) tensor(Gamma,-nu,+rho sigma).
+  R_(mu nu) &= -1/2 g^(lambda rho) diff_lambda diff_rho g_(mu nu) + g_(lambda \(mu) diff_(nu\)) Gamma^lambda\
+  & quad + 1/2 Gamma^lambda diff_lambda g_(mu nu) + g^(lambda rho) g^(sigma tau) diff_lambda g_(mu sigma) diff_rho g_(nu tau) - Gamma_(mu rho sigma) tensor(Gamma,-nu,+rho sigma).
 $
-This expression will motivate why in BSSNOK, one promotes a version of $Gamma^mu$ to be a dynamical variable; in this case, the only second-order part in $R_(mu nu)$ is the well-behaved (in that case, elliptic) expression $g^(lambda rho) diff_lambda diff_rho g_(mu nu).$
+This expression will motivate why in BSSNOK, one promotes a version of $Gamma^mu$ to be a dynamical variable; in this case, the only second-order part in $R_(mu nu)$ is the well-behaved (in that case, elliptic) expression $g^(lambda rho) diff_lambda diff_rho g_(mu nu)$. 
+
+For numerical implementations, we should address one issue the above has, though. This issue is that the expression we obtained for the Ricci tensor depends on both $diff g$ as well as $Gamma$. This increases register pressure in GPU-based implementations, which we would like to avoid; hence, we should make use of the identity
+$
+  diff_lambda g_(mu nu) = Gamma_(mu nu lambda) + Gamma_(nu mu lambda)
+$
+to re-express everything in terms of Christoffel symbols. Doing so yields
+$
+  R_(mu nu) &= -1/2 g^(lambda rho) diff_lambda diff_rho g_(mu nu) + g_(lambda\(mu) diff_(nu\)) Gamma^lambda \
+  &quad+ thin Gamma^lambda Gamma_((mu nu) lambda) + Gamma_(lambda rho mu) tensor(Gamma,+lambda rho, -nu) + 2 Gamma_(lambda rho \(mu) tensor(Gamma,-nu\),+lambda rho),
+$
+which is now written entirely in terms of $g$, $diff^2 g$, and the two flavours of $Gamma$.
 = BSSNOK
+In this section, we take what we have derived so far and build atop it the BSSNOK formalism. This involves
+
+- defining the BSSNOK variables in terms of the ADM variables $gamma_(i j)$ and $K_(i j)$, scaling out the conformal factor to isolate the conformal metric $tilde(gamma)_(i j)$ and trace-free extrinsic curvature $tilde(A)_(i j)$;
+
+- deriving their first time derivative expressions from the known expressions for $diff_t gamma_(i j)$ and $diff_t K_(i j)$ via the ADM evolution equations, as well as re-expressing the Hamiltonian and momentum constraints in terms of the new conformal variables;
+
+- and finally, relating the physical induced connections and curvatures to their conformal counterparts using conformal transformations and the auxiliary connection quantities.
+
+In doing so, we will use many of the identities from the previous section, and establish a number of additional ones to handle the conformal rescaling. Unfortunately, these algebraic definitions are rather lengthy and messy, but they ultimately lead to a strongly hyperbolic formulation of general relativity well-suited to be implemented in high-performance computing (HPC) code. 
 == BSSNOK Reparametrisation
 #definition(name: "BSSN Variables")[The dynamical variables in the BSSN formulation of GR are
 
 + the _conformal factor_ $phi.alt$, defined as
   $
-    phi.alt = -1/12 det gamma,
+    phi.alt = -1/12 log gamma,
   $
 + the _conformal metric_ $tilde(gamma)_(i j)$, given by
   $
