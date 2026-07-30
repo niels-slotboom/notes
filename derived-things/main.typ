@@ -585,7 +585,7 @@ In doing so, we will use many of the identities from the previous section, and e
   $
 + the traceless conformal extrinsic curvature $tilde(A)_(i j)$, expressed as
   $
-    tilde(A)_(i j) = e^(-4phi.alt)(K_(i j) - 1/3 K gamma_(i j))
+    tilde(A)_(i j) = e^(4phi.alt)(K_(i j) - 1/3 K gamma_(i j))
   $
 + and the contracted conformal connection $tilde(Gamma)^i$, defined as
   $
@@ -594,5 +594,56 @@ In doing so, we will use many of the identities from the previous section, and e
 ]
 #corollary[
   These definitions have a number of important immediate corollaries:
-  
 ]
+  + The determinant of the conformal metric $tilde(gamma)_(i j)$ is 1, that is,
+    $
+      tilde(gamma) = e^(3 dot 4 phi.alt) gamma = e^(-log gamma) gamma = 1.
+    $
+    This has a few important consequences; firstly, the trace of its Christoffel symbols vanishes,
+    $
+      tensor(tilde(Gamma),+i,- k i) = 1/2 tilde(gamma)^(i j) diff_k tilde(gamma)_(i j) = 1/sqrt(tilde(gamma)) diff_k sqrt(tilde(gamma)) = diff_k 1 = 0.
+    $
+    Moreover, its contracted Christoffel symbols $tilde(Gamma)^i$ may be written as
+    $
+      tilde(Gamma)^i = - diff_k tilde(gamma)^(k i)
+    $
+
+  + $tilde(A)_(i j)$ is traceless with respect to both $tilde(gamma)^(i j)$ and $gamma^(i j)$, that is,
+    $
+      tilde(gamma)^(i j) tilde(A)_(i j) = gamma^(i j) tilde(A)_(i j) = 0.
+    $
+
+  + The definitions of $phi.alt, tilde(gamma)_(i j), K$ and $tilde(A)_(i j)$ can be inverted for $gamma_(i j)$ and $K_(i j)$, with the inversions reading
+    $
+      gamma_(i j) = e^(-4phi.alt) tilde(gamma)_(i j) quad "and" quad K_(i j) = e^(- 4phi.alt) (tilde(A)_(i j) + 1/3 K tilde(gamma)_(i j))
+    $
+
+  + From the point of view of the dynamical evolution equations we are about to derive for $tilde(gamma)_(i j), tilde(A)_(i j)$ and $tilde(Gamma)^i$, these are two symmetric $3 times 3$-matrix- and one $3$-vector-valued functions. The above tells us that in addition to these evolution equations, we get additional constraints; algebraically, we must always have
+    $
+      tilde(gamma) = 1, quad tilde(gamma)^(i j) tilde(A)_(i j) = 0,
+    $
+    and, in addition, a differential constraint emerges from
+    $
+      fG^i := tilde(Gamma)^i - tilde(gamma)^(k ell) tensor(tilde(Gamma),+i,-k ell) = 0.
+    $
+    Although mathematically speaking, the evolution equations will preserve these, numerically, there is a slight drift away from them. The algebraic constraints are very easy to enforce numerically---we can simply regularly map
+    $
+      tilde(gamma)_(i j) |-> tilde(gamma)^(-1\/3) tilde(gamma)_(i j), quad tilde(A)_(i j) |-> tilde(A)_(i j) - 1/3 tilde(gamma)_(i j) tensor(tilde(A),+k,-k).
+    $
+    To preserve the differential constraint $fG^i = 0$ even in numerical simulations, we will artificially add it to the right-hand side of the evolution equation for $tilde(Gamma)^i$, as 
+    $
+      diff_t tilde(Gamma)^i = -sigma fG^i + ...
+    $
+    for some positive constant $sigma > 0$. This creates exponential damping/decay of $fG^i$ towards 0, so that numerical error does not diverge.
+  + The trace of the square of $K_(i j)$ reads
+    $
+      K_(i j) K^(i j) = tilde(A)_(i j) tilde(A)^(i j) + 1/3 K^2.
+    $
+    Here, indices of quantities with a tilde are raised and lowered using $tilde(gamma)$, whereas for quantities without tilde, $gamma$ is used.
+#proposition(name: "Preliminary BSSNOK Evolution Equations")[
+  Below are the evolution equations for the BSSNOK variables $phi.alt, tilde(gamma)_(i j), K, tilde(A)_(i j)$ and $tilde(Gamma)^i$. This version of the equations is only preliminary as it contains expressions involving $macron(R)_(i j)$, $macron(R)$ and $mnabla$, which are associated with the non-conformal quantity $gamma_(i j)$ which is not available directly to the evolution code. To alleviate this, we will later need to re-express these in terms of objects only associated with $phi.alt$ and $tilde(gamma)_(i j)$.  
+  $
+    
+  $
+]
+
