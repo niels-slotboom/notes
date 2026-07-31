@@ -644,8 +644,19 @@ In doing so, we will use many of the identities from the previous section, and e
 #proposition(name: "Preliminary BSSNOK Evolution Equations")[
   Below are the evolution equations for the BSSNOK variables $phi.alt, tilde(gamma)_(i j), K, tilde(A)_(i j)$ and $tilde(Gamma)^i$. This version of the equations is only preliminary as it contains expressions involving $macron(R)_(i j)$, $macron(R)$ and $mnabla$, which are associated with the non-conformal quantity $gamma_(i j)$ which is not available directly to the evolution code. To alleviate this, we will later need to re-express these in terms of objects only associated with $phi.alt$ and $tilde(gamma)_(i j)$.  
   #bottom-number[$
-    fH &= macron(R) + 2/3 K^2 - tilde(A)_(i j) tilde(A)^(i j) - 2Lambda - 16 pi rho = 0,\
-    fM_i &= 2/3 diff_i K - tnabla_k tensor(tilde(A),+k,-i) + 6 tensor(tilde(A),+k,-i) diff_k phi.alt + 8pi j_i = 0
+    fH &= macron(R) + 2/3 K^2 - tilde(A)_(i j) tilde(A)^(i j) - 2Lambda - 16 pi rho = 0,\ \
+    fM_i &= 2/3 diff_i K - tnabla_k tensor(tilde(A),+k,-i) + 6 tensor(tilde(A),+k,-i) diff_k phi.alt + 8pi j_i = 0,\ \
+    diff_t phi.alt &= beta^k diff_k phi.alt - 1/6 diff_k beta^k + 1/6 alpha K,\ \
+    diff_t tilde(gamma)_(i j) &= beta^k diff_k tilde(gamma)_(i j) + 2 tilde(gamma)_(k\(i) diff_(j\)) beta^k - 2/3 tilde(gamma)_(i j) diff_k beta^k - 2alpha tilde(A)_(i j) \ \
+    diff_t K&= ...\ \
+    diff_t tilde(A)_(i j) &= ... \ \ 
+    diff_t tilde(Gamma)^i &= ... \ \ 
   $]
 ]
-
+#remark[
+  In the derivation of the right-hand side for $diff_t K$, $alpha fH = 0$ was subtracted. This does not affect the validity of the equality on-shell, but changes the principal part of the evolution system. Nonetheless, sometimes it is useful to have the same equation without this subtraction. For such situations, we provide it below:
+  $
+    diff_t K = ...
+  $
+  One such situation is in the derivation of the right-hand side for $diff_t tilde(A)_(i j)$ above, where it turns out to be more convenient to use the unsubtracted version.
+]
