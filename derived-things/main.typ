@@ -626,7 +626,7 @@ In doing so, we will use many of the identities from the previous section, and e
     $
       fG^i := tilde(Gamma)^i - tilde(gamma)^(k ell) tensor(tilde(Gamma),+i,-k ell) = 0.
     $
-    Although mathematically speaking, the evolution equations will preserve these, numerically, there is a slight drift away from them. The algebraic constraints are very easy to enforce numerically---we can simply regularly map
+    Although mathematically speaking, the evolution equations will preserve these, numerically, there is a slight drift away from them. The algebraic constraints are very easy to enforce numerically---during discrete evolution we can simply regularly remap
     $
       tilde(gamma)_(i j) |-> tilde(gamma)^(-1\/3) tilde(gamma)_(i j), quad tilde(A)_(i j) |-> tilde(A)_(i j) - 1/3 tilde(gamma)_(i j) tensor(tilde(A),+k,-k).
     $
@@ -639,11 +639,13 @@ In doing so, we will use many of the identities from the previous section, and e
     $
       K_(i j) K^(i j) = tilde(A)_(i j) tilde(A)^(i j) + 1/3 K^2.
     $
-    Here, indices of quantities with a tilde are raised and lowered using $tilde(gamma)$, whereas for quantities without tilde, $gamma$ is used.
+    Here, indices of quantities with a tilde are raised and lowered using $tilde(gamma)$, whereas for quantities without tilde, $gamma$ is used. We will continue to use this convention in the following to omit writing hundreds of instances of the induced and conformal metrics.
+
 #proposition(name: "Preliminary BSSNOK Evolution Equations")[
   Below are the evolution equations for the BSSNOK variables $phi.alt, tilde(gamma)_(i j), K, tilde(A)_(i j)$ and $tilde(Gamma)^i$. This version of the equations is only preliminary as it contains expressions involving $macron(R)_(i j)$, $macron(R)$ and $mnabla$, which are associated with the non-conformal quantity $gamma_(i j)$ which is not available directly to the evolution code. To alleviate this, we will later need to re-express these in terms of objects only associated with $phi.alt$ and $tilde(gamma)_(i j)$.  
-  $
-    
-  $
+  #bottom-number[$
+    fH &= macron(R) + 2/3 K^2 - tilde(A)_(i j) tilde(A)^(i j) - 2Lambda - 16 pi rho = 0,\
+    fM_i &= 2/3 diff_i K - tnabla_k tensor(tilde(A),+k,-i) + 6 tensor(tilde(A),+k,-i) diff_k phi.alt + 8pi j_i = 0
+  $]
 ]
 
