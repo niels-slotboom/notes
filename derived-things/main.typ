@@ -568,6 +568,7 @@ In this section, we take what we have derived so far and build atop it the BSSNO
 - and finally, relating the physical induced connections and curvatures to their conformal counterparts using conformal transformations and the auxiliary connection quantities.
 
 In doing so, we will use many of the identities from the previous section, and establish a number of additional ones to handle the conformal rescaling. Unfortunately, these algebraic definitions are rather lengthy and messy, but they ultimately lead to a strongly hyperbolic formulation of general relativity well-suited to be implemented in high-performance computing (HPC) code. 
+
 == BSSNOK Reparametrisation
 #definition(name: "BSSN Variables")[The dynamical variables in the BSSN formulation of GR are
 
@@ -642,21 +643,53 @@ In doing so, we will use many of the identities from the previous section, and e
     Here, indices of quantities with a tilde are raised and lowered using $tilde(gamma)$, whereas for quantities without tilde, $gamma$ is used. We will continue to use this convention in the following to omit writing hundreds of instances of the induced and conformal metrics.
 
 #proposition(name: "Preliminary BSSNOK Evolution Equations")[
-  Below are the evolution equations for the BSSNOK variables $phi.alt, tilde(gamma)_(i j), K, tilde(A)_(i j)$ and $tilde(Gamma)^i$. This version of the equations is only preliminary as it contains expressions involving $macron(R)_(i j)$, $macron(R)$ and $mnabla$, which are associated with the non-conformal quantity $gamma_(i j)$ which is not available directly to the evolution code. To alleviate this, we will later need to re-express these in terms of objects only associated with $phi.alt$ and $tilde(gamma)_(i j)$.  
+  Below are the evolution equations for the BSSNOK variables $phi.alt, tilde(gamma)_(i j), K, tilde(A)_(i j)$ and $tilde(Gamma)^i$.
   #bottom-number[$
     fH &= macron(R) + 2/3 K^2 - tilde(A)_(i j) tilde(A)^(i j) - 2Lambda - 16 pi rho = 0,\ \
     fM_i &= 2/3 diff_i K - tnabla_k tensor(tilde(A),+k,-i) + 6 tensor(tilde(A),+k,-i) diff_k phi.alt + 8pi j_i = 0,\ \
     diff_t phi.alt &= beta^k diff_k phi.alt - 1/6 diff_k beta^k + 1/6 alpha K,\ \
-    diff_t tilde(gamma)_(i j) &= beta^k diff_k tilde(gamma)_(i j) + 2 tilde(gamma)_(k\(i) diff_(j\)) beta^k - 2/3 tilde(gamma)_(i j) diff_k beta^k - 2alpha tilde(A)_(i j) \ \
-    diff_t K&= ...\ \
-    diff_t tilde(A)_(i j) &= ... \ \ 
-    diff_t tilde(Gamma)^i &= ... \ \ 
-  $]
+    diff_t tilde(gamma)_(i j) &= beta^k diff_k tilde(gamma)_(i j) + 2 tilde(gamma)_(k\(i) diff_(j\)) beta^k - 2/3 tilde(gamma)_(i j) diff_k beta^k - 2alpha tilde(A)_(i j), \ \
+    diff_t K&= beta^k diff_k K - gamma^(i j) mnabla_i mnabla_j alpha + alpha (tilde(A)_(i j) tilde(A)^(i j) + 1/3 K^2 - Lambda + 4pi (S+rho)),\ \
+    diff_t tilde(A)_(i j) &= beta^k diff_k tilde(A)_(i j) + 2 tilde(A)_(k\(i) diff_(j\)) beta^k - 2/3 tilde(A)_(i j) diff_k beta^k + e^(4phi.alt) [alpha macron(R)_(i j) - mnabla_i mnabla_j alpha - 8 pi alpha S_(i j)]^"TF"\
+    &quad  +alpha (K tilde(A)_(i j) - 2 tilde(A)_(i k) tensor(tilde(A),+k,-j))\ \ 
+    diff_t tilde(Gamma)^i &= beta^k diff_k tilde(Gamma)^i - tilde(Gamma)^k diff_k beta^i + 2/3 tilde(Gamma)^i diff_m beta^m + tilde(gamma)^(j ell) diff_j diff_ell beta^i + 1/3 tilde(gamma)^(i j) diff_j (diff_k beta^k)\
+    &quad- 2tilde(A)^(i j) diff_j alpha + 2alpha tensor(tilde(Gamma),+i,-j k) tensor(A)^(j k) - 4/3 alpha tilde(gamma)^(i j) diff_j K  - 12 alpha tensor(tilde(A),+i j) diff_j phi.alt - 16pi alpha j^i - sigma fG^i
+  $
+  In the above, the $#h(0em)^"TF"$ exponent refers to the trace-free part of the bracketed expression, i.e.
+  $
+    X_(i j)^"TF" = X_(i j) - 1/3 gamma_(i j) gamma^(k ell) X_(k ell) = X_(i j) - 1/3 tilde(gamma)_(i j) tilde(gamma)^(k ell) X_(k ell).
+  $
+  Noteworthily, it does not matter whether trace removal is carried out using $gamma_(i j)$ or $tilde(gamma)_(i j)$.
+  ]
 ]
 #remark[
-  In the derivation of the right-hand side for $diff_t K$, $alpha fH = 0$ was subtracted. This does not affect the validity of the equality on-shell, but changes the principal part of the evolution system. Nonetheless, sometimes it is useful to have the same equation without this subtraction. For such situations, we provide it below:
-  $
-    diff_t K = ...
-  $
-  One such situation is in the derivation of the right-hand side for $diff_t tilde(A)_(i j)$ above, where it turns out to be more convenient to use the unsubtracted version.
 ]
++ In the derivation of the right-hand side for $diff_t K$, $alpha fH = 0$ was subtracted. This does not affect the validity of the equality on-shell, but changes the principal part of the evolution system. Nonetheless, sometimes it is useful to have the same equation without this subtraction. For such situations, we provide it below:
+    $
+      diff_t K = beta^k diff_k K - gamma^(i j) mnabla_i mnabla_j alpha + alpha (K^2 + macron(R)) - 3 alpha Lambda + 4 pi alpha(S-3rho)
+    $
+    One such situation is in the derivation of the right-hand side for $diff_t tilde(A)_(i j)$ above, where it turns out to be more convenient to use the unsubtracted version. The reason to subtract the Hamiltonian constraint from this equation is to eliminate the intrinsic Ricci scalar $macron(R)$. In the standard ADM formulation, $macron(R)$ introduces second spatial derivatives of the metric into $diff_t K$, which contributes to weak hyperbolicity and numerical instabilities. Subtracting $alpha fH$ removes all second derivatives of the metric from the right-hand side of $diff_t K$, which helps cast the BSSNOK evolution system into a strongly hyperbolic form.
+
++ This version of the equations is only preliminary as it contains expressions involving $macron(R)_(i j)$, $macron(R)$ and $mnabla$, which are associated with the non-conformal quantity $gamma_(i j)$ which is not available directly to the evolution code. Concretely, the offending terms in the above equations which still contain objects tied to $gamma_(i j)$ are $macron(R)$ in the Hamiltonian constraint, the Laplacian $macron(Delta)_gamma alpha = gamma^(i j) mnabla_i mnabla_j alpha$ and the intrinsic Ricci tensor $macron(R)_(i j)$. We will need to re-express these in terms of conformal quantities---this requires the results presented below.
+
++ Since the evolution equation for $tilde(Gamma)^i$ contains an artificially introduced damping term $-sigma fG^i$ with $sigma>0$, we present the full derivation of the equation below. We begin by expanding
+  #bottom-number($
+    diff_t tilde(Gamma)^i &= - diff_t diff_j tilde(gamma)^(i j) = -diff_j diff_t tilde(gamma)^(i j) = diff_j (tilde(gamma)^(i k) tilde(gamma)^(j ell) diff_t tilde(gamma)_(k ell))\
+    &= diff_j (tilde(gamma)^(i k) tilde(gamma)^(j ell) (beta^m diff_m tilde(gamma)_(k ell) + tilde(gamma)_(m k) diff_ell beta^m + tilde(gamma)_(m ell) diff_k beta^m - 2/3 tilde(gamma)_(k ell) diff_m beta^m - 2alpha tilde(A)_(k ell)))\
+    &= diff_j (-beta^m diff_m tilde(gamma)^(i j) + tilde(gamma)^(j ell) diff_ell beta^i + tilde(gamma)^(i ell) diff_ell beta^j - 2/3 tilde(gamma)^(i j) diff_m beta^m - 2alpha tilde(A)^(i j))\
+
+    &= cancelr(-(diff_j beta^m) diff_m tilde(gamma)^(i j)) - beta^m diff_m underbrace(diff_j tilde(gamma)^(i j),=-tilde(Gamma)^i) + underbrace((diff_j tilde(gamma)^(j ell)),=-tilde(Gamma)^ell) diff_ell beta^ i + tilde(gamma)^(j ell) diff_j diff_ell beta^i + cancelr((diff_j tilde(gamma)^(i ell)) diff_ell beta^j) + underline(tilde(gamma)^(i ell) diff_j diff_ell beta^j)\
+    &quad -2/3 underbrace((diff_j tilde(gamma)^(i j)),=-tilde(Gamma)^i) diff_m beta^m underline(-2/3 tilde(gamma)^(i j) diff_j diff_m beta^m) - 2tilde(A)^(i j) diff_j alpha - 2 alpha diff_j tilde(A)^(i j)\
+    &= beta^k diff_k tilde(Gamma)^i - tilde(Gamma)^k diff_k beta^i + 2/3 tilde(Gamma)^i diff_m beta^m + tilde(gamma)^(j ell) diff_j diff_ell beta^i + 1/3 tilde(gamma)^(i j) diff_j (diff_k beta^k)\
+    &quad- 2tilde(A)^(i j) diff_j alpha - 2 alpha diff_j tilde(A)^(i j)
+  $)
+  The last term is still in an unfortunate form, which we can improve by using the momentum constraint $fM^i = 0$. Concretely, it may be used in re-arranged form to replace $tnabla_j tilde(A)^(i j)$ as
+  $
+    diff_j tilde(A)^(i j) &= tnabla_j tilde(A)^(i j) - tensor( tilde(Gamma),+i,-j k) tilde(A)^(j k) - underbrace(tensor(tilde(Gamma),+j,-k j),=0) tilde(A)^(k i)\
+    &= - tensor(tilde(Gamma),+i,-j k) tensor(A)^(j k) + 2/3tilde(gamma)^(i j) diff_j K  + 6 tensor(tilde(A),+i j) diff_j phi.alt + 8pi j^i
+  $
+  Consequently, the evolution equation for $tilde(Gamma)^i$, with the artificial damping term $-sigma fG^i$ introduced, reads
+  $
+    diff_t tilde(Gamma)^i &= beta^k diff_k tilde(Gamma)^i - tilde(Gamma)^k diff_k beta^i + 2/3 tilde(Gamma)^i diff_m beta^m + tilde(gamma)^(j ell) diff_j diff_ell beta^i + 1/3 tilde(gamma)^(i j) diff_j (diff_k beta^k)\
+    &quad- 2tilde(A)^(i j) diff_j alpha + 2alpha tensor(tilde(Gamma),+i,-j k) tensor(A)^(j k) - 4/3 alpha tilde(gamma)^(i j) diff_j K  - 12 alpha tensor(tilde(A),+i j) diff_j phi.alt - 16pi alpha j^i - sigma fG^i
+  $
