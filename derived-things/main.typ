@@ -653,8 +653,8 @@ In doing so, we will use many of the identities from the previous section, and e
     diff_t tilde(A)_(i j) &= beta^k diff_k tilde(A)_(i j) + 2 tilde(A)_(k\(i) diff_(j\)) beta^k - 2/3 tilde(A)_(i j) diff_k beta^k + e^(4phi.alt) [alpha macron(R)_(i j) - mnabla_i mnabla_j alpha - 8 pi alpha S_(i j)]^"TF"\
     &quad  +alpha (K tilde(A)_(i j) - 2 tilde(A)_(i k) tensor(tilde(A),+k,-j))\ \ 
     diff_t tilde(Gamma)^i &= beta^k diff_k tilde(Gamma)^i - tilde(Gamma)^k diff_k beta^i + 2/3 tilde(Gamma)^i diff_m beta^m + tilde(gamma)^(j ell) diff_j diff_ell beta^i + 1/3 tilde(gamma)^(i j) diff_j (diff_k beta^k)\
-    &quad- 2tilde(A)^(i j) diff_j alpha + 2alpha tensor(tilde(Gamma),+i,-j k) tensor(A)^(j k) - 4/3 alpha tilde(gamma)^(i j) diff_j K  - 12 alpha tensor(tilde(A),+i j) diff_j phi.alt - 16pi alpha j^i - sigma fG^i
-  $
+    &quad- 2tilde(A)^(i j) diff_j alpha + 2alpha tensor(tilde(Gamma),+i,-j k) tilde(A)^(j k) - 4/3 alpha tilde(gamma)^(i j) diff_j K  - 12 alpha tensor(tilde(A),+i j) diff_j phi.alt - 16pi alpha j^i - sigma fG^i
+  $<eqBSSN>
   In the above, the $#h(0em)^"TF"$ exponent refers to the trace-free part of the bracketed expression, i.e.
   $
     X_(i j)^"TF" = X_(i j) - 1/3 gamma_(i j) gamma^(k ell) X_(k ell) = X_(i j) - 1/3 tilde(gamma)_(i j) tilde(gamma)^(k ell) X_(k ell).
@@ -686,10 +686,38 @@ In doing so, we will use many of the identities from the previous section, and e
   The last term is still in an unfortunate form, which we can improve by using the momentum constraint $fM^i = 0$. Concretely, it may be used in re-arranged form to replace $tnabla_j tilde(A)^(i j)$ as
   $
     diff_j tilde(A)^(i j) &= tnabla_j tilde(A)^(i j) - tensor( tilde(Gamma),+i,-j k) tilde(A)^(j k) - underbrace(tensor(tilde(Gamma),+j,-k j),=0) tilde(A)^(k i)\
-    &= - tensor(tilde(Gamma),+i,-j k) tensor(A)^(j k) + 2/3tilde(gamma)^(i j) diff_j K  + 6 tensor(tilde(A),+i j) diff_j phi.alt + 8pi j^i
+    &= - tensor(tilde(Gamma),+i,-j k) tilde(A)^(j k) + 2/3tilde(gamma)^(i j) diff_j K  + 6 tensor(tilde(A),+i j) diff_j phi.alt + 8pi j^i
   $
   Consequently, the evolution equation for $tilde(Gamma)^i$, with the artificial damping term $-sigma fG^i$ introduced, reads
   $
     diff_t tilde(Gamma)^i &= beta^k diff_k tilde(Gamma)^i - tilde(Gamma)^k diff_k beta^i + 2/3 tilde(Gamma)^i diff_m beta^m + tilde(gamma)^(j ell) diff_j diff_ell beta^i + 1/3 tilde(gamma)^(i j) diff_j (diff_k beta^k)\
-    &quad- 2tilde(A)^(i j) diff_j alpha + 2alpha tensor(tilde(Gamma),+i,-j k) tensor(A)^(j k) - 4/3 alpha tilde(gamma)^(i j) diff_j K  - 12 alpha tensor(tilde(A),+i j) diff_j phi.alt - 16pi alpha j^i - sigma fG^i
+    &quad- 2tilde(A)^(i j) diff_j alpha + 2alpha tensor(tilde(Gamma),+i,-j k) tilde(A)^(j k) - 4/3 alpha tilde(gamma)^(i j) diff_j K  - 12 alpha tensor(tilde(A),+i j) diff_j phi.alt - 16pi alpha j^i - sigma fG^i
   $
+
++ The keen-eyed reader might have noticed that for any of the BSSN variables, its time derivative contains similarly structured spatial derivative terms of that variable involving the shift $beta$ on the right hand side. These combinations are reminiscient of Lie derivatives---and in fact, they are---with a catch. The catch comes from the terms involving the divergence $diff_i beta^i$, which in a tensorial Lie derivative do not appear. However, we should recall that $phi.alt$ is a function of the _determinant_ of the tensor $gamma_(i j)$, and that in the definitions of $tilde(gamma)_(i j)$ as well as $tilde(A)_(i j)$ include factors of 
+  $
+    e^(4 phi.alt) = gamma^(-1\/3).
+  $
+  From this, we conclude that $phi.alt$ is not a scalar but a scalar _density_ of weight $-1/6$, and that $tilde(gamma)_(i j)$ and $tilde(A)_(i j)$ are $(0,2)$-tensor _densities_ of weight $-2/3$. We recall that for a tensor density $tensor(T,+mu...,-nu...)$ of weight $w$, its Lie derivative along some vector field $X$ is given by
+  $
+    fL_X tensor(T,+mu...,-nu...) &= X^lambda diff_lambda tensor(T,+mu...,-nu...) - (diff_lambda X^mu) tensor(T,+lambda...,-nu...) -...\ &quad + (diff_nu X^lambda) tensor(T,+mu...,-lambda...) + ... + w (diff_lambda X^lambda) tensor(T,+mu...,-nu...)
+  $<defLieDerivDensity>
+  A similar expression can be obtained for connections as well. Taking $X = beta$, $T = phi.alt, tilde(gamma)_(i j), K, tilde(A)_(i j)$ and $tilde(Gamma)^i$, we identify that the @eqBSSN[BSSNOK evolution equations in] may be written in the (slightly) more compact form
+  $
+    diff_t phi.alt &= fL_beta phi.alt + 1/6 alpha K,\
+    diff_t tilde(gamma)_(i j) &= fL_beta tilde(gamma)_(i j) - 2 alpha tilde(A)_(i j),\
+    diff_t K &= fL_beta K - gamma^(i j) mnabla_i mnabla_j alpha + alpha (tilde(A)_(i j) tilde(A)^(i j) + 1/3 K^2 - Lambda + 4pi (S+rho)),\
+    diff_t tilde(A)_(i j)&= fL_beta tilde(A)_(i j) + e^(4phi.alt) [alpha macron(R)_(i j) - mnabla_i mnabla_j alpha - 8pi alpha S_(i j)]^"TF" + alpha (K tilde(A)_(i j) - 2 tilde(A)_(i k) tensor(tilde(A),+k,-j)),\
+    diff_t tilde(Gamma)^i &= fL_beta tilde(Gamma)^i - 2 tilde(A)^(i j) diff_j alpha + 2 alpha tensor(tilde(Gamma),+i,-j k) tilde(A)^(j k) - 4/3 alpha tilde(gamma)^(i j) diff_j K - 12 alpha tilde(A)^(i j) diff_j phi.alt - 16 pi alpha j^i - sigma fG^i.
+  $
+  Note that the trace of the extrinsic curvature, $K$, is the only true scalar, so $fL_beta K = beta^i diff_i K$. Moreover, it should be noted that $fL_beta tilde(Gamma)^i$ is _not_ to be interpreted as the Lie derivative of a vector field nor vector density, but rather expanded as
+  $
+    fL_beta tilde(Gamma)^i = fL_beta (tensor(tilde(Gamma),+i,-j k) tilde(gamma)^(j k)) = (fL_beta tensor(tilde(Gamma),+i,-j k)) tilde(gamma)^(j k) + tensor(tilde(Gamma),+i,-j k) (fL_beta tilde(gamma)^(j k)).
+  $
+  The Lie derivative of the connection coefficients is then evaluated using the analogon of @defLieDerivDensity for connections, and gives rise to the terms involving second derivatives of $beta$ in the last of @eqBSSN[equations].
+
+  Although this compactification of the BSSN evolution equations does not introduce any benefits to its numerical implementation---we still have to compute all the individual terms the Lie derivatives consist of---writing them down in this form enables a more straightforward interpretation. For any of the $T = phi.alt, tilde(gamma)_(i j), K, tilde(A)_(i j), tilde(Gamma)^i$, we have the main Lie-advection piece
+  $
+    diff_t T = fL_beta T.
+  $
+  In absence of any other terms, this implies that the BSSN variables are Lie-transported along the normal vector field $alpha n = diff_t -beta$ and thus remain invariant under its generated diffeomorphisms. However, there are other terms; these source the Lie transport by introducing curvature, matter and gauge contributions, such as $e^(4phi.alt)alpha macron(R)_(i j)$, $8pi e^(4phi.alt) alpha S_(i j)^"TF"$ and $gamma^(i j) mnabla_i mnabla_j alpha$, respectively. Put differently, this means that the failure of the BSSN variables to be Lie-transported across the leaves of the foliation is caused by global curvature, the presence of matter, and the choice of the foliation and coordinates on it.
