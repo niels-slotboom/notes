@@ -517,7 +517,7 @@ $
 is a tensor, and independent of whether one writes it in terms of $g_(mu nu)$ or $tilde(g)_(mu nu)$ in the last term. This means that the Levi-Civita connection actions on an arbitrary tensor $T in Gamma(T^((r,s))fM)$ are related by
 $
   tilde(nabla)_lambda tensor(T,+mu...,-nu...) = nabla_lambda tensor(T,+mu...,-nu...) + tensor(C,+mu,-rho lambda)tensor(T,+rho...,-nu...) +... - tensor(C,+rho,-nu lambda)tensor(T,+mu...,-rho...) - ...
-$
+$<eqConformalConnection>
 Concretely, using the action on vectors, one can derive that
 $
   tensor(R,+lambda,-rho mu nu) = tensor(tilde(R),+lambda,-rho mu nu) - tnabla_mu tensor(C,+lambda,-rho nu) + tnabla_nu tensor(C,+lambda,-rho mu) + tensor(C,+lambda,-sigma mu) tensor(C,+sigma,-rho nu) - tensor(C,+lambda,-sigma nu) tensor(C,+sigma,-rho mu).
@@ -525,11 +525,11 @@ $
 By contracting over $lambda mu$, we find a relationship between the Ricci tensors reading
 $
    R_(mu nu) &= tilde(R)_(mu nu) + 2 tilde(g)_(mu nu) tilde(g)^(rho sigma) tnabla_rho tnabla_sigma phi.alt  + 2 (d-2)(tnabla_mu tnabla_nu phi.alt + 2 tnabla_mu phi.alt tnabla_nu phi.alt - 2 tilde(g)_(mu nu) tilde(g)^(rho sigma) tnabla_rho phi.alt tnabla_sigma phi.alt)
-$
-For the Ricci scalars---taking note that $tilde(R) = tilde(g)^(mu nu) tilde(R)_(mu nu)$ and $R = g^(mu nu) R_(mu nu)$ are traced with respect to their respective metric---we obtain
+$<eqConformalRicciTensor>
+For the Ricci scalars---taking note that $tilde(R) = tilde(g)^(mu nu) tilde(R)_(mu nu)$ and $R = g^(mu nu) R_(mu nu)$ are traced with respect to their respective metric---we obtain 
 $
   R = e^(4phi.alt)(tilde(R) + 4(d-1)tilde(g)^(mu nu) tnabla_mu tnabla_nu phi.alt -4(d-2)(d-1) tilde(g)^(mu nu) tnabla_mu phi.alt tnabla_nu phi.alt).
-$
+$<eqConformalRicciScalar>
 == Bochner Formula and the Ricci Tensor
 For two scalar fields $phi$ and $psi$, the _Bochner formula_
 $
@@ -556,7 +556,7 @@ to re-express everything in terms of Christoffel symbols. Doing so yields
 $
   R_(mu nu) &= -1/2 g^(lambda rho) diff_lambda diff_rho g_(mu nu) + g_(lambda\(mu) diff_(nu\)) Gamma^lambda \
   &quad+ thin Gamma^lambda Gamma_((mu nu) lambda) + Gamma_(lambda rho mu) tensor(Gamma,+lambda rho, -nu) + 2 Gamma_(lambda rho \(mu) tensor(Gamma,-nu\),+lambda rho),
-$
+$<eqRicciTensorNice>
 which is now written entirely in terms of $g$, $diff^2 g$, and the two flavours of $Gamma$.
 = BSSNOK
 In this section, we take what we have derived so far and build atop it the BSSNOK formalism. This involves
@@ -569,7 +569,7 @@ In this section, we take what we have derived so far and build atop it the BSSNO
 
 In doing so, we will use many of the identities from the previous section, and establish a number of additional ones to handle the conformal rescaling. Unfortunately, these algebraic definitions are rather lengthy and messy, but they ultimately lead to a strongly hyperbolic formulation of general relativity well-suited to be implemented in high-performance computing (HPC) code. 
 
-== BSSNOK Reparametrisation
+== BSSNOK Reparametrisation and Evolution Equations
 #definition(name: "BSSN Variables")[The dynamical variables in the BSSN formulation of GR are
 
 + the _conformal factor_ $phi.alt$, defined as
@@ -653,7 +653,7 @@ In doing so, we will use many of the identities from the previous section, and e
     diff_t tilde(A)_(i j) &= beta^k diff_k tilde(A)_(i j) + 2 tilde(A)_(k\(i) diff_(j\)) beta^k - 2/3 tilde(A)_(i j) diff_k beta^k + e^(4phi.alt) [alpha macron(R)_(i j) - mnabla_i mnabla_j alpha - 8 pi alpha S_(i j)]^"TF"\
     &quad  +alpha (K tilde(A)_(i j) - 2 tilde(A)_(i k) tensor(tilde(A),+k,-j))\ \ 
     diff_t tilde(Gamma)^i &= beta^k diff_k tilde(Gamma)^i - tilde(Gamma)^k diff_k beta^i + 2/3 tilde(Gamma)^i diff_m beta^m + tilde(gamma)^(j ell) diff_j diff_ell beta^i + 1/3 tilde(gamma)^(i j) diff_j (diff_k beta^k)\
-    &quad- 2tilde(A)^(i j) diff_j alpha + 2alpha tensor(tilde(Gamma),+i,-j k) tilde(A)^(j k) - 4/3 alpha tilde(gamma)^(i j) diff_j K  - 12 alpha tensor(tilde(A),+i j) diff_j phi.alt - 16pi alpha j^i - sigma fG^i
+    &quad- 2tilde(A)^(i j) diff_j alpha + 2alpha tensor(tilde(Gamma),+i,-j k) tilde(A)^(j k) - 4/3 alpha tilde(gamma)^(i j) diff_j K  - 12 alpha tensor(tilde(A),+i j) diff_j phi.alt - 16 pi alpha tilde(gamma)^(i k) j_k - sigma fG^i
   $<eqBSSN>
   In the above, the $#h(0em)^"TF"$ exponent refers to the trace-free part of the bracketed expression, i.e.
   $
@@ -708,7 +708,7 @@ In doing so, we will use many of the identities from the previous section, and e
     diff_t tilde(gamma)_(i j) &= fL_beta tilde(gamma)_(i j) - 2 alpha tilde(A)_(i j),\
     diff_t K &= fL_beta K - gamma^(i j) mnabla_i mnabla_j alpha + alpha (tilde(A)_(i j) tilde(A)^(i j) + 1/3 K^2 - Lambda + 4pi (S+rho)),\
     diff_t tilde(A)_(i j)&= fL_beta tilde(A)_(i j) + e^(4phi.alt) [alpha macron(R)_(i j) - mnabla_i mnabla_j alpha - 8pi alpha S_(i j)]^"TF" + alpha (K tilde(A)_(i j) - 2 tilde(A)_(i k) tensor(tilde(A),+k,-j)),\
-    diff_t tilde(Gamma)^i &= fL_beta tilde(Gamma)^i - 2 tilde(A)^(i j) diff_j alpha + 2 alpha tensor(tilde(Gamma),+i,-j k) tilde(A)^(j k) - 4/3 alpha tilde(gamma)^(i j) diff_j K - 12 alpha tilde(A)^(i j) diff_j phi.alt - 16 pi alpha j^i - sigma fG^i.
+    diff_t tilde(Gamma)^i &= fL_beta tilde(Gamma)^i - 2 tilde(A)^(i j) diff_j alpha + 2 alpha tensor(tilde(Gamma),+i,-j k) tilde(A)^(j k) - 4/3 alpha tilde(gamma)^(i j) diff_j K - 12 alpha tilde(A)^(i j) diff_j phi.alt - 16 pi alpha tilde(gamma)^(i k) j_k - sigma fG^i.
   $
   Note that the trace of the extrinsic curvature, $K$, is the only true scalar, so $fL_beta K = beta^i diff_i K$. Moreover, it should be noted that $fL_beta tilde(Gamma)^i$ is _not_ to be interpreted as the Lie derivative of a vector field nor vector density, but rather expanded as
   $
@@ -721,3 +721,53 @@ In doing so, we will use many of the identities from the previous section, and e
     diff_t T = fL_beta T.
   $
   In absence of any other terms, this implies that the BSSN variables are Lie-transported along the normal vector field $alpha n = diff_t -beta$ and thus remain invariant under its generated diffeomorphisms. However, there are other terms; these source the Lie transport by introducing curvature, matter and gauge contributions, such as $e^(4phi.alt)alpha macron(R)_(i j)$, $8pi e^(4phi.alt) alpha S_(i j)^"TF"$ and $gamma^(i j) mnabla_i mnabla_j alpha$, respectively. Put differently, this means that the failure of the BSSN variables to be Lie-transported across the leaves of the foliation is caused by global curvature, the presence of matter, and the choice of the foliation and coordinates on it.
+
+== From Bar to Tilde
+As alluded to before, the @eqBSSN[BSSN equations] are preliminary in the sense that they still contain expressions associated with the induced metric $gamma_(i j)$, which is not part of the BSSN variables. Although technically, one can always reconstruct $gamma_(i j)$ from $phi.alt$ and $tilde(gamma)_(i j)$ as $gamma_(i j) = e^(-4phi.alt) tilde(gamma)_(i j)$, this is computationally inefficient and induces more memory usage and traffic. In this section, we address the offending terms and reexpress them in terms of the BSSN variables $phi.alt, tilde(gamma)_(i j),K,tilde(A)_(i j)$ and $tilde(Gamma)^i$. Concretely, the terms that appear which we need to reformulate are
+$
+  macron(R)_(i j), quad macron(R), quad mnabla_i mnabla_j alpha quad "and" quad Delta_gamma alpha = gamma^(i j) mnabla_i mnabla_j alpha.
+$
+We begin with the last of the four, as it is the simplest. Using the standard formula for the Laplacian, we get
+$
+  Delta_gamma alpha &= 1/sqrt(gamma) diff_i (sqrt(gamma) gamma^(i j) diff_j alpha) = 1/sqrt(e^(-12 phi.alt)) diff_i (sqrt(e^(-12 phi.alt)) e^(4phi.alt) tilde(gamma)^(i j) diff_j alpha)\
+  &= e^(6phi.alt) diff_i (e^(-2phi.alt) tilde(gamma)^(i j) diff_j alpha) = e^(4phi.alt)(diff_i (tilde(gamma)^(i j) diff_j alpha) - 2 tilde(gamma)^(i j) diff_i phi.alt diff_j alpha )\
+  &= e^(4phi.alt)( Delta_tilde(gamma) alpha - 2 tilde(gamma)^(i j) diff_i phi.alt diff_j alpha).
+$<eqConformalLaplacian>
+In the last step, we made use of the fact that $tilde(gamma) = 1$. 
+
+Next up, we consider the Hessian of $alpha$. For this, we recall the @eqConformalConnection[relationship], which allows us to infer
+$
+  mnabla_i mnabla_j alpha &= mnabla_i diff_j alpha = tnabla_i diff_j alpha + tensor(C,+k,-j i) diff_k alpha\
+  &= tnabla_i tnabla_j alpha + 2 (tensor(delta,+k,-i) diff_j phi.alt + tensor(delta,+k,-j) diff_i phi.alt - tilde(gamma)_(i j) tilde(gamma)^(k ell) diff_ell phi.alt) diff_k alpha\
+  &= tnabla_i tnabla_j alpha + 4 diff_(\(i) phi.alt diff_(j\)) alpha - 2 tilde(gamma)_(i j) tilde(gamma)^(k ell) diff_k phi.alt diff_ell alpha.
+$
+Note that since $tilde(gamma)^(i j) tilde(gamma)_(i j) =3$, this is consistent with @eqConformalLaplacian.
+
+Now turning to $macron(R)_(i j)$, we can simply employ our @eqConformalRicciTensor[result] for the conformal Ricci tensor, which for $d=3$ implies
+$
+  macron(R)_(i j) = tilde(R)_(i j) + 2 (tnabla_i tnabla_j phi.alt + tilde(gamma)_(i j) tilde(gamma)^(k ell) tnabla_k tnabla_ell phi.alt) + 4 (diff_i phi.alt diff_j phi.alt - tilde(gamma)_(i j) tilde(gamma)^(k ell) diff_k phi.alt diff_ell phi.alt).
+$ 
+Here, according to @eqRicciTensorNice, the conformal Ricci tensor $tilde(R)_(i j)$ is given by 
+$
+  tilde(R)_(i j) &= -1/2 tilde(gamma)^(k ell) diff_k diff_ell tilde(gamma)_(i j) + tilde(gamma)_(k\(i) diff_(j\)) tilde(Gamma)^k \
+&quad+ thin tilde(Gamma)^k tilde(Gamma)_((i j) k) + tilde(Gamma)_(k ell i) tensor( tilde(Gamma),+k ell, -j) + 2  tilde(Gamma)_(k ell \(i) tensor( tilde(Gamma),-j\),+k ell).
+$
+Here it becomes apparent why introducing $tilde(Gamma)^i$ as an additional dynamical variable is a good idea: since it only appears with first derivatives, the principal part of the conformal Ricci tensor is the elliptic operator
+$
+  tilde(gamma)^(k ell) diff_k diff_ell tilde(gamma)_(i j)
+$
+which is much more well-behaved numerically than the second-order terms introduced by $diff_i tilde(Gamma)^j$ would be. The introduction of $tilde(Gamma)^i$ turns exactly these terms into mere first-order contributions, so that they do not mess up the principal symbol.
+
+Lastly, for the Ricci scalar, we may use @eqConformalRicciScalar, which for $d=3$ reads
+$
+  R = e^(4phi.alt)(tilde(R) + 8 tilde(gamma)^(i j) (tnabla_i tnabla_j phi.alt - diff_i phi.alt diff_j phi.alt)).
+$
+For quicker reference, we provide all these results again below:
+$
+  mnabla_i mnabla_j alpha &= tnabla_i tnabla_j alpha + 4 diff_(\(i) phi.alt diff_(j\)) alpha - 2 tilde(gamma)_(i j) tilde(gamma)^(k ell) diff_k phi.alt diff_ell alpha,\ \ \
+  gamma^(i j) mnabla_i mnabla_j alpha &= e^(4phi.alt)( Delta_tilde(gamma) alpha - 2 tilde(gamma)^(i j) diff_i phi.alt diff_j alpha),\ \ \
+  macron(R)_(i j) &= tilde(R)_(i j) + 2 (tnabla_i tnabla_j phi.alt + tilde(gamma)_(i j) tilde(gamma)^(k ell) tnabla_k tnabla_ell phi.alt) + 4 (diff_i phi.alt diff_j phi.alt - tilde(gamma)_(i j) tilde(gamma)^(k ell) diff_k phi.alt diff_ell phi.alt)\ \
+  & quad "with"quad tilde(R)_(i j) = -1/2 tilde(gamma)^(k ell) diff_k diff_ell tilde(gamma)_(i j) + tilde(gamma)_(k\(i) diff_(j\)) tilde(Gamma)^k \ 
+& #h(5.65em) quad+ thin tilde(Gamma)^k tilde(Gamma)_((i j) k) + tilde(Gamma)_(k ell i) tensor( tilde(Gamma),+k ell, -j) + 2  tilde(Gamma)_(k ell \(i) tensor( tilde(Gamma),-j\),+k ell),\ \ \
+  R &= e^(4phi.alt)(tilde(R) + 8 tilde(gamma)^(i j) (tnabla_i tnabla_j phi.alt - diff_i phi.alt diff_j phi.alt)).
+$
