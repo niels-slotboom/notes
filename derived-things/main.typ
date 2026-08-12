@@ -80,7 +80,7 @@ $
 These are then used to approximate $y(t+epsilon)$ as
 $
   y(t+epsilon) approx y_0 + epsilon (b_1 k_1 + ... + b_s k_s).
-$
+$<eqRKApprox>
 An RK integrator is hence defined by picking a value of $s$, quadrature points $c_i in [0,1]$, $i = 2,...,s$, as well as the coefficients $b_i$, $i=1,...,s$ and $a_(i j)$, $i > j$. These coefficients are not chosen at random, but rather picked such that the error of $y(t+epsilon)$ is as small as possible, i.e. of as high of an order $epsilon$ as can be arranged.
 
 The coefficients can be thought of as a matrix $vA in RR^(s times s)$ and a pair of vectors $vb,vc in RR^s$, with the coefficients arranged such that
@@ -92,6 +92,75 @@ $
   k_i = F(t_0 + epsilon[vc]_i, y_0 + epsilon [vA#h(0em) vk]_i), wide
   y(t+epsilon) approx y_0 + epsilon vb^top #h(0em) vk.
 $
+One way of determining optimal coefficients $vA,vb,vc$ is to expand the @eqRKApprox[approximation] around $epsilon=0$ and comparing coefficients to the Taylor expansion of $y(t_0+epsilon)$, which using $y'=F(t,y(t))$ as well as the notation
+$
+  F = F(t_0,y_0), quad F_t = (diff_t F)(t_0,y_0), quad F_y = (diff_y F)(t_0,y_) quad "etc."
+$
+can be written explicitly as
+#bottom-number[$
+  y(t_0+epsilon) &= y_0 + epsilon F + epsilon^2/2 (F_t + F F_y)\
+  &quad + epsilon^3/6 (F_(t t) + 2 F F_(t y) + F_t F_y + F F_y^2 + F^2 F_(y y))\
+  & quad + epsilon^4/24 (F_(t t t) + 3 F F_(t t y) + 3 F_t F_(t y) + 5 F F_y F_(t y) + 3 F^2 F_(t y y) + F_(t t) F_y\ 
+  & #h(3.5em)+3 F F_t F_(y y) + F_t F_y^2 + F F_y^3 + 4 F^2 F_y F_(y y) + F^3 F_(y y y))\
+  &quad+fO(epsilon^5)
+$<eqExplicitExpansionRK>]
+As is evident from the number of terms quickly growing with the order in $epsilon$, the strategy of comparing coefficients quickly becomes unmanageable for higher-order RK integrators. Further, we can see that it is highly non-linear in derivatives of $F$; this explains why we need to use the $k_i$, $i<j$ in the evaluation of $k_j$. Without this chaining, we could not reproduce the nonlinearity in $F$ required to match the explicit @eqExplicitExpansionRK[expression].
+== RK1 (is just Euler)
+As a first illustration of how the strategy of reading off coefficients works, let us indulge in the lowest-order case of $s=1$. Although _technically_, $s=0$ would be the lowest-order case, and $y(t) approx y_0$ is _technically_ an approximation of the solution to $y'=F(t,y)$, it is neither a good nor interesting one, hence the decision to start at $s=1$. We start by writing down the $k$'s, of which there is only one---namely
+$
+  k_1 = F(t_0,y_0) = F.
+$
+The RK method then prescribes the approximation
+$
+  y(t_0 + epsilon) approx y_0 + epsilon b_1 k_1 = y_0 + epsilon b_1 F 
+$
+For this to match @eqExplicitExpansionRK[expansion] up to order $fO(epsilon)$, we need to set $b_1 = 1$. Thus, RK1 is nothing but
+$
+  y(t_0+epsilon) = y_0 + epsilon F(t_0,y_0) + fO(epsilon^2),
+$
+which we immediately recognise as the explicit Euler method. 
+== RK2 (gets interesting)
+Moving up to the $s=2$ case, we can employ the same strategy to obtain a (hopefully) more precise integration scheme. Here, the $k$'s, along with their expansions in $epsilon$, read
+$
+  k_1 &= F(t_0,y_0) = F,\
+  k_2 &= F(t_0+epsilon c_2, y_0 + epsilon a_(2 1) k_1) &&= F + epsilon c_2 F_t + epsilon a_(2 1) k_1 F_y + fO(epsilon^2)\
+  &&&= F+ epsilon (c_2 F_t + a_(2 1) F F_y) + fO(epsilon^2).  
+$
+Again assembling the RK-approximation, we find
+$
+  y(t_0 + epsilon) =y_0 + epsilon (b_1 + b_2) F + epsilon^2 (b_2 c_2 F_t + b_2 a_(2 1) F F_y) + fO(epsilon^3) 
+$
+Clearly, $b_1 + b_2 = 1$ and $b_2 != 0$ must hold for this to have a chance of matching @eqExplicitExpansionRK[expansion] up to $fO(epsilon^2)$. Further, we need $b_2 c_2 = b_2 a_(2 1) = 1/2$, which upon introduction of a parameter $alpha in [1/2,infty)$ allows us to parameterise
+$
+  b_1 = 1-alpha, quad b_2 = alpha, quad c_2 = 1/(2 alpha), quad a_(2 1) = 1/(2 alpha).
+$
+Using this parametrisation, the RK2 integration procedure reads
+$
+  k_1 = F(t_0,y_0), quad k_2 = F(t_0 + epsilon/(2 alpha), y_0 + epsilon/(2 alpha) k_1),
+$
+and
+$ 
+  y(t_0 + epsilon) = y_0 + epsilon((1-alpha) k_1 + alpha k_2) + fO(epsilon^3).
+$
+Two common choices for the free parameter $alpha$ are 
+- $alpha = 1/2$ (Heun's method): This leads to the approximation scheme
+  $
+    y(t_0+epsilon) = y_0 + epsilon/2 (k_1 + k_2) + fO(epsilon^3)
+  $
+  with
+  $
+    k_1 = F(t_0,y_0), quad k_2 = F(t_0 + epsilon, y_0 + epsilon k_1).
+  $
+
+- $alpha=1$ (Explicit Midpoint Method): In this case, we get
+  $
+    y(t_0 + epsilon) = y_0 + epsilon k_2,
+  $
+  where
+  $  
+    k_1 = F(t_0,y_0), quad k_2 = F(t_0 + epsilon/2,y_0 + epsilon/2 k_1).
+  $
+Although both these cases---and for that matter, any $alpha in [1/2,infty)$ has the same _order_ error, $fO(epsilon^3)$, different values for $alpha$ lead to different forms of the error, which might---depending on the ODE in question---lead to a better constant factor.
 = The $3+1$-Formalism
 == Foliations and Projectors
 On a Lorentzian 3-manifold $(fM,g)$, given a function $t:fM->RR$ such that $g(dt,dt) <= 0$ everywhere, we call the covering of $fM$ by the sets 
