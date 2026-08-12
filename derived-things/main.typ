@@ -63,6 +63,35 @@ The choice of $lambda$ doesn't change this leading error order, but it changes t
 $
   Delta f = (-164 dot "(center)" + 30 dot "(faces)" - 2 dot "(edges)" + 1 dot "(corners)")/(26 epsilon^2) + cal(O)(epsilon^2)_"iso" + cal(O)(epsilon^4)_"aniso". wide
 $
+= Runge-Kutta
+== General Structure
+Runge-Kutta is the name of a family of integrators for first-order differential equations of the form
+$
+  y'(t) = F(t,y(t)).
+$
+Generally speaking, given a timestep $epsilon$, one evaluates the right-hand side of the ODE $s$ times, at different times $t_i = epsilon c_i  in (t_0,t_0+epsilon)$ and for different guesses for $y$. Concretely, starting from $y(t_0) = y_0$, one evaluates
+$
+  k_1 &= F(t_0,y_0),\
+  k_2 &= F(t_0 + epsilon c_2, y_0 + epsilon a_(2 1) k_1),\
+  k_3 &= F(t_0 + epsilon c_3, y_0 + epsilon( a_(3 2) k_2 + a_(3 1) k_1)),\
+  &#h(0.29em) dots.v\
+  k_s &= F(t_0 + epsilon c_s, y_0 + epsilon(a_(s,s-1) k_(s-1) + ... + a_(s 1) k_1).
+$
+These are then used to approximate $y(t+epsilon)$ as
+$
+  y(t+epsilon) approx y_0 + epsilon (b_1 k_1 + ... + b_s k_s).
+$
+An RK integrator is hence defined by picking a value of $s$, quadrature points $c_i in [0,1]$, $i = 2,...,s$, as well as the coefficients $b_i$, $i=1,...,s$ and $a_(i j)$, $i > j$. These coefficients are not chosen at random, but rather picked such that the error of $y(t+epsilon)$ is as small as possible, i.e. of as high of an order $epsilon$ as can be arranged.
+
+The coefficients can be thought of as a matrix $vA in RR^(s times s)$ and a pair of vectors $vb,vc in RR^s$, with the coefficients arranged such that
+$
+  vA = mat(0,,,dots.h,0;a_(21),0,,dots.h,0;a_31, a_32, 0,dots.h,0;dots.v,dots.v,dots.down,dots.down,dots.v;a_(s 1),a_(s 2),dots.h,a_(s,s-1),0), quad vb = mat(b_1;dots.v;b_s), quad vc = mat(0;c_2;dots.v;c_s).
+$
+Further writing $vk = (k_1,...,k_s)^top$, and denoting row evalution of a vector matrix by $[ dot ]_i$, we can write the above as follows:
+$
+  k_i = F(t_0 + epsilon[vc]_i, y_0 + epsilon [vA#h(0em) vk]_i), wide
+  y(t+epsilon) approx y_0 + epsilon vb^top #h(0em) vk.
+$
 = The $3+1$-Formalism
 == Foliations and Projectors
 On a Lorentzian 3-manifold $(fM,g)$, given a function $t:fM->RR$ such that $g(dt,dt) <= 0$ everywhere, we call the covering of $fM$ by the sets 
@@ -771,3 +800,5 @@ $
 & #h(5.65em) quad+ thin tilde(Gamma)^k tilde(Gamma)_((i j) k) + tilde(Gamma)_(k ell i) tensor( tilde(Gamma),+k ell, -j) + 2  tilde(Gamma)_(k ell \(i) tensor( tilde(Gamma),-j\),+k ell),\ \ \
   R &= e^(4phi.alt)(tilde(R) + 8 tilde(gamma)^(i j) (tnabla_i tnabla_j phi.alt - diff_i phi.alt diff_j phi.alt)).
 $
+
+= Initial Data
