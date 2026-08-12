@@ -161,6 +161,8 @@ Two common choices for the free parameter $alpha$ are
     k_1 = F(t_0,y_0), quad k_2 = F(t_0 + epsilon/2,y_0 + epsilon/2 k_1).
   $
 Although both these cases---and for that matter, any $alpha in [1/2,infty)$ has the same _order_ error, $fO(epsilon^3)$, different values for $alpha$ lead to different forms of the error, which might---depending on the ODE in question---lead to a better constant factor.
+== RK3 (gets ugly)
+
 = The $3+1$-Formalism
 == Foliations and Projectors
 On a Lorentzian 3-manifold $(fM,g)$, given a function $t:fM->RR$ such that $g(dt,dt) <= 0$ everywhere, we call the covering of $fM$ by the sets 
@@ -867,7 +869,7 @@ $
   macron(R)_(i j) &= tilde(R)_(i j) + 2 (tnabla_i tnabla_j phi.alt + tilde(gamma)_(i j) tilde(gamma)^(k ell) tnabla_k tnabla_ell phi.alt) + 4 (diff_i phi.alt diff_j phi.alt - tilde(gamma)_(i j) tilde(gamma)^(k ell) diff_k phi.alt diff_ell phi.alt)\ \
   & quad "with"quad tilde(R)_(i j) = -1/2 tilde(gamma)^(k ell) diff_k diff_ell tilde(gamma)_(i j) + tilde(gamma)_(k\(i) diff_(j\)) tilde(Gamma)^k \ 
 & #h(5.65em) quad+ thin tilde(Gamma)^k tilde(Gamma)_((i j) k) + tilde(Gamma)_(k ell i) tensor( tilde(Gamma),+k ell, -j) + 2  tilde(Gamma)_(k ell \(i) tensor( tilde(Gamma),-j\),+k ell),\ \ \
-  R &= e^(4phi.alt)(tilde(R) + 8 tilde(gamma)^(i j) (tnabla_i tnabla_j phi.alt - diff_i phi.alt diff_j phi.alt)).
+  macron(R) &= e^(4phi.alt)(tilde(R) + 8 tilde(gamma)^(i j) (tnabla_i tnabla_j phi.alt - diff_i phi.alt diff_j phi.alt)).
 $
 
 = Initial Data
