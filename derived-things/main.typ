@@ -128,7 +128,7 @@ $
 $
 Again assembling the RK-approximation, we find
 $
-  y(t_0 + epsilon) =y_0 + epsilon (b_1 + b_2) F + epsilon^2 (b_2 c_2 F_t + b_2 a_(2 1) F F_y) + fO(epsilon^3) 
+  y(t_0 + epsilon) = y_0 + epsilon (b_1 + b_2) F + epsilon^2 (b_2 c_2 F_t + b_2 a_(2 1) F F_y) + fO(epsilon^3) 
 $
 Clearly, $b_1 + b_2 = 1$ and $b_2 != 0$ must hold for this to have a chance of matching @eqExplicitExpansionRK[expansion] up to $fO(epsilon^2)$. Further, we need $b_2 c_2 = b_2 a_(2 1) = 1/2$, which upon introduction of a parameter $alpha in [1/2,infty)$ allows us to parameterise
 $
@@ -154,18 +154,16 @@ Two common choices for the free parameter $alpha$ are
 
 - $alpha=1$ (Explicit Midpoint Method): In this case, we get
   $
-    y(t_0 + epsilon) = y_0 + epsilon k_2,
+    y(t_0 + epsilon) = y_0 + epsilon k_2 + fO(epsilon^3),
   $
   where
   $  
     k_1 = F(t_0,y_0), quad k_2 = F(t_0 + epsilon/2,y_0 + epsilon/2 k_1).
   $
 Although both these cases---and for that matter, any $alpha in [1/2,infty)$ has the same _order_ error, $fO(epsilon^3)$, different values for $alpha$ lead to different forms of the error, which might---depending on the ODE in question---lead to a better constant factor.
-<<<<<<< HEAD
-=======
+
 == RK3 (gets ugly)
 
->>>>>>> origin/main
 = The $3+1$-Formalism
 == Foliations and Projectors
 On a Lorentzian 3-manifold $(fM,g)$, given a function $t:fM->RR$ such that $g(dt,dt) <= 0$ everywhere, we call the covering of $fM$ by the sets 
