@@ -12,9 +12,9 @@
 )
 
 #outline(indent:auto)
-
-= Finite Difference Stencils
-== First Derivatives
+= Numerical Methods
+== Finite Difference Stencils
+=== First Derivatives
 Two-point forward difference stencil with error:
 $
   f'(x) &= (f(x+epsilon)-f(x))/epsilon \ & quad- epsilon/2 f''(x) + cal(O)(epsilon²)
@@ -29,7 +29,7 @@ $
   f'(x) &= (-f(x+2epsilon) + 8f(x+epsilon) - 8f(x-epsilon) +f(x-2epsilon))/(12 epsilon)\
   &quad + epsilon^4/30 f^((5))(x) + cal(O)(epsilon^6)
 $
-== Second Derivatives
+=== Second Derivatives
 Three-point stencil with error:
 $
   f''(x) &= (f(x+epsilon) - 2f(x) + f(x-epsilon))/epsilon^2\ &quad - epsilon^2/12 f^((4))(x) + cal(O)(epsilon^4)
@@ -40,7 +40,7 @@ $
   epsilon) - f(x-2epsilon))/(12 epsilon^2)\ &quad- epsilon^4/90 f^((6))(x) + cal(O)(epsilon^6)
 $
 
-== Laplacian
+=== Laplacian
 27-point stencil: 
 $
   Delta f = 1/epsilon^2 ((-8 lambda -6) dot "(center)" + (4 lambda+1) dot "(faces)" - 2lambda dot "(edges)" + lambda dot "(corners)")
@@ -63,8 +63,8 @@ The choice of $lambda$ doesn't change this leading error order, but it changes t
 $
   Delta f = (-164 dot "(center)" + 30 dot "(faces)" - 2 dot "(edges)" + 1 dot "(corners)")/(26 epsilon^2) + cal(O)(epsilon^2)_"iso" + cal(O)(epsilon^4)_"aniso". wide
 $
-= Runge-Kutta
-== General Structure
+== Runge-Kutta
+=== General Structure
 Runge-Kutta is the name of a family of integrators for first-order differential equations of the form
 $
   y'(t) = F(t,y(t)).
@@ -105,7 +105,7 @@ can be written explicitly as
   &quad+fO(epsilon^5)
 $<eqExplicitExpansionRK>]
 As is evident from the number of terms quickly growing with the order in $epsilon$, the strategy of comparing coefficients quickly becomes unmanageable for higher-order RK integrators. Further, we can see that it is highly non-linear in derivatives of $F$; this explains why we need to use the $k_i$ with $i<j$ in the evaluation of $k_j$. Without this chaining, we could not reproduce the nonlinearity in $F$ required to match the explicit @eqExplicitExpansionRK[expression].
-== RK1 (is just Euler)
+=== RK1 (is just Euler)
 As a first illustration of how the strategy of reading off coefficients works, let us indulge in the lowest-order case of $s=1$. Although _technically_, $s=0$ would be the lowest-order case, and $y(t) approx y_0$ is _technically_ an approximation of the solution to $y'=F(t,y)$, it is neither a good nor interesting one, hence the decision to start at $s=1$. We start by writing down the $k$'s, of which there is only one---namely
 $
   k_1 = F(t_0,y_0) = F.
@@ -119,7 +119,7 @@ $
   y(t_0+epsilon) = y_0 + epsilon F(t_0,y_0) + fO(epsilon^2),
 $
 which we immediately recognise as the explicit Euler method. 
-== RK2 (gets interesting)
+=== RK2 (gets interesting)
 Moving up to the $s=2$ case, we can employ the same strategy to obtain a (hopefully) more precise integration scheme. Here, the $k$'s, along with their expansions in $epsilon$, read
 $
   k_1 &= F(t_0,y_0) = F,\
@@ -162,10 +162,17 @@ Two common choices for the free parameter $alpha$ are
   $
 Although both these cases---and for that matter, any $alpha in [1/2,infty)$ has the same _order_ error, $fO(epsilon^3)$, different values for $alpha$ lead to different forms of the error, which might---depending on the ODE in question---lead to a better constant factor.
 
-== RK3 (gets ugly)
-
-= The $3+1$-Formalism
-== Foliations and Projectors
+=== RK3 (gets ugly)
+== #text(fill: red)[Courant-Friedrichs-Lewy (CFL) Conditions for PDEs]
+=== #text(fill: red)[Example: Parabolic Heat Equation]
+=== #text(fill: red)[Example: Hyperbolic Wave Equation]
+=== #text(fill: red)[General CFL Argument Structure]
+== #text(fill: red)[Implicit ODE and PDE Solvers]
+=== #text(fill: red)[Implicit ODE Solvers]
+=== #text(fill: red)[Implicit PDE Solvers]
+= Numerical Relativity
+== The $3+1$-Formalism
+=== Foliations and Projectors
 On a Lorentzian 3-manifold $(fM,g)$, given a function $t:fM->RR$ such that $g(dt,dt) <= 0$ everywhere, we call the covering of $fM$ by the sets 
 $
   Sigma_t_0 = {p in fM | t(p) = t_0}
@@ -215,7 +222,7 @@ that is, $P T$ has as components those of $T$ contracted with a projector on eac
 $
   P n = 0 quad "and" quad P g = gamma.
 $
-== Extrinsic Curvature
+=== Extrinsic Curvature
 In the codimension 1 case, the extrinsic curvature tensor is defined by
 $
   K(X,Y) = g(n,nabla_(P X) P Y) quad <=> quad K_(mu nu) X^mu Y^nu = n_mu (P X)^nu nabla_nu (P Y)^mu
@@ -255,8 +262,8 @@ $
 $
 Note that the Lie derivative of the _vector_ $n$ would be zero, $fL_n n = [n,n] = 0$---in the identity above, we take the Lie derivative of the _covector_ $n^flat$.
 
-== Induced Connection and Intrinsic Curvature
-=== Induced Connection
+=== Induced Connection and Intrinsic Curvature
+==== Induced Connection
 Given the Levi-Civita connection $nabla$ on $(fM,g)$, we define the _induced/three-dimensional/spatial covariant derivative_ $mnabla$ on the foliation $Sigma = {Sigma_t}$ as 
 $
   mnabla T = P (nabla T) quad <=>quad tensor((mnabla_lambda T),+mu...,-nu...) = tensor(P,+alpha,-lambda) tensor(P,+mu,-beta) ... tensor(P,+gamma,-nu)... nabla_alpha tensor(T,+beta...,-gamma...) 
@@ -291,7 +298,7 @@ Further, $mnabla$ is torsion-free and metric-compatible with $gamma$:
     X(gamma(Y,Z)) &= X(g(Y,Z)) = g(nabla_X Y,Z) + g(Y,nabla_X Z) \
     &= g(P nabla_X Y, Z) + g(Y,P nabla_X Z) = gamma(mnabla_X Y,Z) + gamma(Y,mnabla_X Z).
   $
-=== Intrinsic Curvature
+==== Intrinsic Curvature
 Since $mnabla$ defines a connection on $T Sigma$, and by that on each of the leaves of the foliation, it comes with an associated Riemannian curvature tensor, defined by
 $
   macron(R)(X,Y)Z = mnabla_X mnabla_Y Z - mnabla_Y mnabla_X Z - mnabla_[X,Y]Z
@@ -312,7 +319,7 @@ $
 $
 holds.
 
-== Gauss-Codazzi-Ricci Equations
+=== Gauss-Codazzi-Ricci Equations
 #theorem(name: "Gauss Equation")[
   With the definitions given in the above, the _Gauss equation_
   $
@@ -381,7 +388,7 @@ With the triad of the Gauss-Codazzi-Ricci equations, we can now isolate the fina
     R &= -2 fL_n K + K^2 + K_(mu nu) K^(mu nu) + macron(R) - 2/alpha mnabla^mu mnabla_mu alpha
   $<eqProjectionsRicci>
 ]
-== The Einstein Equations in the $3+1$-Formalism
+=== The Einstein Equations in the $3+1$-Formalism
 We work with the Einstein equations in the convention where
 $
   R_(mu nu) - 1/2 R g_(mu nu) + Lambda g_(mu nu) = 8 pi T_(mu nu).
@@ -426,8 +433,8 @@ The first two equations are derived by taking the normal-normal and normal-tange
 
 The remaining two equations are first order in time (by the presence of the $fL_n$ normal derivatives), and hence dynamical. The first of the two is simply a consequence of the definition of the extrinsic curvature. The latter is the result of projecting the trace-reversed Einstein equations onto $T Sigma$ by contracting with $P$ on both indices, and subsequently applying the first equation in @eqProjectionsRicci[] to re-express the projected Ricci tensor $(P R)_(mu nu)$.
 
-== Adapted Coordinates
-=== The Metric and Bases
+=== Adapted Coordinates
+==== The Metric and Bases
 We can amend the time function $t:fM->RR$ (for which $dt != 0$) which defines the foliation $Sigma_t$ to a coordinate system _adapted to $Sigma_t$_ by introducing three additional functions $x^i : fM -> RR$ such that $dx^i != 0$ and $x^i|_Sigma_t$ label points uniquely on any leaf $Sigma_t$. This defines a basis ${diff_t, diff_i}$ of $TM$ and an associated dual basis ${dt,dx^i}$ of $T^*fM$. 
 
 A natural question is to ask how the two time directions that we now have are related---we have the (coordinate-independent) timelike normal vector $n$, and additionally, the coordinate time direction $diff_t$. To this end, we introduce the shift vector $beta$, defined by
@@ -497,7 +504,7 @@ $
   K_(mu nu) K^(mu nu) = K_(i j) K^(i j) quad "and" quad tensor(macron(R),-i j) = tensor(macron(R),+mu,-i mu j) = tensor(macron(R),+k,-i k j).
 $
 
-=== Extrinsic and Intrinsic Curvature
+==== Extrinsic and Intrinsic Curvature
 #lemma[
   For any vector field $N$ that is normal to $T Sigma$ (not necessarily the unit-normal $n$), and a contravariant tangential tensor $T in Gamma(T^((0,s))Sigma)$, we have
   $
@@ -529,7 +536,7 @@ Correspondingly, the associated Riemann curvature has the components
 $
   tensor(macron(R),+k,-ell i j) = diff_i tensor(macron(Gamma),+k,-ell j) - diff_j tensor(macron(Gamma),+k,-ell i) + tensor(macron(Gamma),+k,-n i) tensor(macron(Gamma),+n,-ell j) - tensor(macron(Gamma),+k,-n j) tensor(macron(Gamma),+n,-ell i)
 $<eqTimeDerivGammaK>
-=== The Einstein Equations in $3+1$-Adapted Coordinates
+==== The Einstein Equations in $3+1$-Adapted Coordinates
 The @eqTimeDerivGammaK[equations] directly imply that the Einstein equations in adapted coordinates reads
 $
   fH &= macron(R) + K^2 - K_(i j) K^(i j) - 2Lambda - 16pi rho = 0, \ \ \
@@ -575,8 +582,8 @@ $
 This is derived by first integrating by parts, $(nabla_mu T^(mu nu)) n_nu = nabla_mu (T^(mu nu) n_nu) - T^(mu nu) nabla_mu n_nu$, and then applying identities from the above to replace derivatives of $n$ with the extrinsic curvature. The standard formula $nabla_mu X^mu = 1/sqrt(g)diff_mu (sqrt(g)X^mu)$, together with $sqrt(g) = alpha sqrt(gamma)$, then allows the deduction of the result.
 
 A similar equation of motion can be derived for $diff_t j_i$ by projecting $nabla_mu T^(mu nu) = 0$ onto $T Sigma$ using $P$, but I will not do this here. 
-= Metric Derivative and Curvature Identities
-== Jacobi Formula
+== Metric Derivative and Curvature Identities
+=== Jacobi Formula
 For the variation $delta$ of a matrix $M$, we have the _Jacobi formula_
 $
   delta det M = det M dot tr(M^(-1) delta M).
@@ -594,7 +601,7 @@ $
   Div X = nabla_mu X^mu = 1/sqrt(g) diff_mu (sqrt(g) X^mu)\ \ "and"\ \ Box_g f = g^(mu nu) nabla_mu nabla_nu f = 1/sqrt(g) diff_mu (sqrt(g) g^(mu nu) diff_nu f),
 $
 respectively.
-== Connection and Curvature of Conformal Metrics
+=== Connection and Curvature of Conformal Metrics
 In the following, let $g_(mu nu)$ and $tilde(g)_(mu nu)$ be two metrics on a $d$-dimensional manifold $fM$, related by
 $
   tilde(g)_(mu nu) = e^(4 phi.alt) g_(mu nu).
@@ -631,7 +638,7 @@ For the Ricci scalars---taking note that $tilde(R) = tilde(g)^(mu nu) tilde(R)_(
 $
   R = e^(4phi.alt)(tilde(R) + 4(d-1)tilde(g)^(mu nu) tnabla_mu tnabla_nu phi.alt -4(d-2)(d-1) tilde(g)^(mu nu) tnabla_mu phi.alt tnabla_nu phi.alt).
 $<eqConformalRicciScalar>
-== Bochner Formula and the Ricci Tensor
+=== Bochner Formula and the Ricci Tensor
 For two scalar fields $phi$ and $psi$, the _Bochner formula_
 $
   1/2 Box_g (nabla_mu phi nabla^mu psi) &= 1/2 (nabla_mu Box_g phi) nabla^mu psi + 1/2 nabla_mu phi (nabla^mu Box_g psi) \ 
@@ -659,7 +666,7 @@ $
   &quad+ thin Gamma^lambda Gamma_((mu nu) lambda) + Gamma_(lambda rho mu) tensor(Gamma,+lambda rho, -nu) + 2 Gamma_(lambda rho \(mu) tensor(Gamma,-nu\),+lambda rho),
 $<eqRicciTensorNice>
 which is now written entirely in terms of $g$, $diff^2 g$, and the two flavours of $Gamma$.
-= BSSNOK
+== BSSNOK
 In this section, we take what we have derived so far and build atop it the BSSNOK formalism. This involves
 
 - defining the BSSNOK variables in terms of the ADM variables $gamma_(i j)$ and $K_(i j)$, scaling out the conformal factor to isolate the conformal metric $tilde(gamma)_(i j)$ and trace-free extrinsic curvature $tilde(A)_(i j)$;
@@ -670,7 +677,7 @@ In this section, we take what we have derived so far and build atop it the BSSNO
 
 In doing so, we will use many of the identities from the previous section, and establish a number of additional ones to handle the conformal rescaling. Unfortunately, these algebraic definitions are rather lengthy and messy, but they ultimately lead to a strongly hyperbolic formulation of general relativity well-suited to be implemented in high-performance computing (HPC) code. 
 
-== BSSNOK Reparametrisation and Evolution Equations
+=== BSSNOK Reparametrisation and Evolution Equations
 #definition(name: "BSSN Variables")[The dynamical variables in the BSSN formulation of GR are
 
 + the _conformal factor_ $phi.alt$, defined as
@@ -823,7 +830,7 @@ In doing so, we will use many of the identities from the previous section, and e
   $
   In absence of any other terms, this implies that the BSSN variables are Lie-transported along the normal vector field $alpha n = diff_t -beta$ and thus remain invariant under its generated diffeomorphisms. However, there are other terms; these source the Lie transport by introducing curvature, matter and gauge contributions, such as $e^(4phi.alt)alpha macron(R)_(i j)$, $8pi e^(4phi.alt) alpha S_(i j)^"TF"$ and $gamma^(i j) mnabla_i mnabla_j alpha$, respectively. Put differently, this means that the failure of the BSSN variables to be Lie-transported across the leaves of the foliation is caused by global curvature, the presence of matter, and the choice of the foliation and coordinates on it.
 
-== From Bar to Tilde
+=== From Bar to Tilde
 As alluded to before, the @eqBSSN[BSSN equations] are preliminary in the sense that they still contain expressions associated with the induced metric $gamma_(i j)$, which is not part of the BSSN variables. Although technically, one can always reconstruct $gamma_(i j)$ from $phi.alt$ and $tilde(gamma)_(i j)$ as $gamma_(i j) = e^(-4phi.alt) tilde(gamma)_(i j)$, this is computationally inefficient and induces more memory usage and traffic. In this section, we address the offending terms and reexpress them in terms of the BSSN variables $phi.alt, tilde(gamma)_(i j),K,tilde(A)_(i j)$ and $tilde(Gamma)^i$. Concretely, the terms that appear which we need to reformulate are
 $
   macron(R)_(i j), quad macron(R), quad mnabla_i mnabla_j alpha quad "and" quad Delta_gamma alpha = gamma^(i j) mnabla_i mnabla_j alpha.
@@ -872,5 +879,8 @@ $
 & #h(5.65em) quad+ thin tilde(Gamma)^k tilde(Gamma)_((i j) k) + tilde(Gamma)_(k ell i) tensor( tilde(Gamma),+k ell, -j) + 2  tilde(Gamma)_(k ell \(i) tensor( tilde(Gamma),-j\),+k ell),\ \ \
   macron(R) &= e^(4phi.alt)(tilde(R) + 8 tilde(gamma)^(i j) (tnabla_i tnabla_j phi.alt - diff_i phi.alt diff_j phi.alt)).
 $
+=== #text(fill: red)[Gauge Dynamics]
 
-= Initial Data
+== #text(fill: red)[Initial Data]
+=== #text(fill: red)[York-Lichnerowicz]
+=== #text(fill: red)[Conformal Transverse-Traceless (CTT) Decomposition]

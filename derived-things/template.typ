@@ -16,7 +16,7 @@
   set page(numbering: "1", number-align: center)
   set text(font: "New Computer Modern", lang: "en")
   show math.equation: set text(weight: 400)
-  set heading(numbering: "1.1")
+  set heading(numbering: "A.1.1")
   
   // Title row.
   align(center)[
@@ -52,13 +52,13 @@
   set text(font: "New Computer Modern", lang: "en")
   // set math.equation(number-align: bottom + right)
   
-  set heading(numbering: "1.1")
+  set heading(numbering: "A.1")
   show heading.where(level: 1): it => counter(math.equation).update(0) + it
   show heading.where(level: 2): it => counter(math.equation).update(0) + it
   
   // show math.equation.where(block:true): set math.lr(size: 115%)
 
-  set math.equation(numbering: num => numbering("(1.1)", counter(heading).get().first(), counter(heading).get().at(1, default: 0), num),supplement: "equation")
+  set math.equation(numbering: num => numbering("(A.1)", counter(heading).get().first(), counter(heading).get().at(1, default: 0), num),supplement: "equation")
 
   body
 }
