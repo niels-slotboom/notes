@@ -12,6 +12,7 @@
 )
 
 #outline(indent:auto)
+#pagebreak()
 = Numerical Methods
 == Finite Difference Stencils
 === First Derivatives
@@ -23,13 +24,14 @@ Three-point central difference stencil with error:
 $
   f'(x) &= (f(x+epsilon) - f(x-epsilon))/(2epsilon) \
   & quad - epsilon^2/6 f^((3))(x) + cal(O)(epsilon^3)
-$
+$<eqThreePointCentralDifference>
 Five-point central difference stencil with error:
 $
   f'(x) &= (-f(x+2epsilon) + 8f(x+epsilon) - 8f(x-epsilon) +f(x-2epsilon))/(12 epsilon)\
   &quad + epsilon^4/30 f^((5))(x) + cal(O)(epsilon^6)
 $
 === Second Derivatives
+==== Single-Variable
 Three-point stencil with error:
 $
   f''(x) &= (f(x+epsilon) - 2f(x) + f(x-epsilon))/epsilon^2\ &quad - epsilon^2/12 f^((4))(x) + cal(O)(epsilon^4)
@@ -39,7 +41,16 @@ $
   f''(x) &= (-f(x+2epsilon) + 16 f(x+epsilon) - 30 f(x) + 16 f(x-
   epsilon) - f(x-2epsilon))/(12 epsilon^2)\ &quad- epsilon^4/90 f^((6))(x) + cal(O)(epsilon^6)
 $
-
+==== Mixed Second Derivative
+With a grid spacing of $epsilon_x,epsilon_y>0$ in the $x$- and $y$-directions, respectively, we have
+$
+  (diff^2 f)/(diff x diff y) = (f_(++) + f_(--) - f_(+-) - f_(-+))/(4 epsilon_x epsilon_y) - 1/6(epsilon_x^2 (diff^4 f)/(diff x^3 diff y) + epsilon_y^2 (diff^4 f)/(diff x diff y^3)) + fO(epsilon^4)
+$<eqMixedDerivative>
+Here,
+$
+  f_(pm_1 pm_2) = f(x pm_1 epsilon_x, y pm_2 epsilon_y)
+$
+Note that @eqMixedDerivative[the expression] corresponds to taking twice the @eqThreePointCentralDifference[central difference] of $f$, once with respect to $x$ and once with respect to $y$.
 === Laplacian
 27-point stencil: 
 $
@@ -163,6 +174,79 @@ Two common choices for the free parameter $alpha$ are
 Although both these cases---and for that matter, any $alpha in [1/2,infty)$ has the same _order_ error, $fO(epsilon^3)$, different values for $alpha$ lead to different forms of the error, which might---depending on the ODE in question---lead to a better constant factor.
 
 === RK3 (gets ugly)
+For $s=3$, the $k$'s and their expansions around $epsilon = 0$ read
+$
+  k_1 &= F(t_0,y_0) = F,\
+  k_2 &= F(t_0 + epsilon c_2, y_0 + epsilon a_(2 1) k_1)\
+    &= F + epsilon (c_2 F_t + a_(2 1) F F_y) + epsilon^2/2 (c_2^2 F_(t t) + 2 c_2 a_(2 1) F F_(t y) + a_(2 1)^2 F^2 F_(y y)) + fO(epsilon^3),\
+  k_3 &= F(t_0 + epsilon c_3, y_0 + epsilon (a_(3 1) k_1 + a_(3 2) k _2))\
+  &= F + epsilon (c_3 F_t + (a_(3 1) + a_(3 2)) F F_y) + epsilon^2/2 (2 a_(3 2) c_2 F_t F_y + 2 a_32 a_21 F F_y^2\
+  &quad + c_3^2 F_(t t) + 2 c_3 (a_31 + a_32) F F_(t y) + (a_31 + a_32)^2 F^2 F_(y y)) + fO(epsilon^3)
+$
+Next, we evaluate the RK3 integration scheme
+$
+  y(t_0 + epsilon) approx y_0 + epsilon (b_1 k_1 + b_2 k_2 + b_3 k_3)
+$
+order by order in $epsilon$, comparing to @eqExplicitExpansionRK[the explicit expansion] on the left-hand side:
+$
+  "at" fO(epsilon): &quad& F &attach(=,t:!) b_1 F + b_2 F + b_3 F
+$
+which requires
+$
+  b_1 + b_2 + b_3 = 1 quad <=> quad b_1 = 1-b_2-b_3,
+$
+for some $b_2,b_3 != 0$. Moving on, we get
+$
+  "at" fO(epsilon^2): quad epsilon/2 (F_t + F F_y) attach(=,t:!) epsilon^2(b_2 (c_2 F_t + a_21 F F_y) + b_3 (c_3 F_t + (a_31 + a_32) F F_y))
+$
+From this, we read off the requirements
+$
+  c_2 = a_21, quad c_3 = a_31 + a_32, quad b_2 c_2 + b_3 c_3 = 1/2.
+$
+Note that this is not the full solution space; it does however simplify things moving forward. Concretely, it makes the right-hand side simpler; at $fO(epsilon^3)$, we find
+$
+  &epsilon^3/6 (F_(t t) + 2 F F_(t y) + F_t F_y + F F_y^2 + F^2 F_(y y))\  &attach(=,t:!) epsilon^3/2 [b_2 (c_2^2 F_(t t) + 2 c_2 a_(2 1) F F_(t y) + a_(2 1)^2 F^2 F_(y y)) + b_3 (2 a_(3 2) c_2 F_t F_y + 2 a_32 a_21 F F_y^2\
+  &quad + c_3^2 F_(t t) + 2 c_3 (a_31 + a_32) F F_(t y) + (a_31 + a_32)^2 F^2 F_(y y))]\
+  &= epsilon^3/2 [b_2 c_2^2 (F_(t t) + 2 F F_(t y) + F^2 F_(y y)) + b_3 (2 a_32 c_2 (F_t F_y + F F_y^2) + c_3^2(F_(t t) + 2 F F_(t y) + F^2 F_(y y)))]
+$
+This implies
+$
+  b_2 c_2^2 + b_3 c_3^2 = 1/3 quad "and" quad 2 b_3 a_32 c_2 = 1/3. 
+$
+At this point, it is most convenient to introduce $c_2 = alpha$ and $c_3 = beta$ as freely choosable constants. In doing so, we get the system of equations
+$
+  b_1 = 1-b_2-b_3, quad alpha b_2 + beta b_3 = 1/2, quad alpha^2 b_2 + beta^2 b_3 = 1/3, quad a_32 = 1/(6 alpha b_3).
+$
+This is solved by
+$
+  b_1 &= -(3 alpha (1 - 2 beta) + 3 beta-2)/(6 alpha beta), &quad&& b_2 &= (2-3beta)/(6 alpha(alpha-beta)),\  b_3 &= -(2-3 alpha)/(6 beta (alpha-beta)),&&quad& a_32 &= -(beta (alpha - beta))/(alpha (2 - 3 alpha)).  
+$
+The full RK3 integration procedure thus reads
+#bottom-number[$
+  y(t_0 + epsilon) approx y_0 + epsilon(-(3 alpha (1 - 2 beta) + 3 beta-2)/(6 alpha beta) k_1 + (2-3beta)/(6 alpha(alpha-beta)) k_2 -(2-3 alpha)/(6 beta (alpha-beta)) k_3) + fO(epsilon^4) \ \ \
+$]
+where
+$
+  k_1 &= F(t_0,y_0),\
+  k_2 &= F(t_0 + epsilon alpha, y_0 + epsilon alpha k_1)\
+  k_3 &= F(t_0 + epsilon beta, y_0 + epsilon[(beta + beta(alpha-beta)/alpha(2-3alpha))k_1 - beta(alpha-beta)/alpha(2-3alpha) k_2]).
+$
+A common choice for the quadrature points is $alpha = 1/2$, $beta = 1$. This leads to
+$
+  b_1 &= 1/6, &&quad& b_2 &= 2/3, &&quad& b_3 &= 1/6,\
+  c_1 &= 0, &&& c_2 &= 1/2, &&& c_3&=1\
+  a_21 &= 1/2, &&&  a_31 &= -1 &&& a_32 &= 2.
+$
+When inserted, this yields the scheme
+$
+  y(t_0 + epsilon) = y_0 + epsilon(1/6 k_1 + 2/3 k_2 + 1/6 k_3) + fO(epsilon^4)
+$
+with
+$
+  k_1 &= F(t_0,y_0),\
+  k_2 &= F(t_0 + epsilon/2,y_0 + epsilon/2 k_1),\
+  k_3 &= F(t_0 +epsilon, y_0 - epsilon k_1 + 2 epsilon k_2)
+$
 == #text(fill: red)[Courant-Friedrichs-Lewy (CFL) Conditions for PDEs]
 === #text(fill: red)[Example: Parabolic Heat Equation]
 === #text(fill: red)[Example: Hyperbolic Wave Equation]
@@ -170,7 +254,21 @@ Although both these cases---and for that matter, any $alpha in [1/2,infty)$ has 
 == #text(fill: red)[Implicit ODE and PDE Solvers]
 === #text(fill: red)[Implicit ODE Solvers]
 === #text(fill: red)[Implicit PDE Solvers]
+#pagebreak()
+== #text(fill: red)[Adaptive Mesh Refinement]
+=== #text(fill: red)[Refinement Conditions]
+=== #text(fill: red)[Subcycling]
 = Numerical Relativity
+== Conventions
+In the following, the spacetime metric $g$ always has signature $(-+++)$. The induced metric $gamma$ and conformal metric $tilde(gamma)$ are Riemannian, that is, of signature $(+++)$. The Riemann tensor has the sign convention
+$
+  R(X,Y)Z= nabla_X nabla_Y Z - nabla_Y nabla_X Z - nabla_[X,Y] Z.
+$
+We use the Einstein equations in the form
+$
+  R_(mu nu)- 1/2 R g_(mu nu) + Lambda g_(mu nu) = 8 pi T_(mu nu),
+$
+that is, with $c= G = 1$.
 == The $3+1$-Formalism
 === Foliations and Projectors
 On a Lorentzian 3-manifold $(fM,g)$, given a function $t:fM->RR$ such that $g(dt,dt) <= 0$ everywhere, we call the covering of $fM$ by the sets 
@@ -880,7 +978,12 @@ $
   macron(R) &= e^(4phi.alt)(tilde(R) + 8 tilde(gamma)^(i j) (tnabla_i tnabla_j phi.alt - diff_i phi.alt diff_j phi.alt)).
 $
 === #text(fill: red)[Gauge Dynamics]
-
+== #text(fill: red)[Boundary Conditions and Grid Stability]
+=== #text(fill: red)[Kreiss-Oliger Dissipation]
+=== #text(fill: red)[Sommerfeld Radiative Boundaries]
+== #text(fill:red)[Wave Extraction & Diagnostics]
+=== #text(fill:red)[Weyl Scalar $Psi_4$]
+=== #text(fill:red)[Constraint Monitoring]
 == #text(fill: red)[Initial Data]
 === #text(fill: red)[York-Lichnerowicz]
 === #text(fill: red)[Conformal Transverse-Traceless (CTT) Decomposition]
