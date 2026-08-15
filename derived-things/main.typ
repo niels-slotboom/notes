@@ -23,13 +23,14 @@ Three-point central difference stencil with error:
 $
   f'(x) &= (f(x+epsilon) - f(x-epsilon))/(2epsilon) \
   & quad - epsilon^2/6 f^((3))(x) + cal(O)(epsilon^3)
-$
+$<eqThreePointCentralDifference>
 Five-point central difference stencil with error:
 $
   f'(x) &= (-f(x+2epsilon) + 8f(x+epsilon) - 8f(x-epsilon) +f(x-2epsilon))/(12 epsilon)\
   &quad + epsilon^4/30 f^((5))(x) + cal(O)(epsilon^6)
 $
 == Second Derivatives
+=== Single-Variable
 Three-point stencil with error:
 $
   f''(x) &= (f(x+epsilon) - 2f(x) + f(x-epsilon))/epsilon^2\ &quad - epsilon^2/12 f^((4))(x) + cal(O)(epsilon^4)
@@ -39,7 +40,16 @@ $
   f''(x) &= (-f(x+2epsilon) + 16 f(x+epsilon) - 30 f(x) + 16 f(x-
   epsilon) - f(x-2epsilon))/(12 epsilon^2)\ &quad- epsilon^4/90 f^((6))(x) + cal(O)(epsilon^6)
 $
-
+=== Mixed Second Derivative
+With a grid spacing of $epsilon_x,epsilon_y>0$ in the $x$- and $y$-directions, respectively, we have
+$
+  (diff^2 f)/(diff x diff y) = (f_(++) + f_(--) - f_(+-) - f_(-+))/(4 epsilon_x epsilon_y) - 1/6(epsilon_x^2 (diff^4 f)/(diff x^3 diff y) + epsilon_y^2 (diff^4 f)/(diff x diff y^3)) + fO(epsilon^4)
+$<eqMixedDerivative>
+Here,
+$
+  f_(pm_1 pm_2) = f(x pm_1 epsilon_x, y pm_2 epsilon_y)
+$
+Note that @eqMixedDerivative[the expression] corresponds to taking twice the @eqThreePointCentralDifference[central difference] of $f$, once with respect to $x$ and once with respect to $y$.
 == Laplacian
 27-point stencil: 
 $
