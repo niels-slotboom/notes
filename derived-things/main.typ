@@ -5,7 +5,7 @@
 
 #show: project.with(
   //title: "Dirac-Bergmann and Hamiltonian Field Theory",
-  title: "Stuff I've derived before",
+  title: "Stuff I've derived",
   authors: (
     (name: "Niels Slotboom", email: "slotboom.n@gmail.com"),
   ),
@@ -255,9 +255,78 @@ $
 === #text(fill: red)[Implicit ODE Solvers]
 === #text(fill: red)[Implicit PDE Solvers]
 #pagebreak()
-== #text(fill: red)[Adaptive Mesh Refinement]
-=== #text(fill: red)[Refinement Conditions]
+== Adaptive Mesh Refinement
+=== Refinement Conditions
+The goal of adaptive mesh refinement (AMR) is to increase the resolution of a simulation wherever there are features in the field configuration which cannot be resolved adequately at the current resolution. Hence, we need a predicate to decide whether a grid cell should be refined or not; for this, we need to be able to detect features.
+
+A first intuition for how to detect features might be something gradient-based---something like
+$
+  "refine if" quad |nabla phi.alt| > C
+$
+for some threshold value $C$. Unfortunately, this has multiple issues:
+
++ It is entirely decoupled from the current grid resolution. If large enough, the same gradient value will always lead to refinement, regardless of what resolution we already have. 
+
++ Further, the gradient is scale-dependent. A rescaling $phi.alt->lambda phi.alt$ for some real constant $lambda > 0$ does not affect the accuracy of a finite-difference stencil, since it simply gets scaled by the same factor. However, since $|nabla phi.alt| ->lambda|nabla phi.alt|$, the condition depends upon the scale of $phi.alt$.
+
++ For affine linear functions $phi.alt(vx) = va dot vx + vb$, finite difference approximations of its derivatives are exact. However, since $nabla phi.alt = va$, so we refine if $|va|>C$. This is bad: we do not need to increase the resolution for field configurations where the error of finite difference approximations vanishes already. 
+
+Let us address these issues in order. The first is rather simple to fix: we simply multiply by the grid spacing $Delta x$, and turn the refinement condition into
+$
+  Delta x|nabla phi.alt| > C.
+$
+Effectively, this removes the division by the grid spacing in the finite difference approximation. Concretely, in the one-dimensional case, we have
+$
+  C < Delta x|nabla phi.alt| approx Delta x (phi.alt(x+Delta x)-phi.alt(x-Delta x))/(2 Delta x) = 1/2 (phi.alt(x+Delta x) - phi.alt(x-Delta x)).
+$
+We hence respect the grid spacing now; we refine if the difference between neighbouring cells' values becomes too large. This is already a much more sensible condition---we no longer refine indefinitely, but rather, until the change from cell to cell is small enough.
+
+To address the second issue, (ii), we might think to rescale the gradient by $|phi.alt|$, turning it into
+$
+  (Delta x|nabla phi.alt|)/(|phi.alt|) > C.
+$
+Although this is now invariant under $phi.alt-> lambda phi.alt$, we have introduced two new issues: a potential division by zero, and a sensitivity to shift, $phi.alt->phi.alt + alpha$. The division by zero can be remedied by adding a typical scale/noise floor $phi.alt_0$ of the field $phi.alt$ to the denominator, turning it into
+$
+  (Delta x|nabla phi.alt|)/(|phi.alt| + phi.alt_0) > C.
+$
+This is resolution- and scale-invariant, so we have solved (i) and (ii), but (iii) is still unresolved---it got even worse---and we are now sensitive to shifts, $phi.alt -> phi.alt + alpha$. 
+
+So, let us try to address (iii), together with this new issue. The shift-covariance issue is simple enough to deal with; any derivative of $phi.alt$ is shift-invariant, so we only use its derivatives in our condition. We are left to address (iii). Since we would like our condition's left-hand side to ideally evaluate to zero for affine-linear functions, we are bound to make it proportional to _second_ derivatives of $phi.alt$. The likely most infamous scalar second derivative of a function is its Laplacian, $Delta phi.alt$. Being a second derivative, it maps affine-linear functions $va dot vx + vb$ to zero, but unfortunately, it also annihilates the entire class of harmonic functions as well. For example, the function $phi.alt(x,y) = e^x sin y$ is harmonic, but its finite difference approximations of derivatives are not trivially exact. Thus, using $Delta phi.alt$ is not viable. 
+
+The most general second derivative of $phi.alt$ is its Hessian, which we denote by
+$
+  H = [(diff^2 phi.alt)/(diff x^i diff x^j)]_(i,j=1)^d.
+$
+We would like to build a scalar from it that is sensitive to any second-order features, and which is isotropic. Under an orthogonal transformation $vx->R vx$, with $R^top R = I$, the Hessian transforms as $H->R H R^top$. Unfortunately, we have already ruled out $tr H = Delta phi.alt$ as an option, so the next-best isotropic scalar is the Frobenius norm
+$
+  ||H||_F^2 = tr(H^top H).
+$
+It is indeed isotropic, since
+$
+  tr(H^top H) -> tr((R H R^top)^top R H R^top) = tr(R H^top R^top R H R^top) = tr(H^top H).
+$
+In e.g. $d=3$, we can write it out explicitly as
+$
+  ||H||_F^2 = phi.alt_(x x)^2 + phi.alt_(y y)^2 + phi.alt_(z z)^2 + 2 phi.alt_(x y)^2 + 2 phi.alt_(y z)^2 + 2 phi.alt_(z x)^2.
+$
+Since all terms are non-negative, any non-zero second-order derivative will be picked up by $||H||_F$. Moreover, due to isotropy, it is agnostic to the feature's orientation---we have thus found an ingredient for a refinement condition solving (iii). 
+
+Taking into account everything we have established in the above, a good refinement condition is
+$
+  "refine if" quad (Delta x^4||H||_F^2)/(Delta x^2|nabla phi.alt|^2 + phi.alt_0^2) > C.
+$
+This is a generalisation of the Löhner error estimate. At this point it is worth considering its behaviour in different regimes. In a region of small gradients---where $Delta x^2|nabla phi.alt|^2 << phi.alt_0^2$, such as at the top of a bell curve---the condition collapses to
+$
+  (Delta x^4)/(phi.alt_0^2)||H||_F^2 > C.
+$
+This means that refinement is proportional to the curvature $||H||_F^2$. In the other limiting case---$Delta x^2|nabla phi.alt|^2 >> phi.alt_0^2$, such as near shocks or wavefronts---the condition turns into
+$
+  Delta x^2 (||H||_F^2)/(|nabla phi.alt|^2) > C.
+$
+This is a measure for the relative rate of change of the gradient, loosely to be interpreted as $nabla log nabla phi.alt$. 
+
 === #text(fill: red)[Subcycling]
+#pagebreak()
 = Numerical Relativity
 == Conventions
 In the following, the spacetime metric $g$ always has signature $(-+++)$. The induced metric $gamma$ and conformal metric $tilde(gamma)$ are Riemannian, that is, of signature $(+++)$. The Riemann tensor has the sign convention
@@ -848,7 +917,7 @@ In doing so, we will use many of the identities from the previous section, and e
     $
     Here, indices of quantities with a tilde are raised and lowered using $tilde(gamma)$, whereas for quantities without tilde, $gamma$ is used. We will continue to use this convention in the following to omit writing hundreds of instances of the induced and conformal metrics.
 
-#proposition(name: "Preliminary BSSNOK Evolution Equations")[
+#proposition(name: "BSSNOK Evolution Equations")[
   Below are the evolution equations for the BSSNOK variables $phi.alt, tilde(gamma)_(i j), K, tilde(A)_(i j)$ and $tilde(Gamma)^i$.
   #bottom-number[$
     fH &= macron(R) + 2/3 K^2 - tilde(A)_(i j) tilde(A)^(i j) - 2Lambda - 16 pi rho = 0,\ \
