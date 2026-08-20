@@ -35,7 +35,7 @@ $
 Three-point stencil with error:
 $
   f''(x) &= (f(x+epsilon) - 2f(x) + f(x-epsilon))/epsilon^2\ &quad - epsilon^2/12 f^((4))(x) + cal(O)(epsilon^4)
-$
+$<eq2ndDerivStencil3pt>
 Five-point stencil with error:
 $
   f''(x) &= (-f(x+2epsilon) + 16 f(x+epsilon) - 30 f(x) + 16 f(x-
@@ -247,8 +247,52 @@ $
   k_2 &= F(t_0 + epsilon/2,y_0 + epsilon/2 k_1),\
   k_3 &= F(t_0 +epsilon, y_0 - epsilon k_1 + 2 epsilon k_2)
 $
-== #text(fill: red)[Courant-Friedrichs-Lewy (CFL) Conditions for PDEs]
-=== #text(fill: red)[Example: Parabolic Heat Equation]
+== Courant-Friedrichs-Lewy (CFL) Conditions for PDEs
+=== Example: Parabolic Heat Equation
+In this section, we derive the CFL conditions for various discretisations of the parabolic heat equation,
+$
+  diff_t phi.alt = alpha Delta phi.alt
+$<eqHeatEqn>
+where $alpha>0$ is the diffusion coefficient and $phi.alt = phi.alt(t,vx)$, $t in RR$, $vx in RR^d$ is the dynamical variable.
+==== 7-Point Laplacian Explicit Euler CFL Condition
+For this first derivation, we consider the simplest discretisation of @eqHeatEqn, taking the forward difference for the left-hand side, and the Laplacian stencil built from the @eq2ndDerivStencil3pt[second derivative stencil] with equal grid spacing $Delta x$ for all axes. In $d$ dimensions, this amounts to
+$
+  (phi.alt(t + Delta t,vx) - phi.alt(t,vx))/(Delta t) = alpha sum_(i=1)^d (phi.alt(t,vx + ve_i Delta x ) - 2 phi.alt(t,vx) + phi.alt(t,vx-ve_i Delta x))/(Delta x^2),\
+$
+or when rearranged for $phi.alt(t+Delta t,vx)$, 
+$
+  phi.alt(t+Delta t,vx) = phi.alt (t,vx) + C sum_(i=1)^d [phi.alt(t,vx + ve_i Delta x) - 2 phi.alt(t,vx) + phi.alt(t,vx-ve_i Delta x)].
+$<eqDiscHeatEqn>
+where we defined $C:= (alpha Delta t)/(Delta x^2)$. The goal is to ensure $C$ is such that the discrete linear operator acting on the right-hand side has no exponentially growing modes, i.e. that all its eigenvalues are non-negative. Since any discrete function $psi(vx) = phi.alt(t,vx)$ can be decomposed into functions of the form $e^(i vk dot vx)$, we make the ansatz for a mode
+$
+  phi.alt(t,vx) = G^(t\/Delta x) e^(i vk dot vx)
+$
+where $G$ is the growth factor per timestep, fixed by the @eqDiscHeatEqn[discretised equation]. For the evolution to be stable, we must have $|G| <= 1$---let us examine how these modes evolve. Inserting into the left-hand side, we get
+$
+  phi.alt(t,vx) = G^((t\/Delta x) + 1) e^(i vk dot vx) = G phi.alt(t,vx);
+$
+hence the name _growth factor_. For the right-hand side, we expand
+$
+  &phi.alt (t,vx) + C sum_(i=1)^d [phi.alt(t,vx + ve_i Delta x) - 2 phi.alt(t,vx) + phi.alt(t,vx-ve_i Delta x)]\
+  &= phi.alt(t,vx) + C G^(t\/Delta x) sum_(i = 1)^d [e^(i vk dot vx)e^(i vk dot ve_i Delta x) - 2 e^(i vk dot vx) + e^(i vk dot vx)e^(-i vk dot ve_i Delta x)]\
+  &= phi.alt(t,vx) lr(( 1 + C sum_(i=1) underbrace([e^(i k_i Delta x) - 2 + e^(-i k_i Delta x)],= -4 sin^2(k_i Delta x))),size: #65%)\
+  &= phi.alt(t,vx)(1-4C sum_(i=1)^d sin^2 (k_i Delta x)).
+$
+Equating both sides and dividing by $phi.alt(t,vx)!=0$, we establish
+$
+  G = 1- 4C sum_(i=1)^d sin^2 (k_i Delta x)
+$
+The condition that $|G| <= 1$ is satisfied if $G<=1 $ and $G>=-1$. The former is always satisfied since $sin^2 >= 0$, but the latter introduces constraints on $C$---and by that, on the relationship between $Delta t$, $Delta x$ and $alpha$. Concretely, the right-hand side attains a global minimum where $k_i = pi/(2 Delta x)$, $i=1,...,d$. With this value for $vk$, we obtain
+$
+  -1 attach(<=,t:!) G = 1-4 C d quad <=> quad 1/(2 d) >= C = (alpha Delta t)/(Delta x^2).
+$
+We can turn this into a condition on the timestep $Delta t$, which leads us to the CFL condition for this discrete stepping operator,
+$
+  Delta t <= (Delta x^2)/(2 alpha d).
+  
+$
+
+
 === #text(fill: red)[Example: Hyperbolic Wave Equation]
 === #text(fill: red)[General CFL Argument Structure]
 == #text(fill: red)[Implicit ODE and PDE Solvers]
