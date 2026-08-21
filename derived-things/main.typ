@@ -289,8 +289,25 @@ $
 We can turn this into a condition on the timestep $Delta t$, which leads us to the CFL condition for this discrete stepping operator,
 $
   Delta t <= (Delta x^2)/(2 alpha d).
-  
 $
+==== 7-Point Laplacian Implicit Euler CFL Condition
+In the implicit case, one replaces the forward difference in time with the backwards difference, or equivalently, evaluates the right-hand side of the equation at $t + Delta t$ instead of $t$. That is, the heat equation is discretised as
+#bottom-number[$
+  (phi.alt(t + Delta t,vx) - phi.alt(t,vx))/(Delta t) = alpha sum_(i=1)^d (phi.alt(t + Delta t,vx + ve_i Delta x ) - 2 phi.alt(t+ Delta t,vx) + phi.alt(t+ Delta t,vx-ve_i Delta x))/(Delta x^2).\ \ \
+$]
+Inserting the ansatz $phi.alt(t,vx) = G^(t\/Delta t) e^(i vk dot vx)$ and identifying terms proceeds largely identically to the explicit case, with the difference that the Laplacian stencil terms now carry an additional factor of $G$ as they are evaluated at $t+Delta t$ instead of $t$. This has as consequence that now,
+$
+  G = 1- 4 G C sum_(i = 1)^d sin^2 (k_i Delta x\/2),
+$
+which rearranges to
+$
+  G = 1/(1+ 4 C sum_(i=1)^d sin^2 (k_i Delta x\/2)).
+$
+The implications of this result are profound. As long as $C >= 0$, we have $|G| <= 1$---this means that the evolution is unconditionally stable; it allows for an arbitrarily large timestep $Delta t$.
+
+This, however, does not mean that one should opt to just do one's entire simulation in a single step. Although the discrete evolution is _stable_ for any $Delta t > 0$, the error of a step with the given choices of stencils is $fO(Delta t + Delta x^2)$. Increasing $Delta t$ hence also increases the error---just as increasing $Delta x$ in the explicit case (to allow for larger $Delta t$) can destroy the evolution due to a lack of resolution. Because of this, the initially perceived superiority of implicit over explicit time-stepping becomes more subtle; if error requirements pose harsher constraints on $Delta t$ than the explicit CFL condition does, then explicit stepping is preferrable over implicit as it is cheaper computationally.
+
+
 
 
 === #text(fill: red)[Example: Hyperbolic Wave Equation]
