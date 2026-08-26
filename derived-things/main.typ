@@ -311,7 +311,7 @@ This, however, does not mean that one should opt to just do one's entire simulat
 We now move on to derive the CFL condition for the explicit Euler case where on the right-hand side, the @eqIsotropicLaplacianStencil[stencil] is employed. Concretely, we thus consider the stepping scheme
 #bottom-number[$
   phi.alt(t+Delta t,vx) = phi.alt(t,vx) + C (-164 dot "(center)" + 30 dot "(faces)" - 2 dot "(edges)" + 1 dot "(corners)"), \ \ \
-$]
+$<eqA.3.13>]
 where $C = (alpha Delta t)/(26 Delta x^2)$. Similar steps to the previous two derivations, together with the fact that the stencil applied to a constant yields 0, leads to
 #bottom-number[$
   G(vk) &= 1 -4 C (30 sum_(i=1)^3 sin^2 (k_i Delta x \/2) - 2 sum_(i<j) [sin^2((k_i+k_j) Delta x \/2) + sin^2 ((k_i-k_j) Delta x \/2)]\
@@ -320,14 +320,14 @@ $]
 Denoting the large parentheses by $S(vk)$, we obtain the stability condition
 $
   -1 <= 1 - 4C S(vk) quad <=>quad S(vk) <= 1/(2C).
-$
+$<eqA.3.15>
 We are thus left to find the maximum of $S(vk)$. Introducing the auxiliary variables
 $
   xi_i = (k_i Delta x)/2, quad u_i = sin^2(xi_i),
 $
 we can rewrite the sum over the faces as
 $
-  sum_(i=1)^3 sin^2(k_i Delta x\/2) = sum_(i =1)^3 u_i.
+  sum_(i=1)^3 sin^2(k_i Delta x\/2) = sum_i u_i.
 $
 For the sum over the edges, we make use of
 $
@@ -337,10 +337,63 @@ $
 $
 so that
 $
-  sum_(i<j) [sin^2((k_i+k_j) Delta x \/2) + sin^2 ((k_i-k_j) Delta x \/2)] = 2 sum_(i < j) [u_i + u_j - 2u_i u_j]
+  sum_(i<j) [sin^2((k_i+k_j) Delta x \/2) + sin^2 ((k_i-k_j) Delta x \/2)] &= 2 sum_(i < j) [u_i + u_j - 2u_i u_j]\
+  &= 4sum_i u_i - 4 sum_(i < j) u_i u_j.
 $
-
-
+For the corner terms, we consider
+$
+  &sin(xi_x + sigma_y xi_y + sigma_z xi_z) = sin(xi_x + sigma_y xi_y) cos(xi_z) + sigma_z cos(xi_x + sigma_y xi_y) sin(xi_z)\
+  &= sin(xi_x) cos(xi_y) cos(xi_z)+ sigma_y cos(xi_x) sin(xi_y) cos(xi_z)\
+  &quad + sigma_z cos(xi_x)cos(xi_y) sin(xi_z) - sigma_y sigma_z sin(xi_x) sin(xi_y) sin(xi_z)
+$
+After squaring, this turns into a horrible mess, but since we are summing over all values of $sigma_y,sigma_z in {pm 1}$, any term linear in one of the $sigma$ will cancel in the sum. That is, only the squares of the individual summands appear in the final result, so that
+$
+  &#h(-2em)sum_(sigma_y,sigma_z in {pm 1}) sin^2 ((k_x + sigma_y k_y + sigma_z k_z) Delta x\/2)\ &= 4 (sin^2 xi_x cos^2 xi_y cos^2 xi_z + cos^2 xi_x sin^2 xi_y cos^2 xi_z\
+  & wide + cos^2 xi_x cos^2 xi_y sin^2 xi_z - sin^2 xi_x sin^2 xi_y sin^2 xi_z)\
+  &= 4(u_x (1-u_y)(1-u_z) + (1-u_x)u_y (1-u_z)\ 
+  &wide + (1-u_x)(1-u_y)u_z + u_x u_y u_z)\
+  &= 4(sum_i u_i - 2 sum_(i < j) u_i u_j + 4 u_x u_y u_z)
+$
+Hence, $S(vk)$, now as a function of $vu = (u_x,u_y,u_z)$ reads
+$
+  S(vu) &= 30 sum_i u_i - 2 (4 sum_i u_i - cancelr(4 sum_(i < j) u_i u_j)) + 4(sum_i u_i - cancelr(2 sum_(i<j) u_i u_j) + 4 u_x u_y u_z)\
+  &= 26 (u_x + u_y + u_z) + 16 u_x u_y u_z.
+$
+Since $u_i in [0,1]$, $S$ clearly takes its maximum where $u_x = u_y = u_z = 1$, yielding
+$
+  max_([0,1]^3) S(vu) = 94.
+$
+Thus, the @eqA.3.15[condition] is turned into
+$
+  94 <= 1/(2C) quad <=> quad (alpha Delta t)/(26 Delta x^2) = C <= 1/188
+$
+Rearranging for $Delta t$ yields the final condition
+$
+  Delta t <= 13/94 (Delta x^2)/(alpha).
+$
+Note that 
+$
+  13 / 94 approx 0.13892...,
+$
+making the 27-point stencil CFL condition slightly more restrictive than for the 7-point case, where the factor in front of $Delta x^2 \/ alpha$ is
+$
+  1/(2d) = 1/6 approx 0.166 overline(6). 
+$
+This trade-off is typically worth it, given that the isotropy of the error is much higher. 
+==== 27-point Isotropic Laplacian Implicit Euler CFL Condition
+In the implicit case of the preceding section, where the right-hand side of @eqA.3.13 is evaluated at $t+Delta t$ instead, we obtain
+$
+  G = 1- 4 G C S(vk).
+$
+Solving for $G$, we find
+$
+  G = 1/(1+4 C S(vk)).
+$
+As we have shown before,
+$
+  S(vk(vu)) = 26 (u_x + u_y + u_z) + 16 u_x u_y u_z in [0,94],
+$
+so that $|G|<= 1$ is always satisfied and hence, the implicit Euler procedure remains unconditionally stable even with the isotropic stencil for the Laplacian.
 === #text(fill: red)[Example: Hyperbolic Wave Equation]
 === #text(fill: red)[General CFL Argument Structure]
 == #text(fill: red)[Implicit ODE and PDE Solvers]
