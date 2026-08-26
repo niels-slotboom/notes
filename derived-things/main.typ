@@ -377,10 +377,17 @@ $
 $
 making the 27-point stencil CFL condition slightly more restrictive than for the 7-point case, where the factor in front of $Delta x^2 \/ alpha$ is
 $
+<<<<<<< HEAD
   1/(2d) = 1/6 approx 1.66 overline(6). 
 $
 This trade-off is typically worth it, given that the isotropy of the error is much higher. 
 === 27-point Isotropic Laplacian Implicit Euler CFL Condition
+=======
+  1/(2d) = 1/6 approx 0.166 overline(6). 
+$
+This trade-off is typically worth it, given that the isotropy of the error is much higher. 
+==== 27-point Isotropic Laplacian Implicit Euler CFL Condition
+>>>>>>> 3a04e215d011ee15eb5e864e85b648512b1f9f53
 In the implicit case of the preceding section, where the right-hand side of @eqA.3.13 is evaluated at $t+Delta t$ instead, we obtain
 $
   G = 1- 4 G C S(vk).
