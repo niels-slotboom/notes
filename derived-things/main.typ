@@ -73,7 +73,7 @@ $
 The choice of $lambda$ doesn't change this leading error order, but it changes the anisotropy of the error. Useful choices are $lambda = 1/22$ or $lambda = 1/26$. The latter minimises the anisotropy for Fourier modes, and its full expression reads
 $
   Delta f = (-164 dot "(center)" + 30 dot "(faces)" - 2 dot "(edges)" + 1 dot "(corners)")/(26 epsilon^2) + cal(O)(epsilon^2)_"iso" + cal(O)(epsilon^4)_"aniso". wide
-$
+$<eqIsotropicLaplacianStencil>
 == Runge-Kutta
 === General Structure
 Runge-Kutta is the name of a family of integrators for first-order differential equations of the form
@@ -307,7 +307,38 @@ The implications of this result are profound. As long as $C >= 0$, we have $|G| 
 
 This, however, does not mean that one should opt to just do one's entire simulation in a single step. Although the discrete evolution is _stable_ for any $Delta t > 0$, the error of a step with the given choices of stencils is $fO(Delta t + Delta x^2)$. Increasing $Delta t$ hence also increases the error---just as increasing $Delta x$ in the explicit case (to allow for larger $Delta t$) can destroy the evolution due to a lack of resolution. Because of this, the initially perceived superiority of implicit over explicit time-stepping becomes more subtle; if error requirements pose harsher constraints on $Delta t$ than the explicit CFL condition does, then explicit stepping is preferrable over implicit as it is cheaper computationally.
 
-
+==== 27-point Isotropic Laplacian Explicit Euler CFL Condition
+We now move on to derive the CFL condition for the explicit Euler case where on the right-hand side, the @eqIsotropicLaplacianStencil[stencil] is employed. Concretely, we thus consider the stepping scheme
+#bottom-number[$
+  phi.alt(t+Delta t,vx) = phi.alt(t,vx) + C (-164 dot "(center)" + 30 dot "(faces)" - 2 dot "(edges)" + 1 dot "(corners)"), \ \ \
+$]
+where $C = (alpha Delta t)/(26 Delta x^2)$. Similar steps to the previous two derivations, together with the fact that the stencil applied to a constant yields 0, leads to
+#bottom-number[$
+  G(vk) &= 1 -4 C (30 sum_(i=1)^3 sin^2 (k_i Delta x \/2) - 2 sum_(i<j) [sin^2((k_i+k_j) Delta x \/2) + sin^2 ((k_i-k_j) Delta x \/2)]\
+  &wide wide quad + sum_(sigma_y,sigma_z in {pm 1}) sin^2 ((k_x + sigma_y k_y + sigma_z k_z) Delta x\/2) )
+$]
+Denoting the large parentheses by $S(vk)$, we obtain the stability condition
+$
+  -1 <= 1 - 4C S(vk) quad <=>quad S(vk) <= 1/(2C).
+$
+We are thus left to find the maximum of $S(vk)$. Introducing the auxiliary variables
+$
+  xi_i = (k_i Delta x)/2, quad u_i = sin^2(xi_i),
+$
+we can rewrite the sum over the faces as
+$
+  sum_(i=1)^3 sin^2(k_i Delta x\/2) = sum_(i =1)^3 u_i.
+$
+For the sum over the edges, we make use of
+$
+  sin^2(xi_i+xi_j)+sin^2(xi_i-xi_j) &= 2 (sin^2 xi_i cos^2 xi_j + cos^2 xi_i sin^2 xi_j) \
+  &= 2(u_i (1-u_j) + (1-u_i)u_j)\
+  &= 2(u_i + u_j - 2 u_i u_j)
+$
+so that
+$
+  sum_(i<j) [sin^2((k_i+k_j) Delta x \/2) + sin^2 ((k_i-k_j) Delta x \/2)] = 2 sum_(i < j) [u_i + u_j - 2u_i u_j]
+$
 
 
 === #text(fill: red)[Example: Hyperbolic Wave Equation]
