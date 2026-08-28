@@ -74,7 +74,7 @@ The choice of $lambda$ doesn't change this leading error order, but it changes t
 $
   Delta f = (-164 dot "(center)" + 30 dot "(faces)" - 2 dot "(edges)" + 1 dot "(corners)")/(26 epsilon^2) + cal(O)(epsilon^2)_"iso" + cal(O)(epsilon^4)_"aniso". wide
 $<eqIsotropicLaplacianStencil>
-== Runge-Kutta
+== Runge-Kutta <sectRK>
 === General Structure
 Runge-Kutta is the name of a family of integrators for first-order differential equations of the form
 $
@@ -377,17 +377,10 @@ $
 $
 making the 27-point stencil CFL condition slightly more restrictive than for the 7-point case, where the factor in front of $Delta x^2 \/ alpha$ is
 $
-<<<<<<< HEAD
-  1/(2d) = 1/6 approx 1.66 overline(6). 
-$
-This trade-off is typically worth it, given that the isotropy of the error is much higher. 
-=== 27-point Isotropic Laplacian Implicit Euler CFL Condition
-=======
   1/(2d) = 1/6 approx 0.166 overline(6). 
 $
 This trade-off is typically worth it, given that the isotropy of the error is much higher. 
 ==== 27-point Isotropic Laplacian Implicit Euler CFL Condition
->>>>>>> 3a04e215d011ee15eb5e864e85b648512b1f9f53
 In the implicit case of the preceding section, where the right-hand side of @eqA.3.13 is evaluated at $t+Delta t$ instead, we obtain
 $
   G = 1- 4 G C S(vk).
@@ -401,11 +394,113 @@ $
   S(vk(vu)) = 26 (u_x + u_y + u_z) + 16 u_x u_y u_z in [0,94],
 $
 so that $|G|<= 1$ is always satisfied and hence, the implicit Euler procedure remains unconditionally stable even with the isotropic stencil for the Laplacian.
-=== #text(fill: red)[Example: Hyperbolic Wave Equation]
-=== #text(fill: red)[General CFL Argument Structure]
-== #text(fill: red)[Implicit ODE and PDE Solvers]
-=== #text(fill: red)[Implicit ODE Solvers]
-=== #text(fill: red)[Implicit PDE Solvers]
+=== Example: Hyperbolic Wave Equation
+The derivation of CFL conditions for the wave equation,
+$
+  Box phi.alt = 0 quad <=> quad diff_t^2 phi.alt = c^2 Delta phi.alt,
+$
+where $c$ is the propagation velocity. The simplest discretisation for this equation (and the only we will consider here) is
+#bottom-number[$
+  (phi.alt(t+Delta t,vx) - 2 phi.alt(t,vx) + phi.alt(t-Delta t,vx))/(Delta t^2) = c^2 sum_i (phi.alt(t,vx+ve_i Delta x) -2phi.alt(t,vx) + phi.alt(t,vx-ve_i Delta x))/(Delta x^2)\ \ 
+$]
+This form, as is, is unsuited for a time-stepping procedure, but we can derive stability conditions from it. Again employing the ansatz $phi.alt(t,vx) = G^(t\/Delta t) e^(i vk dot vx)$ for an amplification number $G$, we can rewrite the above as
+$
+  (G - 2 + G^(-1)) phi.alt(t,vx) &=  C^2  sum_i (e^(i k_i Delta x) - 2 + e^(-i k_i Delta x))phi.alt(t,vx)\
+  &= -4C^2 sum_i sin^2 (k_i Delta x\/2) phi.alt(t,vx)\
+  &=: -C^2 S(vk) phi.alt(t,vx).
+$
+Rearranging and multiplying by $G$ leads to
+$
+  G^2 - 2(1-1/2 C^2 S(vk)) G + 1 = 0
+$<eqA.3.34>
+The allowed amplification factors are the two roots $G_pm$ of this polynomial in $G$. Since the constant term is $1$, they must satisfy $G_+ G_- = 1$, whence we must have $|G_pm| = 1$ to satisfy the no-growth condition $|G|<=1$. 
+
+For a general polynomial of this form,
+$
+  G^2 - 2beta G + 1 = 0,quad beta in RR,
+$
+the roots read
+$
+  G_pm = beta pm sqrt(beta^2 - 1).
+$
+If $beta^2 > 1$, we have strictly real and distinct roots, of which at least one has a magnitude greater than 1. Thus, we must have $beta^2 <= 1$, or equivalently, $-1<=beta<=1$. Inserting the $beta$ from @eqA.3.34, this turns into
+$
+  -1 <= 1-1/2 C^2 S(vk) <= 1.
+$
+The right-hand bound holds trivially; the left-hand bound requires
+$
+   C^2 S(vk) <= 4 quad => quad C^2 S_max <= 4
+$
+Since $S_max = 4d$, this yields the final CFL condition,
+$
+  (c^2 Delta t^2)/(Delta x^2) = C^2 <= 1/d quad <=> quad Delta t <= (Delta x)/(c sqrt(d)).
+$
+This has a very nice physical interpretation: the distance travelled by a wave within one timestep, $c Delta t$, must not exceed a value proportional to the grid spacing, $Delta x$. Since the proportionality factor of $1\/sqrt(d)$ is less than 1, this means that the numerical domain of dependence is contained in the physical domain of dependence.
+== Implicit ODE and PDE Solvers
+In this section, we consider implicit numerical integration schemes for differential equations of the form
+$
+  diff_t phi.alt = F(t,phi.alt),
+$<eqGeneralDE>
+where $F$ is either a function or a functional of $phi.alt$, valued in the same space as $phi.alt$ itself. That is, we consider either ODEs or PDEs, for which we develop implicit integration schemes. Although these terms have come up in the above, we should first clarify more precisely what is meant by an _implicit_ integration scheme. We do this by specifying what an _explicit_ integration scheme is; an implicit scheme is anything that is not explicit. 
+
+Formally, we can integrate @eqGeneralDE from some initial time $t$ to some later time $t + Delta t$ as
+$
+  phi.alt(t + Delta t) = phi.alt(t) + integral_(t)^(t+Delta t) F(t',phi.alt(t')) dt'.
+$
+Of course, this is not some magic solution recipe---we have simply turned a differential equation into an integro-differential equation. However now, an integral over $t$ is involved, and we can turn to quadratures to approximate it. 
+
+Let us assume that we have a functional $G(t,phi.alt)$ (typically a quadrature rule depending on evalutions of $phi.alt$ at discrete points in time) which approximates this integral up to some order $k$ in $Delta t$, that is
+$
+  integral_t^(t+Delta t) F(t',phi.alt(t'))dt' = G(t,phi.alt) + fO(Delta t^k),
+$
+or equivalently for the time-step,
+$
+  phi.alt(t+Delta t) = phi.alt(t) + G(t,phi.alt) + fO(Delta t^k).
+$
+Given this setup, we call the stepping scheme _explicit_ if $G(t,phi.alt)$ depends only on values of $phi.alt$ known at time $t$---i.e. only on values lying in the past of $t$. If $G$ involves e.g. $phi.alt(t+Delta t)$, it is called _implicit_. 
+
+An important consequence of $G$ depending on field configurations other than $phi.alt(t)$ is that the stepping implemented in code,
+$
+  phi.alt(t+Delta t) approx phi.alt(t) + G(t,phi.alt),
+$
+must now be _solved for_ $phi.alt(t+Delta t)$, rather than being a direct assignment operation. 
+
+== Implicit ODE and PDE Solvers
+In this section, we consider numerical integration schemes for differential equations of the form
+$
+  diff_t phi.alt = F(t,phi.alt),
+$<eqGeneralDE2>
+where $F$ is either a function (for ODEs) or an operator/functional (for PDEs) acting on $phi.alt$. 
+
+Formally, integrating @eqGeneralDE2 over a time interval $[t, t + Delta t]$ yields the exact integral equation
+$
+  phi.alt(t + Delta t) = phi.alt(t) + integral_(t)^(t+Delta t) F(t',phi.alt(t')) dt'.
+$
+Numerical time-stepping algorithms replace this integral with a discrete quadrature rule. Let $phi.alt^n approx phi.alt(n Delta t)$ denote the discrete numerical solution at step $n$. A general single-step time-integration scheme approximates the integral via a function $G$,
+$
+  phi.alt^(n+1) approx phi.alt^n + Delta t G(t_n, Delta t, phi.alt^n, phi.alt^(n+1)),
+$
+up to some local truncation error $fO(Delta t^(k+1))$, yielding a scheme of order $k$.
+
+We classify the integration scheme based on how $G$ depends on the state vector:
++ _Explicit_: $G$ depends solely on known state values from the current or previous time steps ($phi.alt^n, phi.alt^(n-1), dots$). The update step for $phi.alt^(n+1)$ is a direct assignment operation.
+
++ _Implicit_: $G$ depends on the unknown state $phi.alt^(n+1)$ at the new time level (or intermediate stage evaluations requiring $phi.alt^(n+1)$). 
+
+Consequently, for an implicit scheme, the update formula cannot be evaluated directly; instead, $phi.alt^(n+1)$ must be obtained by solving a system of algebraic equations (linear or non-linear) at every time step.
+
+As the name would suggest, explicit/forward Euler, 
+$
+  phi.alt(t+Delta t) = phi.alt(t) + Delta t F(t, phi.alt(t)) + fO(Delta t)
+$
+is an example of an explicit integration scheme. Further examples are the Runge-Kutta integrators we considered in @sectRK. Another class of examples, which incorporates past values $phi.alt(t-Delta t), phi.alt(t- 2 Delta t),...$ exist, and are known as _Adams-Bashforth schemes_. 
+
+=== #text(fill:red)[Example: Backwards Euler]
+=== #text(fill:red)[Example: Crank-Nicolson]
+=== #text(fill:red)[Example: Implicit Runge-Kutta]
+=== #text(fill:red)[Example: IMEX Schemes (Implicit-Explicit)]
+=== #text(fill:red)[Example: Alternating Direction Implicit (ADI)]
+
 #pagebreak()
 == Adaptive Mesh Refinement
 === Refinement Conditions
