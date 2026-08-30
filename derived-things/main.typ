@@ -496,6 +496,106 @@ $
 is an example of an explicit integration scheme. Further examples are the Runge-Kutta integrators we considered in @sectRK. Another class of examples, which incorporates past values $phi.alt(t-Delta t), phi.alt(t- 2 Delta t),...$ exist, and are known as _Adams-Bashforth schemes_. 
 
 === #text(fill:red)[Example: Backwards Euler]
+In this section, we introduce the most basic of implicit time integration schemes, the _backwards/implicit Euler method_. Although it has a rather large error, it will serve well in introducing a number of concepts, and provide a reference to compare more elaborate methods against.
+
+The arguably simplest way to approximate the integral
+$
+  integral_(t)^(t+Delta t) F(t',phi.alt(t')) dt'
+$
+is to take the value of $phi.alt$ at one of the boundary times, $t$, $t+Delta t$, and multiply it by the width $Delta t$ of the integration interval. Since we are interested in an implicit scheme, we take the boundary value at $t+Delta t$, that is,
+$
+  integral_(t)^(t+Delta t) F(t',phi.alt(t')) dt' = Delta t thin F(t+Delta t, phi.alt(t+Delta t)) + fO(Delta t^2)
+$
+Neglecting to explicitly write the error term, this leads to the time-stepping scheme
+$
+  phi.alt(t+Delta t ) = phi.alt(t) + Delta t thin F(t+Delta t, phi.alt(t+Delta t)).
+$
+Clearly, this is an equation to be solved for $phi.alt(t+Delta t)$. In the case of $F$ being a function, it is purely algebraic; if $F$ however depends on derivatives of $phi.alt$, it is a differential equation. 
+
+Let us go over some examples below.
+
++ *Exponential Decay:* For $phi.alt:RR->RR$, we consider the ODE
+  $
+    diff_t phi.alt(t) = -phi.alt(t).
+  $ 
+  Clearly, the solution space is given by $phi.alt(t) = phi.alt_0 e^(-t)$, $phi.alt_0 in RR$. The implicit time-stepping scheme prescribes the update equation
+  $
+    phi.alt(t+Delta t) = phi.alt(t) + Delta t thin (-phi.alt (t+Delta t)).
+  $
+  In this case---and many other ODE cases---it is possible to explicitly solve this for $phi.alt(t+Delta t)$:
+  $
+    phi.alt(t+Delta t) = phi.alt(t)/(1+Delta t).
+  $
+  This is a recursion, which can be made closed-form as
+  $
+    phi.alt(n Delta t) = phi.alt_0/(1+Delta t)^n
+  $<eqImplicitEulerSolution>
+  As expected from the analytical solution $phi.alt(t) = phi.alt_0 e^(-t)$, this is an exponential decay; however, each step truncates the exponential series to linear order. One timestep of the analytical solution scales it by a factor 
+  $
+    e^(-Delta t) = 1/e^(Delta t) = 1/(1+Delta t + 1/2 Delta t^2 + ...).
+  $
+  The implicit Euler scheme hence neglects the $fO(Delta t^2)$ terms in the denominator. 
+  
+  Lastly, we note that the stepping scheme is unconditionally stable---for any positive $Delta t$, @eqImplicitEulerSolution defines a stable exponential decay. The explicit/forward Euler scheme, which prescribes
+  $
+    phi.alt(t+Delta t) = phi.alt(t) + Delta t (-phi.alt(t)) = (1-Delta t) phi.alt(t),
+  $
+  has the closed-form solution
+  $
+    phi.alt(n Delta t) = (1-Delta t)^n phi.alt_0,
+  $
+  which for $Delta t > 1$ becomes oscillatory, and for $Delta t > 2$ starts growing exponentially in magnitude. Further, it is the truncation of the implicit solution:
+  $
+    phi.alt_0/(1+Delta t)^n = (1-Delta t + Delta t^2 + ...)^n phi.alt_0  approx  (1-Delta t)^n phi.alt_0 
+  $
+  What we can take away from this example is the following: implicit Euler handles exponential decay much more gracefully than explicit Euler. 
+
++ *1d Heat Equation, Discretised*:
+  We now proceed to the one-dimensional heat equation,
+  $
+    diff_t phi.alt = diff_x^2 phi.alt.
+  $
+  Applying the implicit Euler method to this PDE leads to the time-step
+  $
+    phi.alt(t+Delta t,x) = phi.alt(t,x) + Delta t (diff_x^2 phi.alt)(t + Delta t,x).
+  $
+  Here, separating quantities evaluated at $t+Delta t$ to the left-hand side, we obtain the equation
+  $
+    (phi.alt - Delta t diff_x^2 phi.alt) (t+Delta t,x) = phi.alt(t,x).
+  $
+  This is a second-order linear ODE with constant coefficients, where the previous field state $phi.alt(t,x)$ acts as a source. Although technically, depending on the initial field configuration $phi.alt_0 (x)$, we can sometimes integrate this equation for each step, let us entertain a different (and more versatile) approach.
+
+  Concretely, we discretise $phi.alt$ not just in time but also in space, with a grid spacing of $Delta x$. Since otherwise, notation will get heavy, let us introduce the shorthand
+  $
+    phi.alt^n_i = phi.alt(n Delta t, i Delta x).
+  $
+  Employing the @eq2ndDerivStencil3pt[stencil] for the second derivative, the discretised step equation reads
+  $
+    phi.alt_i^(n+1) - C (phi.alt_(i-1)^(n+1) - 2 phi.alt_i^(n+1) + phi.alt_(i-1)^(n+1)) = phi.alt^n_i
+  $
+  where $C = Delta t\/Delta x^2$. This is a linear system of equations---let us write it in matrix-vector form. Denoting $bold(phi.alt)^n = (phi.alt_i^n)#h(0em)_(i=1)^N$ for some grid size $N$, and additionally imposing Dirichlet boundary conditions, $phi.alt_(-1) = phi.alt_(N+1) = 0$, we can turn the step equation into
+  $
+    vM bold(phi.alt)^(n+1) = bold(phi.alt)^n
+  $<eqLinearStepEqn>
+  with
+  $
+    vM = mat(
+      1 - 2C,     -C,       ,         ,       ;
+          -C, 1 - 2C,     -C,         ,       ;
+            ,     -C, 1 - 2C,   dots.down,    ;
+            ,       , dots.down, dots.down,    -C;
+            ,       ,       ,     -C,   1 - 2C;
+      gap: #0.8em
+    )
+  $
+  The first instinct might be to make the step equation explicit by writing
+  $
+    bold(phi.alt)^(n+1) = vM^(-1) bold(phi.alt)^n,
+  $
+  and precomputing the inverse $vM^(-1)$ once at simulation start. Although this works, this has a significant computational drawback: the matrix $vM$ is sparse, but $vM^(-1)$ is not. this makes the multiplication between $vM^(-1)$ and the state vector $bold(phi.alt)^n$ computationally expensive, especially for larger grids. Because of this, one usually opts to solve the linear system using other methods, such as an LDU decomposition or Gauss-Seidel.
++ *Heat Equation, Spectral*: 
+
+
 === #text(fill:red)[Example: Crank-Nicolson]
 === #text(fill:red)[Example: Implicit Runge-Kutta]
 === #text(fill:red)[Example: IMEX Schemes (Implicit-Explicit)]
