@@ -495,7 +495,7 @@ $
 $
 is an example of an explicit integration scheme. Further examples are the Runge-Kutta integrators we considered in @sectRK. Another class of examples, which incorporates past values $phi.alt(t-Delta t), phi.alt(t- 2 Delta t),...$ exist, and are known as _Adams-Bashforth schemes_. 
 
-=== #text(fill:red)[Example: Backwards Euler]
+=== Example: Backwards Euler
 In this section, we introduce the most basic of implicit time integration schemes, the _backwards/implicit Euler method_. Although it has a rather large error, it will serve well in introducing a number of concepts, and provide a reference to compare more elaborate methods against.
 
 The arguably simplest way to approximate the integral
@@ -594,9 +594,92 @@ Let us go over some examples below.
   $
   and precomputing the inverse $vM^(-1)$ once at simulation start. Although this works, this has a significant computational drawback: the matrix $vM$ is sparse, but $vM^(-1)$ is not. this makes the multiplication between $vM^(-1)$ and the state vector $bold(phi.alt)^n$ computationally expensive, especially for larger grids. Because of this, one usually opts to solve the linear system using other methods, such as an LDU decomposition or Gauss-Seidel.
 + *Heat Equation, Spectral*: 
+  We now approach the heat equation in $d$ dimensions,
+  $
+   diff_t phi.alt = Delta phi.alt, quad Delta = sum_(i=1)^d diff_i^2,
+  $
+  on the domain $Omega = [0,pi]^d$ with Dirichlet boundary conditions, $phi.alt|_(diff Omega) = 0$. Its implicit Euler step equation is clearly
+  $
+    phi.alt(t+Delta t,vx) = phi.alt(t,vx) + Delta t (Delta phi.alt) (t+Delta t,vx)
+  $
+  This rearranges into an elliptic problem at each step,
+  $
+    (phi.alt-Delta t Delta phi.alt) (t+Delta t,vx) = phi.alt(t,vx).
+  $<eqImplicitEulerStepHeatEqn>
+  Just as in the $d=1$ case above, we could now discretise the Laplacian operator and proceed solving the linear system using Gauss-Seidel or any other linaer solver. Writing this down explicitly is more tedious, since the index gymnastics are far more involved, and there is not much gained conceptually from doing so. 
 
+  Instead, we entertain another approach of approximating the solution $phi.alt$ and by that the action of $Delta$ on it---by means of a spectral expansion, in the special case where $d=3$. Concretely, we define the functions
+  $
+    psi_(i j k) (vx) &= sin(i x) sin(j y) sin(k z), quad i,j,k in NN^3.
+  $
+  Clearly, these functions form an orthogonal basis with respect to the standard $L^2$-inner product on the space of $L^2$-functions on $Omega$ satisfying the boundary conditions. We can hence express $phi.alt(t,vx)$ as a sum with time-variable coefficients $c_(i j k) (t)$,
+  $
+    phi.alt(t,vx) = sum_(i,j,k in NN) c_(i j k)(t) psi_(i j k)(vx).
+  $
+  Since computers cannot deal with infinities, we must truncate the sum at some highest-frequency mode $(N,N,N)$, turning it into
+  $
+    phi.alt(t,vx) = sum_(i, j, k = 1)^N c_(i j k)(t) psi_(i j k)(vx).
+  $
+  One might argue that this loses information just as discretising $phi.alt$ does. However, the kind of information that is lost is different; While discretising the $phi.alt$ leaves the function values at the grid points exact but makes derivatives introduce errors, truncating the basis expansion at some finite point (typically) allows derivatives to remain exact at the cost of introducing some error in raw function values. Let us examine this. The action of the Laplacian on a basis function $psi_(i j k)$ is
+  $
+    Delta psi_(i j k) = -(i^2 + j^2 + k^2) psi_(i j k).
+  $
+  Since the right-hand side involves no modes with larger indices, it can still be resolved fully by a series truncated at the mode $(N,N,N)$. Thus, the Laplacian applied to the truncated basis expansion of $phi.alt(t,vx)$ is exact, reading
+  $
+    Delta phi.alt = -sum_(i,j,k = 1)^N (i^2 + j^2 + k^2) c_(i j k) psi_(i j k).
+  $
+  We can insert this expansion into @eqImplicitEulerStepHeatEqn to obtain
+  $
+    sum_(i,j,k=1)^N (c_(i j k)^(n+1) + Delta t (i^2 + j^2 + k^2) c_(i j k)^(n + 1)) psi_(i j k) = sum_(i,j,k=1)^N c_(i j k)^n psi_(i j k).
+  $<eqImplicitEulerStepHeatEqnExpansionInserted>
+  Since basis expansions are unique, identification of coefficients implies the update equation
+  $
+    c_(i j k)^(n+1) = c^n_(i j k)/(1 + Delta t (i^2 + j^2 + k^2)).
+  $
+  This results in a geometric decay, with higher-frequency modes being suppressed more rapidly---just as expected for the heat equation.
+
+  #text(weight:"bold")[Remark] The reason we can invert @eqImplicitEulerStepHeatEqnExpansionInserted nicely for the explicit iteration step above is that the operator acting on the basis coefficient vector on the left-hand side is diagonal. In other words, the chosen basis diagonalises the Laplacian. Unfortunately, we cannot always do this; given a differential operator $L$, it is not always possible to find an explicit basis that diagonalises it so that the associated system
+  $
+    diff_t phi.alt = L phi.alt
+  $
+  can be time-integrated spectrally as cleanly as above. However, there are certain valuable properties of a basis ${psi_n}$ (with $n$ some generalised index) that typically can be achieved, which we now outline. 
+  - The arguably most important advantage that spectral methods have over finite differences is that derivatives can be exact. For this to be the case, however, the truncation subpace $V_N = span{psi_1,...,psi_N}$ must be closed under differentiation. Just as we can adjust the resolution of a discretisation grid, we want to be able to adjust $N$ freely (up to stability and error considerations), which makes closure under differentiation require
+    $
+      diff psi_n in span{psi_1,...,psi_n} quad forall n in NN.
+    $
+    Here, $diff$ represents any of the relevant first derivatives.
+
+  - Further, we should choose our basis such that $L$ becomes lower triangular with respect to it on $V_N$. This makes solving the equivalent of @eqImplicitEulerStepHeatEqn more straightforward to solve by employing a single Gauss elimination. Lower triangularity however is not a strict necessity, there are other forms where similarly efficient linear solvers exist
+
+  Polynomial bases such as Legendre, Laguerre or Chebyshev polynomials work well for this application, since differentiation reduces their degree and hence ensures closure. For periodic domains, plane waves ($e^(i vk dot vx)$) are highly versatile, and for infinite domains, one can either map to a finite one with a conformal transformation and use a polynomial basis or employ Hermite functions if features are highly localised around the origin. 
+
+  For linear equations with constant coefficients, the exact spatial differentiation of spectral methods is a clear gain over discrete finite differences. The only errors emerge from the approximation of initial conditions when projecting onto the basis and truncating, as well as the error introduced by the time integrator. However, as soon as terms which are non-linear in the basis functions emerge, we start to introduce additional truncation error. To illustrate this, consider terms of the form
+  $
+    f phi.alt quad "or" quad phi.alt^2.
+  $
+  When inserting basis expansions for the field $phi.alt$ and auxiliary functions such as $f$, products $psi_n psi_m$ of basis functions emerge. Although these can be expressed as a linear combination of $psi_n$'s again, this may introduce contributions from modes that are above the truncation cutoff $N$. Concretely, consider for example the real Fourier basis,
+  $
+    psi_n (x) = cos(n x), quad chi_n (x) = sin(n x).
+  $
+  The product of two such basis functions yields linear combinations like
+  $
+    psi_n (x)psi_m (x) = cos(n x) cos(m x) &= 1/2 cos((n-m)x) + 1/2 cos((n+m)x)\
+     &= 1/2 psi_(n - m) (x) + 1/2 psi_(n + m)(x),
+    \ \
+    chi_n (x)psi_m (x) = sin(n x) cos(m x)&= 1/2 sin((n-m)x) + 1/2 sin((n+m)x)\
+    &= 1/2 chi_(n - m)(x) + 1/2 chi_(n+m)(x),
+    \ \
+    chi_n (x)chi_m (x) = sin(n x) sin(m x)&= 1/2 cos((n-m)x) - 1/2 cos ((n+m) x)\
+    &= 1/2 psi_(n-m)(x) - 1/2 psi_(n+m)(x).
+  $
+  This means that the product of two modes will alias as a low-frequency mode $psi_(n-m)$ or $chi_(n-m)$ _as well as_ a high-frequency mode $psi_(n+m)$ or $chi_(n+m)$. If $n+m > N$, the high-frequency alias is truncated, introducing an error. For this error not to be devastating, $N$ has to be chosen large enough so that modes close to it are low in amplitude.
 
 === #text(fill:red)[Example: Crank-Nicolson]
+A better way of approximating an integral than by taking one of its endpoint values multiplied by the interval width is to approximate the integrand as the linear polynomial passing through both endpoints. This is the so-called _trapezoidal_ integration rule,
+$
+  integral_a^b f(t) dt = (Delta t)/2 (f(b) + f(a)) + fO(Delta t^3),
+$
+which, in particular, improves the error from $fO(Delta t^2)$ to $fO(Delta t^3)$.
 === #text(fill:red)[Example: Implicit Runge-Kutta]
 === #text(fill:red)[Example: IMEX Schemes (Implicit-Explicit)]
 === #text(fill:red)[Example: Alternating Direction Implicit (ADI)]
