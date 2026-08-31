@@ -1477,12 +1477,12 @@ $
   macron(R) &= e^(4phi.alt)(tilde(R) + 8 tilde(gamma)^(i j) (tnabla_i tnabla_j phi.alt - diff_i phi.alt diff_j phi.alt)).
 $
 === #text(fill: red)[Gauge Dynamics]
+== #text(fill: red)[Initial Data]
+=== #text(fill: red)[York-Lichnerowicz]
+=== #text(fill: red)[Conformal Transverse-Traceless (CTT) Decomposition]
 == #text(fill: red)[Boundary Conditions and Grid Stability]
 === #text(fill: red)[Kreiss-Oliger Dissipation]
 === #text(fill: red)[Sommerfeld Radiative Boundaries]
 == #text(fill:red)[Wave Extraction & Diagnostics]
 === #text(fill:red)[Weyl Scalar $Psi_4$]
 === #text(fill:red)[Constraint Monitoring]
-== #text(fill: red)[Initial Data]
-=== #text(fill: red)[York-Lichnerowicz]
-=== #text(fill: red)[Conformal Transverse-Traceless (CTT) Decomposition]
