@@ -2,6 +2,8 @@
 #import "macros.typ": *
 #import "@preview/xarrow:0.3.1": xarrow
 #import "@preview/fletcher:0.4.5" as fletcher: diagram, node, edge
+#import "@preview/cetz:0.5.1": canvas, draw
+#import "@preview/cetz-plot:0.1.4": plot
 
 #show: project.with(
   //title: "Dirac-Bergmann and Hamiltonian Field Theory",
@@ -475,7 +477,7 @@ where $F$ is either a function (for ODEs) or an operator/functional (for PDEs) a
 Formally, integrating @eqGeneralDE2 over a time interval $[t, t + Delta t]$ yields the exact integral equation
 $
   phi.alt(t + Delta t) = phi.alt(t) + integral_(t)^(t+Delta t) F(t',phi.alt(t')) dt'.
-$
+$<eqExactStep>
 Numerical time-stepping algorithms replace this integral with a discrete quadrature rule. Let $phi.alt^n approx phi.alt(n Delta t)$ denote the discrete numerical solution at step $n$. A general single-step time-integration scheme approximates the integral via a function $G$,
 $
   phi.alt^(n+1) approx phi.alt^n + Delta t G(t_n, Delta t, phi.alt^n, phi.alt^(n+1)),
@@ -680,8 +682,80 @@ $
   integral_a^b f(t) dt = (Delta t)/2 (f(b) + f(a)) + fO(Delta t^3),
 $
 which, in particular, improves the error from $fO(Delta t^2)$ to $fO(Delta t^3)$.
-=== #text(fill:red)[Example: Implicit Runge-Kutta]
+
+Applying this approximation to the exact @eqExactStep[step equation] leads to 
+$
+  phi.alt(t+Delta t) = phi.alt(t) + (Delta t)/2 (F(t,phi.alt(t)) + F(t+Delta t, phi.alt(t+Delta t))) + fO(Delta t^3).
+$
+This still leaves us with an equation to solve at each step, but improves the per-step error from $fO(Delta t^2)$ to $fO(Delta t^3)$.
+
+Even though this is still implicit, the example of exponential decay is no longer unconditionally stable in any useful way---that is, it si. Let us consider this more precisely, starting from the differential equation
+$
+  diff_t phi.alt(t) = -phi.alt(t). 
+$
+The step equation (dropping error terms) then becomes
+$
+  phi.alt(t+Delta t) = phi.alt(t) - (Delta t)/2 phi.alt(t) - (Delta t)/2 phi.alt(t+Delta t),
+$
+which is easily solved for $phi.alt(t+Delta t)$ as
+$
+  phi.alt(t+Delta t) = (1-(Delta t)/2)/(1+(Delta t)/2) phi.alt(t)
+$
+Just as with the forward and backward Euler approaches for this equation, $phi.alt$ is multiplied by an approximation of $e^(-Delta t)$ in each timestep. 
+#canvas({
+  import draw: *
+
+  plot.plot(
+    size: (12, 8),
+    x-label: $Delta t$,
+    y-label: $g(Delta t)$,
+    x-min: 0,
+    x-max: 3,
+    y-min: 0,
+    y-max: 1.05,
+    legend: "north-east",
+    {
+      // Exact exponential decay
+      plot.add(
+        dt => calc.exp(-dt),
+        domain: (0, 3),
+        label: $e^(-Delta t)$,
+        style: (stroke: (paint: blue, thickness: 1.5pt))
+      )
+
+      // Forward Euler
+      plot.add(
+        dt => 1 - dt,
+        domain: (0, 3),
+        label: $1 - Delta t$,
+        style: (stroke: (paint: red, thickness: 1.2pt, dash: "dashed"))
+      )
+
+      // Backward Euler
+      plot.add(
+        dt => 1 / (1 + dt),
+        domain: (0, 3),
+        label: $1 \/ (1 + Delta t)$,
+        style: (stroke: (paint: green.darken(20%), thickness: 1.2pt, dash: "dotted"))
+      )
+
+      // Crank-Nicolson / Padé (1,1)
+      plot.add(
+        dt => (1 - dt / 2) / (1 + dt / 2),
+        domain: (0, 3),
+        label: $(1 - (Delta t) / 2) \/ (1 + (Delta t) / 2)$,
+        style: (stroke: (paint: purple, thickness: 1.2pt, dash: "dash-dotted"))
+      )
+    }
+  )
+})
+As can be seen in the plot above, the factor 
+$
+  g(Delta t) = (1-(Delta t)/2)/(1+(Delta t)/2)
+$
+is much closer to the exact solution's step factor of $e^(-Delta t)$ than the explicit Euler (red) and implicit Euler (green) factors. However, even though $|g(Delta t)|<=1$ for all $Delta t>=0$---implying unconditional stability---the factor becomes negative for $Delta t > 2$, producing unwanted oscillatory behaviour. However, the Crank-Nicolson procedure is still superior to explicit Euler, since the timestep may have a larger value while retaining the same integration accuracy.
 === #text(fill:red)[Example: IMEX Schemes (Implicit-Explicit)]
+=== #text(fill:red)[Example: Implicit Runge-Kutta]
 === #text(fill:red)[Example: Alternating Direction Implicit (ADI)]
 
 #pagebreak()
@@ -1481,8 +1555,8 @@ $
 === #text(fill: red)[York-Lichnerowicz]
 === #text(fill: red)[Conformal Transverse-Traceless (CTT) Decomposition]
 == #text(fill: red)[Boundary Conditions and Grid Stability]
-=== #text(fill: red)[Kreiss-Oliger Dissipation]
 === #text(fill: red)[Sommerfeld Radiative Boundaries]
+=== #text(fill: red)[Kreiss-Oliger Dissipation]
 == #text(fill:red)[Wave Extraction & Diagnostics]
 === #text(fill:red)[Weyl Scalar $Psi_4$]
 === #text(fill:red)[Constraint Monitoring]
