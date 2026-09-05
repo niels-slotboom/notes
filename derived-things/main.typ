@@ -689,7 +689,7 @@ $
 $
 This still leaves us with an equation to solve at each step, but improves the per-step error from $fO(Delta t^2)$ to $fO(Delta t^3)$.
 
-Even though this is still implicit, the example of exponential decay is no longer unconditionally stable in any useful way---that is, it si. Let us consider this more precisely, starting from the differential equation
+Even though this is still implicit, the example of exponential decay is no longer unconditionally stable in any useful way. Let us consider this more precisely, starting from the differential equation
 $
   diff_t phi.alt(t) = -phi.alt(t). 
 $
@@ -702,6 +702,7 @@ $
   phi.alt(t+Delta t) = (1-(Delta t)/2)/(1+(Delta t)/2) phi.alt(t)
 $
 Just as with the forward and backward Euler approaches for this equation, $phi.alt$ is multiplied by an approximation of $e^(-Delta t)$ in each timestep. 
+$
 #canvas({
   import draw: *
 
@@ -713,7 +714,15 @@ Just as with the forward and backward Euler approaches for this equation, $phi.a
     x-max: 3,
     y-min: 0,
     y-max: 1.05,
-    legend: "north-east",
+    x-tick-step: 0.5,
+    y-tick-step: 0.5,
+    axis-style: "school-book",
+    legend: "inner-north-east",
+    legend-style: (
+      stroke: none,
+      fill: none,
+      item-spacing: 1em, // Controls vertical gap between entries
+    ),
     {
       // Exact exponential decay
       plot.add(
@@ -749,6 +758,7 @@ Just as with the forward and backward Euler approaches for this equation, $phi.a
     }
   )
 })
+$
 As can be seen in the plot above, the factor 
 $
   g(Delta t) = (1-(Delta t)/2)/(1+(Delta t)/2)
