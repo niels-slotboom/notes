@@ -676,7 +676,7 @@ Let us go over some examples below.
   $
   This means that the product of two modes will alias as a low-frequency mode $psi_(n-m)$ or $chi_(n-m)$ _as well as_ a high-frequency mode $psi_(n+m)$ or $chi_(n+m)$. If $n+m > N$, the high-frequency alias is truncated, introducing an error. For this error not to be devastating, $N$ has to be chosen large enough so that modes close to it are low in amplitude.
 
-=== #text(fill:red)[Example: Crank-Nicolson]
+=== Example: Crank-Nicolson
 A better way of approximating an integral than by taking one of its endpoint values multiplied by the interval width is to approximate the integrand as the linear polynomial passing through both endpoints. This is the so-called _trapezoidal_ integration rule,
 $
   integral_a^b f(t) dt = (Delta t)/2 (f(b) + f(a)) + fO(Delta t^3),
@@ -754,8 +754,55 @@ $
   g(Delta t) = (1-(Delta t)/2)/(1+(Delta t)/2)
 $
 is much closer to the exact solution's step factor of $e^(-Delta t)$ than the explicit Euler (red) and implicit Euler (green) factors. However, even though $|g(Delta t)|<=1$ for all $Delta t>=0$---implying unconditional stability---the factor becomes negative for $Delta t > 2$, producing unwanted oscillatory behaviour. However, the Crank-Nicolson procedure is still superior to explicit Euler, since the timestep may have a larger value while retaining the same integration accuracy.
-=== #text(fill:red)[Example: IMEX Schemes (Implicit-Explicit)]
-=== #text(fill:red)[Example: Implicit Runge-Kutta]
+=== Example: IMEX Schemes (Implicit-Explicit)
+What we have seen so far is that, roughly speaking, implicit Euler is more or even unconditionally stable than explicit Euler---allowing for a timestep size $Delta t$ limited only by truncation error---but explicit Euler steps are much less costly computationally speaking, as they do not require solving algebraic or differential equations at each step. Hence, there is always a tradeoff between the two; stiff systems, like the heat equation
+$
+  diff_t phi.alt = Delta phi.alt,
+$
+are better approached using implicit Euler. This works well since one trades CFL-limited timesteps for having to solve a linear system of equations at each step---something for which plenty of efficient algorithms exist. However, if we introduce a nonlinear term, and consider e.g.
+$
+  diff_t phi.alt = Delta phi.alt - phi.alt^3,
+$<eqNonLinExampleIMEX>
+the implicit timesteps become much more costly---the $phi.alt^3$ term destroys the linearity of the system of equations. 
+
+It would be nice if we could keep the advantage of large timesteps for the $Delta phi.alt$ smoothing term, while not having to invert the cubic term. It turns out, such methods exist---they fall under the category of _IMEX_ or _Implicit-Explicit_ integrators. Their starting point is a differential equation
+$
+  diff_t phi.alt = F(t,phi.alt) + G(t,phi.alt),
+$<eqIMEXDE>
+where on the right-hand side $F$ is a function or functional containing all stiff terms for which we want implicit-like timestepping, and $G(t,phi.alt)$ contains all other terms like nonlinear contributions, for which inversion is too computationally expensive. In the @eqNonLinExampleIMEX[example], we would pick
+$
+  F(t,phi.alt) = Delta phi.alt, quad G(t,phi.alt) = -phi.alt^3.
+$
+Clearly, the integral equation associated to @eqIMEXDE can be rearranged into the step equation
+$
+  phi.alt(t+Delta t) = phi.alt(t) + integral_t^(t+Delta t) F(t',phi.alt(t'))dt'+ integral_t^(t+Delta t) G(t',phi.alt(t'))dt'
+$
+where we have used the linearity of the integral to split it up into two separate integrations. The advantage of this is that we are free to pick approximation schemes for both of the terms. 
+
+The simplest IMEX scheme consists of using the implicit Euler approximation
+$
+  integral_t^(t+Delta t) F(t',phi.alt(t'))dt' = F(t + Delta t,phi.alt(t+Delta t)) Delta t + fO(Delta t^2)
+$
+for the stiff term involving $F$ and the explicit Euler approximation
+$
+  integral_t^(t+Delta t) G(t',phi.alt(t'))dt' = G(t,phi.alt(t)) Delta t + fO(Delta t^2)
+$
+for the remainder involving $G$. This produces a step equation (neglecting error) reading
+$
+  phi.alt(t+Delta t) = phi.alt(t) + Delta t (F(t+Delta t, phi.alt(t+Delta t)) + G(t,phi.alt(t))).
+$
+Abusing notation slightly, we may rearrange this into
+$
+  (I - Delta t F(t + Delta t))(phi.alt(t + Delta t)) = phi.alt(t) + Delta t G(t,phi.alt(t)).
+$
+In this form all explicit evaluations at $t$ remain on the right-hand side, while the unknown value of $phi.alt(t+Delta t)$ is moved to the left-hand side. This leaves us to invert only the (typically but not necessarily linear) operator $I-Delta t F$, alleviating the need to solve non-linear contributions from $G$.
+
+Applying this 1st-order IMEX scheme to our non-linear heat equation example @eqNonLinExampleIMEX with spatial finite differences yields:
+$
+  vM bold(phi.alt)^(n+1) = bold(phi.alt)^n - Delta t (bold(phi.alt)^n)^3,
+$
+where $vM$ is the same linear system matrix derived in @eqLinearStepEqn, and the power $(bold(phi.alt)^n)^3$ is evaluated component-wise. The non-linear term is computed purely as an explicit source update on the right-hand side, leaving $vM$ untouched.
+=== #text(fill:red)[Example: Implicit and IMEX Runge-Kutta]
 === #text(fill:red)[Example: Alternating Direction Implicit (ADI)]
 
 #pagebreak()
