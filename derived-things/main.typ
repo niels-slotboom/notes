@@ -812,10 +812,10 @@ $
   vM bold(phi.alt)^(n+1) = bold(phi.alt)^n - Delta t (bold(phi.alt)^n)^3,
 $
 where $vM$ is the same linear system matrix derived in @eqLinearStepEqn, and the power $(bold(phi.alt)^n)^3$ is evaluated component-wise. The non-linear term is computed purely as an explicit source update on the right-hand side, leaving $vM$ untouched.
-=== #text(fill:red)[Example: Implicit and IMEX Runge-Kutta]
-=== #text(fill:red)[Example: Alternating Direction Implicit (ADI)]
-
-#pagebreak()
+== #text(fill: red)[Newton-Raphson for Elliptic Equations]
+=== #text(fill: red)[Recap of N-R for Root Finding in 1d]
+=== #text(fill: red)[Higher-Dimensional Generalisation]
+=== #text(fill: red)[Functional Newton-Raphson]
 == Adaptive Mesh Refinement
 === Refinement Conditions
 The goal of adaptive mesh refinement (AMR) is to increase the resolution of a simulation wherever there are features in the field configuration which cannot be resolved adequately at the current resolution. Hence, we need a predicate to decide whether a grid cell should be refined or not; for this, we need to be able to detect features.
