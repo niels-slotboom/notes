@@ -813,7 +813,58 @@ $
 $
 where $vM$ is the same linear system matrix derived in @eqLinearStepEqn, and the power $(bold(phi.alt)^n)^3$ is evaluated component-wise. The non-linear term is computed purely as an explicit source update on the right-hand side, leaving $vM$ untouched.
 == #text(fill: red)[Newton-Raphson for Elliptic Equations]
-=== #text(fill: red)[Recap of N-R for Root Finding in 1d]
+=== Recap of N-R for Root Finding in $d=1$
+In this section, we discuss the Newton-Raphson method of finding a root of a function $f:RR->RR$, in preparation of the more general, higher dimensional case where we study maps $RR^m->RR^n$. 
+
+The starting point is an initial guess $x_0 in RR$ for where a root of $f$ might be. To refine this guess, we approximate $f$ to linear order around $x_0$,
+$
+  f(x) approx f(x_0) + f'(x_0) (x-x_0).
+$
+This linear approximation is sure to have a root, which we use as the refined guess $x_1$ of the root of $f$ itself. That is, we set
+$
+  0 = f(x_0) + f'(x_0)(x_1-x_0).
+$
+Rearranging for $x_1$, we obtain
+$
+  x_1 = x_0 -f(x_0)/(f'(x_0)).
+$
+Repeating this step yields the _Newton-Raphson iteration_
+$
+  x_(n+1) = x_n - f(x_n)/(f'(x_n)).
+$<eqNRiteration>
+Clearly, roots of $f$ are fixed points of this iteration, since if for $x_*$ such that $f(x_*)=0$,
+$
+  x_* = x_* - f(x_*)/(f'(x_*)).
+$
+However, for this iteration to actually converge requires $f'(x_*) != 0$, and that the fixed point be an attractor. That is, there must be an interval $I = (x_*-epsilon,x_*+epsilon) subset.eq RR$ such that the iteration map
+$
+  g(x) = x-f(x)/(f'(x))
+$
+is a contraction on $I$. That is, we require $|g'(x_*)|<1$. Evaluating this, we get
+$
+  1 > lr(|1-underbrace((f'(x_*))/(f'(x_*)),=1) + (overbrace(f(x_*),=0)f''(x_*))/(f'(x_*))^2|,size:#55%) = 0,
+$
+which is unconditionally satisfied. Hence, such a contraction neighbourhood $I$ of the root $x_*$ exists, and by the Banach fixed point theorem, for any $x_0 in I$, the @eqNRiteration[Newton-Raphson iteration] converges to $x_*$.
+
+Let us examine the nature of this convergence, provided that $x_*$ is a simple root ($f'(x_*) != 0$). To this end, we define the error $e_n$ as
+$
+  e_n = |x_* - x_n|,
+$
+the distance of $x_n$ to the true value of the root. We recall that $g(x_*) = x_*$, $g'(x_*) = 0$, so that
+$
+  x_(n+1) = g(x_n) &= underbrace(g(x_*),=x_*) + underbrace(g'(x_*),=0) (x_n-x_*) + 1/2 g''(x_*)(x_n-x_*)^2 + fO((x_n-x_*)^3) \
+  &=x_* + 1/2 g''(x_*)(x_n-x_*)^2 + fO((x_n-x_*)^3).
+$
+Subtracting $x_*$ from both sides and taking the modulus, we obtain
+$
+  e_(n+1) = |x_(n+1) - x_*| <= 1/2 |g''(x_*)|e_n^2 + fO(e_n^3)
+$
+Since $e_n -> 0$ as $n->infty$, this implies
+$
+  lim_(n -> infty) e_(n+1)/e_n^2 <= 1/2|g''(x_*)| = 1/2 lr(|(f''(x_*))/(f'(x_*))|)
+$
+showing that the convergence order is quadratic if $f''(x_*)!= 0$, and at least cubic if $f''(x_*) = 0$.
+
 === #text(fill: red)[Higher-Dimensional Generalisation]
 === #text(fill: red)[Functional Newton-Raphson]
 == Adaptive Mesh Refinement
