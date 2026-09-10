@@ -865,7 +865,27 @@ $
 $
 showing that the convergence order is quadratic if $f''(x_*)!= 0$, and at least cubic if $f''(x_*) = 0$.
 
-=== #text(fill: red)[Higher-Dimensional Generalisation]
+=== Higher-Dimensional Generalisation
+We now move to the multi-dimensional setting, where $f:RR^m->RR^n$. To derive a Newton-Raphson iteration for finding roots of $f$, we pick an initial guess $x_0 in RR^m$, and approximate $f$ to linear order around $x_0$, which yields
+$
+  f(x) approx f(x_0) + J(f)(x_0)(x-x_0),
+$
+where $[J(f)]_(i j) = diff_j f_i$ is the Jacobian matrix of $f$. As our refined guess $x_1 in RR^m$, we pick a root of $g$, that is, 
+$
+  J(f)(x_0)(x_1-x_0) = -f(x_0). 
+$
+This is now a linear system. If $n>m$, this generally has no solutions; if $n<m$, the system is underdetermined an $x_1$ is non-unique---we thus focus on the case where $n=m$. In that case, the system can be solved iff $det J(f)(x_0) != 0$, which is equivalent to the condition that $f'(x_0)!= 0$ in the one-dimensional case. 
+
+These considerations lead us to define the _Newton-Raphson iteration_ for $f:RR^n->RR^n$ as
+$
+  x_(n+1) = x_n - J(f)(x_n)^(-1) f(x_n).   
+$
+Though this is nice to work with analytically, inverting the Jacobian explicitly is computationally expensive, whence one typically opts to solve
+$
+  J(f)(x_n) Delta x = -f(x_n)
+$
+and to then update $x_(n+1) = x_n + Delta x$.
+
 === #text(fill: red)[Functional Newton-Raphson]
 == Adaptive Mesh Refinement
 === Refinement Conditions
