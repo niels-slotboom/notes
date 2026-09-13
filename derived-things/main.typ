@@ -812,7 +812,7 @@ $
   vM bold(phi.alt)^(n+1) = bold(phi.alt)^n - Delta t (bold(phi.alt)^n)^3,
 $
 where $vM$ is the same linear system matrix derived in @eqLinearStepEqn, and the power $(bold(phi.alt)^n)^3$ is evaluated component-wise. The non-linear term is computed purely as an explicit source update on the right-hand side, leaving $vM$ untouched.
-== #text(fill: red)[Newton-Raphson for Elliptic Equations]
+== Newton-Raphson for Elliptic Equations
 === Recap of N-R for Root Finding in $d=1$
 In this section, we discuss the Newton-Raphson method of finding a root of a function $f:RR->RR$, in preparation of the more general, higher dimensional case where we study maps $RR^m->RR^n$. 
 
@@ -1682,8 +1682,62 @@ $
 == #text(fill: red)[Initial Data]
 === #text(fill: red)[York-Lichnerowicz]
 === #text(fill: red)[Conformal Transverse-Traceless (CTT) Decomposition]
+=== #text(fill: red)[Conformal Thin Sandwich]
 == #text(fill: red)[Boundary Conditions and Grid Stability]
-=== #text(fill: red)[Sommerfeld Radiative Boundaries]
+=== #text(fill: red)[Sommerfeld Radiation Boundaries]
+In this section, we derive _Sommerfeld radiation boundary conditions_ for the wave equation on flat Minkowski space, 
+$
+  diff_t^2 phi.alt = c^2 Delta phi.alt.
+$
+Although these boundary conditions cannot be applied directly to the more complex BSSN system, it serves as a useful entry point for more advanced radiation boundaries that "absorb" all outgoing radiation, and produce no incoming radiation. 
+
+To distinguish what is "outgoing" and "incoming", we assume our source/region of interest to be located near the origin, and the boundaries to be far enough away from the source that we can reasonably approximate the wavefront of any radiation to be a sphere centered around the origin. Whenever origin-centered spheres come up, a reasonable choice is spherical coordinates $(t,r,theta,phi)$. Since we assume the wavefronts to be spherical for large enough $r$, the field $phi.alt$ becomes independent of $theta$ and $phi$, so
+$
+  phi.alt = phi.alt(t,r).
+$
+This turns the wave equation into
+$
+  diff_t^2 phi.alt = c^2/r^2 diff_r (r^2 diff_r phi.alt).
+$
+We rewrite this using $phi.alt = u\/r$, yielding
+$
+  1/r diff_t^2 u = c^2/r^2 diff_r (r diff_r u - u) = c^2/r diff_r^2 u,
+$
+or equivalently,
+$
+  diff_t^2 u = c^2 diff_r^2 u,
+$
+meaning that $u(t,r)$ satisfies a one-dimensional wave equation. Its general solution is a superposition of in- and outgoing waves,
+$
+  u(t,r) = f_+(r - c t) + f_-(r + c t),
+$
+for two functions $f_pm:RR->RR$. Factoring the one-dimensional wave operator as $diff_t^2 - c^2 diff_r^2 = (diff_t + c diff_r)(diff_t - c diff_r) =: X_+ X_-$, we can see that $X_+ = diff_t + c diff_r$ annihilates the outgoing wave $f_+$, while $X_- = diff_t - c diff_r$ annihilates the incoming wave $f_-$.
+
+Let us consider how $X_+$ acts on the incoming wave $f_-$. We get
+$
+  X_+ f_- (r+ c t) = c f'(r + c t) + c f' (r+c t) =2 c f'(r+c t),
+$
+whence
+$
+  X_+ u = underbrace(X_+ f_+,=0) + X_+ f_- = 2 c f'_-(r+c t).
+$
+This means that if we require $X_+ u = 0$, the only "incoming" component we have is an irrelevant constant, $f_- = const$. As we have just seen, the wave operator factors into $Box = X_- X_+$, meaning that if $X_+ u = 0$, then also $X_- X_+ u = 0$. Thus, requiring $X_+ u = 0$ achieves our two goals; $u$ is both a solution to the wave equation _and_ it has no incoming components. 
+
+We can hence, at our boundary away from the origin, require $u$ to satisfy as boundary condition the equation
+$
+  X_+ u = 0 quad <=> quad diff_t u + c diff_r u = 0. 
+$
+By construction, this is compatible with the heat equation, and further ensures that no incoming waves enter the domain through the boundary---exactly what we want. We are left to translate this into a boundary condition for our original field $phi.alt = u\/r$. This is done simply by inserting $u = r phi.alt$ into the above, yielding
+$
+  X_+ (r phi.alt) = 0 quad <=>& quad& diff_t (r phi.alt) + c diff_r (r phi.alt) &= 0\
+  <=> && r diff_t phi.alt + c r diff_r phi.alt + c phi.alt &= 0.
+$
+After dividing both sides by $r$, we finally arrive at the _Sommerfeld radiation boundary condition_
+$
+  diff_t phi.alt + c diff_r phi.alt + c/r phi.alt = 0. 
+$
+Having now derived this boundary condition, let us consider some more practical aspects of how to implement it in a numerical simulation.
+
 === #text(fill: red)[Kreiss-Oliger Dissipation]
 == #text(fill:red)[Wave Extraction & Diagnostics]
 === #text(fill:red)[Weyl Scalar $Psi_4$]
