@@ -1684,7 +1684,7 @@ $
 === #text(fill: red)[Conformal Transverse-Traceless (CTT) Decomposition]
 === #text(fill: red)[Conformal Thin Sandwich]
 == #text(fill: red)[Boundary Conditions and Grid Stability]
-=== #text(fill: red)[Sommerfeld Radiation Boundaries]
+=== Sommerfeld Radiation Boundaries
 In this section, we derive _Sommerfeld radiation boundary conditions_ for the wave equation on flat Minkowski space, 
 $
   diff_t^2 phi.alt = c^2 Delta phi.alt.
@@ -1711,7 +1711,11 @@ meaning that $u(t,r)$ satisfies a one-dimensional wave equation. Its general sol
 $
   u(t,r) = f_+(r - c t) + f_-(r + c t),
 $
-for two functions $f_pm:RR->RR$. Factoring the one-dimensional wave operator as $diff_t^2 - c^2 diff_r^2 = (diff_t + c diff_r)(diff_t - c diff_r) =: X_+ X_-$, we can see that $X_+ = diff_t + c diff_r$ annihilates the outgoing wave $f_+$, while $X_- = diff_t - c diff_r$ annihilates the incoming wave $f_-$.
+for two functions $f_pm:RR->RR$. Factoring the one-dimensional wave operator as 
+$
+  Box = diff_t^2 - c^2 diff_r^2 = (diff_t - c diff_r)(diff_t + c diff_r) =: X_- X_+,  
+$
+we can see that $X_+ = diff_t + c diff_r$ annihilates the outgoing wave $f_+$, while $X_- = diff_t - c diff_r$ annihilates the incoming wave $f_-$.
 
 Let us consider how $X_+$ acts on the incoming wave $f_-$. We get
 $
@@ -1727,7 +1731,7 @@ We can hence, at our boundary away from the origin, require $u$ to satisfy as bo
 $
   X_+ u = 0 quad <=> quad diff_t u + c diff_r u = 0. 
 $
-By construction, this is compatible with the heat equation, and further ensures that no incoming waves enter the domain through the boundary---exactly what we want. We are left to translate this into a boundary condition for our original field $phi.alt = u\/r$. This is done simply by inserting $u = r phi.alt$ into the above, yielding
+By construction, this is compatible with the wave equation, and further ensures that no incoming waves enter the domain through the boundary---exactly what we want. We are left to translate this into a boundary condition for our original field $phi.alt = u\/r$. This is done simply by inserting $u = r phi.alt$ into the above, yielding
 $
   X_+ (r phi.alt) = 0 quad <=>& quad& diff_t (r phi.alt) + c diff_r (r phi.alt) &= 0\
   <=> && r diff_t phi.alt + c r diff_r phi.alt + c phi.alt &= 0.
@@ -1735,9 +1739,32 @@ $
 After dividing both sides by $r$, we finally arrive at the _Sommerfeld radiation boundary condition_
 $
   diff_t phi.alt + c diff_r phi.alt + c/r phi.alt = 0. 
+$<eqSommerfeldRadBC>
+Having now derived this boundary condition, let us consider some more practical aspects of how to implement it in a numerical simulation. In most numerical simulations, one breaks down the second-order in time wave equation into two coupled first-order in time equations for $phi.alt$ and its momentum $pi = diff_t phi.alt$, which explicitly read
 $
-Having now derived this boundary condition, let us consider some more practical aspects of how to implement it in a numerical simulation.
+  diff_t phi.alt &= pi,\
+  diff_t pi &= c^2 Delta phi.alt.
+$
+Both $phi.alt$ and $pi$ are dynamical variables of the problem. We note that only $phi.alt$ appears with spatial derivatives, so that the boundary conditions are only used for filling its exterior boundary ghost cells. By using the definition of $pi$, we may turn the @eqSommerfeldRadBC[Sommerfeld radiation boundary condition] into
+$
+  pi + c diff_r phi.alt + c/r phi.alt = 0 quad <=> quad diff_r phi.alt = -pi/c - phi.alt/r.
+$<eqB.6.13>
+This specifies a first derviative of $phi.alt$ which---in typical domains---can be used to isolate the normal derivative of $phi.alt$ needed to fill exterior boundary ghost cells.
 
+If one is running the simulation with a spherical boundary and works in spherial coordinates, then $diff_r$ is the normal direction to the boundary, and there is nothing left to work out. However, most simulations are carried out on a Cartesian grid, where the boundary is a box. This has two consequences: computing $diff_r$ is not as straightforward, and the normal derivative of a boundary is one of the coordinate derviatives $diff_x$, $diff_y$ or $diff_z$ which we need to solve for. 
+
+Luckily, these issues are remedied rather easily. A quick calculation reveals that
+$
+  diff_r = x/r diff_x + y/r diff_y + z/r diff_z 
+$
+where of course, $r(x,y,z) = sqrt(x^2 + y^2 + z^2)$. Without loss of generality, let us consider a face of the box-shaped domain's exterior boundary whose normal is $pm diff_x$---that is, a portion of the boundary parallel to the $y z$-plane. To assert its boundary conditions, we need to solve for the normal derivative $diff_x phi.alt$. Inserting the expanded expression for $diff_r$ into @eqB.6.13 allows us to do this as
+$
+  &&x/r diff_x phi.alt + y/r diff_y phi.alt + z/r diff_z phi.alt = -pi/c -phi.alt/r \ \ 
+  <==>  &wide& diff_x phi.alt = -y/x diff_y phi.alt - z/x diff_z phi.alt - r/(c x) pi - 1/x phi.alt.
+$
+In this form, the boundary condition can be implemented directly. However, it is worth noting that when replacing the boundary-tangent derivatives $diff_y$ and $diff_z$ with finite difference stencils, some numerical error is introduced, which causes the boundary conditions to become satisfied less precisely the larger the angle between $diff_r$ and $diff_x$.
+
+As a final remark, we should note that the above form assumes $x!= 0$ at the boundary (as well as $y!= 0$ and $z!= 0$ at the respective other boundaries). In practice, this is no restriction, since we have built up this entire discussion on the assumption that the boundaries are far enough from the origin that outgoing waves can be approximated as being emanated from a point source at the origin.
 === #text(fill: red)[Kreiss-Oliger Dissipation]
 == #text(fill:red)[Wave Extraction & Diagnostics]
 === #text(fill:red)[Weyl Scalar $Psi_4$]
