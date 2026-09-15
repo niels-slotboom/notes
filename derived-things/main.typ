@@ -438,34 +438,144 @@ $
   (c^2 Delta t^2)/(Delta x^2) = C^2 <= 1/d quad <=> quad Delta t <= (Delta x)/(c sqrt(d)).
 $
 This has a very nice physical interpretation: the distance travelled by a wave within one timestep, $c Delta t$, must not exceed a value proportional to the grid spacing, $Delta x$. Since the proportionality factor of $1\/sqrt(d)$ is less than 1, this means that the numerical domain of dependence is contained in the physical domain of dependence.
-== Implicit ODE and PDE Solvers
-In this section, we consider implicit numerical integration schemes for differential equations of the form
+== Boundary Conditions and Grid Stability
+=== Sommerfeld Radiation Boundaries
+In this section, we derive _Sommerfeld radiation boundary conditions_ for the wave equation on flat Minkowski space, 
 $
-  diff_t phi.alt = F(t,phi.alt),
-$<eqGeneralDE>
-where $F$ is either a function or a functional of $phi.alt$, valued in the same space as $phi.alt$ itself. That is, we consider either ODEs or PDEs, for which we develop implicit integration schemes. Although these terms have come up in the above, we should first clarify more precisely what is meant by an _implicit_ integration scheme. We do this by specifying what an _explicit_ integration scheme is; an implicit scheme is anything that is not explicit. 
+  diff_t^2 phi.alt = c^2 Delta phi.alt.
+$
+Although these boundary conditions cannot be applied directly to the more complex BSSN system, it serves as a useful entry point for more advanced radiation boundaries that "absorb" all outgoing radiation, and produce no incoming radiation. 
 
-Formally, we can integrate @eqGeneralDE from some initial time $t$ to some later time $t + Delta t$ as
+To distinguish what is "outgoing" and "incoming", we assume our source/region of interest to be located near the origin, and the boundaries to be far enough away from the source that we can reasonably approximate the wavefront of any radiation to be a sphere centered around the origin. Whenever origin-centered spheres come up, a reasonable choice is spherical coordinates $(t,r,theta,phi)$. Since we assume the wavefronts to be spherical for large enough $r$, the field $phi.alt$ becomes independent of $theta$ and $phi$, so
 $
-  phi.alt(t + Delta t) = phi.alt(t) + integral_(t)^(t+Delta t) F(t',phi.alt(t')) dt'.
+  phi.alt = phi.alt(t,r).
 $
-Of course, this is not some magic solution recipe---we have simply turned a differential equation into an integro-differential equation. However now, an integral over $t$ is involved, and we can turn to quadratures to approximate it. 
+This turns the wave equation into
+$
+  diff_t^2 phi.alt = c^2/r^2 diff_r (r^2 diff_r phi.alt).
+$
+We rewrite this using $phi.alt = u\/r$, yielding
+$
+  1/r diff_t^2 u = c^2/r^2 diff_r (r diff_r u - u) = c^2/r diff_r^2 u,
+$
+or equivalently,
+$
+  diff_t^2 u = c^2 diff_r^2 u,
+$
+meaning that $u(t,r)$ satisfies a one-dimensional wave equation. Its general solution is a superposition of in- and outgoing waves,
+$
+  u(t,r) = f_+(r - c t) + f_-(r + c t),
+$
+for two functions $f_pm:RR->RR$. Factoring the one-dimensional wave operator as 
+$
+  Box = diff_t^2 - c^2 diff_r^2 = (diff_t - c diff_r)(diff_t + c diff_r) =: X_- X_+,  
+$
+we can see that $X_+ = diff_t + c diff_r$ annihilates the outgoing wave $f_+$, while $X_- = diff_t - c diff_r$ annihilates the incoming wave $f_-$.
 
-Let us assume that we have a functional $G(t,phi.alt)$ (typically a quadrature rule depending on evalutions of $phi.alt$ at discrete points in time) which approximates this integral up to some order $k$ in $Delta t$, that is
+Let us consider how $X_+$ acts on the incoming wave $f_-$. We get
 $
-  integral_t^(t+Delta t) F(t',phi.alt(t'))dt' = G(t,phi.alt) + fO(Delta t^k),
+  X_+ f_- (r+ c t) = c f'(r + c t) + c f' (r+c t) =2 c f'(r+c t),
 $
-or equivalently for the time-step,
+whence
 $
-  phi.alt(t+Delta t) = phi.alt(t) + G(t,phi.alt) + fO(Delta t^k).
+  X_+ u = underbrace(X_+ f_+,=0) + X_+ f_- = 2 c f'_-(r+c t).
 $
-Given this setup, we call the stepping scheme _explicit_ if $G(t,phi.alt)$ depends only on values of $phi.alt$ known at time $t$---i.e. only on values lying in the past of $t$. If $G$ involves e.g. $phi.alt(t+Delta t)$, it is called _implicit_. 
+This means that if we require $X_+ u = 0$, the only "incoming" component we have is an irrelevant constant, $f_- = const$. As we have just seen, the wave operator factors into $Box = X_- X_+$, meaning that if $X_+ u = 0$, then also $X_- X_+ u = 0$. Thus, requiring $X_+ u = 0$ achieves our two goals; $u$ is both a solution to the wave equation _and_ it has no incoming components. 
 
-An important consequence of $G$ depending on field configurations other than $phi.alt(t)$ is that the stepping implemented in code,
+We can hence, at our boundary away from the origin, require $u$ to satisfy as boundary condition the equation
 $
-  phi.alt(t+Delta t) approx phi.alt(t) + G(t,phi.alt),
+  X_+ u = 0 quad <=> quad diff_t u + c diff_r u = 0. 
 $
-must now be _solved for_ $phi.alt(t+Delta t)$, rather than being a direct assignment operation. 
+By construction, this is compatible with the wave equation, and further ensures that no incoming waves enter the domain through the boundary---exactly what we want. We are left to translate this into a boundary condition for our original field $phi.alt = u\/r$. This is done simply by inserting $u = r phi.alt$ into the above, yielding
+$
+  X_+ (r phi.alt) = 0 quad <=>& quad& diff_t (r phi.alt) + c diff_r (r phi.alt) &= 0\
+  <=> && r diff_t phi.alt + c r diff_r phi.alt + c phi.alt &= 0.
+$
+After dividing both sides by $r$, we finally arrive at the _Sommerfeld radiation boundary condition_
+$
+  diff_t phi.alt + c diff_r phi.alt + c/r phi.alt = 0. 
+$<eqSommerfeldRadBC>
+Having now derived this boundary condition, let us consider some more practical aspects of how to implement it in a numerical simulation. In most numerical simulations, one breaks down the second-order in time wave equation into two coupled first-order in time equations for $phi.alt$ and its momentum $pi = diff_t phi.alt$, which explicitly read
+$
+  diff_t phi.alt &= pi,\
+  diff_t pi &= c^2 Delta phi.alt.
+$
+Both $phi.alt$ and $pi$ are dynamical variables of the problem. We note that only $phi.alt$ appears with spatial derivatives, so that the boundary conditions are only used for filling its exterior boundary ghost cells. By using the definition of $pi$, we may turn the @eqSommerfeldRadBC[Sommerfeld radiation boundary condition] into
+$
+  pi + c diff_r phi.alt + c/r phi.alt = 0 quad <=> quad diff_r phi.alt = -pi/c - phi.alt/r.
+$<eqB.6.13>
+This specifies a first derviative of $phi.alt$ which---in typical domains---can be used to isolate the normal derivative of $phi.alt$ needed to fill exterior boundary ghost cells.
+
+If one is running the simulation with a spherical boundary and works in spherial coordinates, then $diff_r$ is the normal direction to the boundary, and there is nothing left to work out. However, most simulations are carried out on a Cartesian grid, where the boundary is a box. This has two consequences: computing $diff_r$ is not as straightforward, and the normal derivative of a boundary is one of the coordinate derviatives $diff_x$, $diff_y$ or $diff_z$ which we need to solve for. 
+
+Luckily, these issues are remedied rather easily. A quick calculation reveals that
+$
+  diff_r = x/r diff_x + y/r diff_y + z/r diff_z 
+$
+where of course, $r(x,y,z) = sqrt(x^2 + y^2 + z^2)$. Without loss of generality, let us consider a face of the box-shaped domain's exterior boundary whose normal is $pm diff_x$---that is, a portion of the boundary parallel to the $y z$-plane. To assert its boundary conditions, we need to solve for the normal derivative $diff_x phi.alt$. Inserting the expanded expression for $diff_r$ into @eqB.6.13 allows us to do this as
+$
+  &&x/r diff_x phi.alt + y/r diff_y phi.alt + z/r diff_z phi.alt = -pi/c -phi.alt/r \ \ 
+  <==>  &wide& diff_x phi.alt = -y/x diff_y phi.alt - z/x diff_z phi.alt - r/(c x) pi - 1/x phi.alt.
+$
+In this form, the boundary condition can be implemented directly. However, it is worth noting that when replacing the boundary-tangent derivatives $diff_y$ and $diff_z$ with finite difference stencils, some numerical error is introduced, which causes the boundary conditions to become satisfied less precisely the larger the angle between $diff_r$ and $diff_x$.
+
+As a final remark, we should note that the above form assumes $x!= 0$ at the boundary (as well as $y!= 0$ and $z!= 0$ at the respective other boundaries). In practice, this is no restriction, since we have built up this entire discussion on the assumption that the boundaries are far enough from the origin that outgoing waves can be approximated as being emanated from a point source at the origin.
+=== Kreiss-Oliger Dissipation
+When evolving non-linear PDEs, the non-linear terms can introduce higher-frequency components through the mechanism we discussed in @remarkSpectralMethods. Although there, we were considering spectral methods---where the mechanism presents itself most clearly---it is irrespective of the field representation used; in particular, it is also present when working with discretised field values. In that specific case, the high-frequency modes produced by non-linear terms may exceed the spatial grid cutoff set by the Nyquist limit. Such modes alias back noto lower-frequency modes, introducing unphysical "energy" that can cause a simulation to become unstable and diverge. 
+
+Clearly, one should---as a first step---choose the resolution of the grid fine enough so that all physical modes one expects to be present can be resolved, i.e. do not fall below the grid's Nyquist wavelength of $2 Delta x$. However, numerical and discretisation error can introduce unwanted, unphysical high-frequency modes. Non-linearities then transform these contributions beyond the grid's spatial cutoff, which alias into lower frequencies and can cause the simulation to diverge. To resolve this, we need to dampen or _dissipate_ unphysical high-frequency modes, while leaving the physical modes unchanged, and without harming the integration accuracy of the solver. 
+
+So, let us analyse how to do this. We assume that we have a $1+1$-dimensional PDE that is in a first-order in time formulation,
+$
+  diff_t phi.alt = F(t,phi.alt).
+$
+We want to add a term that dissipates unphysical high-frequency modes while leaving low-frequency modes untouched. A first guess might be to add a diffusion term, turning it into
+$
+  diff_t phi.alt = F(t,phi.alt) + diff_x^2 phi.alt.
+$
+We can analyse what this does to different frequency components by switching to a spatial frequency representation, $phi.alt(t,x)->tilde(phi.alt)(t,k)$, where the PDE turns into
+$
+  diff_t tilde(phi.alt) = tilde(F)(t,tilde(phi.alt)) - k^2 tilde(phi.alt).
+$
+For modes where $k^2 tilde(phi.alt) >> tilde(F)(t,tilde(phi.alt))$, the diffusion term dominates, and the mode behaves as
+$
+  tilde(phi.alt) sim e^(-k^2 t).
+$
+That is, the mode is suppressed exponentially, with falloff $k^2$; the higher the frequency, the stronger the dissipation. However, this modification has two issues:
+
++ Even though the dissipation is weaker for low spatial frequencies $k$, it still modifies the behaviour of all modes; we would like to differentiate between low- and high-frequency modes more strongly. 
+
++ Since the dissipation term is not present in the physical PDE, it essentially acts as an error term. If introduced as above, without appropriate normalisation, it is an $fO(1)$ error term---completely dwarfing any numerical or discretisation errors, and causing the numerical solution to deviate strongly from the physical continuum solution.
+
+Luckily, these issues are straightforward to resolve. To address the first, we can increase the power of $k$ in the exponential decay factor. Moving from $k^2$ to $k^(2 r)$ gives us a "knob" to adjust in the form of the integer $r$, which turns the falloff function from a Gaussian in the frequency domain into a steeper step-like threshold around $k=0$, leaving modes close to $0$ virtually unaffected while rapidly decaying those at larger $|k|$.
+
+Since obtaining a $-k^(2 r)$ factor in the frequency domain requires an operator proportional to $diff_x^(2 r)$ in the spatial domain (recalling that $diff_x -> -i k$ and thus $diff_x^2 -> -k^2$), we must track the sign,
+$
+  diff_x^(2 r) -> (-1)^(r)k^(2 r).
+$
+Thus, the continuum dissipation term takes the form
+$
+  diff_t phi.alt = F(t,phi.alt) + (-1)^(r+1)diff_x^(2 r) phi.alt.
+$
+To resolve issue (ii) and prevent the dissipation from degrading the accuract of a $(2r-2)$-th order spatial discretisation scheme, we multiply the operator by $sigma Delta x^(2r-1)$, where $sigma > 0$ is a dimensionless, tunable parameter. This yields the modified continuous PDE
+$
+  diff_t phi.alt = F(t,phi.alt) + (-1)^(r+1) sigma Delta x^(2r - 1) diff_x^(2 r) phi.alt.
+$
+For resolved physical modes, where $k<<k_"Nyq"$, the damping term is of order $fO(Delta x^(2r-1))$, acting purely as a high-order truncation error that vanishes rapidly in the continuum limit $Delta x -> 0$. However, near the grid cutoff, where $k approx k_"Nyq" = pi\/Delta x$, the $k^(2 r)$ factor yields a dissipation rate scaling as $fO(1/Delta x)$, which rapidly suppresses unphysical grid-scale modes.
+
+The final step is to discretise this operator on the spatial grid. Because the dissipation operator is already multiplied explicitly by $Delta x^(2r-1)$, any discretisation error introduced by the operator itself is pushed to even higher powers of $Delta x$. We are therefore free to use the simplest centered finite-difference stencil. Defining the forward and backward difference operators as
+$
+  D_+ f(x) = (f(x+Delta x) - f(x))/(Delta x), quad D_- f(x) = (f(x)-f(x-Delta x))/(Delta x),
+$
+we discretise the evolution equations as
+$
+  diff_t phi.alt = F(t,phi.alt) + (-1)^(r+1) Delta x^(2r-1) (D_+ D_-)^r phi.alt.
+$
+The term 
+$
+  fD_"KO" phi.alt = (-1)^(r+1) sigma Delta x^(2r-1) (D_+D_-)^r phi.alt
+$
+is the _Kreiss-Oliger dissipation operator of order $2r-1$_. For reasonable choices of $sigma << 1$, the $fD_"KO"$ term does not alter the CFL condition limiting the timestep for the dissipation-free PDE.
 
 == Implicit ODE and PDE Solvers
 In this section, we consider numerical integration schemes for differential equations of the form
@@ -886,7 +996,6 @@ $
 $
 and to then update $x_(n+1) = x_n + Delta x$.
 
-=== #text(fill: red)[Functional Newton-Raphson]
 == Adaptive Mesh Refinement
 === Refinement Conditions
 The goal of adaptive mesh refinement (AMR) is to increase the resolution of a simulation wherever there are features in the field configuration which cannot be resolved adequately at the current resolution. Hence, we need a predicate to decide whether a grid cell should be refined or not; for this, we need to be able to detect features.
@@ -1683,144 +1792,6 @@ $
 === #text(fill: red)[York-Lichnerowicz]
 === #text(fill: red)[Conformal Transverse-Traceless (CTT) Decomposition]
 === #text(fill: red)[Conformal Thin Sandwich]
-== #text(fill: red)[Boundary Conditions and Grid Stability]
-=== Sommerfeld Radiation Boundaries
-In this section, we derive _Sommerfeld radiation boundary conditions_ for the wave equation on flat Minkowski space, 
-$
-  diff_t^2 phi.alt = c^2 Delta phi.alt.
-$
-Although these boundary conditions cannot be applied directly to the more complex BSSN system, it serves as a useful entry point for more advanced radiation boundaries that "absorb" all outgoing radiation, and produce no incoming radiation. 
-
-To distinguish what is "outgoing" and "incoming", we assume our source/region of interest to be located near the origin, and the boundaries to be far enough away from the source that we can reasonably approximate the wavefront of any radiation to be a sphere centered around the origin. Whenever origin-centered spheres come up, a reasonable choice is spherical coordinates $(t,r,theta,phi)$. Since we assume the wavefronts to be spherical for large enough $r$, the field $phi.alt$ becomes independent of $theta$ and $phi$, so
-$
-  phi.alt = phi.alt(t,r).
-$
-This turns the wave equation into
-$
-  diff_t^2 phi.alt = c^2/r^2 diff_r (r^2 diff_r phi.alt).
-$
-We rewrite this using $phi.alt = u\/r$, yielding
-$
-  1/r diff_t^2 u = c^2/r^2 diff_r (r diff_r u - u) = c^2/r diff_r^2 u,
-$
-or equivalently,
-$
-  diff_t^2 u = c^2 diff_r^2 u,
-$
-meaning that $u(t,r)$ satisfies a one-dimensional wave equation. Its general solution is a superposition of in- and outgoing waves,
-$
-  u(t,r) = f_+(r - c t) + f_-(r + c t),
-$
-for two functions $f_pm:RR->RR$. Factoring the one-dimensional wave operator as 
-$
-  Box = diff_t^2 - c^2 diff_r^2 = (diff_t - c diff_r)(diff_t + c diff_r) =: X_- X_+,  
-$
-we can see that $X_+ = diff_t + c diff_r$ annihilates the outgoing wave $f_+$, while $X_- = diff_t - c diff_r$ annihilates the incoming wave $f_-$.
-
-Let us consider how $X_+$ acts on the incoming wave $f_-$. We get
-$
-  X_+ f_- (r+ c t) = c f'(r + c t) + c f' (r+c t) =2 c f'(r+c t),
-$
-whence
-$
-  X_+ u = underbrace(X_+ f_+,=0) + X_+ f_- = 2 c f'_-(r+c t).
-$
-This means that if we require $X_+ u = 0$, the only "incoming" component we have is an irrelevant constant, $f_- = const$. As we have just seen, the wave operator factors into $Box = X_- X_+$, meaning that if $X_+ u = 0$, then also $X_- X_+ u = 0$. Thus, requiring $X_+ u = 0$ achieves our two goals; $u$ is both a solution to the wave equation _and_ it has no incoming components. 
-
-We can hence, at our boundary away from the origin, require $u$ to satisfy as boundary condition the equation
-$
-  X_+ u = 0 quad <=> quad diff_t u + c diff_r u = 0. 
-$
-By construction, this is compatible with the wave equation, and further ensures that no incoming waves enter the domain through the boundary---exactly what we want. We are left to translate this into a boundary condition for our original field $phi.alt = u\/r$. This is done simply by inserting $u = r phi.alt$ into the above, yielding
-$
-  X_+ (r phi.alt) = 0 quad <=>& quad& diff_t (r phi.alt) + c diff_r (r phi.alt) &= 0\
-  <=> && r diff_t phi.alt + c r diff_r phi.alt + c phi.alt &= 0.
-$
-After dividing both sides by $r$, we finally arrive at the _Sommerfeld radiation boundary condition_
-$
-  diff_t phi.alt + c diff_r phi.alt + c/r phi.alt = 0. 
-$<eqSommerfeldRadBC>
-Having now derived this boundary condition, let us consider some more practical aspects of how to implement it in a numerical simulation. In most numerical simulations, one breaks down the second-order in time wave equation into two coupled first-order in time equations for $phi.alt$ and its momentum $pi = diff_t phi.alt$, which explicitly read
-$
-  diff_t phi.alt &= pi,\
-  diff_t pi &= c^2 Delta phi.alt.
-$
-Both $phi.alt$ and $pi$ are dynamical variables of the problem. We note that only $phi.alt$ appears with spatial derivatives, so that the boundary conditions are only used for filling its exterior boundary ghost cells. By using the definition of $pi$, we may turn the @eqSommerfeldRadBC[Sommerfeld radiation boundary condition] into
-$
-  pi + c diff_r phi.alt + c/r phi.alt = 0 quad <=> quad diff_r phi.alt = -pi/c - phi.alt/r.
-$<eqB.6.13>
-This specifies a first derviative of $phi.alt$ which---in typical domains---can be used to isolate the normal derivative of $phi.alt$ needed to fill exterior boundary ghost cells.
-
-If one is running the simulation with a spherical boundary and works in spherial coordinates, then $diff_r$ is the normal direction to the boundary, and there is nothing left to work out. However, most simulations are carried out on a Cartesian grid, where the boundary is a box. This has two consequences: computing $diff_r$ is not as straightforward, and the normal derivative of a boundary is one of the coordinate derviatives $diff_x$, $diff_y$ or $diff_z$ which we need to solve for. 
-
-Luckily, these issues are remedied rather easily. A quick calculation reveals that
-$
-  diff_r = x/r diff_x + y/r diff_y + z/r diff_z 
-$
-where of course, $r(x,y,z) = sqrt(x^2 + y^2 + z^2)$. Without loss of generality, let us consider a face of the box-shaped domain's exterior boundary whose normal is $pm diff_x$---that is, a portion of the boundary parallel to the $y z$-plane. To assert its boundary conditions, we need to solve for the normal derivative $diff_x phi.alt$. Inserting the expanded expression for $diff_r$ into @eqB.6.13 allows us to do this as
-$
-  &&x/r diff_x phi.alt + y/r diff_y phi.alt + z/r diff_z phi.alt = -pi/c -phi.alt/r \ \ 
-  <==>  &wide& diff_x phi.alt = -y/x diff_y phi.alt - z/x diff_z phi.alt - r/(c x) pi - 1/x phi.alt.
-$
-In this form, the boundary condition can be implemented directly. However, it is worth noting that when replacing the boundary-tangent derivatives $diff_y$ and $diff_z$ with finite difference stencils, some numerical error is introduced, which causes the boundary conditions to become satisfied less precisely the larger the angle between $diff_r$ and $diff_x$.
-
-As a final remark, we should note that the above form assumes $x!= 0$ at the boundary (as well as $y!= 0$ and $z!= 0$ at the respective other boundaries). In practice, this is no restriction, since we have built up this entire discussion on the assumption that the boundaries are far enough from the origin that outgoing waves can be approximated as being emanated from a point source at the origin.
-=== Kreiss-Oliger Dissipation
-When evolving non-linear PDEs, the non-linear terms can introduce higher-frequency components through the mechanism we discussed in @remarkSpectralMethods. Although there, we were considering spectral methods---where the mechanism presents itself most clearly---it is irrespective of the field representation used; in particular, it is also present when working with discretised field values. In that specific case, the high-frequency modes produced by non-linear terms may exceed the spatial grid cutoff set by the Nyquist limit. Such modes alias back noto lower-frequency modes, introducing unphysical "energy" that can cause a simulation to become unstable and diverge. 
-
-Clearly, one should---as a first step---choose the resolution of the grid fine enough so that all physical modes one expects to be present can be resolved, i.e. do not fall below the grid's Nyquist wavelength of $2 Delta x$. However, numerical and discretisation error can introduce unwanted, unphysical high-frequency modes. Non-linearities then transform these contributions beyond the grid's spatial cutoff, which alias into lower frequencies and can cause the simulation to diverge. To resolve this, we need to dampen or _dissipate_ unphysical high-frequency modes, while leaving the physical modes unchanged, and without harming the integration accuracy of the solver. 
-
-So, let us analyse how to do this. We assume that we have a $1+1$-dimensional PDE that is in a first-order in time formulation,
-$
-  diff_t phi.alt = F(t,phi.alt).
-$
-We want to add a term that dissipates unphysical high-frequency modes while leaving low-frequency modes untouched. A first guess might be to add a diffusion term, turning it into
-$
-  diff_t phi.alt = F(t,phi.alt) + diff_x^2 phi.alt.
-$
-We can analyse what this does to different frequency components by switching to a spatial frequency representation, $phi.alt(t,x)->tilde(phi.alt)(t,k)$, where the PDE turns into
-$
-  diff_t tilde(phi.alt) = tilde(F)(t,tilde(phi.alt)) - k^2 tilde(phi.alt).
-$
-For modes where $k^2 tilde(phi.alt) >> tilde(F)(t,tilde(phi.alt))$, the diffusion term dominates, and the mode behaves as
-$
-  tilde(phi.alt) sim e^(-k^2 t).
-$
-That is, the mode is suppressed exponentially, with falloff $k^2$; the higher the frequency, the stronger the dissipation. However, this modification has two issues:
-
-+ Even though the dissipation is weaker for low spatial frequencies $k$, it still modifies the behaviour of all modes; we would like to differentiate between low- and high-frequency modes more strongly. 
-
-+ Since the dissipation term is not present in the physical PDE, it essentially acts as an error term. If introduced as above, without appropriate normalisation, it is an $fO(1)$ error term---completely dwarfing any numerical or discretisation errors, and causing the numerical solution to deviate strongly from the physical continuum solution.
-
-Luckily, these issues are straightforward to resolve. To address the first, we can increase the power of $k$ in the exponential decay factor. Moving from $k^2$ to $k^(2 r)$ gives us a "knob" to adjust in the form of the integer $r$, which turns the falloff function from a Gaussian in the frequency domain into a steeper step-like threshold around $k=0$, leaving modes close to $0$ virtually unaffected while rapidly decaying those at larger $|k|$.
-
-Since obtaining a $-k^(2 r)$ factor in the frequency domain requires an operator proportional to $diff_x^(2 r)$ in the spatial domain (recalling that $diff_x -> -i k$ and thus $diff_x^2 -> -k^2$), we must track the sign,
-$
-  diff_x^(2 r) -> (-1)^(r)k^(2 r).
-$
-Thus, the continuum dissipation term takes the form
-$
-  diff_t phi.alt = F(t,phi.alt) + (-1)^(r+1)diff_x^(2 r) phi.alt.
-$
-To resolve issue (ii) and prevent the dissipation from degrading the accuract of a $(2r-2)$-th order spatial discretisation scheme, we multiply the operator by $sigma Delta x^(2r-1)$, where $sigma > 0$ is a dimensionless, tunable parameter. This yields the modified continuous PDE
-$
-  diff_t phi.alt = F(t,phi.alt) + (-1)^(r+1) sigma Delta x^(2r - 1) diff_x^(2 r) phi.alt.
-$
-For resolved physical modes, where $k<<k_"Nyq"$, the damping term is of order $fO(Delta x^(2r-1))$, acting purely as a high-order truncation error that vanishes rapidly in the continuum limit $Delta x -> 0$. However, near the grid cutoff, where $k approx k_"Nyq" = pi\/Delta x$, the $k^(2 r)$ factor yields a dissipation rate scaling as $fO(1/Delta x)$, which rapidly suppresses unphysical grid-scale modes.
-
-The final step is to discretise this operator on the spatial grid. Because the dissipation operator is already multiplied explicitly by $Delta x^(2r-1)$, any discretisation error introduced by the operator itself is pushed to even higher powers of $Delta x$. We are therefore free to use the simplest centered finite-difference stencil. Defining the forward and backward difference operators as
-$
-  D_+ f(x) = (f(x+Delta x) - f(x))/(Delta x), quad D_- f(x) = (f(x)-f(x-Delta x))/(Delta x),
-$
-we discretise the evolution equations as
-$
-  diff_t phi.alt = F(t,phi.alt) + (-1)^(r+1) Delta x^(2r-1) (D_+ D_-)^r phi.alt.
-$
-The term 
-$
-  fD_"KO" phi.alt = (-1)^(r+1) sigma Delta x^(2r-1) (D_+D_-)^r phi.alt
-$
-is the _Kreiss-Oliger dissipation operator of order $2r-1$_. For reasonable choices of $sigma << 1$, the $fD_"KO"$ term does not alter the CFL condition limiting the timestep for the dissipation-free PDE.
 == #text(fill:red)[Wave Extraction & Diagnostics]
 === #text(fill:red)[Weyl Scalar $Psi_4$]
 === #text(fill:red)[Constraint Monitoring]
