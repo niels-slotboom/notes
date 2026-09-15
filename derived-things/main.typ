@@ -640,7 +640,7 @@ Let us go over some examples below.
   $
   This results in a geometric decay, with higher-frequency modes being suppressed more rapidly---just as expected for the heat equation.
 
-  #text(weight:"bold")[Remark] The reason we can invert @eqImplicitEulerStepHeatEqnExpansionInserted nicely for the explicit iteration step above is that the operator acting on the basis coefficient vector on the left-hand side is diagonal. In other words, the chosen basis diagonalises the Laplacian. Unfortunately, we cannot always do this; given a differential operator $L$, it is not always possible to find an explicit basis that diagonalises it so that the associated system
+  #remark[The reason we can invert @eqImplicitEulerStepHeatEqnExpansionInserted nicely for the explicit iteration step above is that the operator acting on the basis coefficient vector on the left-hand side is diagonal. In other words, the chosen basis diagonalises the Laplacian. Unfortunately, we cannot always do this; given a differential operator $L$, it is not always possible to find an explicit basis that diagonalises it so that the associated system
   $
     diff_t phi.alt = L phi.alt
   $
@@ -653,28 +653,28 @@ Let us go over some examples below.
 
   - Further, we should choose our basis such that $L$ becomes lower triangular with respect to it on $V_N$. This makes solving the equivalent of @eqImplicitEulerStepHeatEqn more straightforward to solve by employing a single Gauss elimination. Lower triangularity however is not a strict necessity, there are other forms where similarly efficient linear solvers exist
 
-  Polynomial bases such as Legendre, Laguerre or Chebyshev polynomials work well for this application, since differentiation reduces their degree and hence ensures closure. For periodic domains, plane waves ($e^(i vk dot vx)$) are highly versatile, and for infinite domains, one can either map to a finite one with a conformal transformation and use a polynomial basis or employ Hermite functions if features are highly localised around the origin. 
+    Polynomial bases such as Legendre, Laguerre or Chebyshev polynomials work well for this application, since differentiation reduces their degree and hence ensures closure. For periodic domains, plane waves ($e^(i vk dot vx)$) are highly versatile, and for infinite domains, one can either map to a finite one with a conformal transformation and use a polynomial basis or employ Hermite functions if features are highly localised around the origin. 
 
-  For linear equations with constant coefficients, the exact spatial differentiation of spectral methods is a clear gain over discrete finite differences. The only errors emerge from the approximation of initial conditions when projecting onto the basis and truncating, as well as the error introduced by the time integrator. However, as soon as terms which are non-linear in the basis functions emerge, we start to introduce additional truncation error. To illustrate this, consider terms of the form
-  $
-    f phi.alt quad "or" quad phi.alt^2.
-  $
-  When inserting basis expansions for the field $phi.alt$ and auxiliary functions such as $f$, products $psi_n psi_m$ of basis functions emerge. Although these can be expressed as a linear combination of $psi_n$'s again, this may introduce contributions from modes that are above the truncation cutoff $N$. Concretely, consider for example the real Fourier basis,
-  $
-    psi_n (x) = cos(n x), quad chi_n (x) = sin(n x).
-  $
-  The product of two such basis functions yields linear combinations like
-  $
-    psi_n (x)psi_m (x) = cos(n x) cos(m x) &= 1/2 cos((n-m)x) + 1/2 cos((n+m)x)\
-     &= 1/2 psi_(n - m) (x) + 1/2 psi_(n + m)(x),
-    \ \
-    chi_n (x)psi_m (x) = sin(n x) cos(m x)&= 1/2 sin((n-m)x) + 1/2 sin((n+m)x)\
-    &= 1/2 chi_(n - m)(x) + 1/2 chi_(n+m)(x),
-    \ \
-    chi_n (x)chi_m (x) = sin(n x) sin(m x)&= 1/2 cos((n-m)x) - 1/2 cos ((n+m) x)\
-    &= 1/2 psi_(n-m)(x) - 1/2 psi_(n+m)(x).
-  $
-  This means that the product of two modes will alias as a low-frequency mode $psi_(n-m)$ or $chi_(n-m)$ _as well as_ a high-frequency mode $psi_(n+m)$ or $chi_(n+m)$. If $n+m > N$, the high-frequency alias is truncated, introducing an error. For this error not to be devastating, $N$ has to be chosen large enough so that modes close to it are low in amplitude.
+    For linear equations with constant coefficients, the exact spatial differentiation of spectral methods is a clear gain over discrete finite differences. The only errors emerge from the approximation of initial conditions when projecting onto the basis and truncating, as well as the error introduced by the time integrator. However, as soon as terms which are non-linear in the basis functions emerge, we start to introduce additional truncation error. To illustrate this, consider terms of the form
+    $
+      f phi.alt quad "or" quad phi.alt^2.
+    $
+    When inserting basis expansions for the field $phi.alt$ and auxiliary functions such as $f$, products $psi_n psi_m$ of basis functions emerge. Although these can be expressed as a linear combination of $psi_n$'s again, this may introduce contributions from modes that are above the truncation cutoff $N$. Concretely, consider for example the real Fourier basis,
+    $
+      psi_n (x) = cos(n x), quad chi_n (x) = sin(n x).
+    $
+    The product of two such basis functions yields linear combinations like
+    $
+      psi_n (x)psi_m (x) = cos(n x) cos(m x) &= 1/2 cos((n-m)x) + 1/2 cos((n+m)x)\
+      &= 1/2 psi_(n - m) (x) + 1/2 psi_(n + m)(x),
+      \ \
+      chi_n (x)psi_m (x) = sin(n x) cos(m x)&= 1/2 sin((n-m)x) + 1/2 sin((n+m)x)\
+      &= 1/2 chi_(n - m)(x) + 1/2 chi_(n+m)(x),
+      \ \
+      chi_n (x)chi_m (x) = sin(n x) sin(m x)&= 1/2 cos((n-m)x) - 1/2 cos ((n+m) x)\
+      &= 1/2 psi_(n-m)(x) - 1/2 psi_(n+m)(x).
+    $
+    This means that the product of two modes will alias as a low-frequency mode $psi_(n-m)$ or $chi_(n-m)$ _as well as_ a high-frequency mode $psi_(n+m)$ or $chi_(n+m)$. If $n+m > N$, the high-frequency alias is truncated, introducing an error. For this error not to be devastating, $N$ has to be chosen large enough so that modes close to it are low in amplitude.]<remarkSpectralMethods>
 
 === Example: Crank-Nicolson
 A better way of approximating an integral than by taking one of its endpoint values multiplied by the interval width is to approximate the integrand as the linear polynomial passing through both endpoints. This is the so-called _trapezoidal_ integration rule,
@@ -1765,7 +1765,62 @@ $
 In this form, the boundary condition can be implemented directly. However, it is worth noting that when replacing the boundary-tangent derivatives $diff_y$ and $diff_z$ with finite difference stencils, some numerical error is introduced, which causes the boundary conditions to become satisfied less precisely the larger the angle between $diff_r$ and $diff_x$.
 
 As a final remark, we should note that the above form assumes $x!= 0$ at the boundary (as well as $y!= 0$ and $z!= 0$ at the respective other boundaries). In practice, this is no restriction, since we have built up this entire discussion on the assumption that the boundaries are far enough from the origin that outgoing waves can be approximated as being emanated from a point source at the origin.
-=== #text(fill: red)[Kreiss-Oliger Dissipation]
+=== Kreiss-Oliger Dissipation
+When evolving non-linear PDEs, the non-linear terms can introduce higher-frequency components through the mechanism we discussed in @remarkSpectralMethods. Although there, we were considering spectral methods---where the mechanism presents itself most clearly---it is irrespective of the field representation used; in particular, it is also present when working with discretised field values. In that specific case, the high-frequency modes produced by non-linear terms may exceed the spatial grid cutoff set by the Nyquist limit. Such modes alias back noto lower-frequency modes, introducing unphysical "energy" that can cause a simulation to become unstable and diverge. 
+
+Clearly, one should---as a first step---choose the resolution of the grid fine enough so that all physical modes one expects to be present can be resolved, i.e. do not fall below the grid's Nyquist wavelength of $2 Delta x$. However, numerical and discretisation error can introduce unwanted, unphysical high-frequency modes. Non-linearities then transform these contributions beyond the grid's spatial cutoff, which alias into lower frequencies and can cause the simulation to diverge. To resolve this, we need to dampen or _dissipate_ unphysical high-frequency modes, while leaving the physical modes unchanged, and without harming the integration accuracy of the solver. 
+
+So, let us analyse how to do this. We assume that we have a $1+1$-dimensional PDE that is in a first-order in time formulation,
+$
+  diff_t phi.alt = F(t,phi.alt).
+$
+We want to add a term that dissipates unphysical high-frequency modes while leaving low-frequency modes untouched. A first guess might be to add a diffusion term, turning it into
+$
+  diff_t phi.alt = F(t,phi.alt) + diff_x^2 phi.alt.
+$
+We can analyse what this does to different frequency components by switching to a spatial frequency representation, $phi.alt(t,x)->tilde(phi.alt)(t,k)$, where the PDE turns into
+$
+  diff_t tilde(phi.alt) = tilde(F)(t,tilde(phi.alt)) - k^2 tilde(phi.alt).
+$
+For modes where $k^2 tilde(phi.alt) >> tilde(F)(t,tilde(phi.alt))$, the diffusion term dominates, and the mode behaves as
+$
+  tilde(phi.alt) sim e^(-k^2 t).
+$
+That is, the mode is suppressed exponentially, with falloff $k^2$; the higher the frequency, the stronger the dissipation. However, this modification has two issues:
+
++ Even though the dissipation is weaker for low spatial frequencies $k$, it still modifies the behaviour of all modes; we would like to differentiate between low- and high-frequency modes more strongly. 
+
++ Since the dissipation term is not present in the physical PDE, it essentially acts as an error term. If introduced as above, without appropriate normalisation, it is an $fO(1)$ error term---completely dwarfing any numerical or discretisation errors, and causing the numerical solution to deviate strongly from the physical continuum solution.
+
+Luckily, these issues are straightforward to resolve. To address the first, we can increase the power of $k$ in the exponential decay factor. Moving from $k^2$ to $k^(2 r)$ gives us a "knob" to adjust in the form of the integer $r$, which turns the falloff function from a Gaussian in the frequency domain into a steeper step-like threshold around $k=0$, leaving modes close to $0$ virtually unaffected while rapidly decaying those at larger $|k|$.
+
+Since obtaining a $-k^(2 r)$ factor in the frequency domain requires an operator proportional to $diff_x^(2 r)$ in the spatial domain (recalling that $diff_x -> -i k$ and thus $diff_x^2 -> -k^2$), we must track the sign,
+$
+  diff_x^(2 r) -> (-1)^(r)k^(2 r).
+$
+Thus, the continuum dissipation term takes the form
+$
+  diff_t phi.alt = F(t,phi.alt) + (-1)^(r+1)diff_x^(2 r) phi.alt.
+$
+To resolve issue (ii) and prevent the dissipation from degrading the accuract of a $(2r-2)$-th order spatial discretisation scheme, we multiply the operator by $sigma Delta x^(2r-1)$, where $sigma > 0$ is a dimensionless, tunable parameter. This yields the modified continuous PDE
+$
+  diff_t phi.alt = F(t,phi.alt) + (-1)^(r+1) sigma Delta x^(2r - 1) diff_x^(2 r) phi.alt.
+$
+For resolved physical modes, where $k<<k_"Nyq"$, the damping term is of order $fO(Delta x^(2r-1))$, acting purely as a high-order truncation error that vanishes rapidly in the continuum limit $Delta x -> 0$. However, near the grid cutoff, where $k approx k_"Nyq" = pi\/Delta x$, the $k^(2 r)$ factor yields a dissipation rate scaling as $fO(1/Delta x)$, which rapidly suppresses unphysical grid-scale modes.
+
+The final step is to discretise this operator on the spatial grid. Because the dissipation operator is already multiplied explicitly by $Delta x^(2r-1)$, any discretisation error introduced by the operator itself is pushed to even higher powers of $Delta x$. We are therefore free to use the simplest centered finite-difference stencil. Defining the forward and backward difference operators as
+$
+  D_+ f(x) = (f(x+Delta x) - f(x))/(Delta x), quad D_- f(x) = (f(x)-f(x-Delta x))/(Delta x),
+$
+we discretise the evolution equations as
+$
+  diff_t phi.alt = F(t,phi.alt) + (-1)^(r+1) Delta x^(2r-1) (D_+ D_-)^r phi.alt.
+$
+The term 
+$
+  fD_"KO" phi.alt = (-1)^(r+1) sigma Delta x^(2r-1) (D_+D_-)^r phi.alt
+$
+is the _Kreiss-Oliger dissipation operator of order $2r-1$_. For reasonable choices of $sigma << 1$, the $fD_"KO"$ term does not alter the CFL condition limiting the timestep for the dissipation-free PDE.
 == #text(fill:red)[Wave Extraction & Diagnostics]
 === #text(fill:red)[Weyl Scalar $Psi_4$]
 === #text(fill:red)[Constraint Monitoring]
