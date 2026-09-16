@@ -1448,7 +1448,7 @@ $<eqTimeDerivGammaK>
 The @eqTimeDerivGammaK[equations] directly imply that the Einstein equations in adapted coordinates reads
 $
   fH &= macron(R) + K^2 - K_(i j) K^(i j) - 2Lambda - 16pi rho = 0, \ \ \
-  fM_i &= mnabla_i K - mnabla_j tensor(K,+j,-i) + 8pi j_i \ \ \
+  fM_i &= mnabla_i K - mnabla_j tensor(K,+j,-i) + 8pi j_i =0, \ \ \
   diff_t gamma_(i j) &= beta^k diff_k gamma_(i j) + 2 gamma_(k \(i) diff_(j\)) beta^k - 2 alpha K_(i j), \ \ \
   diff_t K_(i j)&= beta^k diff_k K_(i j) + 2K_(k \(i) diff_(j\)) beta^k - mnabla_i mnabla_j alpha + alpha(K K_(i j) - 2 K_(i k) tensor(K,+k,-j) + macron(R)_(i j))\
   &quad - alpha Lambda gamma_(i j) - 8pi alpha (S_(i j) - 1/2 (S-rho) gamma_(i j))
@@ -1525,7 +1525,7 @@ $
 or equivalently,
 $
   tensor(Gamma,+lambda,-mu nu) = tensor(tilde(Gamma),+lambda,-mu nu) - 2 (tensor(delta,+lambda,-mu) diff_nu phi.alt + tensor(delta,+lambda,-nu) diff_mu phi.alt - g_(mu nu) g^(lambda rho) diff_rho phi.alt).
-$
+$<eqConformalConnectionRelation>
 We note that the difference between the two connection coefficients,
 $
   tensor(C,+lambda,-mu nu) := tensor(tilde(Gamma),+lambda,-mu nu) - tensor(Gamma,+lambda,-mu nu) = 2 (tensor(delta,+lambda,-mu) tnabla_nu phi.alt + tensor(delta,+lambda,-nu) tnabla_mu phi.alt - tilde(g)_(mu nu) tilde(g)^(lambda rho) tnabla_rho phi.alt)
@@ -1788,10 +1788,100 @@ $
   macron(R) &= e^(4phi.alt)(tilde(R) + 8 tilde(gamma)^(i j) (tnabla_i tnabla_j phi.alt - diff_i phi.alt diff_j phi.alt)).
 $
 === #text(fill: red)[Gauge Dynamics]
-== #text(fill: red)[Initial Data]
-=== #text(fill: red)[York-Lichnerowicz]
-=== #text(fill: red)[Conformal Transverse-Traceless (CTT) Decomposition]
+== Initial Data
+In this section, we discuss different approaches used to decompose and solve the constraint equations
+#bottom-number[$
+  fH &= macron(R) + K^2 - K_(i j) K^(i j) - 2Lambda - 16pi rho = 0, \ \ \
+  fM_i &= mnabla_i K - mnabla_k tensor(K,+k,-i) + 8pi j_i =0.
+$<eqConstraints>]
+These are 4 equations for the total of 12 functions in $gamma_(i j)$ and $K_(i j)$, meaning that there is a significant amount of freedom in initial data. To separate the freely specifiable data from data fixed by these equations, we perform different kinds of decompositions which have been developed historically to approach the problem of computing physically meaningful initial data.
+
+=== York-Lichnerowicz Conformal Transverse-Traceless (CTT) Decomposition
+The York-Lichnerowicz conformal traceless split employs the variables
+$
+  gamma_(i j) &= psi^4 hat(gamma)_(i j) quad<=>quad gamma^(i j) = psi^(-4) hat(gamma)^(i j),\
+  K_(i j) &= A_(i j) + 1/3 gamma_(i j) K,\
+  A_(i j) &= psi^(-2) hat(A)_(i j) quad<=>quad A^(i j) = psi^(-10) hat(A)^(i j).
+$
+Concretely, this means that $hat(gamma)_(i j)$ is a conformal metric,
+$
+  hat(gamma)_(i j) = psi^(-4) gamma_(i j),
+$
+for which we do _not_ necessarily require $det hat(gamma) = 1$, $A_(i j)$ is the traceless extrinsic curvature
+$
+  A_(i j) = K_(i j) - 1/3 gamma_(i j) K,
+$
+and $hat(A)_(i j) = psi^2 A_(i j)$ its conformal rescaling.
+
+We further denote by $hnabla$ the Levi-Civita connection associated with $hat(gamma)_(i j)$, whose coefficients---according to @eqConformalConnectionRelation with $psi = e^(-phi.alt) <=> phi.alt = -log psi$---are related to those of $mnabla$ by
+$
+  tensor(macron(Gamma),+k,-i j) = tensor(hat(Gamma),+k,-i j) + underbrace(2/psi (tensor(delta,+k,-i) diff_j psi + tensor(delta,+k,-j) diff_i psi - hat(gamma)_(i j) hat(gamma)^(k ell) diff_ell psi),=: tensor(C,+k,-i j)).
+$
+Besides the connection $mnabla$ needing to be re-expressed in terms of the variables $(psi,hat(gamma)_(i j), K, hat(A)_(i j))$, we also need to relate the Ricci scalar appearing in the Hamiltonian constraint to quantities associated to $hat(gamma)_(i j)$ and $psi$. In $d=3$, @eqConformalRicciScalar tells us that
+$
+  macron(R) = e^(4 phi.alt) (hat(R) + 8 hat(gamma)^(i j) hnabla_i hnabla_j phi.alt - 8 hat(gamma)^(i j) hnabla_i phi.alt hnabla_j phi.alt).
+$
+Again using $phi.alt = -log psi$, we expand 
+$
+  hat(gamma)^(i j) hnabla_i hnabla_j phi.alt &= -hat(gamma)^(i j)hnabla_i hnabla_j log psi = -hat(gamma)^(i j)hnabla_i (psi^(-1) hnabla_j psi)\ 
+  &= -psi^(-1) hat(gamma)^(i j) hnabla_i hnabla_j psi + psi^(-2) hat(gamma)^(i j) hnabla_i psi hnabla_j psi\
+  hat(gamma)^(i j)hnabla_i phi.alt hnabla_j phi.alt &= psi^(-2) hat(gamma)^(i j) hnabla_i psi hnabla_j psi,
+$
+whence the Ricci scalar becomes
+$
+  macron(R) = psi^(-4) hat(R) - 8 psi^(-5) hat(gamma)^(i j)hnabla_i hnabla_j psi.
+$
+With this in hand, we can write the Hamiltonian constraint as
+$
+  hat(fH) = 8 hat(gamma)^(i j) hnabla_i hnabla_j psi - hat(R) psi - 2/3 K^2 psi^5 + hat(A)_(i j) hat(A)^(i j) psi^(-7) + (2 Lambda + 16 pi rho) psi^5 = 0.
+$
+For the momentum constraint, we need to do some more work. We rewrite it slightly to become
+$
+  fM^j = mnabla_i (gamma^(i j) K - K^(i j)) + 8 pi j^j = 0,
+$
+and rewrite the first term separately as follows:
+$
+  mnabla_i (gamma^(i j) K - K^(i j)) = mnabla_i (gamma^(i j) K - A^(i j) - 1/3 gamma^(i j) K) = 2/3 gamma^(i j) mnabla_i K- mnabla_i A^(i j).
+$
+For the divergence term, we get
+$
+  mnabla_i A^(i j) &= mnabla_i (psi^(-10) hat(A)^(i j)) = hnabla_i (psi^(-10) hat(A)^(i j)) + psi^(-10) tensor(C,+i,-k i) hat(A)^(k j) + psi^(-10) tensor(C,+j,-k i) hat(A)^(i k)\
+  &= psi^(-10) hnabla_i hat(A)^(i j) - 10 psi^(-11) hat(A)^(i j) diff_i psi + 6 psi^(-11) hat(A)^(k j) diff_k psi + 4 psi^(-11) hat(A)^(j k) diff_k psi\
+  &= psi^(-10) hnabla_i hat(A)^(i j). 
+$
+Hence, inserting back into the momentum constraint, we get
+$
+  -psi^10 fM^i = hnabla_k hat(A)^(k i) -2/3 psi^6 hat(gamma)^(i k) hnabla_k K  - 8 pi psi^(10) j^i = 0.
+$
+Although we could leave it at this, we can make the following important observation which will allow us to split the degrees of freedom even further: the traceless conformal extrinsic curvature $hat(A)^(i j)$ appears in the momentum constraint only through its divergence $hnabla_j hat(A)^(i j)$. This means that any divergence-free components remain completely unconstrained and can be chosen arbitrarily. According to the following lemma, the remaining longitudinal component of $hat(A)^(i j)$ can be written in terms of a vector potential:
+
+#lemma[
+  Let $hat(A)^(i j)$ be a symmetric traceless tensor. Then, there exists a symmetric, traceless and transverse tensor $Q^(i j)$, i.e.
+  $
+    hnabla_j Q^(i j) = 0, quad tensor(Q,+i,-i) = 0,
+  $
+  and a vector field $X^i$ such that
+  $
+    hat(A)^(i j) = Q^(i j) + (LL X)^(i j) = Q^(i j) + hnabla^i X^j + hnabla^j X^i - 2/3 hat(gamma)^(i j) hnabla_k X^k.
+  $
+  The operator $LL$ is called the _Killing operator_, and $tensor((LL X),+i,-i) = 0$ by construction.
+]
+
+We insert this into the divergence term that appears in the momentum constraint to obtain
+$
+  hnabla_k hat(A)^(k i) &= hnabla_k hnabla^k X^i + hnabla_k hnabla^i X^k - 2/3 hnabla^i hnabla_k X^k \
+  &= hnabla_k hnabla^k X^i +1/3 hnabla^i hnabla_k X^k +  tensor(hat(R),+i,-k) X^k.
+$
+Thus, the Hamiltonian and momentum constraints in this decomposition read
+$
+  hat(fH) &= 8 hat(gamma)^(i j) hnabla_i hnabla_j psi - hat(R) psi - 2/3 K^2 psi^5 + hat(A)_(i j) hat(A)^(i j) psi^(-7) + (2 Lambda + 16 pi rho) psi^5 = 0,\ \ \
+  hat(fM)^i &= hnabla_k hnabla^k X^i + 1/3 hnabla^i hnabla_k X^k + tensor(hat(R),+i,-k) X^k - 2/3 psi^6 hat(gamma)^(i k) diff_k K - 8pi psi^10 j^i = 0. 
+$
+The implications of this decomposition are very convenient; the data is now clearly split into eight freely specifiable functions---5 from the background conformal metric $hat(gamma)_(i j)$, one from the mean curvature $K$, and two from the symmetric transverse-traceless extrinsic curvature component $Q^(i j)$. The remaining four variables---the scalar $psi$ and the three components of $X^i$---are then fixed by the constraint equations above.
+==== #text(fill: red)[Brill-Lindquist Data]
+==== #text(fill: red)[Bowen-York/Puncture Data]
 === #text(fill: red)[Conformal Thin Sandwich]
+== #text(fill:red)[An Overview of Z4]
 == #text(fill:red)[Wave Extraction & Diagnostics]
 === #text(fill:red)[Weyl Scalar $Psi_4$]
 === #text(fill:red)[Constraint Monitoring]

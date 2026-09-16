@@ -91,6 +91,7 @@
 #let dim = math.op("dim")
 #let mnabla = math.macron(math.nabla)
 #let tnabla = math.tilde(math.nabla)
+#let hnabla = math.hat(math.nabla)
 
 #let diff = math.partial
 
