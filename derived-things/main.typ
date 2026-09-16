@@ -1873,13 +1873,62 @@ $
   &= hnabla_k hnabla^k X^i +1/3 hnabla^i hnabla_k X^k +  tensor(hat(R),+i,-k) X^k.
 $
 Thus, the Hamiltonian and momentum constraints in this decomposition read
-$
+#bottom-number[$
   hat(fH) &= 8 hat(gamma)^(i j) hnabla_i hnabla_j psi - hat(R) psi - 2/3 K^2 psi^5 + hat(A)_(i j) hat(A)^(i j) psi^(-7) + (2 Lambda + 16 pi rho) psi^5 = 0,\ \ \
   hat(fM)^i &= hnabla_k hnabla^k X^i + 1/3 hnabla^i hnabla_k X^k + tensor(hat(R),+i,-k) X^k - 2/3 psi^6 hat(gamma)^(i k) diff_k K - 8pi psi^10 j^i = 0. 
+$<eqCTTConstraints>]
+The implications of this decomposition are very convenient; the data is now clearly split into eight freely specifiable functions---5 from the background conformal metric $hat(gamma)_(i j)$, one from the mean curvature $K$, and two from the symmetric transverse-traceless extrinsic curvature component $Q^(i j)$. The remaining four variables---the scalar $psi$ and the three components of $X^i$---are then fixed by the constraint equations above. Further, the momentum constraint is linear in the vector potential $X^i$, which will enable us to find analytical solutions in certain cases.
+==== Brill-Lindquist Data
+The most convenient way to solve an equation is always to specialise to the most simplified version of the problem. Here, this is achieved by assuming vacuum ($rho=j^i=0$), no cosmological constant ($Lambda = 0$), and time-symmetry ($K_(i j) = 0$, so $K = Q^(i j) = X^i = 0$), as well as a flat conformal background, $hat(gamma)_(i j) = delta_(i j)$. These assumptions collapse the @eqCTTConstraints[constraint equations] down to just a single scalar equation,
 $
-The implications of this decomposition are very convenient; the data is now clearly split into eight freely specifiable functions---5 from the background conformal metric $hat(gamma)_(i j)$, one from the mean curvature $K$, and two from the symmetric transverse-traceless extrinsic curvature component $Q^(i j)$. The remaining four variables---the scalar $psi$ and the three components of $X^i$---are then fixed by the constraint equations above.
-==== #text(fill: red)[Brill-Lindquist Data]
-==== #text(fill: red)[Bowen-York/Puncture Data]
+  Delta psi = 0,
+$<eqBrillLindquistEqn>
+where $Delta = delta^(i j) diff_i diff_j$ is the flat-space Laplacian. If we require solutions to be asymptotically flat and smooth, we must have $psi -> 1$ as $r->infty$ and $||psi||_infty < infty$, which by Liouville's theorem forces $psi equiv 1$ everywhere. However, if we allow for isolated singular points, then solutions of the form
+$
+  psi(vx) = 1 + C/r
+$
+with $vx = (x^i)$ and $r = sqrt(delta_(i j) x^i x^j)$ are allowed as well. Given that in isotropic coordinates, the Schwarzschild metric reads
+$
+  g_"SS" = - ((1-M/(2r))/(1+M/(2r)))^2 dt^2 + (1+M/(2r))^4 delta_(i j) dx^i dx^j,
+$
+we identify 
+$
+  psi(vx) = 1+ M/(2r),
+$
+whence $C = M\/2$ is related to the mass of the black hole. By linearity of  @eqBrillLindquistEqn, we can superimpose multiple such solutions to obtain multi-black hole initial data,
+$
+  psi(vx) = 1 + sum_(i = 1)^n M_((i))/(2|vx-vx_((i))|)
+$
+where $M_((i))$ is the mass and $vx_((i))$ the initial position of the $i$-th black hole. This form of initial data is known as _Brill-Lindquist data_. 
+
+#remark[
+  There are a couple of observations to be made here.
+]
++ As can be seen in the Schwarzschild example, the singularities of $psi$ do not actually correspond to physical singularities inside the black hole, but rather represent the coordinate singularities at spatial infinity of the additional asymptotically flat ends that are introduced by the presence of black holes. 
+
++ The time-symmetry assumption $K_(i j) = 0$ implies that the mean curvature vanishes, $K=0$. This is the condition for a submanifold to be maximal---in essence, it ensures that the initial data slice has a maximal 3-volume within the four-dimensional spacetime. 
+
++ The masses $M_((i))$ are the _bare_ masses of the black holes, not the physical ADM masses of their associated asymptotically flat ends. Near the puncture $vx_((i))$---that is, near spatial infinity of the flat end, where $vx->vx_((i))$---the conformal factor $psi$ behaves as
+  $
+    psi(vx) sim 1 + M_((i))/(2|vx-vx_((i))|) + (sum_(j != i) M_((j))/(2|vx-vx_((j))|)).
+  $
+  Although the leading "$1+M_((i))\/2r$" ensures that $M_((i))$ appears as a term in the ADM mass of the $i$-th end, the remaining terms in parentheses provide an additional, regular contribution to the surface integral that is best interpreted as a binding energy. 
+  #text(fill:red)[Explicitly, it can be computed that
+  $
+    M_("ADM",(i)) = M_((i))(1 + sum_(j!=i) M_((j))/(2|vx_((i))-vx_((j))|))
+  $
+  I did not check this explicitly yet.] Nonetheless, the total ADM mass of the "main end" at $r->infty$ is 
+  $
+    M_("ADM",infty) = sum_(i=1)^n M_((i)),
+  $
+  as is easily verified by the fact that asymptotically, $|vx-vx_((i))| sim r$ and hence,
+  $
+    psi(vx) sim 1 + (sum_(i=1)^n M_((i)))/(2r) quad "as" quad r->infty.
+  $
+
++ Although Brill-Lindquist can accommodate multi-black hole initial data, it does so in a very limited way. The black holes are initially stationary (although of course, they do not remain stationary during evolution), and have no spin. In astrophysical scenarios, this is typically rather uninteresting; we usually want to simulate black hole mergers where the black holes have both linear and angular momentum. For this reason, in the next section, we will loosen our simplifying assumptions, with the goal of enabling us to place black holes with arbitrary mass, momentum and spin into our simulation domain.
+==== #text(fill: red)[Bowen-York Initial Data and the Puncture Method]
+
 === #text(fill: red)[Conformal Thin Sandwich]
 == #text(fill:red)[An Overview of Z4]
 == #text(fill:red)[Wave Extraction & Diagnostics]
