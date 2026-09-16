@@ -1928,7 +1928,31 @@ where $M_((i))$ is the mass and $vx_((i))$ the initial position of the $i$-th bl
 
 + Although Brill-Lindquist can accommodate multi-black hole initial data, it does so in a very limited way. The black holes are initially stationary (although of course, they do not remain stationary during evolution), and have no spin. In astrophysical scenarios, this is typically rather uninteresting; we usually want to simulate black hole mergers where the black holes have both linear and angular momentum. For this reason, in the next section, we will loosen our simplifying assumptions, with the goal of enabling us to place black holes with arbitrary mass, momentum and spin into our simulation domain.
 ==== #text(fill: red)[Bowen-York Initial Data and the Puncture Method]
+To improve on the lack of initial linear and angular momentum of Brill-Lindquist initial data, in this section, we make our assumptions more general. Concretely, we drop time symmetry $K_(i j) = 0$, and instead only demand maximal slicing ($K=0$) and that the transverse part vanishes, $Q^(i j)=0$. To arrive at Bowen-York initial data, we keep the flat conformal background assumption $hat(gamma)_(i j) = delta_(i j)$ in place, and continue to work in vacuum with a vanishing cosmological constant. 
 
+These assumptions turn the constraint equations into
+#bottom-number[$
+  hat(fH) &= 8 Delta psi + hat(A)_(i j) hat(A)^(i j) psi^(-7) = 0,\
+  hat(fM)^i &= Delta X^i + 1/3 diff^i diff_k X^k = 0,
+$<eqBowenYorkConstraints>]
+where $Delta = delta^(i j)diff_i diff_j$ is the flat space Laplacian, indices are raised with $hat(gamma)^(i j) = delta^(i j)$, and $hat(A)^(i j)$ is computed as
+$
+  hat(A)^(i j) = (LL X)^(i j) = diff^i X^j + diff^j X^i - 2/3 delta^(i j) diff_k X^k.
+$ 
+We can see that under these assumptions, only $X^i$ appears in the momentum constraints, decoupling it fully from $psi$. Further, the momentum constraint is now a linear equation for $X^i$---which we can actually solve analytically---and which allows for solutions to be superimposed. Once $X^i$ is determined, we can evaluate $hat(A)^(i j)$, leaving us to solve the nonlinear Hamiltonian constraint for $psi$. Although this has to be approached numerically, we will consider an ansatz that splits off the analytical Brill-Lindquist terms, making it so that we only have to solve for a regular function---instead of the full $psi$ which typically contains singular points.
+
+Let us begin by discussing the two most important types of solutions to the momentum constraint equation, starting with angular momentum.
+
+#proposition(name: "Angular Momentum Bowen-York Data")[
+  The @eqBowenYorkConstraints[momentum constraint equation] is solved by 
+  $
+    X^i = epsilon^(i j k) x_j/r^3 J_k,
+  $
+  which has the associated traceless conformal extrinsic curvature tensor
+  $
+    hat(A)^(i j) = -6/r^5 x^(\(i)epsilon^(j\)k ell)x_k J_ell.
+  $
+]
 === #text(fill: red)[Conformal Thin Sandwich]
 == #text(fill:red)[An Overview of Z4]
 == #text(fill:red)[Wave Extraction & Diagnostics]
