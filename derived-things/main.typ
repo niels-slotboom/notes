@@ -1897,9 +1897,9 @@ $
 $
 whence $C = M\/2$ is related to the mass of the black hole. By linearity of  @eqBrillLindquistEqn, we can superimpose multiple such solutions to obtain multi-black hole initial data,
 $
-  psi(vx) = 1 + sum_(i = 1)^n M_((i))/(2|vx-vx_((i))|)
+  psi(vx) = 1 + sum_(i = 1)^n M_((a))/(2|vx-vx_((a))|)
 $
-where $M_((i))$ is the mass and $vx_((i))$ the initial position of the $i$-th black hole. This form of initial data is known as _Brill-Lindquist data_. 
+where $M_((a))$ is the mass and $vx_((a))$ the initial position of the $i$-th black hole. This form of initial data is known as _Brill-Lindquist data_. 
 
 #remark[
   There are a couple of observations to be made here.
@@ -1908,26 +1908,26 @@ where $M_((i))$ is the mass and $vx_((i))$ the initial position of the $i$-th bl
 
 + The time-symmetry assumption $K_(i j) = 0$ implies that the mean curvature vanishes, $K=0$. This is the condition for a submanifold to be maximal---in essence, it ensures that the initial data slice has a maximal 3-volume within the four-dimensional spacetime. 
 
-+ The masses $M_((i))$ are the _bare_ masses of the black holes, not the physical ADM masses of their associated asymptotically flat ends. Near the puncture $vx_((i))$---that is, near spatial infinity of the flat end, where $vx->vx_((i))$---the conformal factor $psi$ behaves as
++ The masses $M_((a))$ are the _bare_ masses of the black holes, not the physical ADM masses of their associated asymptotically flat ends. Near the puncture $vx_((a))$---that is, near spatial infinity of the flat end, where $vx->vx_((a))$---the conformal factor $psi$ behaves as
   $
-    psi(vx) sim 1 + M_((i))/(2|vx-vx_((i))|) + (sum_(j != i) M_((j))/(2|vx-vx_((j))|)).
+    psi(vx) sim 1 + M_((a))/(2|vx-vx_((a))|) + (sum_(j != i) M_((j))/(2|vx-vx_((j))|)).
   $
-  Although the leading "$1+M_((i))\/2r$" ensures that $M_((i))$ appears as a term in the ADM mass of the $i$-th end, the remaining terms in parentheses provide an additional, regular contribution to the surface integral that is best interpreted as a binding energy. 
+  Although the leading "$1+M_((a))\/2r$" ensures that $M_((a))$ appears as a term in the ADM mass of the $i$-th end, the remaining terms in parentheses provide an additional, regular contribution to the surface integral that is best interpreted as a binding energy. 
   #text(fill:red)[Explicitly, it can be computed that
   $
-    M_("ADM",(i)) = M_((i))(1 + sum_(j!=i) M_((j))/(2|vx_((i))-vx_((j))|))
+    M_("ADM",(i)) = M_((a))(1 + sum_(j!=i) M_((j))/(2|vx_((a))-vx_((j))|))
   $
   I did not check this explicitly yet.] Nonetheless, the total ADM mass of the "main end" at $r->infty$ is 
   $
-    M_("ADM",infty) = sum_(i=1)^n M_((i)),
+    M_("ADM",infty) = sum_(i=1)^n M_((a)),
   $
-  as is easily verified by the fact that asymptotically, $|vx-vx_((i))| sim r$ and hence,
+  as is easily verified by the fact that asymptotically, $|vx-vx_((a))| sim r$ and hence,
   $
-    psi(vx) sim 1 + (sum_(i=1)^n M_((i)))/(2r) quad "as" quad r->infty.
+    psi(vx) sim 1 + (sum_(i=1)^n M_((a)))/(2r) quad "as" quad r->infty.
   $
 
 + Although Brill-Lindquist can accommodate multi-black hole initial data, it does so in a very limited way. The black holes are initially stationary (although of course, they do not remain stationary during evolution), and have no spin. In astrophysical scenarios, this is typically rather uninteresting; we usually want to simulate black hole mergers where the black holes have both linear and angular momentum. For this reason, in the next section, we will loosen our simplifying assumptions, with the goal of enabling us to place black holes with arbitrary mass, momentum and spin into our simulation domain.
-==== #text(fill: red)[Bowen-York Initial Data and the Puncture Method]
+==== Bowen-York Initial Data and the Puncture Method
 To improve on the lack of initial linear and angular momentum of Brill-Lindquist initial data, in this section, we make our assumptions more general. Concretely, we drop time symmetry $K_(i j) = 0$, and instead only demand maximal slicing ($K=0$) and that the transverse part vanishes, $Q^(i j)=0$. To arrive at Bowen-York initial data, we keep the flat conformal background assumption $hat(gamma)_(i j) = delta_(i j)$ in place, and continue to work in vacuum with a vanishing cosmological constant. 
 
 These assumptions turn the constraint equations into
@@ -1943,16 +1943,49 @@ We can see that under these assumptions, only $X^i$ appears in the momentum cons
 
 Let us begin by discussing the two most important types of solutions to the momentum constraint equation, starting with angular momentum.
 
-#proposition(name: "Angular Momentum Bowen-York Data")[
+#proposition(name: "Bowen-York Data: Angular Momentum")[
   The @eqBowenYorkConstraints[momentum constraint equation] is solved by 
   $
-    X^i = epsilon^(i j k) x_j/r^3 J_k,
+    X^i_"ang" = epsilon^(i j k) x_j/r^3 J_k,
   $
   which has the associated traceless conformal extrinsic curvature tensor
   $
-    hat(A)^(i j) = -6/r^5 x^(\(i)epsilon^(j\)k ell)x_k J_ell.
+    hat(A)^(i j)_"ang" = -6/r^5 x^(\(i)epsilon^(j\)k ell)x_k J_ell.
   $
 ]
+#text(fill:red)[One can verify that for asymptotically flat initial data, where $psi->1$ for $r->infty$, $J_"ADM"^i = J^i$ for the AF end produced by the puncture.]
+#text(fill:red)[
+#proposition(name: "Bowen-York Data: Linear Momentum")[
+  The @eqBowenYorkConstraints[momentum constraint equation] is also solved by 
+  $
+    X^i_"lin" = -1/(4r)(7P^i+(x^i x_k)/r^2 P^k)
+  $
+  for a constant vector $P^i$. The associated traceless conformal extrinsic curvature tensor is
+  $
+    hat(A)^(i j)_"lin" = 3/(2r^3) [2 P^(\(i) x^(j\)) + ((x^i x^j)/r^2 - delta^(i j))x_m P^m].
+  $
+]]
+#text(fill:red)[For asymptotically flat initial data, where $psi->1$ for $r->infty$, $P^i_"ADM" = P^i$ for the AF end produced by the puncture, so that $X^i_"lin"$ has the interpretation of the linear momentum of a black hole.]
+
+We now have everything we need to close the Bowen-York initial data story. Given positions $vx_((a))$, masses $M_((a))$, linear momenta $vP_((a))$ and angular momenta $vJ_((a))$, we set up the total $hat(A)^(i j)$ as
+$
+  hat(A)^(i j) (vx) = sum_(a = 1)^n hat(A)^(i j)_"lin" (vx-vx_((a)); vP_((a))) + sum_(a=1)^n hat(A)^(i j)_"ang" (vx-vx_((a)); vJ_((a))).
+$
+It now remains to solve the Hamiltonian constraint for $psi$. To assign the masses to the punctures, it is sufficient---mathematically speaking---to impose the boundary conditions that
+$
+  psi(vx) sim M_((a))/(2|vx-vx_((a))|) quad "for" quad vx->vx_((a)), quad psi(vx)->1 quad "for" quad r->infty
+$
+However, this is hard to enforce numerically, and will cause the function $psi$ which is being solved for to have singularities that are difficult to resolve on a grid. Given that we already know the Brill-Lindquist solution, we rather build on that; we take the ansatz
+$
+  psi(vx) = u(vx) + underbrace(1 + sum_(a=1)^n M_((a))/(2|vx-vx_((a))|),=:psi_0 (vx)),
+$
+and solve for the (now regular) function $u(vx)$ instead. Since away from the punctures at $vx_((a))$, the Laplacian acting on the $sim 1\/r$ terms vanishes, the equation for $u$ reads
+$
+  Delta u + 1/8 hat(A)_(i j) hat(A)^(i j) (u + psi_0)^(-7) = 0.
+$
+We have thus now reduced the problem of solving the rather complicated constraint equations to an almost fully analytical solution, with as final step solving a non-linear scalar equation for a regular function. This final reduction step is often termed the _puncture method_, due to Brandt and Brügmann. 
+
+The solutions that result are black holes in specifiable positions, with tunable mass, and linear as well as angular momentum. However, the initial data produced this way is not perfect, in the sense that it contains more than just black holes. This is evident from the following line of reasoning: It can be shown that the Kerr spacetime--i.e. the spacetime containing a singular rotating black hole---does not allow for any conformally flat spatial hypersurfaces. Our initial data, however, is able to produce a hypersurface that contains a black hole with spin, starting out from the assumption that it is a conformally flat slice ($hat(gamma)_(i j) = delta_(i j)$). This means that, besides a Kerr black hole, such a slice must contain additional gravitational radiation, as otherwise we would contradict the theorem that Kerr allows no conformally flat spatial slices. For slow spins, this radiation is typically of no concern, as it propagates away quickly and hence only contaminates the first part of the gravitational wave signal. 
 === #text(fill: red)[Conformal Thin Sandwich]
 == #text(fill:red)[An Overview of Z4]
 == #text(fill:red)[Wave Extraction & Diagnostics]
