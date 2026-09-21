@@ -1331,13 +1331,13 @@ Together with the results from the previous section, these definitions now allow
 #theorem[
   The Einstein equations written in terms of $alpha, n, gamma, K, rho, j$ and $S$ read
   #bottom-number[$
-    cal(H) &:= macron(R) + K^2 - K_(mu nu) K^(mu nu) - 2Lambda - 16 pi rho = 0,\ \
-    cal(M)_mu &:= mnabla_mu K - mnabla_nu tensor(K,+nu,-mu) + 8 pi j_mu = 0,\ \
+    cal(H) &:= 2 cal(E)_(mu nu)n^mu n^nu = macron(R) + K^2 - K_(mu nu) K^(mu nu) - 2Lambda - 16 pi rho = 0,\ \
+    cal(M)_mu &:= tensor(P,+lambda,-mu) n^nu cal(E)_(lambda nu) = mnabla_mu K - mnabla_nu tensor(K,+nu,-mu) + 8 pi j_mu = 0,\ \
     fL_n gamma_(mu nu) &= -2 K_(mu nu),\ \
     fL_n K_(mu nu) &= K K_(mu nu) - 2 K_(mu lambda) tensor(K,+lambda,-nu) + macron(R)_(mu nu) - 1/alpha mnabla_mu mnabla_nu alpha\ &wide - Lambda gamma_(mu nu) - 8pi ((S_(mu nu) - 1/2 S gamma_(mu nu)) + 1/2 rho gamma_(mu nu)).
   $<eqEvSys>]
 ]
-The first two equations are derived by taking the normal-normal and normal-tangential projections of the original Einstein equations and subsequently identifying the definitions of $rho$ and $j$ as well as applying the Gauss and Codazzi equations, respectively. These two equations involve no time derivatives, and are hence a set of four constraints. 
+The first two equations are derived by taking the normal-normal and normal-tangential projections of the original Einstein equations $cal(E) = G_(mu nu) + Lambda g_(mu nu) - 8pi T_(mu nu)=0$ and subsequently identifying the definitions of $rho$ and $j$ as well as applying the Gauss and Codazzi equations, respectively. These two equations involve no time derivatives, and are hence a set of four constraints. 
 
 The remaining two equations are first order in time (by the presence of the $fL_n$ normal derivatives), and hence dynamical. The first of the two is simply a consequence of the definition of the extrinsic curvature. The latter is the result of projecting the trace-reversed Einstein equations onto $T Sigma$ by contracting with $P$ on both indices, and subsequently applying the first equation in @eqProjectionsRicci[] to re-express the projected Ricci tensor $(P R)_(mu nu)$.
 
@@ -1417,7 +1417,7 @@ $
   For any vector field $N$ that is normal to $T Sigma$ (not necessarily the unit-normal $n$), and a contravariant tangential tensor $T in Gamma(T^((0,s))Sigma)$, we have
   $
     fL_(f N) T = f fL_N T.
-  $
+  $<eqTensorialityNormalTangentialLieDeriv>
   Note that this is not necessarily true if $T$ is not foliation-tangential or has upstairs indices.
 ]
 This lemma might seem kind of useless, but it allows us to write down an explicit expression for the extrinsic curvature in an adapted coordinate basis: 
@@ -1452,8 +1452,7 @@ $
   diff_t gamma_(i j) &= beta^k diff_k gamma_(i j) + 2 gamma_(k \(i) diff_(j\)) beta^k - 2 alpha K_(i j), \ \ \
   diff_t K_(i j)&= beta^k diff_k K_(i j) + 2K_(k \(i) diff_(j\)) beta^k - mnabla_i mnabla_j alpha + alpha(K K_(i j) - 2 K_(i k) tensor(K,+k,-j) + macron(R)_(i j))\
   &quad - alpha Lambda gamma_(i j) - 8pi alpha (S_(i j) - 1/2 (S-rho) gamma_(i j))
-
-$
+$<eqADM>
 The conservation equation $nabla_mu T^(mu nu) = 0$ further implies equations of motion for the energy density $rho$ and $j_i$. To derive them, we must first relate $rho$ and $j_i$ to components of the energy-momentum tensor in adapted coordinates. To this end, we should recall that in adapted coordinates,
 $
   n^t &= 1/alpha, &quad&& n^i &= -beta^i/alpha,\
@@ -1985,9 +1984,176 @@ $
 $
 We have thus now reduced the problem of solving the rather complicated constraint equations to an almost fully analytical solution, with as final step solving a non-linear scalar equation for a regular function. This final reduction step is often termed the _puncture method_, due to Brandt and Brügmann. 
 
-The solutions that result are black holes in specifiable positions, with tunable mass, and linear as well as angular momentum. However, the initial data produced this way is not perfect, in the sense that it contains more than just black holes. This is evident from the following line of reasoning: It can be shown that the Kerr spacetime--i.e. the spacetime containing a singular rotating black hole---does not allow for any conformally flat spatial hypersurfaces. Our initial data, however, is able to produce a hypersurface that contains a black hole with spin, starting out from the assumption that it is a conformally flat slice ($hat(gamma)_(i j) = delta_(i j)$). This means that, besides a Kerr black hole, such a slice must contain additional gravitational radiation, as otherwise we would contradict the theorem that Kerr allows no conformally flat spatial slices. For slow spins, this radiation is typically of no concern, as it propagates away quickly and hence only contaminates the first part of the gravitational wave signal. 
-=== #text(fill: red)[Conformal Thin Sandwich]
-== #text(fill:red)[An Overview of Z4]
+The solutions that result are black holes in specifiable positions, with tunable mass as well as linear and angular momentum. However, the initial data produced this way is not perfect, in the sense that it contains more than just black holes. This is evident from the following line of reasoning: It can be shown that the Kerr spacetime---i.e. the spacetime containing a singular rotating black hole---does not allow for any conformally flat spatial hypersurfaces. Our initial data, however, is able to produce a hypersurface that contains a black hole with spin, starting out from the assumption that it is a conformally flat slice ($hat(gamma)_(i j) = delta_(i j)$). This means that, besides a Kerr black hole, such a slice must contain additional gravitational radiation, as otherwise we would contradict the theorem that Kerr allows no conformally flat spatial slices. For slow spins, this radiation is typically of no concern, as it propagates away quickly and hence only contaminates the first part of the gravitational wave signal. 
+=== #text(fill: red)[(Extended) Conformal Thin Sandwich ((X)CTS)] 
+== An Initial Overview of Z4
+=== Time Evolution of Violated Constraints in Standard GR
+It is rather simple to show that mathematically speaking, if the constraints are satisfied initially, they are satisfied for the entirety of the evolution---this is a direct consequence of $nabla^mu G_(mu nu) = 0$. Unfortunately, we cannot perfectly satisfy $cal(H) = cal(M)_i = 0$ when computing initial data numerically, and machine as well as discretisation error introduce additional deviations, so that at best, $cal(H) approx cal(M)_i approx 0$. Motivated by this, let us see how nonzero values of $cal(H)$ and $cal(M)_i$ evolve under evolution.
+
+Since we are only interested in a mathematical result for now, and not a numerically stable implementation, we can make our lives easier by starting from the Einstein equations written as $cal(E)_(mu nu) = G_(mu nu) + Lambda g_(mu nu) - 8pi T_(mu nu) = 0$, without needing to decompose or invoke adapted coordinates just yet. We recall that the constraints are defined as
+$
+  cal(H) = 2 cal(E)_(mu nu) n^mu n^nu , quad cal(M)_mu = tensor(P,+lambda,-mu)n^nu cal(E)_(lambda nu).
+$
+By the contracted Bianchi identity $nabla^mu G_(mu nu) = 0$, the metric compatibility of the connection, $nabla_lambda g_(mu nu) = 0$, and conservation of energy-momentum $nabla^mu T_(mu nu) = 0$, we have
+$
+  nabla^mu cal(E)_(mu nu) = 0.
+$
+Besides this identity, we will also need to assume that the @eqEvSys[evolution equations in] hold. We recall that these are derived from the tangential-tangential projection of the _trace-reversed_ Einstein equations, that is, from
+$
+  tensor(P,+lambda,-mu) tensor(P,+rho,-nu) (cal(E)_(lambda rho) - 1/2 g_(lambda rho) cal(E)) = 0.
+$<eqTraceRevEEProjected>
+Since in the derivations that follow, the projection $tensor(P,+lambda,-mu) tensor(P,+rho,-nu) cal(E)_(lambda rho)$ will appear, let us first examine what this evaluates to assuming that the above holds. Taking the trace with respect to $g^(mu nu)$ gives us
+$
+  0 = P^(lambda rho) cal(E)_(lambda rho) - 3/2 cal(E) = underbrace(g^(lambda rho) cal(E)_(lambda rho),=cal(E)) + underbrace(n^lambda n^rho cal(E)_(lambda rho),=1/2 cal(H)) - 3/2 cal(E) = 1/2 cal(H) - 1/2 cal(E).
+$
+Thus, $cal(E) = cal(H)$, and by @eqTraceRevEEProjected,
+$
+  tensor(P,+lambda,-mu) tensor(P,+rho,-nu) cal(E)_(lambda rho) = 1/2 gamma_(mu nu) cal(H).
+$
+
+To derive an evolution equation for $cal(H)$, we project $nabla^mu cal(E)_(mu nu)$ onto $n^nu$, to obtain
+$
+  0 &= n^nu nabla^mu cal(E)_(mu nu) = nabla^mu (cal(E)_(mu nu) n^nu) - cal(E)_(mu nu) nabla^mu n^nu\
+&= nabla^mu lr((-n_mu underbrace(n^lambda cal(E)_(lambda nu) n^nu,=1/2 cal(H)) + underbrace(tensor(P,-mu,+lambda) cal(E)_(lambda nu) n^nu,=cal(M)_mu) ),size:#45%) + cal(E)_(mu nu) (K^(mu nu) + n^mu a^nu)\
+&= -1/2 nabla_mu (n^mu cal(H)) + nabla^mu cal(M)_mu + underbrace(cal(E)_(mu nu) tensor(P,+mu,-lambda)tensor(P,+nu,-rho),=1/2 gamma_(lambda rho) cal(H)) K^(nu rho) + fM_mu a^mu \
+&= -1/2 n^mu nabla_mu cal(H) - 1/2 underbrace((nabla_mu n^mu),=-K) cal(H) + nabla^nu (tensor(P,+mu,-nu) cal(M)_mu) + 1/2 K cal(H) + cal(M)_mu a^mu \
+&= -1/2 n^mu nabla_mu cal(H) + K cal(H) + underbrace(tensor(P,+mu,-nu) nabla^nu cal(M)_mu,=mnabla^mu cal(M)_mu) + underbrace(cal(M)_mu  nabla^nu (n^mu n_nu),=cal(M)_mu a^mu) + cal(M)_mu a^mu \
+&= -1/2 n^mu nabla_mu cal(H) + K cal(H) + mnabla^mu cal(M)_mu + 2 cal(M)_mu a^mu 
+$
+Solving for $n^mu nabla_mu cal(H)$, we find
+$
+  n^mu nabla_mu cal(H) = 2 K cal(H) + 2 mnabla^mu cal(M)_mu + 4 cal(M)_mu a^mu.
+$
+Switching to adapted coordinates and making use of 
+$
+  n = 1/alpha (diff_t - beta^i diff_i), quad a_mu = 1/alpha mnabla_mu alpha
+$
+we finally arrive at
+$
+  diff_t cal(H) = beta^i diff_i cal(H) + 2 alpha K cal(H) + 2 alpha mnabla^i cal(M)_i + 4 cal(M)_i mnabla^i alpha.
+$
+
+We can proceed similarly for the momentum constraint, this time projecting onto the foliation-tangent space:
+$
+  0 &= tensor(P,+lambda,-nu) (nabla^mu cal(E)_(mu lambda)) = nabla^mu (tensor(P,+lambda,-nu) cal(E)_(mu lambda)) - cal(E)_(mu lambda) nabla^mu tensor(P,+lambda,-nu)\
+  &= nabla^mu lr((-n_mu underbrace(n^rho tensor(P,+lambda,-nu)cal(E)_(rho lambda),=cal(M)_nu) + underbrace(tensor(P,+rho,-mu)tensor(P,+lambda,-nu)cal(E)_(rho lambda),=1/2 gamma_(mu nu) cal(H))),size:#35%) - cal(E)_(mu lambda) nabla^mu (n^lambda n_nu)\
+  &= - nabla^mu (n_mu cal(M)_nu) + 1/2 nabla^mu (gamma_(mu nu) cal(H)) + cal(E)_(mu lambda) (K^(mu lambda) + n^mu a^lambda) n_nu + cal(E)_(mu lambda) n^lambda (tensor(K,+mu,-nu) + n^mu a_nu)\
+  &= -n^mu nabla_mu cal(M)_nu - cal(M)_nu underbrace(nabla^mu n_mu,=-K) + 1/2 mnabla_nu cal(H) + 1/2 cal(H) nabla^mu (n_mu n_nu) + 1/2 cal(H) K n_nu + cal(M)_mu a^mu  n_nu \
+  & wide + tensor(K,+mu,-nu) cal(M)_mu + 1/2 cal(H) a_nu\
+  &= -n^mu nabla_mu cal(M)_nu + K cal(M)_nu + 1/2 mnabla_nu cal(H) + 1/2 cal(H)a_nu + cal(M)_mu a^mu n_nu + tensor(K,+mu,-nu) cal(M)_mu + 1/2 cal(H) a_nu
+$
+We again want to find an expression in adapted coordinates, and then solve for $diff_t cal(M)_i$. Since $n_i = 0$, we can immediately drop the term proportional to $n_nu$ to find
+$
+  n^mu nabla_mu cal(M)_i = K cal(M)_i + tensor(K,+j,-i) cal(M)_j + 1/2 mnabla_i cal(H) + 1/alpha cal(H) mnabla_i alpha
+$
+Since $cal(M)_mu$ is a covector, we cannot simply replace the normal derivative on the left-hand side with $1/alpha (diff_t - beta^i diff_i)$ as before. Instead, let us expand the covariant derivative explicitly. For any spatial covector $X_mu$ with $n^mu X_mu = 0$, 
+$
+  fL_n X_nu &= n^mu nabla_mu X_nu + X_mu nabla_nu n^mu
+$
+implying that
+$
+  n^mu nabla_mu X_nu &= fL_n X_nu - X_mu nabla_nu n^mu\
+  &= fL_n X_nu + X_mu (tensor(K,+mu,-nu) + n_nu a^mu)\
+  &= fL_n X_nu + tensor(K,+mu,-nu) X_mu + n_nu X_mu a^mu.
+$
+Further using @eqTensorialityNormalTangentialLieDeriv, we can rewrite the spatial components of this expression as
+$
+  n^nu nabla_nu X_i = 1/alpha diff_t X_i - 1/alpha fL_beta X_i + tensor(K,+j,-i) X_j.
+$
+Inserting this result back into the original equation and expanding the Lie derivative along $beta$, we get
+$
+  diff_t cal(M)_i =  beta^j diff_j cal(M)_i  + cal(M)_j diff_i beta^j + alpha K cal(M)_i + 1/2 alpha mnabla_i cal(H) + cal(H) mnabla_i alpha
+$ 
+For quicker reference, let us summarise the results for both $diff_t cal(H)$ and $diff_t cal(M)_i$ below, making compact again the Lie derivatives along $beta$:
+#bottom-number[$
+  diff_t cal(H) &= cal(L)_beta cal(H) + 2 alpha K cal(H) + 2 alpha mnabla^i cal(M)_i + 4 cal(M)_i mnabla^i alpha,\
+  diff_t cal(M)_i &= cal(L)_beta cal(M)_i  + alpha K cal(M)_i + 1/2 alpha mnabla_i cal(H) + cal(H) mnabla_i alpha.
+$<eqConstraintEvolution>]
+*Remarks:*
++ The simplest check we can carry out to verify whether this result is plausible is to see whether evolution preserves initially satisfied constraints. This is indeed the case, since all terms on the right-hand sides of both $diff_t cal(H)$ and $diff_t cal(M)_i$ are proportional to either $cal(H)$, $cal(M)_i$, or spatial derivatives thereof. Hence, if $cal(H)=cal(M)_i = 0$ initially, then the right-hand sides vanish initially. Since $cal(H) = cal(M)_i$ is itself a solution of the constraint-propagation equations, uniqueness of the corresponding initial-value problem implies that initially staisfied constraints remain satisfied throughout the evolution.
+
++ Although the @eqConstraintEvolution[evolution equations] look rather involved, all terms can be given a physical interpretation:
+  - The terms $cal(L)_beta cal(H)$ and $cal(L)_beta cal(M)_i$ describe advection by the shift, separating coordinate motion from evolution along the normal direction. The terms proportional to $alpha K$ then modify the evolution according to the expansion or contraction of the normal congruence, decreasing the magnitude of the constraints when the congruence expands and increasing it when the congruence contracts. 
+
+  - The terms $2 alpha mnabla^i cal(M)_i$ and $1/2 alpha mnabla_i cal(H)$ couple spatial variations of the momentum and Hamiltonian constraints, respectively. The remaining terms involving $mnabla_i alpha$ provide additional lower-order coupling when the lapse varies spatially.
+
+=== Propagation of Constraints in GR/ADM
+The time evolution of $cal(H)$ and $cal(M)_i$ can be used to derive second-order wave-like equations for $cal(H)$ and $cal(M)_i$, which reveal the propagation behaviour (or lack thereof) of constraint violations across the spacetime. In this section, we carry out such a derivation in a simplified scenario. Specifically, we make the simplifying assumption of unit lapse and vanishing shift, i.e.
+$
+  alpha = 1, quad beta^i = 0.
+$
+This choice is locally fully general: around any spacelike hypersurface, one can construct Gaussian normal coordinates for which the above holds, at least within a sufficiently small neighbourhood of the hypersurface. 
+
+In this gauge---and replacing $diff_t$ with an overdot---@eqConstraintEvolution[the constraint evolution] breaks down to
+$
+  dot(cal(H)) &= 2 K cal(H) + 2 mnabla^i cal(M)_i,\
+  dot(cal(M))_i &= K cal(M)_i + 1/2 mnabla_i cal(H).
+$ 
+We begin by taking a second time derivative of $cal(H)$. This leads to
+$
+  ddot(cal(H)) &= 2 dot(K) cal(H) + 2 K dot(cal(H)) + 2 diff_t (gamma^(i j) (diff_i cal(M)_j - tensor(macron(Gamma),+k,-i j) cal(M)_k))\
+  &= 2 dot(K) cal(H) + 2 K dot(cal(H)) + 2dot(gamma)^(i j) mnabla_i cal(M)_j + 2 mnabla^i dot(cal(M))_i - 2 gamma^(i j) tensor(dot(macron(Gamma)),+k,-i j) cal(M)_k
+$
+For $dot(cal(H))$ and $dot(cal(M))_i$, we can simply insert the simplified evolution equations from above. The terms involving $dot(gamma)^(i j)$ and $tensor(dot(macron(Gamma)),+k,-i j)$ require slightly more attention. Starting with $dot(gamma)^(i j)$ and keeping in mind that $alpha = 1$, $beta^i = 0$, we use the @eqADM[ADM equation] for $diff_t gamma_(i j)$ to rewrite
+$
+  dot(gamma)^(i j) = - gamma^(i k) gamma^(j ell) underbrace(diff_t gamma_(k ell),=-2 K_(i j)) = 2 K^(i j).
+$
+For the time derivative of the connection coefficients, we observe that it is the (infinitesimal) difference of connections, and hence a tensor. In normal coordinates, it follows that
+$
+  tensor(dot(macron(Gamma)),+k,-i j) = 1/2 gamma^(k ell) (mnabla_i diff_t gamma_(j ell) + mnabla_j diff_t gamma_(i ell) - mnabla_ell diff_t gamma_(i j)).
+$
+Again using $diff_t gamma_(i j) = -2 K_(i j)$, we arrive at
+$
+  gamma^(i j) tensor(dot(macron(Gamma)),+k,-i j) &= - gamma^(i j) gamma^(k ell) (mnabla_i K_(j ell) + mnabla_j K_(i ell) - mnabla_ell K_(i j))\
+  &= mnabla^k K - 2 mnabla_i K^(i k)
+$
+Inserting all this back into $ddot(cal(H))$, we arrive at
+$
+  ddot(cal(H)) &= 2 dot(K) cal(H) + 2 K (2 K cal(H) + 2 mnabla^i cal(M)_i) + 4 K^(i j) mnabla_i cal(M)_j + 2 mnabla^i (K cal(M)_i + 1/2 mnabla_i cal(H))\
+  &wide - 2 (mnabla^k K - 2 mnabla_i K^(i k)) cal(M)_k\
+  &= (2 dot(K) + 4 K^2) cal(H) + 4 (gamma^(i j) K + K^(i j)) mnabla_i cal(M)_j + cancelr(2 (mnabla^i K) cal(M)_i) + 2 K mnabla^i cal(M)_i + mnabla^i mnabla_i cal(H)\
+  &wide - cancelr(2 (mnabla^k K) cal(M)) + 4 (mnabla_i K^(i k)) cal(M)_k\
+  &=mnabla^i mnabla_i cal(H) + (2 dot(K) + 4K^2 )cal(H) + 6 K mnabla^i cal(M)_i + 4  mnabla_i (K^(i j) cal(M)_j) 
+$
+We can rearrange this into a wave equation for $cal(H)$,
+$
+  ddot(cal(H))-mnabla^i mnabla_i cal(H) = (2 dot(K) + 4K^2 )cal(H) + 6 K mnabla^i cal(M)_i + 4  mnabla_i (K^(i j) cal(M)_j).
+$
+We now carry out the same procedure for $ddot(cal(M))_i$, where we make use of the fact that $mnabla_i cal(H) = diff_i cal(H)$, since it is a scalar:
+$
+  ddot(cal(M))_i &= dot(K) cal(M)_i + K dot(cal(M))_i + 1/2 mnabla_i dot(cal(H))\
+  &= dot(K) cal(M)_i + K(K cal(M)_i + 1/2 mnabla_i cal(H)) + 1/2 mnabla_i (2 K cal(H) + 2 mnabla^k cal(M)_k)\
+  &= (dot(K) + K^2) cal(M)_i + 1/2 K mnabla_i cal(H) + mnabla_i (K cal(H)) + mnabla_i mnabla^k cal(M)_k\
+$
+To isolate the principal symbol, we move the second-order terms to the left. This leads us to---where for a complete summary, we repeat the equation for $cal(H)$ as well---the propagation equations
+$
+  ddot(cal(H))-mnabla^i mnabla_i cal(H) &= (2 dot(K) + 4K^2 )cal(H) + 6 K mnabla^i cal(M)_i + 4  mnabla_i (K^(i j) cal(M)_j),\
+  ddot(cal(M))_i - mnabla_i mnabla^k cal(M)_k &= (dot(K) + K^2) cal(M)_i + 3/2 K mnabla_i cal(H) + (mnabla_i K) cal(H).
+$<eqConstraintPropagationGR>
+The equation for $cal(H)$ is a wave equation; the Hamiltonian constraint hence propagates hyperbolically. The lower-order terms on the right-hand side introduce coupling to $cal(M)_i$, as well as an effective mass term dependent upon the extrinsic curvature. 
+
+The equation for the momentum constraint is similar, but has a fundamental difference. Instead of the spatial derivatives forming a Laplacian (i.e., the divergence of the gradient), instead, we have the gradient of the divergence. This implies that the momentum constraint does not propagate like a standard wave---let us examine this more precisely. We consider a spatial 3-covector $vX = (X_i)$ on flat spacetime, satisfying the equation
+$
+  ddot(X)_i - diff_i diff^k X_k = 0.
+$
+We employ the mode ansatz
+$
+  vX (t,vx) = vC e^(i (omega t - vk dot vx))
+$
+where $vk$ is the wave vector and $vC$ the polarisation vector. Inserting this ansatz, we find
+$
+  - omega^2 C_i + k_i k^k C_k = 0 quad <=> quad omega^2 vC = (vk dot vC) vk.
+$
+There are two distinct ways to satisfy this equation to obtain a non-trivial solution $vX$:
++ Either, the polarisation is longitudinal, $vC = C vk$ for some constant $C$, and $vk^2 = omega^2$,
+
++ or, the polarisation is transverse, meaning that $vk dot vC = 0$ and hence necessarily, $omega^2 = 0$.
+
+This means that the question of whether the constraints $cal(H),cal(M)_i$ in GR propagate has an answer that is more subtle than a pure yes or no. We have just found that while the Hamiltonian constraint $cal(H)$, as well as the longitudinal modes of $cal(M)_i$---the contributions for which $mnabla^i cal(M)_i = 0$---propagate hyperbolically, the transverse modes of $cal(M)_i$ stay fixed in place. Hence, in numerical simulations, such transverse momentum constraint violations do not get propagated to the boundary, but instead remain where they are produced, and potentially grow to scales that make the simulation become unphysical and crash.
+=== The Auxiliary Field $Z_mu$
+
+=== #text(fill: red)[Adding Damping]
+
 == #text(fill:red)[Wave Extraction & Diagnostics]
 === #text(fill:red)[Weyl Scalar $Psi_4$]
 === #text(fill:red)[Constraint Monitoring]
