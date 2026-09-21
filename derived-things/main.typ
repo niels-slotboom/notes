@@ -2151,7 +2151,15 @@ There are two distinct ways to satisfy this equation to obtain a non-trivial sol
 
 This means that the question of whether the constraints $cal(H),cal(M)_i$ in GR propagate has an answer that is more subtle than a pure yes or no. We have just found that while the Hamiltonian constraint $cal(H)$, as well as the longitudinal modes of $cal(M)_i$---the contributions for which $mnabla^i cal(M)_i = 0$---propagate hyperbolically, the transverse modes of $cal(M)_i$ stay fixed in place. Hence, in numerical simulations, such transverse momentum constraint violations do not get propagated to the boundary, but instead remain where they are produced, and potentially grow to scales that make the simulation become unphysical and crash.
 === The Auxiliary Field $Z_mu$
+To improve the stability of numerical simulations of GR, we would ideally like to modify the @eqConstraintPropagationGR[propagation system] such that all constraint-violation modes have hyperbolic propagation. However, the constraint propagation equations cannot be altered independently: they follow from the choice of evolution equations. Thus to change the constraint propagation, we must instead modify the evolution system for the dynamical variables and allow the constraint propagation to change as a consequence. In principle, such modifications could be chosen to produce a more desirable constraint subsystem, but constructing them indirectly is difficult, particularly because we would like the dynamics on the constraint manifold to remain exactly those of GR. 
 
+In essence, since the constraints are defined as
+$
+  cal(H) = 2 n^mu n^nu cal(E)_(mu nu), wide cal(M)_mu = tensor(P,+lambda,-mu) n^nu cal(E)_(lambda nu),
+$
+they are nothing but a measure of how well certain projections of the full Einstein equations $cal(E)_(mu nu) = 0$ are satisfied. Suppose we introduce new degrees of freedom to the Einstein equations, which likewise measure the deviation from $cal(E)_(mu nu) = 0$, but whose equations of motion we can control directly. Such degrees of freedom would necessarily be related to the constraints, and could therefore provide a more direct means of controlling their propagation behaviour. 
+
+Since we want to control four constraints, a reasonable guess is to introduce four degrees of freedom---arranged into a covector we call $Z_mu$. The reason to pick a covector is that $cal(H)$ and $cal(M)_mu$ are really just further projections of the partial projection $cal(E)_(mu nu) n^nu$, which is a covector.
 === #text(fill: red)[Adding Damping]
 
 == #text(fill:red)[Wave Extraction & Diagnostics]
