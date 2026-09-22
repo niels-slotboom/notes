@@ -2159,8 +2159,43 @@ $
 $
 they are nothing but a measure of how well certain projections of the full Einstein equations $cal(E)_(mu nu) = 0$ are satisfied. Suppose we introduce new degrees of freedom to the Einstein equations, which likewise measure the deviation from $cal(E)_(mu nu) = 0$, but whose equations of motion we can control directly. Such degrees of freedom would necessarily be related to the constraints, and could therefore provide a more direct means of controlling their propagation behaviour. 
 
-Since we want to control four constraints, a reasonable guess is to introduce four degrees of freedom---arranged into a covector we call $Z_mu$. The reason to pick a covector is that $cal(H)$ and $cal(M)_mu$ are really just further projections of the partial projection $cal(E)_(mu nu) n^nu$, which is a covector.
+Since we want to control four constraints, a reasonable guess is to introduce four degrees of freedom---arranged into a covector we call $Z_mu$. The motivation to pick a covector is that $cal(H)$ and $cal(M)_mu$ are really just further projections of the partial projection $cal(E)_(mu nu) n^nu$, which is a covector. 
+
+Next, we should think about how to modify the Einstein equations, $cal(E)_(mu nu) = 0$, to incorporate additional terms involving $Z_mu$. To obtain the simplest possible equations of motion, we should only add terms linear in $Z_mu$---this has the additional effect that $Z_mu = 0$ recovers the original Einstein equations. Further, whatever we add should be symmetric in $mu nu$, and should contain derivatives of $Z_mu$ so that it is a dynamical field, rather than merely algebraically fixed. These requirements are satisfied by the terms $nabla_(\(mu)Z_(nu\))$ and $g_(mu nu) nabla^lambda Z_lambda$. Although there are more terms we could construct from the available tensors, such as $R_(mu nu) nabla^lambda Z_lambda$, the incorporation of extra curvature couplings will only make the dynamics of $Z_mu$ more involved, so we do not add any such terms. Using the two terms we have identified, we modify the Einstein equations into 
+$
+  cal(E)_(mu nu) + nabla_mu Z_nu + nabla_nu Z_mu - g_(mu nu) nabla^lambda Z_lambda = 0.
+$ 
+The specific choice of relative normalisation and sign between the symmetrised gradient and divergence terms will become clear shortly; let us first review the fundamental properties of this modification.
+
+*Remarks:*
++ This modification can be thought of as redefining the Ricci tensor,
+  $
+    R_(mu nu) -> tilde(R)_(mu nu) + nabla_mu Z_nu + nabla_nu Z_mu,
+  $
+  which causes the associated Ricci scalar to turn into
+  $
+    R -> tilde(R) = R + 2 nabla^lambda Z_lambda.
+  $
+  Hence, the Einstein tensor becomes
+  $
+    G_(mu nu) = R_(mu nu) - 1/2 g_(mu nu) R -> tilde(G)_(mu nu) &= tilde(R)_(mu nu) - 1/2 g_(mu nu) tilde(R) \ &= G_(mu nu) + nabla_mu Z_nu + nabla_nu Z_mu - g_(mu nu) nabla^lambda Z_nu.
+  $
+  Since $cal(E)_(mu nu) = G_(mu nu) + Lambda g_(mu nu) - 8pi T_(mu nu)$, this reproduces the modified Einstein equations above:
+  $
+    cal(E)_(mu nu) = 0 -> tilde(cal(E))_(mu nu) = cal(E)_(mu nu) + nabla_mu Z_nu + nabla_nu Z_mu - g_(mu nu) nabla^lambda Z_lambda = 0.
+  $
+
++ Next, let us examine how the constraints $cal(H)$ and $cal(M)_mu$ are related to $Z_mu$. To do so, we simply take the corresponding projections of the modified Einstein tensor, where the $cal(E)_(mu nu)$ term reproduces the constraints and the remaining terms give us their relationship to $Z_mu$. It makes sense to also introduce names for the normal and tangential projections of $Z_mu$, writing
+$
+  Theta = n^mu Z_mu, quad Z^perp_mu = tensor(P,+nu,-mu) Z_nu.
+$
+The full vector is then recovered as
+$
+  Z_mu = - Theta n_mu + Z_mu^perp.
+$
 === #text(fill: red)[Adding Damping]
+
+=== #text(fill: red)[Adapted Coordinates]
 
 == #text(fill:red)[Wave Extraction & Diagnostics]
 === #text(fill:red)[Weyl Scalar $Psi_4$]
