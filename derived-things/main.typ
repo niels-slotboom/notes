@@ -307,7 +307,7 @@ $
 $
 The implications of this result are profound. As long as $C >= 0$, we have $|G| <= 1$---this means that the evolution is unconditionally stable; it allows for an arbitrarily large timestep $Delta t$.
 
-This, however, does not mean that one should opt to just do one's entire simulation in a single step. Although the discrete evolution is _stable_ for any $Delta t > 0$, the error of a step with the given choices of stencils is $fO(Delta t + Delta x^2)$. Increasing $Delta t$ hence also increases the error---just as increasing $Delta x$ in the explicit case (to allow for larger $Delta t$) can destroy the evolution due to a lack of resolution. Because of this, the initially perceived superiority of implicit over explicit time-stepping becomes more subtle; if error requirements pose harsher constraints on $Delta t$ than the explicit CFL condition does, then explicit stepping is preferrable over implicit as it is cheaper computationally.
+This, however, does not mean that one should opt to just do one's entire simulation in a single step. Although the discrete evolution is _stable_ for any $Delta t > 0$, the error of a step with the given choices of stencils is $fO(Delta t + Delta x^2)$. Increasing $Delta t$ hence also increases the error---just as increasing $Delta x$ in the explicit case (to allow for larger $Delta t$) can destroy the evolution due to a lack of resolution. Because of this, the initially perceived superiority of implicit over explicit time-stepping becomes more subtle; if error requirements pose harsher constraints on $Delta t$ than the explicit CFL condition does, then explicit stepping is preferable over implicit as it is cheaper computationally.
 
 ==== 27-point Isotropic Laplacian Explicit Euler CFL Condition
 We now move on to derive the CFL condition for the explicit Euler case where on the right-hand side, the @eqIsotropicLaplacianStencil[stencil] is employed. Concretely, we thus consider the stepping scheme
@@ -2059,7 +2059,7 @@ $
 Further using @eqTensorialityNormalTangentialLieDeriv, we can rewrite the spatial components of this expression as
 $
   n^nu nabla_nu X_i = 1/alpha diff_t X_i - 1/alpha fL_beta X_i + tensor(K,+j,-i) X_j.
-$
+$<eqTangentCovectorNormalDerivative>
 Inserting this result back into the original equation and expanding the Lie derivative along $beta$, we get
 $
   diff_t cal(M)_i =  beta^j diff_j cal(M)_i  + cal(M)_j diff_i beta^j + alpha K cal(M)_i + 1/2 alpha mnabla_i cal(H) + cal(H) mnabla_i alpha
@@ -2164,7 +2164,7 @@ Since we want to control four constraints, a reasonable guess is to introduce fo
 Next, we should think about how to modify the Einstein equations, $cal(E)_(mu nu) = 0$, to incorporate additional terms involving $Z_mu$. To obtain the simplest possible equations of motion, we should only add terms linear in $Z_mu$---this has the additional effect that $Z_mu = 0$ recovers the original Einstein equations. Further, whatever we add should be symmetric in $mu nu$, and should contain derivatives of $Z_mu$ so that it is a dynamical field, rather than merely algebraically fixed. These requirements are satisfied by the terms $nabla_(\(mu)Z_(nu\))$ and $g_(mu nu) nabla^lambda Z_lambda$. Although there are more terms we could construct from the available tensors, such as $R_(mu nu) nabla^lambda Z_lambda$, the incorporation of extra curvature couplings will only make the dynamics of $Z_mu$ more involved, so we do not add any such terms. Using the two terms we have identified, we modify the Einstein equations into 
 $
   cal(E)_(mu nu) + nabla_mu Z_nu + nabla_nu Z_mu - g_(mu nu) nabla^lambda Z_lambda = 0.
-$ 
+$<eqZ4EE>
 The specific choice of relative normalisation and sign between the symmetrised gradient and divergence terms will become clear shortly; let us first review the fundamental properties of this modification.
 
 *Remarks:*
@@ -2186,17 +2186,103 @@ The specific choice of relative normalisation and sign between the symmetrised g
   $
 
 + Next, let us examine how the constraints $cal(H)$ and $cal(M)_mu$ are related to $Z_mu$. To do so, we simply take the corresponding projections of the modified Einstein tensor, where the $cal(E)_(mu nu)$ term reproduces the constraints and the remaining terms give us their relationship to $Z_mu$. It makes sense to also introduce names for the normal and tangential projections of $Z_mu$, writing
-$
-  Theta = n^mu Z_mu, quad Z^perp_mu = tensor(P,+nu,-mu) Z_nu.
-$
-The full vector is then recovered as
-$
-  Z_mu = - Theta n_mu + Z_mu^perp.
-$
+  $
+    Theta = n^mu Z_mu, quad Z^perp_mu = tensor(P,+nu,-mu) Z_nu.
+  $
+  The full vector is then recovered as
+  $
+    Z_mu = - Theta n_mu + Z_mu^perp.
+  $
+  To obtain relationships between $cal(H),cal(M)_mu$ and the newly introduced variables $Theta$ and $Z_mu^perp$, we take the corresponding projections of Einstein's equations, starting with the doubly normal one: 
+  #bottom-number[$
+    0 &= 2 n^mu n^nu (cal(E)_(mu nu) + nabla_mu Z_nu + nabla_nu Z_mu - g_(mu nu) nabla^lambda Z_lambda)\
+    &= cal(H) + 4 n^mu n^nu nabla_mu Z_nu + 2 nabla^lambda Z_lambda\
+    &= cal(H) + 4 n^mu nabla_mu underbrace((n^nu Z_nu),=Theta) - 4 Z_nu underbrace(n^mu nabla_mu n^nu,=a^nu perp n^mu) -2 nabla^mu (n_mu Theta) + 2 nabla^mu Z_mu^perp\
+    &= cal(H) + 4 n^mu nabla_mu Theta - 4 a^mu Z_mu^perp - 2 (nabla^mu n_mu)Theta - 2n_mu nabla^mu Theta + 2 (gamma^(mu nu) - n^mu n^nu) nabla_mu Z_nu^perp\
+    &= cal(H) + 2 n^mu nabla_mu Theta - 4 a^mu Z_mu^perp + 2 K Theta + 2 mnabla^mu Z_mu^perp+ 2 a^nu Z_nu^perp\
+    &= cal(H) + 2 n^mu nabla_mu Theta + 2 K Theta + 2 mnabla^mu Z_mu^perp - 2 a^mu Z_mu^perp.
+  $]
+  Here, the raised index of $mnabla$ is to be interpreted as being raised with the metric the connection is compatible with, i.e. with $gamma^(mu nu)$. The above implies that
+  $
+    cal(H) = - 2 n^mu nabla_mu Theta - 2 K Theta - 2 mnabla^mu Z_mu^perp + 2 a^mu Z_mu^perp,
+  $
+  or in adapted coordinates, 
+  $
+    cal(H) = -2/alpha diff_t Theta + 2/alpha beta^i diff_i Theta - 2 K Theta - 2 mnabla^i Z_i + 2/alpha gamma^(i j) Z_i diff_j alpha.
+  $
+  Note that since $n_mu sim delta_mu^t$, $Z_i^perp = Z_i$. We can proceed similarly for $cal(M)_mu$:
+  #bottom-number[$
+    0 &= n^mu tensor(P,+nu,-lambda) (cal(E)_(mu nu) + nabla_mu Z_nu + nabla_nu Z_mu - g_(mu nu) nabla^rho Z_rho)\
+    &= cal(M)_lambda + n^mu tensor(P,+nu,-lambda) nabla_mu Z_nu + n^mu tensor(P,+nu,-lambda) nabla_nu Z_mu - underbrace(n^mu gamma_(mu lambda),=0) nabla^rho Z_rho\
+    &= cal(M)_lambda + n^mu nabla_mu underbrace((tensor(P,+nu,-lambda) Z_nu),=Z_lambda^perp) - (n^mu nabla_mu tensor(P,+nu,-lambda)) Z_nu + underbrace(tensor(P,+nu,-lambda) nabla_nu,=mnabla_lambda) underbrace((n^mu Z_mu),Theta) - Z_mu tensor(P,+nu,-lambda) #h(-1em) underbrace(nabla_nu n^mu,=-tensor(K,-nu,+mu) - n_nu a^mu)\
+    &= cal(M)_lambda + n^mu nabla_mu Z_lambda^perp - n^mu nabla_mu (n^nu n_lambda) Z_nu + mnabla_lambda Theta + tensor(K,+mu,-lambda) Z_mu^perp\
+    &= cal(M)_lambda + n^mu nabla_mu Z_lambda^perp + tensor(K,+mu,-lambda) Z_mu^perp - n_lambda a^mu Z_mu^perp - a_lambda Theta + mnabla_lambda Theta
+  $]
+  This implies
+  $
+    cal(M)_lambda = -n^mu nabla_mu Z_lambda^perp - tensor(K,+mu,-lambda) Z_mu^perp + n_lambda a^mu Z_mu^perp - a_lambda Theta + mnabla_lambda Theta
+  $
+  or in adapted coordinates, making use of @eqTangentCovectorNormalDerivative,
+  $
+    cal(M)_i = - 1/alpha diff_t Z_i + 1/alpha fL_beta Z_i - 2 tensor(K,+j,-i) Z_j- 1/alpha (diff_i alpha) Theta + diff_i Theta.
+  $
+  In summary, we have the covariant identities
+  $
+    cal(H) &= - 2 n^mu nabla_mu Theta - 2 K Theta - 2 mnabla^mu Z_mu^perp + 2 a^mu Z_mu^perp,\
+    cal(M)_lambda &= -n^mu nabla_mu Z_lambda^perp - tensor(K,+mu,-lambda) Z_mu^perp + n_lambda a^mu Z_mu^perp - a_lambda Theta + mnabla_lambda Theta,
+  $
+  and in adapted coordinates, 
+  $
+  cal(H) &= -2/alpha diff_t Theta + 2/alpha beta^i diff_i Theta - 2 K Theta - 2 mnabla^i Z_i + 2/alpha gamma^(i j) Z_i diff_j alpha,\
+  cal(M)_i &= - 1/alpha diff_t Z_i + 1/alpha fL_beta Z_i - 2 tensor(K,+j,-i) Z_j- 1/alpha (diff_i alpha) Theta + diff_i Theta.
+  $
+  Hence, $Theta$ and $Z_mu^perp$, or equivalently $Z_mu$, can be seen as a sort of "vector potential" for the constraints; we obtain the constraints by acting on $Z_mu$ with a linear differential operator.
+  
+  Note that the adapted coordinate expressions also give us the evolution equations for $Theta$ and $Z_i$---we can rearrange them for their time derivatives and obtain
+  $
+    diff_t Theta &= beta^i diff_i Theta - alpha K Theta - alpha mnabla^i Z_i + gamma^(i j) Z_i diff_j alpha - 1/2 alpha cal(H),\
+    diff_t Z_i &= fL_beta Z_i - 2 alpha tensor(K,+j,-i) Z_j - (diff_i alpha)Theta + alpha diff_i Theta - alpha cal(M)_i.
+  $
+  This allows us to arrive at an important conclusion: while $(Theta,Z_i)$ form a mostly closed evolution subsystem, they are actively sourced by the constraint violations $cal(H)$ and $cal(M)_i$. 
++ Although in the previous remark, we already derived evolution equations in adapted coordinates, their character is rather opaque. Although we could technically proceed as in the previous section---take a second time derivative and replace any occuring first time derivative with the above---this would be a severely tedious undertaking. It is much easier to compute second-order evolution equations for $Z_mu$ directly from the covariant modified Einstein equations 
+  $
+    cal(E)_(mu nu) + nabla_mu Z_nu + nabla_nu Z_mu - g_(mu nu) nabla^lambda Z_lambda = 0
+  $
+  instead. In particular, this derivation will show us why the $-g_(mu  nu) nabla^lambda Z_lambda$ term is necessary; without it, the principal symbol would not be hyperbolic. 
+
+  To proceed with the derivation, we recall that $nabla^mu cal(E)_(mu nu) = 0$. Hence, if the modified Einstein equations hold, the remaining terms together must be divergence-free as well, i.e.
+  $
+    0 &= nabla^mu (nabla_mu Z_nu + nabla_nu Z_mu - g_(mu nu) nabla^lambda Z_lambda)\
+    &= Box_g Z_nu + nabla^mu nabla_nu Z_mu - nabla_nu nabla^mu Z_mu\
+    &= Box_g Z_nu - tensor(R,+lambda,-mu,+mu,-nu) Z_lambda\
+    &= Box_g Z_nu + tensor(R,+lambda,-nu) Z_lambda.
+  $
+  As alluded to earlier, the $-g_(mu nu) nabla^lambda Z_lambda$ term is needed---without it, we get additional second order terms because we cannot invoke the Ricci identity. 
+
+  We conclude that $Z_mu$ satisfies a wave equation containing an additional curvature contribution which allows the components of $Z_mu$ to be "rotated into each other"---importantly, $Z_mu$ propagates hyperbolically, at the speed of light. In particular, since the constraint violations $cal(H)$ and $cal(M)_i$ derive from the action of a linear operator on $Z_mu$, this means that in evolution governed by the @eqZ4EE[modified Einstein equations], _all_ constraint violations propagate as waves. Further---since the trace-reversed Einstein equations give an expression for $R_(mu nu)$ in terms of the energy-momentum tensor and first derivatives of $Z_mu$---we can see that both the presence of matter as well as gradients in $Z_mu$ cause its components to mix and/or oscillate. 
+
++ Since we have introduced four additional degrees of freedom, we should ask if all of them are physical _in the framework of the generalised theory_. Within GR, of course, they are all non-physical; viewing the modified Einstein equations as a new physical system, though, we should check if $Z_mu$ has gauge freedom. Clearly---due to their linearity in $Z_mu$---the modified Einstein equations remain invariant under transformations $Z_mu -> Z_mu + X_mu$, provided that
+  $
+    nabla_mu X_nu + nabla_nu X_mu = g_(mu nu) nabla^lambda X_lambda.
+  $
+  Though this might look like some special case of the conformal Killing equation, the reality is much simpler (in $d!=2$): taking the trace yields
+  $
+    (d-2) nabla^lambda X_lambda = 0. 
+  $
+  This means that the condition breaks down to the Killing equation
+  $
+    nabla_mu X_nu + nabla_nu X_mu = 0.
+  $
+  Hence, a "physical" configuration in the sense of the modified theory fixes $Z_mu$ only up to a Killing field. The amount of physical degrees of freedom that are lost due to such transformations depends on the configuration of the spacetime. In general, the background will have no Killing vectors, and hence $Z_mu$ has no gauge freedom. However, for e.g. stationary/static or even more symmetric backgrounds, dimension of the isometry algebra is nonzero and finite, so that the moduli space---quotient of the configuration space of $Z_mu$ quotiented by the finite dimensional isometry algebra---has some of its physical configurations identified.
 === #text(fill: red)[Adding Damping]
+Up until now, we have introduced the additional degrees of freedom $Z_mu$ and modified the Einstein equations in such a way that 
++ $Z_mu$ propagates as a wave;
 
-=== #text(fill: red)[Adapted Coordinates]
++ and $cal(H)$ and $cal(M)_i$ emerge from the action of a linear first-order differential operator on $Z_mu$, in particular causing the implication $Z_mu = 0 => cal(H),cal(M)_i=0$.
 
+Although this is already a significant improvement over unmodified GR---constraints now propagate---we would ideally introduce an additional mechanism that drives $Z_mu$ towards zero throughout its evolution. This would make small enough constraint violations decay over time, in consequence driving simulations towards the constraint manifold and hence improving stability. This is the goal of this section.
+
+Before thinking about how to introduce damping, we should first 
 == #text(fill:red)[Wave Extraction & Diagnostics]
 === #text(fill:red)[Weyl Scalar $Psi_4$]
 === #text(fill:red)[Constraint Monitoring]
