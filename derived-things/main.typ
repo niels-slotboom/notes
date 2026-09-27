@@ -2132,7 +2132,7 @@ $
 $<eqConstraintPropagationGR>
 The equation for $cal(H)$ is a wave equation; the Hamiltonian constraint hence propagates hyperbolically. The lower-order terms on the right-hand side introduce coupling to $cal(M)_i$, as well as an effective mass term dependent upon the extrinsic curvature. 
 
-The equation for the momentum constraint is similar, but has a fundamental difference. Instead of the spatial derivatives forming a Laplacian (i.e., the divergence of the gradient), instead, we have the gradient of the divergence. This implies that the momentum constraint does not propagate like a standard wave---let us examine this more precisely. We consider a spatial 3-covector $vX = (X_i)$ on flat spacetime, satisfying the equation
+The equation for the momentum constraint is similar, but has a fundamental difference. Instead of the spatial derivatives forming a Laplacian (i.e., the divergence of the gradient), instead, they constitute the gradient of the divergence. This implies that the momentum constraint does not propagate like a standard wave---let us examine its behaviour more precisely. We consider a spatial 3-covector $vX = (X_i)$ on flat spacetime, satisfying the equation
 $
   ddot(X)_i - diff_i diff^k X_k = 0.
 $
@@ -2274,7 +2274,7 @@ The specific choice of relative normalisation and sign between the symmetrised g
     nabla_mu X_nu + nabla_nu X_mu = 0.
   $
   Hence, a "physical" configuration in the sense of the modified theory fixes $Z_mu$ only up to a Killing field. The amount of physical degrees of freedom that are lost due to such transformations depends on the configuration of the spacetime. In general, the background will have no Killing vectors, and hence $Z_mu$ has no gauge freedom. However, for e.g. stationary/static or even more symmetric backgrounds, dimension of the isometry algebra is nonzero and finite, so that the moduli space---quotient of the configuration space of $Z_mu$ quotiented by the finite dimensional isometry algebra---has some of its physical configurations identified.
-=== #text(fill: red)[Adding Damping]
+=== Adding Damping
 Up until now, we have introduced the additional degrees of freedom $Z_mu$ and modified the Einstein equations in such a way that 
 + $Z_mu$ propagates as a wave;
 
@@ -2282,7 +2282,12 @@ Up until now, we have introduced the additional degrees of freedom $Z_mu$ and mo
 
 Although this is already a significant improvement over unmodified GR---constraints now propagate---we would ideally introduce an additional mechanism that drives $Z_mu$ towards zero throughout its evolution. This would make small enough constraint violations decay over time, in consequence driving simulations towards the constraint manifold and hence improving stability. This is the goal of this section.
 
-Before thinking about how to introduce damping, we should first 
+Before modifying the equations further to introduce damping, we should consider the implications for general covariance. The un-damped modified Einstein equations are fully covariant and independent of any choice of foliation. Introducing damping, however, inherently requires selecting a preferred timelike direction along which constraint violations decay---naturally provided by the unit normal $n = -alpha dt^sharp$ of a _chosen_ spacelike foliation.
+
+Consequently, manifest four-dimensional covariance is broken. From the point of view of fundamental physics, this would be a significant drawback; however, Z4 is not intended as a new physical theory, but rather as a numerical tool developed to stabilise evolutions and drive solutions back onto the constraint manifold. Because numerical relativity fundamentally relies on a 3+1 splie and thus the choice of a foliation, breaking manifest covariance for the sake of constraint damping is entirely justified, as long as the dynamics on the constraint manifold reproduce those of GR.
+
+
+
 == #text(fill:red)[Wave Extraction & Diagnostics]
 === #text(fill:red)[Weyl Scalar $Psi_4$]
 === #text(fill:red)[Constraint Monitoring]
