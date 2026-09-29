@@ -235,7 +235,7 @@ With the triad of the Gauss-Codazzi-Ricci equations, we can now isolate the fina
     R &= -2 fL_n K + K^2 + K_(mu nu) K^(mu nu) + macron(R) - 2/alpha mnabla^mu mnabla_mu alpha
   $<eqProjectionsRicci>
 ]
-=== The Einstein Equations in the $3+1$-Formalism
+=== The Einstein Equations in the $3+1$-Formalism <sectEEin3p1>
 We work with the Einstein equations in the convention where
 $
   R_(mu nu) - 1/2 R g_(mu nu) + Lambda g_(mu nu) = 8 pi T_(mu nu).
@@ -1280,8 +1280,88 @@ $
 $
 Both the covariant and adapted coordinate forms of these equations show that both $Theta$ and $Z_i$ are exponentially damped, with damping factors $alpha kappa_1(kappa_2 + 2)$ and $alpha kappa_1$, respectively. 
 
-=== Outlook: Z4c
-Briefly outline what Z4c does, mention that also evolution equations are modified (doubly tangential projections), make note of trace reversal.
+=== The Modified Z4-ADM Equations of Motion
+So far, we have studied in-depth the normal-normal and normal-tangential projections of the modified Einstein equations
+$
+  cal(E)_(mu nu) + Q_(mu nu) - D_(mu nu) = 0,
+$
+with
+$
+  cal(E)_(mu nu) &= R_(mu nu) - 1/2 g_(mu nu) R + Lambda g_(mu nu) - 8pi T_(mu nu),\
+  Q_(mu nu) &= nabla_mu Z_nu + nabla_nu Z_mu - g_(mu nu) nabla^lambda Z_lambda,\
+  D_(mu nu) &= kappa_1  (n_mu Z_nu + n_nu Z_mu + kappa_2 g_(mu nu) n^lambda Z_lambda).
+$
+This led us to the equations of motion for $Theta$ and $Z_mu^perp$, given in adapted coordinates by
+$
+  diff_t Theta &= beta^i diff_i Theta - alpha kappa_1 (kappa_2 + 2)Theta + alpha K Theta - alpha mnabla^i Z_i + gamma^(i j) Z_i diff_j alpha - 1/2 alpha cal(H)\
+  diff_t Z_i &= fL_beta Z_i - alpha kappa_1 Z_i - 2 alpha tensor(K,+j,-i) Z_j - (diff_i alpha)Theta + alpha diff_i Theta - alpha cal(M)_i.
+$
+Here, the constraints $cal(H)$ and $cal(M)_i$ act as sources, and are still given by 
+$
+  fH &= macron(R) + K^2 - K_(i j) K^(i j) - 2Lambda - 16pi rho, \ \ \
+  fM_i &= mnabla_i K - mnabla_k tensor(K,+k,-i) + 8pi j_i.
+$
+Since these are now part of a dynamical system---that of $Theta$ and $Z_i$---we do not require them to be zero explicitly. Naturally, it is understood that they should be close to zero so the simulation quickly converges towards pure GR dynamics through damping; we allow for numerical error, i.e. $cal(H), cal(M)_i approx 0$.
+
+What we have not studied yet are the tangential-tangential projections of the (trace reversed) modified Einstein equations. While the modifications do not alter the fundamental relationship between the induced metric $gamma_(i j)$ and the extrinsic curvature $K_(i j)$---it remains given by
+$
+diff_t gamma_(i j) &= beta^k diff_k gamma_(i j) + 2 gamma_(k \(i) diff_(j\)) beta^k -2 alpha K_(i j)
+$
+---the modifications we made to the Einstein equations will have an effect on the right-hand side of $diff_t K_(i j)$. We recall from @sectEEin3p1 and its preceding sections that the derivation of the right-hand side for $diff_t K_(i j)$ starts from the geometric identity
+$
+  tensor(P,+lambda,-mu) tensor(P,+rho,-nu) R_(lambda rho) = - cal(L)_n K_(mu nu) + K K_(mu nu) - 2 K_(mu lambda) tensor(K,+lambda,-nu) + macron(R)_(mu nu) - 1/alpha mnabla_mu mnabla_nu alpha.
+$
+The left-hand side was replaced using a projection of the trace-reversed Einstein equations. For Z4, we thus need the trace-reversed _modified_ Einstein equations. We recall that the trace reversal of $cal(E)_(mu nu)$ is
+$
+  hat(cal(E))_(mu nu) := cal(E)_(mu nu) - 1/2 g_(mu nu) cal(E) = R_(mu nu) - Lambda g_(mu nu) - 8 pi (T_(mu nu) - 1/2 g_(mu nu) (S - rho)).
+$
+For $Q_(mu nu)$, it is easily derived that
+$
+  hat(Q)_(mu nu) := Q_(mu nu) - 1/2 g_(mu nu) Q = nabla_mu Z_nu + nabla_nu Z_mu,
+$
+as well as
+$
+  hat(D)_(mu nu) := D_(mu nu) - 1/2 g_(mu nu) D = kappa_1 (n_mu Z_nu + n_nu Z_mu - (kappa_2 + 1) g_(mu nu) n^lambda Z_lambda)
+$
+The trace-reversed modified Einstein equations are thus simply
+$
+  hat(cal(E))_(mu nu) + hat(Q)_(mu nu) - hat(D)_(mu nu) = 0.
+$
+To take its tangential-tangential projection, we need the projections of the individual terms. For $hat(cal(E))_(mu nu)$, this reads
+$
+  tensor(P,+lambda,-mu) tensor(P,+rho,-nu)hat(cal(E))_(lambda rho) &= tensor(P,+lambda,-mu) tensor(P,+rho,-nu)R_(lambda rho) - Lambda gamma_(mu nu) - 8pi (S_(mu nu) - 1/2 gamma_(mu nu)(S-rho))\
+  &= - cal(L)_n K_(mu nu) + K K_(mu nu) - 2 K_(mu lambda) tensor(K,+lambda,-nu) + macron(R)_(mu nu) - 1/alpha mnabla_mu mnabla_nu alpha\
+  &wide - Lambda gamma_(mu nu) - 8pi (S_(mu nu) - 1/2 gamma_(mu nu)(S-rho)).
+$
+The trace-reversed Z4 modifications project as
+$
+  tensor(P,+lambda,-mu) tensor(P,+rho,-nu) hat(Q)_(lambda rho) &= 2 tensor(P,+lambda,-\(mu) tensor(P,+rho,-nu\)) nabla_lambda (-n_rho Theta + Z_rho^perp)\
+  &= 2 K_(mu nu) Theta + 2 mnabla_(\(mu) Z_(nu\))^perp
+$
+and
+$
+  tensor(P,+lambda,-mu) tensor(P,+rho,-nu) hat(D)_(lambda rho) &= -kappa_1 (kappa_2 + 1) gamma_(mu nu) Theta.
+$
+Reassembling the trace-reversed modified Einstein equations and taking $fL_n K_(mu nu)$ to the other side, we hence get the covariant equation of motion
+#bottom-number[$
+  fL_n K_(mu nu) &= K K_(mu nu) - 2 K_(mu lambda) tensor(K,+lambda,-nu) + macron(R)_(mu nu) - 1/alpha mnabla_mu mnabla_nu alpha - Lambda gamma_(mu nu) - 8pi (S_(mu nu) - 1/2  gamma_(mu nu)(S-rho))\
+  &wide + 2 mnabla_(\(mu) Z_(nu\))^perp + 2 K_(mu nu) Theta + kappa_1 (kappa_2 + 1) gamma_(mu nu) Theta.
+$]
+Translating this to adapted coordinates, we arrive at the Z4-ADM equations,
+$
+  fH &= macron(R) + K^2 - K_(i j) K^(i j) - 2Lambda - 16pi rho, \ \ \
+  fM_i &= mnabla_i K - mnabla_k tensor(K,+k,-i) + 8pi j_i,\ \ \
+  diff_t Theta &= beta^i diff_i Theta - alpha kappa_1 (kappa_2 + 2)Theta + alpha K Theta - alpha mnabla^i Z_i + gamma^(i j) Z_i diff_j alpha - 1/2 alpha cal(H)\ \ \
+  diff_t Z_i &= fL_beta Z_i - alpha kappa_1 Z_i - 2 alpha tensor(K,+j,-i) Z_j - (diff_i alpha)Theta + alpha diff_i Theta - alpha cal(M)_i, \ \ \
+  diff_t gamma_(i j) &= beta^k diff_k gamma_(i j) + 2 gamma_(k \(i) diff_(j\)) beta^k -2 alpha K_(i j),\ \ \
+   diff_t K_(i j) &= beta^k diff_k K_(i j) + 2 K_(k\(i) diff_(j\)) beta^k\ &quad + alpha(K K_(i j) - 2 K_(i k) tensor(K,+k,-j) + macron(R)_(i j)) - mnabla_i mnabla_j alpha \
+  &quad- Lambda alpha gamma_(i j) - 8pi alpha (S_(i j) - 1/2 gamma_(i j) (S-rho))\ &quad
+  + 2alpha mnabla_(\(i) Z_(j\)) + 2 alpha K_(i j) Theta + kappa_1 (kappa_2 + 1)alpha gamma_(i j) Theta
+$<eqZ4-ADM>
+These are what we will from now on refer to as the _Z4-ADM equations of motion_. They reduce to the @eqADM[ADM equations of motion] in the case where $Z_mu = 0$; if non-zero but small enough, the exponential damping introduced by the right-hand sides of $diff_t Theta$ and $diff_t Z_i$ naturally drives $Z_mu$ towards zero. This means that Z4 converges towards unmodified, physical GR dynamics even if the constraints are not satisfied perfectly initially.
+
+=== Outlook: Z4c/CCZ4
+Unfortunately, the @eqZ4-ADM[Z4-ADM equations] do not constitute a strongly hyperbolic, numerically stable system of PDEs. While the propagation and damping of constraints significantly improve performance over standard ADM, long-term stable evolution still requires the "BSSN treatment". This involves reparametrising the system into conformal and traceless variables---the previously introduced $(phi.alt, tilde(gamma)_(i j), K , tilde(A)_(i j))$---and introducing the auxiliary conformal connectino functions $tilde(Gamma)^i$ to ensure a well-posed principal symbol. Applying this transformation to Z4 yields formulations such as Z4c or CCZ4, which, when coupled with appropriate gauge conditions, form a robust, fully closed system for numerical relativity.
 == #text(fill:red)[Wave Extraction & Diagnostics]
 === #text(fill:red)[Weyl Scalar $Psi_4$]
 === #text(fill:red)[Constraint Monitoring]
