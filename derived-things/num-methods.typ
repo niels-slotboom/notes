@@ -429,6 +429,9 @@ $
   (c^2 Delta t^2)/(Delta x^2) = C^2 <= 1/d quad <=> quad Delta t <= (Delta x)/(c sqrt(d)).
 $
 This has a very nice physical interpretation: the distance travelled by a wave within one timestep, $c Delta t$, must not exceed a value proportional to the grid spacing, $Delta x$. Since the proportionality factor of $1\/sqrt(d)$ is less than 1, this means that the numerical domain of dependence is contained in the physical domain of dependence.
+=== #text(fill:red)[Stability Regions of RK Schemes]
+==== #text(fill:red)[Linear Equations]
+==== #text(fill:red)[Non-Linear Equations]
 == Boundary Conditions and Grid Stability
 === Sommerfeld Radiation Boundaries
 In this section, we derive _Sommerfeld radiation boundary conditions_ for the wave equation on flat Minkowski space, 
