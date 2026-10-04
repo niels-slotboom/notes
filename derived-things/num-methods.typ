@@ -1061,3 +1061,5 @@ $
 This is a measure for the relative rate of change of the gradient, loosely to be interpreted as $nabla log nabla phi.alt$. 
 
 === #text(fill: red)[Subcycling]
+
+== #text(fill:red)[Discontinuous Galerkin Methods]
