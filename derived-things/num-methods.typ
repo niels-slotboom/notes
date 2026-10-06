@@ -571,6 +571,24 @@ $
 $
 is the _Kreiss-Oliger dissipation operator of order $2r-1$_. For reasonable choices of $sigma << 1$, the $fD_"KO"$ term does not alter the CFL condition limiting the timestep for the dissipation-free PDE.
 
+To get an explicit expression for the stencil $(D_+ D_-)^r$, it is useful to introduce the shift operator
+$
+  E^k f(x) := f(x + k Delta x), quad k in RR. 
+$
+We can write
+$
+  D_+ D_- f(x) = f(x+Delta x) - 2 f(x) + f(x-Delta x) = (E^(1\/2)-E^(-1\/2))^2 f(x),
+$
+so that according to the binomial theorem,
+$
+  (D_+ D_-)^r &= (E^(1\/2) - E^(-1\/2))^(2 r) = sum_(k=0)^(2r) binom(2r,k) (E^(1\/2))^(k) (-E^(-1\/2))^(2r-k)\
+  &= sum_(k=0)^(2r)(-1)^(2r-k) binom(2r,k)E^(k-r) = sum_(k=-r)^r (-1)^(r-k) binom(2r,k+r)E^k
+$
+Thus,
+$
+  fD_"KO" phi.alt(x) = - sigma Delta x^(2r-1)sum_(k=-r)^r (-1)^k binom(2r,k+r) phi.alt(x + k Delta x).
+$
+
 == Implicit ODE and PDE Solvers
 In this section, we consider numerical integration schemes for differential equations of the form
 $
