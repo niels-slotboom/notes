@@ -429,8 +429,87 @@ $
   (c^2 Delta t^2)/(Delta x^2) = C^2 <= 1/d quad <=> quad Delta t <= (Delta x)/(c sqrt(d)).
 $
 This has a very nice physical interpretation: the distance travelled by a wave within one timestep, $c Delta t$, must not exceed a value proportional to the grid spacing, $Delta x$. Since the proportionality factor of $1\/sqrt(d)$ is less than 1, this means that the numerical domain of dependence is contained in the physical domain of dependence.
-=== #text(fill:red)[Stability Regions of RK Schemes]
-==== #text(fill:red)[Linear Equations]
+=== Stability Regions of RK Schemes
+In this section, we derive and study the stability regions of differen RK schemes applied to a PDE of the form
+$
+  diff_t phi.alt = F(phi.alt).
+$
+In a sense, this will be a generalisation of the analysis we did in the preceding sections, where we derived the CFL conditions for the heat and wave equations. The main advantage to the approach in this section is that we will derive stability conditions for the _time integrator_ separately (at least in the linear case), where the only input from the right-hand side are the eigenvalues (or state-dependent growth factors when linearising) of the right-hand side. This separation is useful because frequently in numerical solvers for PDEs, one wants to replace the time integrator or RHS implementation while leaving the other untouched, whence it is more convenient to know the stability conditions of both components individually to then be able to bring them together into a final stability condition.
+==== Linear Equations
+We first consider the case where $F$ is linear,
+$
+  diff_t phi.alt = F phi.alt.
+$
+Assuming $F$ admits a complete set of spatial eigenmodes $psi_n$ with corresponding eigenvalues $lambda_n$---as is typical for spatial discretisations of linear operators---we can expand any solution as
+$
+  phi.alt(t,vx) = sum_n c_n (t) psi_n (vx).
+$
+Substituting this expression into the linear PDE yields decoupled ODEs for each mode coefficient:
+$
+  dot(c)_n (t) = lambda_n c_n (t)
+$
+Because the modes evolve independently, the stability of the full system reduces to studying the linear test equation
+$
+  diff_t phi.alt = lambda phi.alt
+$<eqRKStabRegTestEqn>
+where $lambda in CC$ represents an eigenvalue of the spatial operator $F$. A Runge-Kutta scheme applied to a PDE will be stable only if it produces a non-amplifying update for every eigenvalue $lambda$ in the spectrum of $F$.
+
+Due to the simplicity of this test equation, we can evaluate the full update performed by an RK step explicitly. Let us begin by looking at RK1/Forward Euler. Written in full, RK1 reads
+$
+  k_1 &= F(phi.alt(t_0)),\
+phi.alt(t_0 + Delta t) &= phi.alt (t_0) + Delta t dot k_1.
+$
+Inserting $k_1$ into the definition, and making use of $F phi.alt = lambda phi.alt$, we get
+$
+  phi.alt(t_0 + Delta t) = (1 + lambda Delta t) phi.alt(t_0).
+$
+Introducing the complex variable $z = lambda Delta t$, we can write this as 
+$
+  phi.alt(t_0 + Delta t) = p_1 (z) phi.alt(t_0), quad p_1 (z) = 1 + z.
+$
+  The no-growth condition now simply demands that $|p_1(z)|<=1$, which defines a region in the complex plane for $z$ where the RK1 integration scheme is stable. Because of the relationship $z= lambda Delta t$, stability hence depends on the spectrum of $F$ through $lambda$, and on the size of the time step through the factor $Delta t$; a smaller $Delta t$ generally improves stability. We will look at the _stability region_ ${z in CC : |p_1(z)| <= 1}$ later on, when we have derived the polynomials of higher-order schemes to compare it to.
+
+Moving on to RK2, taking e.g. the Heun scheme, the update expands to
+$
+  k_1 &= F(phi.alt(t_0)) = lambda phi.alt(t_0),\
+  k_2 &= F(phi.alt(t_0) + Delta t k_1) = lambda phi.alt(t_0) + Delta t lambda^2 phi.alt(t_0),\
+  phi.alt(t_0 + Delta t) &= phi.alt(t_0) + (Delta t)/2 (k_1 + k_2)\
+  &= phi.alt(t_0) + (Delta t)/2 (lambda + lambda + Delta t lambda^2) phi.alt(t_0)\
+  &= (1+ lambda Delta t + 1/2 (lambda Delta t)^2) phi.alt(t_0).
+$
+This implies the RK2 stability condition
+$
+  |p_2 (z)| <= 1, quad p_2(z) := 1 + z + 1/2 z^2.
+$
+Though already now, one might start to see a pattern, let us briefly also derive $p_3(z)$, the growth factor polynomial for RK3. Expanding the RK3 update yields
+$
+  k_1 &= F(phi.alt(t_0)) = lambda phi.alt(t_0),\
+  k_2 &= F(phi.alt(t_0) + (Delta t)/2 k_1) = lambda phi.alt(t_0) + (Delta t)/2 lambda^2 phi.alt(t_0),\
+  &= (lambda + (Delta t)/2 lambda^2) phi.alt(t_0),\
+  k_3 &= F(phi.alt(t_0) - Delta t k_1 + 2 Delta t k_2) \
+  &= lambda phi.alt(t_0) - Delta t lambda^2 phi.alt(t_0) +2 Delta t lambda^2 phi.alt(t_0) + (Delta t)^2 lambda^3 phi.alt(t_0)\
+  &= (lambda + Delta t lambda^2 + (Delta t)^2 lambda^3) phi.alt(t_0),\
+  phi.alt(t_0 + Delta t) &= phi.alt(t_0) + (Delta t)/6 (k_1 + 4 k_2 + k_3)\
+  &= (1+(Delta t)/6 (lambda + 4(lambda + (Delta t)/2 lambda^2)) + (lambda + Delta t lambda^2 + (Delta t)^2 lambda^3)) phi.alt(t_0)\
+  &= (1 +  lambda Delta t + 1/2 (lambda Delta t )^2 + 1/6 (lambda Delta t)^3) phi.alt(t_0).
+$
+Hence, at third order, we get the stability condition
+$
+  |p_3(z)|<=1, quad p_3 (z) = 1 + z + 1/2 z^2 + 1/6 z^3.
+$
+At this point, the pattern is unmistakable: for an $n$-th order RK method with $n$ stages, the stability polynomial $p_n (z)$ is preciely the $n$-th degree Taylor polynomial of the exponential function,
+$
+  p_n (z) = sum_(k=0)^n z^k/k!.
+$
+This is not a coincidence. The exact solution to the linear test equation over one time step is 
+$
+  phi.alt(t_0 + Delta t) = e^(lambda Delta t) phi.alt(t_0) = e^z phi.alt(t_0).
+$
+By definition, an $n$-th order numerical scheme must match the Taylor expansion of the exact evolution operator $e^z$ up to $fO(z^n)$. Furthermore, an $m$-stage explicit RK scheme performs $m$ nested evaluations of $F$, so its amplification factor $p(z)$ is necessarily a polynomial in $z$ of degree $<=m$.
+
+When $m=n$ (which Butcher's barriers permit for $n<=4$), the polynomial degree bound matches the order-matching condition, which fixes $p_n (z)$ uniquely to the partial sum of the exponential series. For $n>=5$, where maintaining order $n$ requires $m>n$ stages, the polynomial $p(z)$ contains higher-degree terms $fO(z^(n+1))$ that depend on the specific choice of Butcher tableau, though the first $n$ terms always remain $1 + z + ... + z^n\/n!$.
+
+#text(fill:red)[TODO: add plots of the stability regions]
 ==== #text(fill:red)[Non-Linear Equations]
 == Boundary Conditions and Grid Stability
 === Sommerfeld Radiation Boundaries
@@ -582,11 +661,11 @@ $
 so that according to the binomial theorem,
 $
   (D_+ D_-)^r &= (E^(1\/2) - E^(-1\/2))^(2 r) = sum_(k=0)^(2r) binom(2r,k) (E^(1\/2))^(k) (-E^(-1\/2))^(2r-k)\
-  &= sum_(k=0)^(2r)(-1)^(2r-k) binom(2r,k)E^(k-r) = sum_(k=-r)^r (-1)^(r-k) binom(2r,k+r)E^k
+  &= sum_(k=0)^(2r)(-1)^(2r-k) binom(2r,k)E^(k-r) = sum_(k=-r)^r (-1)^(r-k) binom(2r,r+k)E^k
 $
 Thus,
 $
-  fD_"KO" phi.alt(x) = - sigma Delta x^(2r-1)sum_(k=-r)^r (-1)^k binom(2r,k+r) phi.alt(x + k Delta x).
+  fD_"KO" phi.alt(x) = - sigma Delta x^(2r-1)sum_(k=-r)^r (-1)^k binom(2r,r+k) phi.alt(x + k Delta x).
 $
 
 == Implicit ODE and PDE Solvers
