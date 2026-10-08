@@ -22,7 +22,7 @@ Five-point central difference stencil with error:
 $
   f'(x) &= (-f(x+2epsilon) + 8f(x+epsilon) - 8f(x-epsilon) +f(x-2epsilon))/(12 epsilon)\
   &quad + epsilon^4/30 f^((5))(x) + cal(O)(epsilon^6)
-$
+$<eq2ndDerivStencil5pt>
 === Second Derivatives
 ==== Single-Variable
 Three-point stencil with error:
@@ -509,7 +509,229 @@ By definition, an $n$-th order numerical scheme must match the Taylor expansion 
 
 When $m=n$ (which Butcher's barriers permit for $n<=4$), the polynomial degree bound matches the order-matching condition, which fixes $p_n (z)$ uniquely to the partial sum of the exponential series. For $n>=5$, where maintaining order $n$ requires $m>n$ stages, the polynomial $p(z)$ contains higher-degree terms $fO(z^(n+1))$ that depend on the specific choice of Butcher tableau, though the first $n$ terms always remain $1 + z + ... + z^n\/n!$.
 
-#text(fill:red)[TODO: add plots of the stability regions]
+$
+#canvas({
+  plot.plot(
+    size: (10, 10),
+    x-domain: (-4, 4),
+    y-domain: (-4, 4),
+    x-label: $"Re" z$,
+    y-label: $"Im" z$,
+    x-grid: true,
+    y-grid: true,
+    y-equal: "x",
+    x-tick-step: 1,
+    y-tick-step: 1,
+    axis-style: "school-book",
+    {
+      plot.add-contour(
+        z: 1,
+        ((x, y) => calc.pow(x+1,2) + calc.pow(y,2)),
+        x-samples: 50,
+        y-samples: 50,
+        x-domain: (-4, 4),
+        y-domain: (-4, 4),
+        fill: false,
+        label: "RK1",
+        style: (stroke:(thickness: 1.6pt, paint: orange))
+      )
+      plot.add-contour(
+        z: 1,
+        ((x, y) => calc.pow((x*x - y*y)/2 + x + 1,2) + calc.pow((x+1)*y,2)),
+        x-samples: 50,
+        y-samples: 50,
+        x-domain: (-3, 3),
+        y-domain: (-3, 3),
+        fill: false,
+        label: "RK2",
+        style: (stroke:(thickness: 1.6pt, paint: green))
+      )
+      plot.add-contour(
+        z: 1,
+        ((x, y) => calc.pow(1 + x + 1/2 * (x*x - y*y) + 1/6  * (x*x*x - 3 * x * y * y),2) + calc.pow((1+x)* y + 1/6 *(3 * x * x* y - y*y*y),2)),
+        x-samples: 50,
+        y-samples: 50,
+        x-domain: (-3, 3),
+        y-domain: (-3, 3),
+        fill: false,
+        label: "RK3",
+        style: (stroke:(thickness: 1.6pt, paint: blue))
+      )
+      plot.add-contour(
+        z: 1,
+        ((x, y) => calc.pow((1+x)*y + 1/6 * (3* x*x* y - y*y*y) + 1/24 *(4 * x*x*x* y - 4* x* y*y*y),2) + calc.pow(1 + x + 1/2 * (x*x - y*y) + 1/6 * (x*x*x - 3 * x * y * y) + 1/24 * (x*x*x*x - 6* x*x* y*y + y*y*y*y),2)),
+        x-samples: 50,
+        y-samples: 50,
+        x-domain: (-3, 3),
+        y-domain: (-3, 3),
+        fill: false,
+        label: "RK4",
+        style: (stroke:(thickness: 1.6pt, paint: purple))
+      )
+    }
+  )
+})
+$
+In the plot above, the stability regions are the interiors of the lines above. We can see that the higher the order of the method, the larger the region generally becomes. Many important linear PDEs have negative real or purely imaginary eigenvalues, so it makes sense to know the largest possible value of $z$ for which the scheme is still stable. For reference, we provide a table of these values below:
+$
+#table(
+  columns: (auto, auto, auto),
+  inset: 10pt,
+  align: center,
+  stroke: none,
+  table.header(
+    [*Method*], [*Min. $z$ along $RR_(<=0)$, $z_min^"Re"$*], [*Max. $|z|$ along $i RR$, $z_max^"Im"$*],
+    "RK1/Euler", $-2$, $0$,
+    "RK2", $-2$,$0$,
+    "RK3", $approx -2.5127$, $sqrt(3) approx 1.732$,
+    "RK4", $approx -2.7853$, $2sqrt(2)approx 2.8284$
+  ),
+)
+$
+There is an important observation to be made about the shape of the stability regions of the higher-order schemes RK3, RK4 and beyond. Recalling that the growth factor of the exact polynomial is $e^z$, it is clear that we can only have stability if $"Re"thin z <=0$. However, both RK3 and RK4 incorporate regions with $"Re"thin z$ in their stability regions, producing stable evolution for modes which physically speaking would be unstable. Though this is often irrelevant as the RHS operators of interest typically do not have unstable eigenmodes, it is worth keeping in mind.
+
+To see how these affect integration schemes for different operators, let us reconsider the heat and wave equations. The main input into the RK stability considerations are the eigenvalues of the right-hand side operator when put into first-order form. The heat equation,
+$
+  diff_t phi.alt = Delta phi.alt,
+$
+is already in first-order form; the wave equation needs to be reexpressed slightly. By introducing the additional variable $Pi = diff_t phi.alt$, we can write it as
+$
+  diff_t vec(phi.alt,Pi) = vec(Pi,Delta phi.alt) = mat(0,1;Delta,0) vec(phi.alt,Pi),
+$
+so that the RHS operator is the matrix operator $mat(0,1;Delta,0)$. 
+
+We first consider RK stability by only discretising time, i.e. considering $Delta$ a continuum operator. Starting with the heat equation, we recall that on $RR^3$, we can decompose any function as a (continuous) linear combination of the mode functions $phi.alt(vx) = e^(i vk dot vx)$. These are eigenfunctions of the Laplacian, since
+$
+  Delta phi.alt(vx) = - vk^2 e^(i vk dot vx) = - vk^2 phi.alt(vx).
+$
+Hence, the eigenvalues of the heat equation's RHS are of the form $lambda_vk^Delta  = -vk^2 in RR_(<=0)$, so that the timestep must satisfy
+$
+  z_min^"Re" <= lambda_vk^Delta Delta t quad <=> quad Delta t <= z_min^"Re"/lambda_vk^Delta = -z_min^"Re"/vk^2 > 0.
+$
+Given an initial condition containing mode contributions of arbitrarily large $|vk|$, this requires $Delta t = 0$. If however, we limit our initial conditions to have contributions only up to some fixed maximum $|vk|$, a finite non-zero value of $Delta t$ can provide stability across all of them. In essence, due to $z = lambda Delta t$, we can use $Delta t$ to rescale the relevant portion of the spectrum to lie inside the stability region.
+
+We now move on to the spatial-continuous wave equation, whose eigenvalues are derived as follows:
+$
+  0=(mat(0,1;Delta,0)-lambda I)vec(phi.alt,Pi) = mat(-lambda,1;Delta,-lambda)vec(phi.alt,Pi) = vec(Pi - lambda phi.alt, Delta phi.alt - lambda Pi).
+$
+Combining these two linear equations, we obtain
+$
+  Delta phi.alt = lambda^2 phi.alt, quad Pi = lambda phi.alt,
+$
+implying that the eigenvalues for the wave equation RHS are the square roots of those of the Laplacian, meaning that
+$
+  lambda_vk^"wave" = pm sqrt(lambda_vk^Delta) pm i|vk|, quad vk in RR^3,
+$
+with corresponding eigenfunction
+$
+  phi.alt(vx) = e^(i vk dot vx), quad Pi(vx) = pm i|vk|e^(i vk dot vx).
+$
+In particular, this means that the eigenvalues of Since RK1 and RK2 do not contain any nonzero part of the imaginary axis, these schemes are unconditionally unstable. Both RK3 and RK4 contain parts of the imaginary axis, and limit $Delta t$ by
+$
+  Delta t <= (|z_max^"Im"|)/(|vk|) = cases(sqrt(3)/(|vk|)quad&"for RK3"\,,(2sqrt(2))/(|vk|)quad&"for RK4".)
+$
+Again, an initial condition containing contributions at arbitrarily large $|vk|$ would require $Delta t = 0$. For frequency-limited initial data, however, finite non-zero values for $Delta t$ exist for which RK$>=$3 is stable.
+
+Recalling the derivations of the CFL conditions, we note that there, the concept of a "maximum allowed wavenumber" $|vk|$ to make it possible for $Delta t$ to be non-zero. On one hand, this has to do with the fact that there, we were working with a discretised grid, which automatically sets an upper limit for the wave number---any mode above the Nyquist frequency aliases onto a mode below it. However, there is another effect at play as well: discretising an operator changes its spectrum.
+
+Hence, we are led to compute the spectrum of discretised versions of the Laplacian, so that we can compare to the continuum case.
++  The most basic discretisation of the Laplacian is
+  $
+    Delta^"disc"_1 = 1/(Delta x^2) sum_(i=1)^d (E_i^(Delta x) - 2 I + E_i^(-Delta x)),
+  $
+  where $E_i^a f(vx) = f(vx + a ve_i)$ and $ve_i$ is the unit vector in the $i$-th direction. Clearly, $e^(i vk dot vx)$ are eigenfunctions of $E_i^a$ and $I$, and hence also of $Delta_1^"disc"$. Since any function on $RR^d$ can be written as a (continuous) linear combination of these eigenmodes, they form a complete basis. Concretely, the eigenvalues appear as
+  $
+    lambda_vk^(Delta,1) e^(i vk dot vx) &= Delta_1^"disc" e^(i vk dot vx) = 1/(Delta x^2) sum_(i = 1)^d (e^(i k_i Delta x) - 2 + e^(-i k_i Delta x))e^(i vk dot vx)\
+    &= -4/(Delta x^2)(sum_(i=1)^d sin^2 ((k_i Delta x)/2)) e^(i vk dot vx),
+  $
+  whence
+  $
+    lambda_vk^(Delta,1) = -4/(Delta x^2) sum_(i = 1)^d sin^2 ((k_i Delta x)/2)
+  $
+  For small $k_i Delta x$, we can approximate $sin(k_i Delta x\/2) approx k_i Delta x\/2$, whence
+  $
+    lambda_vk^(Delta,1) approx -4/(Delta x^2)sum_(i=1) ((k_i Delta x)/2)^2 = - vk^2,
+  $
+  reproducing the true spectrum. However, the closer the period of the spatial oscillation gets to the grid spacing, the more the spectral points of the continuous and discretised operators diverge. Moreover, unlike $-vk^2$, which grows more and more negative for larger wave vectors, the discretised spectrum is bounded and periodic in the components of $vk$. This is simply due to aliasing of higher onto lower frequency modes; the relevant portion of spatial frequency space is within the Brillouin zone $[-(pi)/(Delta x), (pi)/(Delta x)]^d$. 
+  
+  The largest magnitude that $lambda_vk^(Delta,1)$ can attain is $(4 d)/(Delta x^2)$. Putting this together with e.g. RK1 reproduces the heat equation's CFL condition 
+  $
+    Delta t <= min_vk lr(|(z_min^("Re"))/(lambda_vk^(Delta,1))|) = 2/((4d)/ (Delta x^2)) = (Delta x^2)/(2d)
+  $<eqGeneralRKStabilityCondition>
+  that we have derived before. However, this more general approach of deriving stability conditions---split into determining stability regions of the time integrator and the calculating the eigenvalues of the right-hand side operator---is a lot more versatile and insightful; we could easily replace the time integrator by RK2 or higher, and all that would change is an already computed value of $z_min^"Re"$. 
+
++ Alternative to changing the time integrator, we can also pick a different discretisation of the right-hand side operator. Let us take a look at a more precise stencil, the Laplacian built from the higher-order stencil @eq2ndDerivStencil5pt:
+  $
+    Delta_2^"disc" = 1/(12 Delta x^2) sum_(i=1)^d (-E_i^(2 Delta x) + 16 E_i^(Delta x) - 30 I + 16 E_i^(-Delta x) - E_i^(-2 Delta x)),
+  $
+  Inserting the eigenmodes $e^(i vk dot vx)$, we get
+  $
+    lambda_vk^(Delta,2) e^(i vk dot vx) = Delta_2^"disc"e^(i vk dot vx) &= 1/(12 Delta x^2)sum_(i=1)^d (-e^(i 2k_i Delta x) + 16 e^(i k_i Delta x) - 30 + 16 e^(-i k_i Delta x) - e^(-i 2 k_i Delta x)) e^(i vk dot vx)\
+    &= -1/(3 Delta x^2) sum_(i = 1)^d (16 sin^2 ((k_i Delta x)/2) - sin^2(k_i Delta x)),
+  $
+  so that
+  $
+    lambda_vk^(Delta,2) = -1/(3 Delta x^2)sum_(i=1)^d (16 sin^2 ((k_i Delta x)/2)-sin^2(k_i Delta x))
+  $
+  Again, assuming $k_i Delta x$ to be small, we can approximate
+  $
+    lambda_vk^(Delta,2) approx -1/(3 Delta x^2) sum_(i=1)^d (16 ((k_i Delta x)/2)^2 - (k_i Delta x)^2) = -1/(3 Delta x^2) sum_(i = 1)^d (k_i Delta x)^2 = - vk^2. wide
+  $
+  This confirms that we again reproduce the continuum spectrum for small enough $|vk|$, though now with higher accuracy (as we will see in a plot below).
+
+$
+#canvas({
+  import draw: *
+
+  plot.plot(
+    size: (12, 8),
+    x-label: $k dot Delta x$,
+    y-label: $-lambda_k^Delta dot Delta x^2$,
+    x-min: -4,
+    x-max: 5,
+    y-min: 0,
+    y-max: 6.05,
+    x-tick-step: calc.pi/2,
+    y-tick-step: 1,
+    x-grid: true,
+    y-grid: true,
+    axis-style: "school-book",
+    legend: "inner-south-east",
+    legend-style: (
+      stroke: none,
+      fill: none,
+      item-spacing: 1em, // Controls vertical gap between entries
+    ),
+    {
+      // Exact eigenvalues
+      plot.add(
+        k => k*k,
+        domain: (-4, 4),
+        label: "continuous",
+        style: (stroke: (paint: blue, thickness: 1.5pt))
+      )
+
+      // ngrow=1 discretised eigenvalues
+      plot.add(
+        k => 4*calc.pow(calc.sin(k/2),2),
+        domain: (-4, 4),
+        label: "discretised, width = 3",
+        style: (stroke: (paint: red, thickness: 1.2pt, dash: "dashed"))
+      )
+
+      // Backward Euler
+      plot.add(
+        k => 1/3 * (16*calc.pow(calc.sin(k/2),2) - calc.pow(calc.sin(k),2)),
+        domain: (-4, 4),
+        label: "discretised, width = 5",
+        style: (stroke: (paint: green.darken(20%), thickness: 1.2pt, dash: "dotted"))
+      )
+    }
+  )
+})
+$
+In this figure, the one-dimensional comparison between the continuous eigenvalues and the two discretised spectra is shown. We can see that around $k=0$, both discretised spectra match the graph of the continuum spectrum well, but diverge moving away from $k=0$. The divergence is much faster with the lower-order stencil; the 5-wide stencil resolves higher-frequency modes better. This, however, comes at the cost of having a larger maximum value for $lambda_vk^(Delta,2)$ than for $lambda_vk^(Delta,1)$, which reduces the maximum admissible timestep due to @eqGeneralRKStabilityCondition.
+
 ==== #text(fill:red)[Non-Linear Equations]
 == Boundary Conditions and Grid Stability
 === Sommerfeld Radiation Boundaries
