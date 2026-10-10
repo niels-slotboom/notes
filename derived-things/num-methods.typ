@@ -828,7 +828,7 @@ $<eqCompleteSommerfeldRadial>
 Written in terms of cartesian coordinates, assuming that $diff_x$ is the face normal, we have
 $
   diff_x phi.alt &= -y/x diff_y phi.alt - z/x diff_z phi.alt - r/(c x)pi - 1/x phi.alt,\
-  diff_x pi &= -y/x diff_y pi - z/x diff_z pi - r/x Delta phi.alt - 1/x pi.
+  diff_x pi &= -y/x diff_y pi - z/x diff_z pi - (c r)/x Delta phi.alt - 1/x pi.
 $<eqCompleteSommerfeldCartesian>
 In numerical implementations on Cartesian grids, it is sometimes useful to simplify this by making the assumption that the waves are incident normal to the face, rather than along $diff_r$. This simplification amounts to setting $r=x$, and neglecting all transverse derivatives, leading to
 $
@@ -895,7 +895,7 @@ $
 $
 We can now also go back to the @eqCompleteSommerfeldCartesian[full Sommerfeld boundary conditions]. Reintroducing the transverse derivatives and unsetting $r=x$, the matrix $vA$ turns into
 $
-  vA = mat(alpha, r/x beta; r/x beta^(-1), alpha),
+  vA -> mat(alpha, r/x beta; r/x beta^(-1), alpha) quad => quad vA^(-1) -> 1/(alpha^2 - r^2/x^2) mat(alpha,-r/x beta;-r/x beta^(-1), alpha)
 $
 and 
 $
