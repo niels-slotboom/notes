@@ -675,7 +675,7 @@ Hence, we are led to compute the spectrum of discretised versions of the Laplaci
   $
   Again, assuming $k_i Delta x$ to be small, we can approximate
   $
-    lambda_vk^(Delta,2) approx -1/(3 Delta x^2) sum_(i=1)^d (16 ((k_i Delta x)/2)^2 - (k_i Delta x)^2) = -1/(3 Delta x^2) sum_(i = 1)^d (k_i Delta x)^2 = - vk^2. wide
+    lambda_vk^(Delta,2) approx -1/(3 Delta x^2) sum_(i=1)^d (16 ((k_i Delta x)/2)^2 - (k_i Delta x)^2) = -1/(Delta x^2) sum_(i = 1)^d (k_i Delta x)^2 = - vk^2. wide
   $
   This confirms that we again reproduce the continuum spectrum for small enough $|vk|$, though now with higher accuracy (as we will see in a plot below).
 
