@@ -68,6 +68,11 @@
   eq
 }
 
+#let top-number(eq) = {
+  set math.equation(number-align: top + right)
+  eq
+}
+
 //miscellaneous math notation
 #let const = math.op("const.")
 #let diag = math.op("diag")

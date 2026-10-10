@@ -814,7 +814,93 @@ $
 $
 In this form, the boundary condition can be implemented directly. However, it is worth noting that when replacing the boundary-tangent derivatives $diff_y$ and $diff_z$ with finite difference stencils, some numerical error is introduced, which causes the boundary conditions to become satisfied less precisely the larger the angle between $diff_r$ and $diff_x$.
 
-As a final remark, we should note that the above form assumes $x!= 0$ at the boundary (as well as $y!= 0$ and $z!= 0$ at the respective other boundaries). In practice, this is no restriction, since we have built up this entire discussion on the assumption that the boundaries are far enough from the origin that outgoing waves can be approximated as being emanated from a point source at the origin.
+As an additional remark, we should note that the above form assumes $x!= 0$ at the boundary (as well as $y!= 0$ and $z!= 0$ at the respective other boundaries). In practice, this is no restriction, since we have built up this entire discussion on the assumption that the boundaries are far enough from the origin that outgoing waves can be approximated as being emanated from a point source at the origin.
+
+Lastly, we should consider what the boundary conditions mean for $pi$. Starting again from @eqB.6.13, taking a time derivative and applying the PDE $diff_t pi = c^2 Delta phi.alt$ leads us to
+$
+  diff_r pi = diff_t diff_r phi.alt = - (diff_t pi)/c - (diff_t phi.alt)/r = -c Delta phi.alt - pi/r.
+$
+Thus, the full set of Sommerfeld boundary conditions reads
+$
+  diff_r phi.alt &= -pi/c -phi.alt/r,\
+  diff_r pi &= -c Delta phi.alt - pi/r.
+$<eqCompleteSommerfeldRadial>
+Written in terms of cartesian coordinates, assuming that $diff_x$ is the face normal, we have
+$
+  diff_x phi.alt &= -y/x diff_y phi.alt - z/x diff_z phi.alt - r/(c x)pi - 1/x phi.alt,\
+  diff_x pi &= -y/x diff_y pi - z/x diff_z pi - r/x Delta phi.alt - 1/x pi.
+$<eqCompleteSommerfeldCartesian>
+In numerical implementations on Cartesian grids, it is sometimes useful to simplify this by making the assumption that the waves are incident normal to the face, rather than along $diff_r$. This simplification amounts to setting $r=x$, and neglecting all transverse derivatives, leading to
+$
+  diff_x phi.alt &= -1/c pi - 1/x phi.alt,\
+  diff_x pi &= -c Delta phi.alt - 1/x pi.
+$<eqSimplifiedSommerfeld>
+At $y=z=0$, this still matches the original Sommerfeld boundary conditions exactly, and remains a valid approximation near these face centers. the more oblique the angle however, the more of the radial wave gets reflected. In some cases, however, this might be an acceptable trade-off compared to the simplification of the boundary conditions one gets. 
+
+To see this, let us first consider how we would discretise the simplified @eqSimplifiedSommerfeld[boundary condition formulation] to $fO(Delta x^2)$ for a cell-centered grid with a halo region of width 1, where the ghost cell index is $-1$, the first interior cell is at $0$, and the boundary is located at $-1/2$. The left-hand sides are straightforwardly discretised to $fO(Delta x^2)$, since the finite difference between $-1$ and $0$ is naturally located at $-1/2$ to order $fO(Delta x^2)$:
+$
+  diff_x phi.alt|_(-1/2) &= (phi.alt_(-1)-phi.alt_0)/(Delta x) + fO(Delta x^2),\
+  diff_x pi|_(-1/2) &= (pi_(-1)-pi_0)/(Delta x) + fO(Delta x^2).
+$
+On the right-hand sides, we have an issue: we only know $phi.alt|_0$ and $pi|_0$, which approximate $phi.alt|_(-1/2)$ and $pi|_(-1/2)$ to order $fO(Delta x)$, which is too low. Higher accuracy is achieved by using interpolation,
+$
+  phi.alt_(-1/2) &= (phi.alt_(-1) + phi.alt_0)/(2) + fO(Delta x^2),\
+  pi_(-1/2) &= (pi_(-1) + pi_0)/(2) + fO(Delta x^2).
+$
+This turns the discretised boundary conditions into an implicit (but linear) system in $(phi.alt_(-1), pi_(-1))$, which we will have to solve later.
+
+One term remains that we have not yet adressed---the Laplacian. Since it consists of second derivatives, it is much harder to colocate on the boundary at $-1/2$---luckily, we do not have to. This is because, when multiplying through by the $Delta x$ factor from the first derivative of the left-hand side, it obtains an additional factor of $Delta x$. This increases the error order by one, so it is sufficient to have
+$
+  Delta phi.alt|_(-1/2) = Delta phi.alt|_0 + fO(Delta x).
+$
+The $Delta phi.alt|_0$ term, we separate into a normal and a transverse part,
+$
+  Delta phi.alt|_0 = (phi.alt_(-1) - 2 phi.alt_0 + phi.alt_1)/(Delta x^2) + Delta_perp phi.alt|_0 + fO(Delta x^2),
+$
+with $Delta_perp phi.alt = diff_y^2 phi.alt + diff_z^2 phi.alt$ the transverse Laplacian that we can evaluate entirely from interior cells, to order $fO(Delta x^2)$. This makes it so that
+$
+  Delta phi.alt|_(-1/2) = (phi.alt_(-1) - 2 phi.alt_0 + phi.alt_1)/(Delta x^2) + Delta_perp phi.alt|_0 + fO(Delta x).
+$
+Let us now insert everything back into the continuous equation, keeping track of error orders:
+$
+  (phi.alt_(-1)-phi.alt_0)/(Delta x) + fO(Delta x^2) &= -(pi_(-1)+pi_0)/(2c) - (phi.alt_(-1) + phi.alt_0)/(2x) + fO(Delta x^2)\
+  (pi_(-1)-pi_0)/(Delta x) + fO(Delta x^2) &= -c (phi.alt_(-1) - 2 phi.alt_0 + phi.alt_1)/(Delta x^2) - c Delta_perp phi.alt|_0 - (pi_(-1)+pi_0)/(2x)+ fO(Delta x).
+$
+Multiplying through by $Delta x$ and collecting error terms, we get
+$
+  phi.alt_(-1)-phi.alt_0 &= -(Delta x)/(2c)(pi_(-1)+pi_0) - (Delta x)/(2x)(phi.alt_(-1) + phi.alt_0) + fO(Delta x^3),\
+  pi_(-1)-pi_0 &= -c/(Delta x) (phi.alt_(-1) - 2 phi.alt_0 + phi.alt_1) - c Delta x (Delta_perp phi.alt|_0) - (Delta x)/(2x)(pi_(-1)+pi_0)+ fO(Delta x^2).
+$
+As stated previously, this is a linear system in the unknowns $(phi.alt_(-1),pi_(-1))$. To solve it, we first have to separate evaluations at $-1$ from those at $0$ and $1$, yielding
+#top-number[$
+  (1+(Delta x)/(2x))phi.alt_(-1) + (Delta x)/(2c) pi_(-1) &= (1-(Delta x)/(2x)) phi.alt_0 - (Delta x)/(2c) pi_0 + fO(Delta x^2),\
+  c/(Delta x) phi.alt_(-1) + (1+(Delta x)/(2x))pi_(-1) &= (1- (Delta x)/(2x))pi_0 - c Delta x (Delta_perp phi.alt|_0) + c/(Delta x) (2 phi.alt_0 - phi.alt_1) + fO(Delta x^2).
+$<eqSimplifiedSommerfeldBCBoundaryUpdate>]
+Summarising the right-hand sides into the vector $vb = (b_phi.alt,b_pi)$ with
+$
+  b_phi.alt &= (1-(Delta x)/(2x)) phi.alt_0 - (Delta x)/(2c) pi_0,\
+  b_pi &= (1- (Delta x)/(2x))pi_0 - c Delta x (Delta_perp phi.alt|_0) + (2 c)/(Delta x) (phi.alt_0 - 1/2 phi.alt_1),
+$
+as well as introducing the matrix
+$
+  vA = mat(alpha, beta; beta^(-1), alpha), quad alpha = 1+(Delta x)/(2x), quad beta = (Delta x)/(2c)
+$
+we can write the @eqSimplifiedSommerfeldBCBoundaryUpdate[system] as
+$
+  vA vx = vb + fO(Delta x^2) quad <=>quad vx = vA^(-1) vb + fO(Delta x^2),
+$
+with $vx = (phi.alt_(-1),pi_(-1))$ and
+$
+  vA^(-1) = 1/(alpha^2 - 1) mat(alpha,-beta;-beta^(-1),alpha).
+$
+We can now also go back to the @eqCompleteSommerfeldCartesian[full Sommerfeld boundary conditions]. Reintroducing the transverse derivatives and unsetting $r=x$, the matrix $vA$ turns into
+$
+  vA = mat(alpha, r/x beta; r/x beta^(-1), alpha),
+$
+and 
+$
+  vb &-> vb - Delta x (y/x diff_y vb|_0 + z/x diff_z vb|_0),\
+$
 === Kreiss-Oliger Dissipation
 When evolving non-linear PDEs, the non-linear terms can introduce higher-frequency components through the mechanism we discussed in @remarkSpectralMethods. Although there, we were considering spectral methods---where the mechanism presents itself most clearly---it is irrespective of the field representation used; in particular, it is also present when working with discretised field values. In that specific case, the high-frequency modes produced by non-linear terms may exceed the spatial grid cutoff set by the Nyquist limit. Such modes alias back noto lower-frequency modes, introducing unphysical "energy" that can cause a simulation to become unstable and diverge. 
 
