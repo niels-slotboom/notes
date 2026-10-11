@@ -922,20 +922,20 @@ Although this is somewhat disheartening to learn, there are two ways in which we
 
 + The first approach requires us to analyse our steps in deriving the previous, failed result. The matrix $vA$ which we need to invert is shaped largely by the fact that we have introduced an additional dependency on $phi.alt_(-1)$ and $pi_(-1)$ in the right-hand side of the @eqDiscretisedSBCWithInterpolation[original discretised equations]. This came about because we decided to use interpolation, which is more accurate than approximating $phi.alt_(-1/2)$ by $phi.alt_0$. However, since $phi.alt_(-1/2) = phi.alt_0 + fO(Delta x)$, the subsequent multiplication by $Delta x$ from the divisor of the left-hand side finite difference is sufficient to push the error order to $Delta x^2$. We can hence drop the interpolation, which leads us to the discretisation
   #top-number[$
-  epsilon (phi.alt_0-phi.alt_(-1))/(Delta x)  &= -y/x diff_y phi.alt|_0 - z/x diff_z phi.alt|_0  -r/x 1/(2c) pi_0 - 1/(2x) phi.alt_0 + fO(Delta x)\
-  epsilon (pi_0-pi_(-1))/(Delta x) &= -y/x diff_y pi|_0 - z/x diff_z pi|_0  -c r/x (phi.alt_(-1) - 2 phi.alt_0 + phi.alt_1)/(Delta x^2) - c r/x Delta_perp phi.alt|_0 - 1/(2x) pi_0+ fO(Delta x).
+  epsilon (phi.alt_0-phi.alt_(-1))/(Delta x)  &= -y/x diff_y phi.alt|_0 - z/x diff_z phi.alt|_0  -r/x 1/(c) pi_0 - 1/(x) phi.alt_0 + fO(Delta x)\
+  epsilon (pi_0-pi_(-1))/(Delta x) &= -y/x diff_y pi|_0 - z/x diff_z pi|_0  -c r/x (phi.alt_(-1) - 2 phi.alt_0 + phi.alt_1)/(Delta x^2) - c r/x Delta_perp phi.alt|_0 - 1/(x) pi_0+ fO(Delta x).
   $<eqDiscretisedSBCNoInterpolation>]
   Multiplying through by $-epsilon Delta x$ and dropping error orders, we arrive at
   #top-number[$
-    &phi.alt_(-1) - phi.alt_0\ &= epsilon Delta x (y/x diff_y phi.alt + z/x diff_z phi.alt)|_0 + epsilon r/x (Delta x)/(2c) pi_0  + epsilon (Delta x)/(2 x) phi.alt_0 + fO(Delta x^2)\
-    &=epsilon Delta x (y/x diff_y phi.alt + z/x diff_z phi.alt)|_0 + epsilon gamma beta pi_0 + epsilon alpha phi.alt_0\ \ \ \ 
-    &pi_(-1) - pi_0\ &= epsilon Delta x (y/x diff_y pi + z/x diff_z pi)|_0 + epsilon r/x c/(Delta x) phi.alt_(-1) - epsilon r/x (2c)/(Delta x) (phi.alt_0 - 1/2 phi.alt_1) + epsilon r/x c/(Delta x) (Delta x^2)Delta_perp phi.alt|_0 + epsilon (Delta x)/(2 x)pi_0\
-    &= epsilon Delta x (y/x diff_y pi + z/x diff_z pi)|_0 + epsilon/2 gamma beta^(-1)phi.alt_(-1) - epsilon gamma beta^(-1) (phi.alt_0 - 1/2 phi.alt_1) + epsilon/2 gamma beta^(-1) (Delta x^2) Delta_perp phi.alt|_0 + epsilon alpha pi_0
+    &phi.alt_(-1) - phi.alt_0\ &= epsilon Delta x (y/x diff_y phi.alt + z/x diff_z phi.alt)|_0 +2 epsilon r/x (Delta x)/(2c) pi_0  + 2 epsilon (Delta x)/(2 x) phi.alt_0 + fO(Delta x^2)\
+    &=epsilon Delta x (y/x diff_y phi.alt + z/x diff_z phi.alt)|_0 + 2 epsilon gamma beta pi_0 + 2 epsilon alpha phi.alt_0\ \ \ \ 
+    &pi_(-1) - pi_0\ &= epsilon Delta x (y/x diff_y pi + z/x diff_z pi)|_0 + epsilon r/x c/(Delta x) phi.alt_(-1) - epsilon r/x (2c)/(Delta x) (phi.alt_0 - 1/2 phi.alt_1) + epsilon r/x c/(Delta x) (Delta x^2)Delta_perp phi.alt|_0 + 2 epsilon (Delta x)/(2 x)pi_0\
+    &= epsilon Delta x (y/x diff_y pi + z/x diff_z pi)|_0 + epsilon/2 gamma beta^(-1)phi.alt_(-1) - epsilon gamma beta^(-1) (phi.alt_0 - 1/2 phi.alt_1) + epsilon/2 gamma beta^(-1) (Delta x^2) Delta_perp phi.alt|_0 + 2 epsilon alpha pi_0
   $]
   Again bringing all evaluations at $-1$ to the left-hand side, we get
   #top-number[$
-    phi.alt_(-1) &= (1 + epsilon alpha) phi.alt_0 + epsilon Delta x (y/x diff_y phi.alt + z/x diff_z phi.alt)|_0 + epsilon gamma beta pi_0,\
-    pi_(-1) -epsilon/2 gamma beta^(-1) phi.alt_(-1)&= (1+epsilon alpha) pi_0 + epsilon Delta x (y/x diff_y pi + z/x diff_z pi)|_0 - epsilon gamma beta^(-1) (phi.alt_0 - 1/2 phi.alt_1) + epsilon/2 gamma beta^(-1) (Delta x^2) Delta_perp phi.alt|_0
+    phi.alt_(-1) &= (1 + 2 epsilon alpha) phi.alt_0 + epsilon Delta x (y/x diff_y phi.alt + z/x diff_z phi.alt)|_0 + 2 epsilon gamma beta pi_0,\
+    pi_(-1) -epsilon/2 gamma beta^(-1) phi.alt_(-1)&= (1+2 epsilon alpha) pi_0 + epsilon Delta x (y/x diff_y pi + z/x diff_z pi)|_0 - epsilon gamma beta^(-1) (phi.alt_0 - 1/2 phi.alt_1) + epsilon/2 gamma beta^(-1) (Delta x^2) Delta_perp phi.alt|_0
   $]
   Although this is again a system of the form $vA vx = vb$, here,
   $
@@ -943,14 +943,40 @@ Although this is somewhat disheartening to learn, there are two ways in which we
   $
   has determinant $1$ and can stably be inverted. Further, since the wave equation only contains spatial derivatives of $phi.alt$ and none of $pi$, it is usually even sufficient to only solve the first, which is in explicit form already---this even enables us to compute $phi.alt_(-1)$ first, and then evaluate
   $
-    pi_(-1) &= epsilon/2 gamma beta^(-1) phi.alt_(-1) + (1+epsilon alpha) pi_0 + epsilon Delta x (y/x diff_y pi + z/x diff_z pi)|_0\
+    pi_(-1) &= epsilon/2 gamma beta^(-1) phi.alt_(-1) + (1+2 epsilon alpha) pi_0 + epsilon Delta x (y/x diff_y pi + z/x diff_z pi)|_0\
     &quad - epsilon gamma beta^(-1) (phi.alt_0 - 1/2 phi.alt_1) + epsilon/2 gamma beta^(-1) (Delta x^2) Delta_perp phi.alt|_0
   $
   directly. Because we now have the full second normal derivative on the right hand side again, we can compress it to
   $
-    pi_(-1) &= (1+epsilon alpha) pi_0 + epsilon Delta x (y/x diff_y pi + z/x diff_z pi)|_0\
+    pi_(-1) &= (1+2 epsilon alpha) pi_0 + epsilon Delta x (y/x diff_y pi + z/x diff_z pi)|_0\
     &quad + epsilon/2 gamma beta^(-1) (phi.alt_(-1) - 2 phi.alt_0 + phi.alt_1) + epsilon/2 gamma beta^(-1) (Delta x^2) Delta_perp phi.alt|_0. 
   $
+
++ The second option to remedy the unstable inversion of $vA$ is to fundamentally simplify the continuum boundary conditions. Instead of expecting radially-incident waves at each point on the boundary, we can assume that the incidence is purely normal, so that along each coordinate direction, the problem simplifies to a one-dimensional one. In one dimension---where $r=x$---the Sommerfeld boundary conditions simplify to
+  $
+    diff_x phi.alt = -pi/c - phi.alt/x.
+  $
+  Taking the time derivative to establish an analogous equation for $pi$, we again introduce the three-dimensional operator $Delta phi.alt$, so the approach is not truly one-dimensional, but it is consistent with the idea of absorbing normally incident waves everywhere on the boundary. This equation reads
+  $
+    diff_x pi = -c Delta phi.alt - pi/x.
+  $
+  In discretising this pair of equations to get a prescription for $(phi.alt_(-1),pi_(-1))$, we could opt in or opt out of using interpolation for the field evaluations on the boundary. The error order is bounded to $fO(Delta x^2)$ by the Laplacian term anyways, so not much is gained from interpolating---so let us simply proceed without it. Again accepting the non-interpolation error
+  $
+    phi.alt_(-1/2) = phi.alt_0 + fO(Delta x),
+  $
+  and similar for $pi$, these boundary conditions discretise simply as
+  $
+    epsilon (phi.alt_0-phi.alt_(-1))/(Delta x) &= -1/c pi_0 - 1/x phi.alt_0,\
+    epsilon (pi_0-pi_(-1))/(Delta x) &= -c/(Delta x)^2 (phi.alt_(-1) - 2phi.alt_0 + phi.alt_1) - c Delta_perp phi.alt|_0 - 1/x pi_0,\
+  $
+  which can be solved for $phi.alt_(-1)$ and $pi_(-1)$ by first multiplying with $-epsilon Delta x$, and adding the known $phi.alt_0$ and $pi_0$, respectively:
+  $
+    phi.alt_(-1) &= (1 +epsilon (Delta x)/x) phi.alt_0 + epsilon (Delta x)/c pi_0,\
+    pi_(-1) &= (1+epsilon (Delta x)/x) pi_0 + epsilon c/(Delta x) (phi.alt_(-1) - 2phi.alt_0 + phi.alt_1 + (Delta x)^2 Delta_perp phi.alt|_0).
+  $
+  These are significantly simpler to implement.
+
+=== #text(fill:red)[Absorbing Boundary Layers]
 
 === Kreiss-Oliger Dissipation
 When evolving non-linear PDEs, the non-linear terms can introduce higher-frequency components through the mechanism we discussed in @remarkSpectralMethods. Although there, we were considering spectral methods---where the mechanism presents itself most clearly---it is irrespective of the field representation used; in particular, it is also present when working with discretised field values. In that specific case, the high-frequency modes produced by non-linear terms may exceed the spatial grid cutoff set by the Nyquist limit. Such modes alias back noto lower-frequency modes, introducing unphysical "energy" that can cause a simulation to become unstable and diverge. 
