@@ -936,7 +936,7 @@ Although this is somewhat disheartening to learn, there are two ways in which we
   #top-number[$
     phi.alt_(-1) &= (1 + 2 epsilon alpha) phi.alt_0 + epsilon Delta x (y/x diff_y phi.alt + z/x diff_z phi.alt)|_0 + 2 epsilon gamma beta pi_0,\
     pi_(-1) -epsilon/2 gamma beta^(-1) phi.alt_(-1)&= (1+2 epsilon alpha) pi_0 + epsilon Delta x (y/x diff_y pi + z/x diff_z pi)|_0 - epsilon gamma beta^(-1) (phi.alt_0 - 1/2 phi.alt_1) + epsilon/2 gamma beta^(-1) (Delta x^2) Delta_perp phi.alt|_0
-  $]
+  $<eqSommerfeldBCDiscretisedNoInterp>]
   Although this is again a system of the form $vA vx = vb$, here,
   $
     vA = mat(1,0;-epsilon/2 gamma beta^(-1), 1)
@@ -976,8 +976,123 @@ Although this is somewhat disheartening to learn, there are two ways in which we
   $
   These are significantly simpler to implement.
 
-=== #text(fill:red)[Absorbing Boundary Layers]
+=== Absorbing Boundary Layers
+As we have seen in the previous section, implementing boundary conditions that make a finitely sized domain behave like an infinite one is rather involved, and forces unwanted compromises to work at all. Sommerfeld boundary conditions, in the continuum, are fully absorbing only for a certain direction of incidence at the boundary. Once discretised, the above @eqSommerfeldBCDiscretisedNoInterp[radial formulation] achieves an amplitude absorption coefficient of about $83.5%$, which certainly constitutes the majority, but far from all of the field amplitude. It takes waves multiple bounces for their reflected amplitude to decay below machine precision. For a linear wave equation, one can argue that even if present, due to the superposition principle, the reflected waves do not affect the dynamics of the physical field components in the bulk of the domain, so that depending on the application, they are acceptable. However, for non-linear applications, the reflected waves will interact with the bulk and change their dynamics, which is a much more severe effect. Moreover, the discretisation of the Sommerfeld boundary condition we derived in the above only works up to order $fO(Delta x^2)$, so moving the bulk PDE to a wider and more accurate stencil becomes impossible as we are only able to fill a single layer of ghost cells.
 
+While there certainly are more sophisticated boundary conditions one can use, discretising and implementing them in code becomes correspondingly harder. Because of this, in this section, we entertain an alternative approach that can be used to make a simulation domain appear as if its extent was infinite. Namely, instead of imposing and having to solve complicated equations _at_ the boundary, we modify the PDE in a layer _near_ the boundary, to incorporate terms that force a decay of the field towards the configuration it should have at the boundary. This makes it so that the boundary conditions can be simple Dirichlet boundaries, with this "absorbing layer" taking care of matching the dynamical solution smoothly onto the imposed boundary values, in such a way that as little as possible is reflected back into the bulk.
+
+We assume that we have a PDE in the first-order form
+$
+  diff_t Phi = F(t,Phi),
+$<eqBoundaryLayerBulkPDE>
+where $F$ is a potentially non-linear functional depending on $t$ and $Phi$. Here, $Phi : RR^(1,d) -> RR^N$ is the $N$-component field configuration; in the example of the wave equation,
+$
+  Phi = vec(phi.alt,pi),
+$
+or for BSSN (without gauge evolution),
+$
+  Phi = vec(phi.alt,tilde(gamma)_(i j), K, tilde(A)_(i j), tilde(Gamma)^i).
+$
+For now, let us try to solve the more general problem uf having some open and connected subset $U subset.eq RR^(d)$ containing the origin, in which we want to have dynamics prescribed entirely by @eqBoundaryLayerBulkPDE[the bulk PDE]. Outside of $U$, that is, within the complement $U^c = RR^d without U$, we want $Phi$ to quickly approach some prescribed constant configuration $Phi_0 in RR^d$, in such a way that the dynamics of the bulk are not affected by reflections or unwanted artifacts. For the wave equation, we could have e.g. $Phi_0 = 0$, and for BSSN, where we want asymptotically flat spacetimes, e.g.
+$
+  Phi_0 = vec(1, delta_(i j), 0,0,0),
+$
+or some more sophisticated choice matching/damping onto a Kerr exterior#footnote[For which $Phi_0$ would no longer be constant].
+
+To this end, we modify the @eqBoundaryLayerBulkPDE[PDE] by a term that drives exponential decay of $Phi$ towards $Phi_0$, scaled by a function $sigma = sigma(x)$ which controls said decay:
+$
+  diff_t Phi = F(t,Phi) - sigma (Phi - Phi_0).
+$
+Since we want the PDE to remain unchanged in the bulk, we require $sigma|_U = 0$. Within $U^c$, $sigma$ should be positive, so that the damping becomes active and drives $Phi$ towards $Phi_0$. The naive approach would be to just set $sigma|_(U^c)$ to some large constant value and be done with; however, intuition already tells us that that would lead to reflections in hyperbolic propagation. "Easing into" the decay by applying a gradual increase in $sigma$ starting at 0 on $diff U$ and smoothly growing as one moves away from the bulk. 
+
+To turn this intuition into a more rigorous strategy, we can study how the introduction of the locally scaled exponential damping terms affect the linear wave equation in $1+1$ dimensions. In first order form we can implement damping terms straightforwardly as 
+$
+  diff_t phi.alt &= pi - sigma phi.alt,\
+  diff_t pi &= diff_x^2 phi.alt- sigma pi.
+$
+Solving the first equation for $pi$,
+$
+  pi = diff_t phi.alt + sigma phi.alt,
+$
+allows us to bring the modified PDE back into second-order form,
+$
+  &&diff_t (diff_t phi.alt + sigma phi.alt) &= diff_x^2 phi.alt - sigma(diff_t phi.alt + sigma phi.alt)\
+  <=> &quad& diff_t^2 phi.alt &= diff_x^2 phi.alt- 2 sigma diff_t phi.alt - sigma^2 phi.alt
+$
+To analyse reflection coefficients based on the choice of $sigma$, we introduce the mode ansatz $phi.alt(t,x) = e^(-i omega t) hat(phi.alt)(x)$. This turns the second-order form into
+$
+  &quad& diff_x^2 hat(phi.alt) + omega^2 hat(phi.alt) + 2 i omega sigma hat(phi.alt) - sigma^2 hat(phi.alt) &= 0\
+  <=> && diff_x^2 hat(phi.alt) + (omega + i sigma(x))^2 hat(phi.alt) = 0.
+$
+For simplicity, we will assume $U=RR_(>=0)$, so $U^c = RR_(<0)$. Let us consider different ways of "switching on" $sigma$ from its zero value for $x>0$ as the wave passes the origin.
+
++ The simplest choice for $sigma$ would be
+  $
+    sigma(x) = cases(0\,quad &x>=0\,,sigma_0\, quad&x<0.)
+  $
+  For this choice, the equation is solved by plane waves on both sides of the domain. Assuming a left-moving incident, right-moving reflected and left-moving transmitted wave, we arrive at
+  $
+    hat(phi.alt)(x) = cases(e^(i omega x) + R e^(-i omega x)\,quad& x>=0\,,T e^(-sigma_0 x) e^(i omega x)\, quad& x<0\,)
+  $
+  where $T$ and $R$ are the reflection and transmission/absorption coefficients. For this solution to be $C^1$, we must match the field values and first derivatives at $x=0$. This yields
+  $
+    hat(phi.alt)(0^-) &attach(=,t:!) hat(phi.alt)(0^+) quad &=>&& quad T &= 1 + R\
+    hat(phi.alt)'(0^-) &attach(=,t:!) hat(phi.alt)'(0^-) quad &=>&& quad omega(1-R) &= (omega +i sigma_0) T = (omega + i sigma_0) (1+R)
+  $
+  These equations combine to yield
+  $
+    R = -(i sigma_0)/(2 omega + i sigma_0).
+  $
+  Consequently, the reflected energy is
+  $
+    |R|^2 = sigma_0^2/(4 omega^2 + sigma_0^2).
+  $
+  In particular, this means that the reflection coefficient grows with larger jumps $0 -> sigma_0$, with higher frequencies being reflected less strongly. Although one could simply opt to pick $sigma_0$ small enough for the reflection coefficient to satisfy whatever requirements one has for it, this causes the decay to be very slow, and the field to take a significant amount of time (and hence distance) to decay to the target configuration $Phi_0$. In numerical implementations, this distance is to be kept minimal, as it takes up part of the simulation domain without providing physical insight---it is "wasted" but necessary computational effort. 
+
++ Building on this insight that smaller jumps cause less reflections, we can view a gradually increasing envelope for $sigma$, interpolating between a constant value of $0$ in $U$ and a constant value of $sigma_0$ within $(-infty,L)$---over the interval $[-L,0]$---as a series of small jumps. Intuitively, we'd expect this to have the advantages of both a low reflection cofficient _as well as_ the potential of enabling larger final values of $sigma_0$, so that the thickness of the boundary layer that needs to be simulated is as low as possible.
+
+  Concretely, to study this, we assume that
+  $
+    sigma(x) = cases(0\,quad&x>=0\,,sigma_0 ell(-x/L)\,quad&-L<= x < 0\,,sigma_0\,quad&x<=L,)
+  $
+  with $ell:[0,1]->RR_(>0)$ a smooth interpolation function with $ell(0)=0$, $ell(1) = 1$.
+
+  Calling the regions I, II and III from top to bottom, this implies that a solution with incoming component, reflected component and transmitted component is of the form
+  $
+    hat(phi.alt)(x) = cases(e^(i omega x) + R e^(- i omega x)\, quad& "in region I"\,, hat(psi) (x)\,quad& "in region II"\,, T e^(- sigma_0 (x+L)) e^(i omega x)\,quad&"in region III".)
+  $
+  #text(fill:red)[When applying the WKB approximation to the function $hat(psi)(x)$, one can derive that $R$ is approximated by
+  $
+    R approx 1/(2 omega) integral_(-L)^0 (sigma'(x))/(omega + i sigma(x)) exp(2 i omega x - 2 integral_x^0 sigma(s)ds).
+  $]
+  Firstly, we note that $R$ scales with $sigma'$ and hence $ell'$. This means that a slower, more gradual change in $ell$, implemented by a smooth choice of $ell$ as well as a wider $L$, reduces the reflection coefficient. Further, the rapidly oscillating $e^(2i omega x)$ term interacts with the integral to average the integrand to smaller values; this effect gets stronger at larger values for $omega$, and for smoother profiles of $ell$.
+
+Having now motivated what kinds of functions $sigma(x)$ are effective at reducing reflections while retaining sufficient damping, a few examples follow below:
+
+- $ell(x) = x^k$: Provides a $C^(k-1)$-smooth transition at the interface between the bulk and the boundary layer. Although larger values for $k$ improve the smoothness at this interface, they also produce larger derivatives within the boundary layer since $ell'(x) = k x^(k-1)$. Common choices are $k=2$ and $k=3$.
+
+- $ell(x) = 1/2(1-cos(pi x))$: If $C^1$-smoothness is required at both interfaces, this is a suitable choice. The derivative is bounded by $pi/2$.
+
+- Smoothstep polynomials can achieve $C^k$-smoothness for arbitrary $k$ at both interfaces. They are generally given by (cf. #link("https://en.wikipedia.org/wiki/Smoothstep")[[Wikipedia: Smoothstep]])
+  $
+    S_k (x) = sum_(i=1)^k (-1)^i binom(k+i,i) binom(2k+1,k-i) x^(k+i+1),
+  $
+  with the first few given explicitly by
+  $
+    S_0 (x) &= x,\
+    S_1 (x) &= -2x^3 + 3 x^2,\
+    S_2 (x) &= 6 x^5 - 15 x^4 + 10 x^3,\
+    S_3 (x) &= -20 x^7 + 70 x^6 - 84 x^5 + 35 x^4.
+  $
+  Their first derivative is given by
+  $
+    d/dx S_k (x) = (2k+1)binom(2k,k) (x-x^2)^k,
+  $
+  which has its maximum at $x=1/2$, where
+  $
+    d/dx S_k (1/2) = binom(2k,k) (2k+1)/2^k.
+  $
+  This grows rapidly with increasing $k$.
 === Kreiss-Oliger Dissipation
 When evolving non-linear PDEs, the non-linear terms can introduce higher-frequency components through the mechanism we discussed in @remarkSpectralMethods. Although there, we were considering spectral methods---where the mechanism presents itself most clearly---it is irrespective of the field representation used; in particular, it is also present when working with discretised field values. In that specific case, the high-frequency modes produced by non-linear terms may exceed the spatial grid cutoff set by the Nyquist limit. Such modes alias back noto lower-frequency modes, introducing unphysical "energy" that can cause a simulation to become unstable and diverge. 
 
