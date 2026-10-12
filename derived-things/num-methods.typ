@@ -1002,7 +1002,7 @@ or some more sophisticated choice matching/damping onto a Kerr exterior#footnote
 To this end, we modify the @eqBoundaryLayerBulkPDE[PDE] by a term that drives exponential decay of $Phi$ towards $Phi_0$, scaled by a function $sigma = sigma(x)$ which controls said decay:
 $
   diff_t Phi = F(t,Phi) - sigma (Phi - Phi_0).
-$
+$<eqModifiedABLPDE>
 Since we want the PDE to remain unchanged in the bulk, we require $sigma|_U = 0$. Within $U^c$, $sigma$ should be positive, so that the damping becomes active and drives $Phi$ towards $Phi_0$. The naive approach would be to just set $sigma|_(U^c)$ to some large constant value and be done with; however, intuition already tells us that that would lead to reflections in hyperbolic propagation. "Easing into" the decay by applying a gradual increase in $sigma$ starting at 0 on $diff U$ and smoothly growing as one moves away from the bulk. 
 
 To turn this intuition into a more rigorous strategy, we can study how the introduction of the locally scaled exponential damping terms affect the linear wave equation in $1+1$ dimensions. In first order form we can implement damping terms straightforwardly as 
@@ -1093,6 +1093,8 @@ Having now motivated what kinds of functions $sigma(x)$ are effective at reducin
     d/dx S_k (1/2) = binom(2k,k) (2k+1)/2^k.
   $
   This grows rapidly with increasing $k$.
+
+Besides reflections, there is a second consideration to be made regarding the allowed magnitude of $sigma_0$ when employing it in a discrete time integration scheme. The artifical exponential decay terms in the @eqModifiedABLPDE[modified PDE] introduce additional stiffness, and change the spectrum of the right-hand side operator. Hence, the maximum allowed $Delta t$ becomes limited by $sigma_0$ as well. However, this is generally far less strict than the time step considerations to be made for the bulk dynamics; the boundary layer's decay must only be stable, not match the continuum decay exactly---it is an unphysical effect anyways.
 === Kreiss-Oliger Dissipation
 When evolving non-linear PDEs, the non-linear terms can introduce higher-frequency components through the mechanism we discussed in @remarkSpectralMethods. Although there, we were considering spectral methods---where the mechanism presents itself most clearly---it is irrespective of the field representation used; in particular, it is also present when working with discretised field values. In that specific case, the high-frequency modes produced by non-linear terms may exceed the spatial grid cutoff set by the Nyquist limit. Such modes alias back noto lower-frequency modes, introducing unphysical "energy" that can cause a simulation to become unstable and diverge. 
 
