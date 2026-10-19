@@ -732,8 +732,128 @@ $
 $
 In this figure, the one-dimensional comparison between the continuous eigenvalues and the two discretised spectra is shown. We can see that around $k=0$, both discretised spectra match the graph of the continuum spectrum well, but diverge moving away from $k=0$. The divergence is much faster with the lower-order stencil; the 5-wide stencil resolves higher-frequency modes better. This, however, comes at the cost of having a larger maximum value for $lambda_vk^(Delta,2)$ than for $lambda_vk^(Delta,1)$, which reduces the maximum admissible timestep due to @eqGeneralRKStabilityCondition.
 
-==== #text(fill:red)[Non-Linear Equations]
-== Boundary Conditions and Grid Stability
+==== Non-Linear Equations
+While an in-depth analysis of the numerical stability of non-linear equations of the form
+$
+  diff_t phi.alt = F(phi.alt), quad phi.alt : RR^(1,d) -> RR^N,
+$
+should be done on a case-by-case basis, we can make some preliminary observations of this general case. Since a general functional $F$ cannot be assigned a spectrum, the eigenvalue-based approach for the stability analysis of the linear case breaks down. We can, however, linearise the right-hand side around some background state $phi.alt_0 : RR^d -> RR^N$, as
+$
+  F(phi.alt) = F(phi.alt_0) + J(phi.alt_0)(phi.alt - phi.alt_0) + fO(||phi.alt-phi.alt_0||^2),
+$
+with
+$
+  J_(i j) (phi.alt) = (delta F_i)/(delta phi.alt_j)|_(phi.alt)
+$
+This allows us to approximate the fully non-linear equation around $phi.alt_0$ into the linear equation
+$
+  diff_t phi.alt &= F(phi.alt_0) + J(phi.alt_0) (phi.alt-phi.alt_0) + fO(|phi.alt-phi.alt_0|^2)\
+  &= J(phi.alt_0) phi.alt + S_0 + fO(||phi.alt-phi.alt_0||^2)
+$
+where $S_0 = F(phi.alt_0)-J(phi.alt_0)phi.alt_0$ is the source term encoding the non-linear dynamics near the background $phi.alt_0$. A general solution to the linearised equation
+$
+  diff_t phi.alt = J(phi.alt_0)phi.alt + S_0
+$
+Has the form
+$
+  phi.alt(t,x) = phi.alt_h (t,x) + phi.alt_s (x),
+$
+where $phi.alt_h$ solves the source-free equation
+$
+  diff_t phi.alt_h = J(phi.alt_0)phi.alt_h,
+$
+and $phi.alt_s$ solves the elliptic problem
+$
+  J(phi.alt_0)phi.alt_s + S_0 = 0.
+$
+Since $phi.alt$ only gains time-dependence through $phi.alt_h$, any stability considerations (near $phi.alt_0$) only concern $phi.alt_h$. Concretely, the relevant eigenvalues of $J(phi.alt_0)$ need to lie inside the stability region of the RK scheme being used. To be as accurate as possible, for a time-iteration scheme
+$
+  phi.alt^(n+1) = phi.alt^n + sum_(i=1)^n b_i k_i,
+$
+one typically takes as background the initial state, that is, $phi.alt_0 = phi.alt^n$. In this case, the linearised approximation typically remains valid, since $phi.alt^(n+1)$ remains close to $phi.alt^n$---their difference is $fO(Delta t)$. 
+
+Let us consider a few concrete PDEs to see how they linearise, and how the spectrum of $J(phi.alt_0)$ behaves. 
+
++ As a first example, we examine the non-linear heat equation
+  $
+    diff_t phi.alt = Delta phi.alt + gamma phi.alt|phi.alt|^(p)
+  $
+  for some constants $gamma in RR$ and $p>1$. We pick an arbitrary field configuration $phi.alt_0$ to linearise around, writing $phi.alt = phi.alt_0 + delta phi.alt <=> delta phi.alt = phi.alt - phi.alt_0$. The simplest way to find the relevant quantities associated with 
+  $
+    F(phi.alt) = Delta phi.alt + gamma phi.alt|phi.alt|^(p)
+  $
+  is to insert and expand directly:
+  $
+    F(phi.alt) &= F(phi.alt_0 + delta phi.alt) = Delta phi.alt_0 + Delta delta phi.alt + gamma (phi.alt_0 + delta phi.alt)|phi.alt_0 + delta phi.alt|^(p)\
+    &= Delta phi.alt_0 + gamma phi.alt_0|phi.alt_0|^(p) + Delta delta phi.alt + gamma (p+1)|phi.alt_0|^(p)delta phi.alt + fO(||delta phi.alt||^2).
+  $
+  Inserting back into the original equation and dropping higher-order terms in $delta phi.alt$, we obtain
+  $
+    diff_t phi.alt &= diff_t delta phi.alt = (Delta + gamma (p+1)|phi.alt_0|^p) delta phi.alt + Delta phi.alt_0 + gamma phi.alt_0|phi.alt_0|^p\
+    &= (Delta + gamma (p+1)|phi.alt_0|^p) phi.alt + S_0
+  $
+  where
+  $
+    S_0 = Delta phi.alt_0 + gamma phi.alt_0|phi.alt_0|^p - Delta phi.alt_0 - gamma(p+1)phi.alt_0|phi.alt_0|^p = -gamma p phi.alt_0|phi.alt_0|^p
+  $
+  The relevant operator for stability analysis is thus
+  $
+    J(phi.alt_0) = Delta + gamma(p+1)|phi.alt_0|^p,
+  $
+  where the second term is to be understood as acting by pointwise multiplication of functions. 
+
+  For an arbitrary background state $phi.alt_0$, it is generally not possible to determine the full spectrum of $J(phi.alt_0)$. Only in certain cases---e.g. when $phi.alt_0$ is constant, or when it has certain symmetries---we can determine $sigma(J(phi.alt_0))$ analytically. Nonetheless, we can make some qualitative observations: 
+  - If the second term is small, the spectrum of $J(phi.alt_0)$ is approximated reasonably well by that of the Laplacian $Delta$.
+
+  - The dependence of the operator on $gamma$ is continuous, meaning that the eigenvalues of $J(phi.alt_0)$ follow a continuous path from the Laplacian spectrum at $gamma = 0$ to their value for $gamma!=0$.
+
+  - The multiplication operator $gamma(p+1)|phi.alt_0|^p$ is a relatively compact perturbation of the Laplacian if $phi.alt_0$ vanishes as $|x\|->infty$. By Weyl's theorem, compact perturbations do not change the essential spectrum; hence we retain the negative real axis as the essential spectrum. However, discrete eigenvalues can cross into the right half-plane; this is necessary, since depending on the sign of $gamma$, we have finite-time blowup, meaning that we have _physical_ instabilities (that any RK implementation should respect).
+
++ Moving to second-order in time equations, we may consider the non-linear wave equation
+  $
+    diff_t^2 phi.alt = Delta phi.alt + gamma|nabla phi.alt|^2phi.alt.
+  $
+  To be able to address it using RK, we have to cast it into the first-order form
+  $
+    diff_t phi.alt &= pi,\
+    diff_t pi &= Delta phi.alt + gamma|nabla phi.alt|^2phi.alt
+  $
+  To linearise this around some fixed background state $(phi.alt_0,pi_0)$, we write $phi.alt = phi.alt_0 + delta phi.alt$, $pi = pi_0 + delta pi$, so that the linearised equation reads
+  $
+    diff_t pi &= Delta (phi.alt_0 + delta phi.alt) + gamma|nabla phi.alt_0 + nabla delta phi.alt|^2(phi.alt_0 + delta phi.alt)\
+    &=Delta phi.alt_0 + Delta delta phi.alt + gamma|nabla phi.alt_0|^2delta phi.alt + 2gamma phi.alt_0 (nabla phi.alt_0)dot nabla delta phi.alt + gamma|nabla phi.alt_0|^2phi.alt_0\
+    &=Delta phi.alt + gamma|nabla phi.alt_0|^2phi.alt + 2 gamma phi.alt_0 nabla phi.alt_0 dot nabla phi.alt - 2 gamma|nabla phi.alt_0|^2phi.alt_0.
+  $
+  Since the equation $diff_t phi.alt = pi$ is linear already, we do not need to expand it further. Hence, the full equation system linearises as
+  $
+    diff_t vec(phi.alt,pi) = mat(0,1;Delta + gamma(|nabla phi.alt_0|^2 + 2 phi.alt_0 nabla phi.alt_0 dot nabla),0)vec(phi.alt,pi) + S_0,
+  $
+  where
+  $
+    S_0 = vec(0,-2gamma|nabla phi.alt_0|^2phi.alt_0).
+  $
+  In this case, the linearised operator contains---besides the second-order Laplacian and the zero-th order pointwise-multiplication terms that we have seen before---a first-order derivative term. We recall that for an operator of the form
+  $
+    T = mat(0,1;D,0),
+  $
+  the spectra are related by $sigma(T) = sqrt(sigma(D)) union -sqrt(sigma(D))$. In the case above where
+  $
+    D = Delta + gamma(|nabla phi.alt_0|^2 + 2phi.alt_0 nabla phi.alt_0 dot nabla),
+  $
+  we again have a continuous dependence of the operator on $gamma$; hence, for $gamma$ small enough, we have a perturbed Laplacian spectrum for $D$, which turns into the standard perturbed $i RR$ spectrum for $T$. Notably, due to the gradient term, $D$ is no longer necessarily self-adjoint, and it hence has eigenvalues with nonzero imaginary part. Since for $lambda^2 in sigma(D)$, both $pm lambda in sigma(T)$, this implies that we must have unstable modes, i.e. modes with $"Re" lambda > 0$. Because the magnitude of the gradient term grows with the frequency of the mode, this instability predominantly affects high-frequency modes.
+
+  There are, however, backgrounds $phi.alt_0$ (and hence, initial conditions for the evolution equation), around which the evolution is stable. For this to be the case, $D$ must be negative definite, that is---for all test functions $psi$---we must have
+  $
+    0 &>= inprod(psi,D psi) = integral_(RR^d) [macron(psi) Delta psi+ gamma(|nabla phi.alt_0|^2|psi|^2 + 2 phi.alt_0 nabla phi.alt_0 dot (nabla psi)macron(psi))]\
+    &= integral_(RR^d) [-|nabla psi|^2 + gamma(|nabla phi.alt_0|^2 - nabla dot (phi.alt_0 nabla phi.alt_0))|psi|^2].
+  $
+  For this to hold for any test function $psi$, we must have
+  $
+    0 &>= gamma(|nabla phi.alt_0|^2 - nabla dot (phi.alt_0 nabla phi.alt_0))\
+    &= -gamma phi.alt_0 Delta phi.alt_0.
+  $
+  
+== Boundaries and Grid Stability
 === Sommerfeld Radiation Boundaries
 In this section, we derive _Sommerfeld radiation boundary conditions_ for the wave equation on flat Minkowski space, 
 $
@@ -812,7 +932,6 @@ These two equations specify a first spatial derviative of both $phi.alt$ and $pi
 
 The "some" qualifier in front of the term "domains" above is unfortunately rather important. If one is running the simulation with a spherical boundary and works in spherial coordinates, then $diff_r$ is the normal direction to the boundary, and everything works out fine. However, most simulations are carried out on a Cartesian grid, where the boundary is a box. This has two consequences: computing $diff_r$ is not as straightforward, and the normal derivative of a boundary is one of the coordinate derviatives $diff_x$, $diff_y$ or $diff_z$ which we need to solve for. As we will see below, solving this system can become a problem once the boundary conditions are discretised, and can lead one to be forced to take certain compromises.
 
-#text(fill:red)[Rephrase below]
 So, let us proceed with an attempt to discretise the boundary conditions for a cartesian grid, and see where it fails. Then, we will find ways to remedy the failure, at the expense of losing some of its properties.
 Firstly, we note that the radial basis vector $diff_r$ is related to the cartesian ones by
 $
