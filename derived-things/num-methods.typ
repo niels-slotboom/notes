@@ -1634,6 +1634,39 @@ $
   vM bold(phi.alt)^(n+1) = bold(phi.alt)^n - Delta t (bold(phi.alt)^n)^3,
 $
 where $vM$ is the same linear system matrix derived in @eqLinearStepEqn, and the power $(bold(phi.alt)^n)^3$ is evaluated component-wise. The non-linear term is computed purely as an explicit source update on the right-hand side, leaving $vM$ untouched.
+== Discretisation- and Code Validation
+=== Known Exact Solutions
+The simplest way to validate the consistency of a discretisation as well as its implementation in code is to compare its result against a known solution of the continuum equation. Denoting the numerical solution by $phi.alt_"num" (t,x)$ and the analytical solution by $phi.alt(t,x)$, one can then study the time evolution of e.g. the (logarithmic) difference of field values,
+$
+  e(t,x) = log_10|phi.alt(t,x)-phi.alt_"num" (t,x)|.
+$
+Since this yields a spatial distribution of the error, one can use it to get an overview of which features of the solution accrue the most error when approximated numerically. 
+
+In certain simulations, such as binary black hole mergers, over time, a phase drift can occur between the analytical and numerical solutions. Though we will get into this in more detail later on, one can account for this empirically by introducing a drift function $s(t)$ and modifying the error distribution as
+$
+  e(t,x) = log_10|phi.alt(t,x)-phi.alt_"num" (t + s(t),x)|.
+$
+By adjusting the function $s(t)$, one can attempt to reduce the error and hence quantify the accumulated phase drift.
+
+One downside of an error distribution $e(t,x)$ is that its interpretation requires visual inspection of a full $d+1$-dimensional dataset. This is simplified by considering certain norms of the difference instead, such as e.g.
+$
+  fe_p (t) = log_10 (integral_Omega |phi.alt(t,x) - phi.alt_"num"|^p d^d x)^(1\/p)
+$
+(including a factor of $sqrt(g)$ if appropriate)or its limit as $p->infty$,
+$
+  fe_infty (t) = log_10 (sup_(x in Omega) |phi.alt(t,x) - phi.alt_"num" (t,x)|).
+$
+Though this removes the spatial information of _where_ the errors are largest, these norms (potentially incorporating a drift function as well), the resulting error-vs-time graph can typically also provide sufficient insight into whether a numerical scheme is sufficiently accurate. Naturally, with all the examples given so far, it is always possible to consider relative errors instead of absolute ones. 
+
+If one is working with a constrained system, such as electrodynamics ($nabla dot vE = 0$) or general relativity ($cal(H) = cal(M)_i = 0$) the constraints themselves are additional variables to derive insights from. Concretely, even if an analytical solution for the given initial conditions is not known, on physical grounds, one knows that the constraints still have to be satisfied. We are hence motivated to study the spatial distribution or norms of the constraints over time.
+
+The likely largest drawback of comparing against known analytical solutions is that one needs to know said analytical solutions in the first place. For certain linear equations, this is achievable, though it might lead us to question why we are solving the equation numerically while having an analytical equation on hand. If the PDE cannot be solved generally, one can test the numerical implementations on the analytical solutions one does know; e.g. Schwarzschild and Kerr for GR. Though this is a good starting point, it does leave a lot to be desired. Since we do not know any analytical two-body solutions (beyond dual extremal Reissner-Nordström BHs or similarly exotic solutions), we cannot really verify dynamical configurations, and by that lack the ability to e.g. quantify phase drift in BBH inspirals. We thus clearly need to develop more verification tools---ones that do not rely on having an analytical solution of the PDE at hand.
+=== #text(fill:red)[Grid and Temporal Convergence Tests]
+=== #text(fill:red)[Time-Reversal Tests]
+=== #text(fill:red)[Conservation Laws and Constraint Monitoring]
+=== #text(fill:red)[Method of Manufactured Solutions]
+
+
 == Newton-Raphson for Elliptic Equations
 === Recap of N-R for Root Finding in $d=1$
 In this section, we discuss the Newton-Raphson method of finding a root of a function $f:RR->RR$, in preparation of the more general, higher dimensional case where we study maps $RR^m->RR^n$. 
