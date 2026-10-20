@@ -430,7 +430,7 @@ $
 $
 This has a very nice physical interpretation: the distance travelled by a wave within one timestep, $c Delta t$, must not exceed a value proportional to the grid spacing, $Delta x$. Since the proportionality factor of $1\/sqrt(d)$ is less than 1, this means that the numerical domain of dependence is contained in the physical domain of dependence.
 === Stability Regions of RK Schemes
-In this section, we derive and study the stability regions of differen RK schemes applied to a PDE of the form
+In this section, we derive and study the stability regions of different RK schemes applied to a PDE of the form
 $
   diff_t phi.alt = F(phi.alt).
 $
@@ -1094,9 +1094,9 @@ Having now motivated what kinds of functions $sigma(x)$ are effective at reducin
   $
   This grows rapidly with increasing $k$.
 
-Besides reflections, there is a second consideration to be made regarding the allowed magnitude of $sigma_0$ when employing it in a discrete time integration scheme. The artifical exponential decay terms in the @eqModifiedABLPDE[modified PDE] introduce additional stiffness, and change the spectrum of the right-hand side operator. Hence, the maximum allowed $Delta t$ becomes limited by $sigma_0$ as well. However, this is generally far less strict than the time step considerations to be made for the bulk dynamics; the boundary layer's decay must only be stable, not match the continuum decay exactly---it is an unphysical effect anyways.
+Besides reflections, there is a second consideration to be made regarding the allowed magnitude of $sigma_0$ when employing boundary damping in a discrete time integration scheme. The artifical exponential decay terms in the @eqModifiedABLPDE[modified PDE] introduce additional stiffness, and change the spectrum of the right-hand side operator. Hence, the maximum allowed $Delta t$ becomes limited by $sigma_0$ as well. However, this is generally far less strict than the time step considerations to be made for the bulk dynamics; the boundary layer's decay must only be stable, not match the continuum decay exactly---it is an unphysical effect anyways.
 === Kreiss-Oliger Dissipation
-When evolving non-linear PDEs, the non-linear terms can introduce higher-frequency components through the mechanism we discussed in @remarkSpectralMethods. Although there, we were considering spectral methods---where the mechanism presents itself most clearly---it is irrespective of the field representation used; in particular, it is also present when working with discretised field values. In that specific case, the high-frequency modes produced by non-linear terms may exceed the spatial grid cutoff set by the Nyquist limit. Such modes alias back noto lower-frequency modes, introducing unphysical "energy" that can cause a simulation to become unstable and diverge. 
+When evolving non-linear PDEs, the non-linear terms can introduce higher-frequency components through the mechanism we discussed in @remarkSpectralMethods. Although there, we were considering spectral methods---where the mechanism presents itself most clearly---it is irrespective of the field representation used; in particular, it is also present when working with discretised field values. In that specific case, the high-frequency modes produced by non-linear terms may exceed the spatial grid cutoff set by the Nyquist limit. Such modes alias back onto lower-frequency modes, introducing unphysical "energy" that can cause a simulation to become unstable and diverge. 
 
 Clearly, one should---as a first step---choose the resolution of the grid fine enough so that all physical modes one expects to be present can be resolved, i.e. do not fall below the grid's Nyquist wavelength of $2 Delta x$. However, numerical and discretisation error can introduce unwanted, unphysical high-frequency modes. Non-linearities then transform these contributions beyond the grid's spatial cutoff, which alias into lower frequencies and can cause the simulation to diverge. To resolve this, we need to dampen or _dissipate_ unphysical high-frequency modes, while leaving the physical modes unchanged, and without harming the integration accuracy of the solver. 
 

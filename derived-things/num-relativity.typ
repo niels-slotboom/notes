@@ -1362,6 +1362,3 @@ These are what we will from now on refer to as the _Z4-ADM equations of motion_.
 
 === Outlook: Z4c/CCZ4
 Unfortunately, the @eqZ4-ADM[Z4-ADM equations] do not constitute a strongly hyperbolic, numerically stable system of PDEs. While the propagation and damping of constraints significantly improve performance over standard ADM, long-term stable evolution still requires the "BSSN treatment". This involves reparametrising the system into conformal and traceless variables---the previously introduced $(phi.alt, tilde(gamma)_(i j), K , tilde(A)_(i j))$---and introducing the auxiliary conformal connectino functions $tilde(Gamma)^i$ to ensure a well-posed principal symbol. Applying this transformation to Z4 yields formulations such as Z4c or CCZ4, which, when coupled with appropriate gauge conditions, form a robust, fully closed system for numerical relativity.
-== #text(fill:red)[Wave Extraction & Diagnostics]
-=== #text(fill:red)[Weyl Scalar $Psi_4$]
-=== #text(fill:red)[Constraint Monitoring]
