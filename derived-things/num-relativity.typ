@@ -726,6 +726,65 @@ $
   macron(R) &= e^(4phi.alt)(tilde(R) + 8 tilde(gamma)^(i j) (tnabla_i tnabla_j phi.alt - diff_i phi.alt diff_j phi.alt)).
 $
 === #text(fill: red)[Gauge Dynamics]
+==== #text(fill: red)[Lapse: Bona-Masso and $1+log$ Slicing]
+One primary objective in choosing a gauge is to ensure that the spatial slicing $Sigma_t$ does not encounter a spacetime singularity as the coordinate time $t$ advances. Numerical grids cannot represent infinite curvature or density divergences; we must avoid singularities during evolution. According to the Penrose singularity theorems, however, gravitational collapse inevitably generates singularities under physically reasonable conditions. 
+
+To prevent the computational domain from crashing into singularities, the lapse function $alpha$ can be driven towards zero dynamically near the singularity. Because the proper time interval of a normal observer is $Delta tau = alpha Delta t$, setting $alpha->0$ halts coordinate time evolution locally in high-curvature regions. This mechanism---known as singularity avoidance---ensures that the slices $Sigma_t$ asymptotically stall and never intersect the singularity. Under a dynamical slicing condition, this collapse of the lapse should occur automatically as consequence of the prescribed evolution equation for $alpha$. 
+
+Our first goal is to establish the general Bona-Masso evolution equation for $alpha$, motivated by harmonic coordinates---those typically used to show hyperbolicity and well-posedness of the Einstein equations---it is a modification of the harmonic condition $Box_g t = 0$ written in terms of adapted coordinates. We derive
+$
+  0 &attach(=,t:!) Box_g t = nabla_mu (g^(mu nu) diff_nu t) = nabla_mu (g^(mu t)) = nabla_mu (-1/alpha n^mu) \
+  &= -1/alpha nabla_mu n^mu + 1/alpha^2 n^mu nabla_mu alpha
+$
+Making use of $nabla_mu n^mu = -K$ and $n^mu nabla_mu alpha = 1/alpha (diff_t - beta^i diff_i) alpha$, we arrive at
+$
+  1/alpha^3 (diff_t alpha - beta^i diff_i alpha) = - 1/alpha K
+$
+or more cleanly,
+$
+  diff_t alpha = beta^i diff_i alpha - alpha^2 K.
+$<eqHarmonicConditionAlpha>
+Let us see what this harmonic slicing condition implies, and how we can modify it to avoid singularities---harmonic coordinates do not do this by default. Recalling that 
+$
+  K_(i j) = 1/(2 alpha)(diff_t gamma_(i j) - mnabla_i beta_j - mnabla_j beta_i),
+$
+we derive that
+$
+  K = gamma^(i j) K_(i j) = 1/(2 alpha) (gamma^(i j)diff_t gamma_(i j) - 2 mnabla_i beta^i) = 1/alpha diff_t log sqrt(gamma) - 1/alpha mnabla_i beta^i.
+$
+Inserting back into the @eqHarmonicConditionAlpha[harmonic slicing condition], we obtain
+$
+  diff_t alpha = beta^i diff_i alpha - alpha diff_t log sqrt(gamma) + alpha mnabla_i beta^i.
+$
+We know that $beta$ merely encodes the drift of spatial coordinates, so that, in order to determine a scaling relationship between $alpha$ and $sqrt(gamma)$, we may make the simplifying assumption that $beta=0$. This turns the equation above into
+$
+  diff_t alpha = -alpha diff_t log sqrt(gamma) quad <=>quad -diff_t log alpha = diff_t log sqrt(gamma).
+$
+Integrating this yields
+$
+  alpha = (alpha_0 sqrt(gamma_0))/sqrt(gamma),
+$
+where $alpha_0$ is the distribution of $alpha$ and $sqrt(gamma_0)$ that of $sqrt(gamma)$ on $Sigma_0$. In particular, at a singularity---where $sqrt(gamma)->0$ approaches 0---we have $alpha->0$. However, achieving $alpha -> infty$ with order $fO(gamma^(-1\/2))$. This means that instead of slowing down and freezing time as we approach the singularity, we crash into it with great acceleration. 
+
+We have now reached a point where we need to modify @eqHarmonicConditionAlpha to change this problematic scaling relationship between $alpha$ and $sqrt(gamma)$. The reason the harmonic gauge condition produces merely an inverse scaling between the two is because the division by the remaining factor $alpha$ causes a logarithmic derivative to emerge on the left-hand side. By altering that factor, we could produce different scaling laws, which potentially ensure $alpha->0$ fast enough as $sqrt(gamma)->infty$. We are thus motivated to introduce the _Bona-Masso lapse gauge condition_
+$
+  diff_t alpha = beta^i diff_i alpha  -alpha^2 f(alpha) K,
+$
+where $f$ is a freely specifiable function of $alpha$.
+
+
+$1+log$ choice:
+$
+  f(alpha) = 2/alpha
+$
+leads to
+$
+  alpha = alpha_0 + ln(gamma/gamma_0).
+$
+
+
+
+==== #text(fill: red)[Shift: $Gamma$-Driver]
 == Initial Data
 In this section, we discuss different approaches used to decompose and solve the constraint equations
 #bottom-number[$
