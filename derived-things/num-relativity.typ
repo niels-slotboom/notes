@@ -725,64 +725,87 @@ $
 & #h(5.65em) quad+ thin tilde(Gamma)^k tilde(Gamma)_((i j) k) + tilde(Gamma)_(k ell i) tensor( tilde(Gamma),+k ell, -j) + 2  tilde(Gamma)_(k ell \(i) tensor( tilde(Gamma),-j\),+k ell),\ \ \
   macron(R) &= e^(4phi.alt)(tilde(R) + 8 tilde(gamma)^(i j) (tnabla_i tnabla_j phi.alt - diff_i phi.alt diff_j phi.alt)).
 $
-=== #text(fill: red)[Gauge Dynamics]
-==== #text(fill: red)[Lapse: Bona-Masso and $1+log$ Slicing]
-One primary objective in choosing a gauge is to ensure that the spatial slicing $Sigma_t$ does not encounter a spacetime singularity as the coordinate time $t$ advances. Numerical grids cannot represent infinite curvature or density divergences; we must avoid singularities during evolution. According to the Penrose singularity theorems, however, gravitational collapse inevitably generates singularities under physically reasonable conditions. 
+=== Gauge Dynamics
+==== Lapse: Bona-Massó and $1+log$ Slicing
+One objective in choosing a gauge is to prevent the spatial foliation $Sigma_t$ from encountering a spacetime singularity as the coordinate time $t$ advances. Numerical evolution cannot reliably represent the divergent curvature associated with a physical singularity, so it is desirable to choose a slicing that avoids reaching it. The Penrose singularity theorems establish generic geodesic incompleteness under suitable assumptions, meaning that generally, we have singularities to avoid.
 
-To prevent the computational domain from crashing into singularities, the lapse function $alpha$ can be driven towards zero dynamically near the singularity. Because the proper time interval of a normal observer is $Delta tau = alpha Delta t$, setting $alpha->0$ halts coordinate time evolution locally in high-curvature regions. This mechanism---known as singularity avoidance---ensures that the slices $Sigma_t$ asymptotically stall and never intersect the singularity. Under a dynamical slicing condition, this collapse of the lapse should occur automatically as consequence of the prescribed evolution equation for $alpha$. 
+A common strategy is to drive the lapse function $alpha$ towards zero in regions approaching a singularity. Since the proper-time separation between neighbouring slices along the normal congruence is $dtau = alpha dt$, a collapsing lapse suppresses the accumulation of proper time as coordinate time advances. This mechanism, known as _singularity avoidance_, can allow the slices to approach a limiting hypersurface without reaching the physical singularity. Whether this occurs depends on the spacetime and the chosen slicing condition. 
 
-Our first goal is to establish the general Bona-Masso evolution equation for $alpha$, motivated by harmonic coordinates---those typically used to show hyperbolicity and well-posedness of the Einstein equations---it is a modification of the harmonic condition $Box_g t = 0$ written in terms of adapted coordinates. We derive
+Our first goal is to establish the general Bona-Massó evolution equation for $alpha$, motivated by harmonic coordinates, which are commonly used in establishing hyperbolicity and well-posedness properties of the Einstein equations. The harmonic coordinate condition for the time coordinate, $Box_g t = 0$, can be written in coordinates adapted to the foliation as
 $
   0 &attach(=,t:!) Box_g t = nabla_mu (g^(mu nu) diff_nu t) = nabla_mu (g^(mu t)) = nabla_mu (-1/alpha n^mu) \
   &= -1/alpha nabla_mu n^mu + 1/alpha^2 n^mu nabla_mu alpha
 $
-Making use of $nabla_mu n^mu = -K$ and $n^mu nabla_mu alpha = 1/alpha (diff_t - beta^i diff_i) alpha$, we arrive at
+Making use of $nabla_mu n^mu = -K$ and 
 $
-  1/alpha^3 (diff_t alpha - beta^i diff_i alpha) = - 1/alpha K
+  n^mu nabla_mu alpha = 1/alpha (diff_t - beta^i diff_i) alpha,
 $
-or more cleanly,
+we arrive at
 $
   diff_t alpha = beta^i diff_i alpha - alpha^2 K.
 $<eqHarmonicConditionAlpha>
-Let us see what this harmonic slicing condition implies, and how we can modify it to avoid singularities---harmonic coordinates do not do this by default. Recalling that 
-$
-  K_(i j) = 1/(2 alpha)(diff_t gamma_(i j) - mnabla_i beta_j - mnabla_j beta_i),
-$
-we derive that
-$
-  K = gamma^(i j) K_(i j) = 1/(2 alpha) (gamma^(i j)diff_t gamma_(i j) - 2 mnabla_i beta^i) = 1/alpha diff_t log sqrt(gamma) - 1/alpha mnabla_i beta^i.
-$
-Inserting back into the @eqHarmonicConditionAlpha[harmonic slicing condition], we obtain
-$
-  diff_t alpha = beta^i diff_i alpha - alpha diff_t log sqrt(gamma) + alpha mnabla_i beta^i.
-$
-We know that $beta$ merely encodes the drift of spatial coordinates, so that, in order to determine a scaling relationship between $alpha$ and $sqrt(gamma)$, we may make the simplifying assumption that $beta=0$. This turns the equation above into
-$
-  diff_t alpha = -alpha diff_t log sqrt(gamma) quad <=>quad -diff_t log alpha = diff_t log sqrt(gamma).
-$
-Integrating this yields
-$
-  alpha = (alpha_0 sqrt(gamma_0))/sqrt(gamma),
-$
-where $alpha_0$ is the distribution of $alpha$ and $sqrt(gamma_0)$ that of $sqrt(gamma)$ on $Sigma_0$. In particular, at a singularity---where $sqrt(gamma)->0$ approaches 0---we have $alpha->0$. However, achieving $alpha -> infty$ with order $fO(gamma^(-1\/2))$. This means that instead of slowing down and freezing time as we approach the singularity, we crash into it with great acceleration. 
+Let us examine what this harmonic slicing condition implies, and how we might modify it to improve singularity avoidance---harmonic slicing does not, in general, guarantee that the foliation avoids a singularity. 
 
-We have now reached a point where we need to modify @eqHarmonicConditionAlpha to change this problematic scaling relationship between $alpha$ and $sqrt(gamma)$. The reason the harmonic gauge condition produces merely an inverse scaling between the two is because the division by the remaining factor $alpha$ causes a logarithmic derivative to emerge on the left-hand side. By altering that factor, we could produce different scaling laws, which potentially ensure $alpha->0$ fast enough as $sqrt(gamma)->infty$. We are thus motivated to introduce the _Bona-Masso lapse gauge condition_
+Recalling that 
 $
-  diff_t alpha = beta^i diff_i alpha  -alpha^2 f(alpha) K,
+  K_(i j) = -1/(2alpha)(diff_t gamma_(i j) - mnabla_i beta_j - mnabla_j beta_i),
 $
-where $f$ is a freely specifiable function of $alpha$.
+we obtain, upon taking the trace,
+$
+  K &= -1/(2 alpha) (gamma^(i j) diff_t gamma_(i j) - 2 mnabla_i beta^i)\
+  &= -1/alpha diff_t log sqrt(gamma) + 1/alpha mnabla_i beta^i.
+$
+Substituting this expression into @eqHarmonicConditionAlpha yields
+$
+  diff_t alpha = beta^i diff_i alpha + alpha diff_t log sqrt(gamma) - alpha mnabla_i beta^i.
+$
+To establish a simple scaling relation between the lapse and the spatial volume density, we now make the simplifying assumption that $beta^i = 0$. The equation becomes
+$
+  diff_t alpha = alpha diff_t log sqrt(gamma) quad<=>quad diff_t log alpha = diff_t log sqrt(gamma).
+$
+Integrating in time gives
+$
+  alpha(t,x) = alpha_0 (x) sqrt(gamma(t,x))/sqrt(gamma_0(x)).
+$
+Thus, under harmonic slicing with vanishing shift, the lapse is proportional to the spatial volume density at each spatial coordinate. If $sqrt(gamma)$ approaches zero, the lapse does so at the same rate. This relation motivates the search for a slicing condition that suppresses the lapse more strongly as the spatial volume density decreases. 
 
+We are therefore led to generalise @eqHarmonicConditionAlpha by allowing the response of the lapse to the trace of the extrinsic curvature to depend on the lapse itself. Concretely, we employ the _Bona-Massó slicing condition_,
+$
+  diff_t alpha = beta^i diff_i alpha - alpha^2 f(alpha) K,
+$<eqBonaMasso>
+where $f(alpha)$ is a freely specificable gauge function. Different choices of $f$ produce different lapse dynamics and can substantially alter the singularity-avoidance properties of the resulting foliation.
 
-$1+log$ choice:
+A particularly useful choice is $f(alpha) = 2\/alpha$, which gives the standard _1+log slicing condition_
 $
-  f(alpha) = 2/alpha
+  diff_t alpha = beta^i diff_i alpha - 2 alpha K.
+$<eq1plogEv>
+To examine its scaling behaviour, we again assume vanishing shift. Substituting the relation between $K$ and the spatial volume density gives
 $
-leads to
+  diff_t alpha = - 2 alpha K = 2 diff_t log sqrt(gamma) = diff_t log gamma.
 $
-  alpha = alpha_0 + ln(gamma/gamma_0).
+Integrating in time, we find
 $
+  alpha(t,x) = alpha_0 (x) + log(gamma(t,x)/(gamma_0(x))).
+$
+This is the origin of the name $1+log$ slicing---in the commonly used normalisation $alpha_0 = 1$ and $gamma_0 = 1$, the relation takes the form $alpha = 1 + log gamma$. 
 
+The integration relation shows that the lapse decreases logarithmically as the spatial volume density decreases. In particular, the formal condition $alpha = 0$ corresponds to 
+$
+  gamma/gamma_0 = e^(-alpha_0).
+$
+For an initially unit lapse, the lapse therefore collapses when the spatial volume density has decreased by a factor $e^(-1)$, rather than requiring it to approach zero first. This illustrates how $1+log$ slicing can drive the lapse towards zero more strongly than harmonic slicing, producing the desirable singularity-avoidance behaviour required in black hole evolutions.
 
+At first sight, the integrated relation appears to permit the lapse to become negative if $gamma$ decreases sufficiently far. However, this interpretation treats the relation as though $gamma$ could evolve independently of the lapse---in the coupled Einstein evolution system, the lapse itself influences the evolution of the spatial metric. Intuitively speaking, the evolution of $gamma$ halts before its value can decrease into the range leading to negative $alpha$. Another way of seeing why $alpha$ remains positive if it is positive initially is that $alpha=0$ leads to a vanishing right-hand side of the @eq1plogEv[lapse evolution equation]---it is a steady state. 
+
+As a final remark, let us consider the behaviour of the BSSNOK equations in a region where the lapse vanishes identically. In this case, the lapse-dependent terms and their spatial derivatives vanish within that region, and the evolution equations reduce to
+$
+  diff_t phi.alt &= fL_beta phi.alt,\
+  diff_t tilde(gamma)_(i j) &= fL_beta tilde(gamma)_(i j),\
+  diff_t K &= fL_beta K,\
+  diff_t tilde(A)_(i j) &= fL_beta tilde(A)_(i j),\
+  diff_t tilde(Gamma)^i &= fL_beta tilde(Gamma)^i - sigma cal(G)^i.
+$
+Consequently, a frozen lapse causes the BSSNOK equations to reduce to a pure Lie-advective form---up to the algebraic constraint correction term in the last equation. In hindsight, this is expected: even though the evolution comes to a standstill with respect to $t$ along the integral lines of $n$, the spatial position of these integral lines may still vary as $t$ progresses---this is encoded by the shift. Thus, even if evolution is frozen ($alpha->0$), we still need to advect the field configuration across our simulation domain to account for coordinate motion. Note: At the boundary of a region where $alpha = 0$, its first and second derivatives may be non-zero. This introduces further terms into the equations for $K$, $tilde(A)_(i j)$ and $diff_t tilde(Gamma)^i$.
 
 ==== #text(fill: red)[Shift: $Gamma$-Driver]
 == Initial Data
