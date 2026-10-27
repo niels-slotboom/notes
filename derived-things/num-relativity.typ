@@ -808,6 +808,115 @@ $
 Consequently, a frozen lapse causes the BSSNOK equations to reduce to a pure Lie-advective form---up to the algebraic constraint correction term in the last equation. In hindsight, this is expected: even though the evolution comes to a standstill with respect to $t$ along the integral lines of $n$, the spatial position of these integral lines may still vary as $t$ progresses---this is encoded by the shift. Thus, even if evolution is frozen ($alpha->0$), we still need to advect the field configuration across our simulation domain to account for coordinate motion. Note: At the boundary of a region where $alpha = 0$, its first and second derivatives may be non-zero. This introduces further terms into the equations for $K$, $tilde(A)_(i j)$ and $diff_t tilde(Gamma)^i$.
 
 ==== #text(fill: red)[Shift: $Gamma$-Driver]
+
+Although a singularity-avoiding lapse condition can prevent the spatial foliation from encountering a spacetime singularity, we must further ensure that the spatial coordinates remain well-behaved throughout the evolution. Undesirable coordinate motion can distort the numerical grid, which makes the evolution equations difficult to resolve accurately and potentially destabilises the simulation. 
+
+As we have seen before, the shift vector $beta = beta^i diff_i$ controls the motion of spatial coordinates relative to the normal observers. This coordinate motion is not inherently undesirable: a coordinate system that rotates over time can be useful, for example, to co-rotate with a merging binary system. However, excessive or poorly controlled coordinate motion can lead to significant distortion of the grid. Similarly expansion and contraction of the coordinate grid can redistribute physical resolution, which may be beneficial or detrimental depending on the region and the structures being resolved, although this is of course no substitute for adaptive mesh refinement.
+
+The goal of a suitable shift condition is therefore not to eliminate coordinate motion, but to control it so that the resulting coordinates remain useful for numerical evolution. To this end, we first need a way to quantify the rate at which the grid is distorted; otherwise, it would be difficult to write down a formal condition for controlling said distortion. 
+
+For this purpose, we distinguish changes in the local volume scale from changes in the shape of the spatial metric. Recall that in BSSNOK, the physical and conformal spatial metrics are related by
+$
+  gamma_(i j) = gamma^(1\/3) tilde(gamma)_(i j).
+$
+This decomposition separates the metric into a determinant part, $gamma^(1\/3)$, and a shape part, the unit-determinant conformal metric $tilde(gamma)_(i j)$. The former encodes the local spatial volume scale relative to the coordinates, whereas the latter describes the angular relations and relative lengths of the spatial directions $diff_i$ independently of this volume scale. 
+
+To quantify distortion---that is, changes in shape---we therefore examine the time derivative $diff_t tilde(gamma)_(i j)$. Since $tilde(gamma)_(i j)$ is a tensor density of weight $-2\/3$, its time derivative has the same weight (under time-independent, spatial coordinate transformations).  Multiplying by $gamma^(1\/3)$, which has weight $+2\/3$, returns us to a genuine spatial tensor (under spatial coordinate transformations). This motivates the definition of the _distortion tensor_ as
+$
+  Sigma_(i j) = 1/2 gamma^(1\/3) diff_t tilde(gamma)_(i j)
+$
+Here, the factor of $1\/2$ is a conventional normalisation. The distortion tensor thus provides a measure of the coordinate-time rate of change of the shape of the spatial metric, separated from changes in its local volume density.
+
+To get a better interpretation of the dynamical meaning of $Sigma_(i j)$ under BSSNOK evolution, let us use the @eqBSSN[evolution equations] to re-express it in terms of other variables. Concretely, replacing $diff_t tilde(gamma)_(i j)$ leads to
+$
+  Sigma_(i j) = 1/2 gamma^(1\/3) fL_beta tilde(gamma)_(i j) - alpha A_(i j) 
+$<eqDistortionTensorDynamical>
+Here, $A_(i j)$ is the trace-free extrinsic curvature before rescaling into $tilde(A)_(i j)$,
+$
+  A_(i j) = K_(i j) - 1/3 K gamma_(i j).
+$
+These are physically sourced distortions: we cannot control them directly, as they are governed by the evolution. The first term, however, depends on $beta$---a quantity we control. This is how we will exert influence over the distortion. In due course, we will examine this term further. Before that, however, let us consider what we have found so far. Dynamically, the distortion tensor consists of two contributions---one we control by means of the shift, and the other prescribed by the physical evolution of the system. We can think of this as a kind of "game": the evolution wants to distort the grid by producing a nonzero $A_(i j)$---it is then our job to use the $beta$-dependent term to cancel it out as much as possible in order for the distortion to remain minimal. If, however, we were to choose $beta$ poorly, the first term acts as a further source of grid distortions.  
+
+To analyse the $beta$-dependent term further, we expand it using the Leibniz rule:
+$
+  1/2 gamma^(1\/3) fL_beta tilde(gamma)_(i j) &= 1/2 fL_beta (gamma^(1\/3) tilde(gamma)_(i j)) - 1/2 tilde(gamma)_(i j) fL_beta (gamma^(1\/3))\
+  &= 1/2 fL_beta gamma_(i j) - 1/2 tilde(gamma)_(i j) (beta^k diff_k gamma^(1\/3) + 2/3 gamma^(1\/3) diff_k beta^k)\
+  &= 1/2 (mnabla_i beta_j + mnabla_j beta_i) - 1/2 tilde(gamma)_(i j) gamma^(1\/3) lr((1/3 underbrace(gamma^(-1) beta^k diff_k gamma,=beta^k diff_k log gamma\ = 2 beta^k diff_k log sqrt(gamma)) + 2/3 diff_k beta^k), size:#40%) \
+  &= mnabla_(\(i) beta_(j\)) - 1/3 gamma_(i j) mnabla_k beta^k.
+$
+The $beta$-dependent contribution is hence nothing but the trace-free symmetric part of the gradient field $mnabla_i beta_j$---that is, its shear. Hence, the $beta$-dependent part of $Sigma_(i j)$ reacts to shear of $t$-coordinate lines, caused by coordinate motion in the direction of $beta$. We insert back into the @eqDistortionTensorDynamical[dynamical expression] for the distortion tensor to obtain
+$
+  Sigma_(i j) = mnabla_(\(i) beta_(j\)) - 1/3 gamma_(i j) mnabla_k beta^k - alpha A_(i j),
+$
+which makes the split of the distortion tensor into a shear part---which we control---and a physical part---which is fixed by evolution---manifest. Notably, as intuition already suggested earlier, neither the rotation nor the expansion of $mnabla_i beta_j$ appears directly in this expression. One should keep in mind, however, that rotation and expansion affect the evolution of $A_(i j)$, and can hence indirectly contribute to distortion.
+
+Now that we know that we are working with, we can start to design our gauge condition for $beta$ accordingly. Since we want to minimise $Sigma_(i j)$, a naive guess might be to just set it to zero and at each time step solve the elliptic system
+$
+  mnabla_(\(i) beta_(j\)) - 1/3 gamma_(i j) mnabla_k beta^k = alpha A_(i j)
+$
+for $beta$. Unfortunately, however, solving an elliptic system at each iteration step is computationally intensive and hence not really viable. In addition, and more subtly, doing so is generally impossible anyways: the equation above is symmetric traceless, meaning that we have a total of five independent equations. Since we only have three degrees of freedom (the components of $beta$) to satisfy them with, for an arbitrary source $A_(i j)$, it is generically overdetermined and in most cases will not admit a solution. 
+
+We are hence forced to do the next-best thing---attempt to minimise some spatial norm of $Sigma_(i j)$ on each slice. Picking as a functional to minimise the $L^2$-norm
+$
+  Q[Sigma_(i j), t] = integral_(Sigma_t)thin Sigma_(i j) Sigma^(i j) thin dvol_gamma,
+$
+we can use the condition of stationarity to find its minima. Of course, we do not vary $Q$ with respect to $Sigma_(i j)$ itself---this would just recover the condition that $Sigma_(i j) = 0$ which we have found to be of no merit. Instead, we vary the quantity we actually control: the shift $beta$. When sending $beta -> beta + delta beta$, the distortion $Sigma_(i j)$ varies as
+$
+  Sigma_(i j) -> Sigma_(i j) + delta Sigma_(i j), quad delta Sigma_(i j) = mnabla_(\(i) delta beta_(j\)) - 1/3 gamma_(i j) mnabla_k delta beta^k.
+$
+Consequently, the variation of $Q$ with respect to $beta$ is
+$
+  delta Q = 2 integral_(Sigma_t) Sigma^(i j) delta Sigma_(i j) thin dvol_gamma = 2 integral_(Sigma_t) Sigma^(i j) (mnabla_(\(i) delta beta_(j\)) - 1/3 gamma_(i j) mnabla_k delta beta^k) dvol_gamma.
+$
+Since $Sigma_(i j)$ is traceless, the second term will not contribute, so that
+$
+  delta Q = 2 integral_(Sigma_t) Sigma^(i j) mnabla_i delta beta_j thin dvol_gamma = - 2 integral_(Sigma_t) (mnabla_i Sigma^(i j)) delta beta_j thin dvol_gamma.
+$
+Note that this implicitly assumed the distortion and variation to vanish quickly enough as $r-> infty$ for integration by parts not to introduce boundary terms. Demanding $delta Q = 0$, we obtain the criticality condition
+$
+  mnabla_i Sigma^(i j) = 0.
+$<eqGammaDriverParabolicMinimality>
+Though this is still an elliptic system, which a priori, we need to solve at each timestep, we now have the correct number of equations; three equations for three degrees of freedom.
+
+Instead of solving an elliptic equation at every time step, we would prefer a parabolic or hyperbolic evolution equation for the shift, which can be evolved alongside the main system. To construct such a prescription, we seek a dynamical equation that drives $beta^i$ towards a configuration in which $Sigma_(i j)$ approximately satisfies @eqGammaDriverParabolicMinimality. 
+
+The key observation is that $Sigma_(i j)$ is constructed from the time derivative of the conformal metric, so that its spatial divergence is closely related to the time evolution of $tilde(Gamma)^i$. Indeed, since $tilde(Gamma)^i = - diff_j tilde(gamma)^(i j)$, taking a time derivative yields a spatial divergence of the conformal metric's evolution, up to the product rule terms arising from index raising and the distinction between coordinate and covariant derivatives. This suggests a useful connection: the BSSNOK equation for $tilde(Gamma)^i$ may provide a starting point for constructing a dynamical shift condition that drives the system towards minimal distortion. 
+
+Before pursuing this idea, we therefore need to make the relationship between $nabla_i Sigma^(i j)$ and $diff_t tilde(Gamma)^i$ precise. We start by noticing that
+$
+  Sigma^(i j) = gamma^(i k) gamma^(j ell) Sigma_(k ell) = 1/2 gamma^(-1\/3) tilde(gamma)^(i k) tilde(gamma)^(j ell) diff_t tilde(gamma)_(k ell) = -1/2 gamma^(-1\/3) diff_t tilde(gamma)^(i j)
+$
+Since we aim to make our results part of the BSSN evolution system, we should replace the metric determinant with $phi.alt$, which we recall to be related to $gamma$ by
+$
+  phi.alt = -1/12 log gamma quad <=> quad gamma^(1\/3) = e^(-4phi.alt)
+$
+Hence, we get the relationship 
+$
+  Sigma^(i j) = -1/2 e^(4phi.alt) diff_t tilde(gamma)^(i j)
+$
+between the covariant distortion tensor and the BSSN variables. From here, we can evaluate its covariant divergence as
+$
+  mnabla_i Sigma^(i j) &= diff_i Sigma^(i j) + tensor(Gamma,+i,-k i) Sigma^(k j) + tensor(Gamma,+j,-k i) Sigma^(i k)\
+  &= -1/2 diff_i (e^(4 phi.alt) diff_t tilde(gamma)^(i j)) + underbrace(tensor(tilde(Gamma),+i,-k i),=0) Sigma^(k j) + tensor(C,+i,-k i) Sigma^(k j) + tensor(tilde(Gamma),+j,-i k)Sigma^(i k) + tensor(C,+j,-i k) Sigma^(i k)\
+  &= 1/2 e^(4 phi.alt) diff_t tilde(Gamma)^j + 4 Sigma^(i j)diff_i phi.alt + tensor(tilde(Gamma),+j,-i k) Sigma^(i k)+ tensor(C,+i,-k i) Sigma^(k j)+ tensor(C,+j,-i k) Sigma^(i k)
+$
+Recalling that
+$
+  tensor(C,+j,-i k) = 2(tensor(delta,+j,-k) diff_i phi.alt + tensor(delta,+j,-i)diff_k phi.alt - tilde(gamma)_(k i) tilde(gamma)^(j ell) diff_ell phi.alt),
+$
+and making use of the fact that $Sigma^(i j)$ is symmetric as well as traceless with respect to both $gamma_(i j)$ and $tilde(gamma)_(i j)$, we derive that
+$
+  tensor(C,+i,-k i) = 6 diff_k phi.alt, quad tensor(C,+j,-i k) Sigma^(i k) = 4 Sigma^(i j) diff_i phi.alt.
+$
+Substituting this into the above yields
+$
+  mnabla_i Sigma^(i j) = 1/2 e^(4 phi.alt) diff_t tilde(Gamma)^j + tensor(tilde(Gamma),+j,-i k) Sigma^(i k)+ 14 Sigma^(i j) diff_i phi.alt,
+$
+or, when rearranged for $diff_t tilde(Gamma)^i$ (renaming indices),
+$
+  diff_t tilde(Gamma)^i  = 2 e^(-4phi.alt) (mnabla_k Sigma^(i k) - tensor(tilde(Gamma),+i,-k ell) Sigma^(k ell) - 14 Sigma^(i k) diff_k phi.alt).
+$
+
 == Initial Data
 In this section, we discuss different approaches used to decompose and solve the constraint equations
 #bottom-number[$
