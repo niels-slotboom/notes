@@ -667,7 +667,7 @@ In doing so, we will use many of the identities from the previous section, and e
   Note that the trace of the extrinsic curvature, $K$, is the only true scalar, so $fL_beta K = beta^i diff_i K$. Moreover, it should be noted that $fL_beta tilde(Gamma)^i$ is _not_ to be interpreted as the Lie derivative of a vector field nor vector density, but rather expanded as
   $
     fL_beta tilde(Gamma)^i = fL_beta (tensor(tilde(Gamma),+i,-j k) tilde(gamma)^(j k)) = (fL_beta tensor(tilde(Gamma),+i,-j k)) tilde(gamma)^(j k) + tensor(tilde(Gamma),+i,-j k) (fL_beta tilde(gamma)^(j k)).
-  $
+  $<eqConnectionDensityLieDerivative>
   The Lie derivative of the connection coefficients is then evaluated using the analogon of @defLieDerivDensity for connections, and gives rise to the terms involving second derivatives of $beta$ in the last of @eqBSSN[equations].
 
   Although this compactification of the BSSN evolution equations does not introduce any benefits to its numerical implementation---we still have to compute all the individual terms the Lie derivatives consist of---writing them down in this form enables a more straightforward interpretation. For any of the $T = phi.alt, tilde(gamma)_(i j), K, tilde(A)_(i j), tilde(Gamma)^i$, we have the main Lie-advection piece
@@ -807,7 +807,7 @@ $
 $
 Consequently, a frozen lapse causes the BSSNOK equations to reduce to a pure Lie-advective form---up to the algebraic constraint correction term in the last equation. In hindsight, this is expected: even though the evolution comes to a standstill with respect to $t$ along the integral lines of $n$, the spatial position of these integral lines may still vary as $t$ progresses---this is encoded by the shift. Thus, even if evolution is frozen ($alpha->0$), we still need to advect the field configuration across our simulation domain to account for coordinate motion. Note: At the boundary of a region where $alpha = 0$, its first and second derivatives may be non-zero. This introduces further terms into the equations for $K$, $tilde(A)_(i j)$ and $diff_t tilde(Gamma)^i$.
 
-==== #text(fill: red)[Shift: $Gamma$-Driver]
+==== Shift: $Gamma$-Driver
 
 Although a singularity-avoiding lapse condition can prevent the spatial foliation from encountering a spacetime singularity, we must further ensure that the spatial coordinates remain well-behaved throughout the evolution. Undesirable coordinate motion can distort the numerical grid, which makes the evolution equations difficult to resolve accurately and potentially destabilises the simulation. 
 
@@ -897,8 +897,8 @@ $
 between the covariant distortion tensor and the BSSN variables. From here, we can evaluate its covariant divergence as
 $
   mnabla_i Sigma^(i j) &= diff_i Sigma^(i j) + tensor(Gamma,+i,-k i) Sigma^(k j) + tensor(Gamma,+j,-k i) Sigma^(i k)\
-  &= -1/2 diff_i (e^(4 phi.alt) diff_t tilde(gamma)^(i j)) + underbrace(tensor(tilde(Gamma),+i,-k i),=0) Sigma^(k j) + tensor(C,+i,-k i) Sigma^(k j) + tensor(tilde(Gamma),+j,-i k)Sigma^(i k) + tensor(C,+j,-i k) Sigma^(i k)\
-  &= 1/2 e^(4 phi.alt) diff_t tilde(Gamma)^j + 4 Sigma^(i j)diff_i phi.alt + tensor(tilde(Gamma),+j,-i k) Sigma^(i k)+ tensor(C,+i,-k i) Sigma^(k j)+ tensor(C,+j,-i k) Sigma^(i k)
+  &= -1/2 diff_i (e^(4 phi.alt) diff_t tilde(gamma)^(i j)) + underbrace(tensor(tilde(Gamma),+i,-k i),=0) Sigma^(k j) -tensor(C,+i,-k i) Sigma^(k j) + tensor(tilde(Gamma),+j,-i k)Sigma^(i k) - tensor(C,+j,-i k) Sigma^(i k)\
+  &= 1/2 e^(4 phi.alt) diff_t tilde(Gamma)^j + 4 Sigma^(i j)diff_i phi.alt + tensor(tilde(Gamma),+j,-i k) Sigma^(i k)- tensor(C,+i,-k i) Sigma^(k j)- tensor(C,+j,-i k) Sigma^(i k)
 $
 Recalling that
 $
@@ -910,13 +910,80 @@ $
 $
 Substituting this into the above yields
 $
-  mnabla_i Sigma^(i j) = 1/2 e^(4 phi.alt) diff_t tilde(Gamma)^j + tensor(tilde(Gamma),+j,-i k) Sigma^(i k)+ 14 Sigma^(i j) diff_i phi.alt,
+  mnabla_i Sigma^(i j) = 1/2 e^(4 phi.alt) diff_t tilde(Gamma)^j + tensor(tilde(Gamma),+j,-i k) Sigma^(i k) -6 Sigma^(i j) diff_i phi.alt,
 $
 or, when rearranged for $diff_t tilde(Gamma)^i$ (renaming indices),
 $
-  diff_t tilde(Gamma)^i  = 2 e^(-4phi.alt) (mnabla_k Sigma^(i k) - tensor(tilde(Gamma),+i,-k ell) Sigma^(k ell) - 14 Sigma^(i k) diff_k phi.alt).
+  diff_t tilde(Gamma)^i  = 2 e^(-4phi.alt) (mnabla_k Sigma^(i k) - tensor(tilde(Gamma),+i,-k ell) Sigma^(k ell) +6 Sigma^(i k) diff_k phi.alt).
+$<eqReldifftGammaiMinDistortion>
+Thus, imposing the $Gamma$-freezing condition $diff_t tilde(Gamma)^i = 0$ yields the following elliptic equation for the shift, expressed in terms of the distortion tensor: 
 $
+  mnabla_k Sigma^(i k) - tensor(tilde(Gamma),+i,-k ell) Sigma^(k ell) - 14 Sigma^(i k) diff_k phi.alt = 0.
+$<eqRelatedDivergenceEquationMinimalDistortion>
+This elliptic PDE has the same principal part as @eqGammaDriverParabolicMinimality, since the additional terms involve no derivatives of $Sigma^(i j)$. Moreover, _if_ these additional terms are small, we recover the original equation---it is hence worth considering whether we can replace @eqGammaDriverParabolicMinimality[the gauge condition] by the one above. At this point, one might be justified in questioning whether we have gained anything---after all, it seems as if we've replaced an elliptic PDE to solve at each iteration step with a more complicated equation. The primary benefit is another: we have obtained an elliptic equation for the shift whose solution enforces the condition $diff_t tilde(Gamma)^i = 0$. This condition is equivalent to freezing the conformal connection functions dynamically.
 
+It would be inconsistent to impose $diff_t tilde(Gamma)^i = 0$ by simply replacing its evolution equation with zero while leaving the remaining evolution equations unchanged. The $Gamma$-freezing condition must instead be enforced through a compatible choice of shift. One way to achieve this would be to solve @eqRelatedDivergenceEquationMinimalDistortion for $beta^i$ at each time step---this ensures that the right-hand side of $diff_t tilde(Gamma)^i$ does in fact vanish physically. However, our goal is to move away from such elliptic systems, and rather drive $diff_t tilde(Gamma)^i$ to zero dynamically.
+
+Hence, we should keep evolving the full $diff_t tilde(Gamma)^i$-equation as written in the @eqBSSN[BSSN equations], and introduce an evolution equation for $beta^i$ which has a tendency to drive $diff_t tilde(Gamma)^i$ towards zero. As a preliminary trial, considering
+$
+  diff_t beta^i = mu diff_t tilde(Gamma)^i.
+$
+Clearly, a steady state for $beta^i$ implies $diff_t beta^i = 0$ and hence $diff_t tilde(Gamma)^i=0$. Depending on the sign of $mu$, this steady state might be stable or unstable, and we can in general not be sure that our evolution moves towards it---a fixed point is not necessarily an attractor. Empirically, it has been found that $mu>0$ tends to drive the evolution towards a steady state.
+
+Further, for constant $mu$, we can integrate this first-order equation to obtain
+$
+  beta^i - mu tilde(Gamma)^i = C^i (x),
+$ 
+where $C^i (x)$ are functions determined entirely by the initial data. Thus, the first-order driver imposes this relation throughout the evolution, even away from a steady state. This restricts the allowed evolution of the shift relative to the conformal connection functions. Introducing the first-order equation above as a gauge condition would hence reduce the flexibility of the evolution system. In addition, since the right-hand side involves a term proportional to $mnabla_i Sigma^(i j)$, which involves second spatial derivatives of $beta^i$, the above equation has a parabolic principal part. This introduces diffusion-type dynamics into the otherwise hyperbolic BSSN evolution system.
+
+We are hence motivated to move to a second-order in time equation instead,
+$
+  diff_t^2 beta^i = mu diff_t tilde(Gamma)^i - eta diff_t beta^i.
+$
+A steady state for $beta^i$ again implies $diff_t tilde(Gamma)^i = 0$---though again, this does not necessarily have to be an attractor. Introducing a second time derivative allows us to add a damping term proportional to $-diff_t beta^i$, which can suppress oscillations in the shift dynamics. The resulting driver has wave-like principal dynamics under suitable conditions. 
+
+Since the BSSN system is formulated as a set of equations of the form $diff_t X = ...$, we should also split this second-order shift evolution into two first-order-in-time equations. This involves the introduction of an auxiliary variable $B^i = 1/mu diff_t beta^i$, in terms of which the shift evolution is given by
+$
+  diff_t beta^i &= mu B^i,\
+  diff_t B^i &= diff_t tilde(Gamma)^i - eta B^i. 
+$
+==== Combined Gauge Subsystem
+Combining the results from the previous sections, we obtain the following gauge subsystem to accompany the @eqBSSN[BSSN evolution equations]:
+$
+  diff_t alpha  &= beta^k diff_k alpha - 2 alpha K,\
+  diff_t beta^i &= mu B^i,\
+  diff_t B^i &= diff_t tilde(Gamma)^i - eta B^i.
+$<eqBaseGaugeSubsystem>
+In the following, we discuss potential modifications to this system which could be used to improve it further. 
+
++ We should note that the first equation, the $1+log$ lapse condition, is advective, whereas the shift equations are not. The lapse _should_ advect, since the approaching singularity might be moved around the computational grid due to non-zero shift; the puncture's coordinates may change. The absence of corresponding advection terms in the shift driver is therefore worth examining. Two natural choices two introduce them are:
+
+  - We can replace $diff_t -> diff_t - beta^k diff_k$, that is, turn all time derivatives into coordinate-advective derivatives. This leads to the system
+  $
+    diff_t alpha &= beta^k diff_k alpha - 2alpha K,\
+    diff_t beta^i &= beta^k diff_k beta^i + mu B^i,\
+    diff_t B^i &= beta^k diff_k B^i + diff_t tilde(Gamma)^i - beta^k diff_k tilde(Gamma)^i - eta B^i.
+  $
+
+  - As we have noted before, the BSSN equations feature Lie-advective terms rather than coordinate-advective---that is, the advection derivatives are $diff_t - fL_beta$. Since $fL_beta beta = 0$ and $fL_beta B = [beta,B]$, this leads to
+  $
+    diff_t alpha &= beta^k diff_k alpha - 2alpha K,\
+    diff_t beta^i &= mu B^i,\
+    diff_t B^i &= beta^k diff_k B^i - B^k diff_k beta^i + diff_t tilde(Gamma)^i - fL_beta tilde(Gamma)^i - eta B^i.
+  $
+  Here, we should keep in mind that $tilde(Gamma)^i$ is the trace of a "connection density", with its Lie derivative to be treated as set out in @eqConnectionDensityLieDerivative.
+
++ Besides introducing advection across the full gauge subsystem, we can reconsider the $Gamma$-driver equation. We recall that the reason we want to drive $diff_t tilde(Gamma)^i$ towards zero is because this makes it so that @eqRelatedDivergenceEquationMinimalDistortion becomes satisfied approximately over the course of the evolution. However, we recall that this was a compromise---the actual equation we would like $beta^i$ to satisfy is the @eqGammaDriverParabolicMinimality[minimality condition]. To target the minimal @eqGammaDriverParabolicMinimality[distortion condition] more directly, we can rearrange @eqReldifftGammaiMinDistortion into 
+  $
+    mnabla_k Sigma^(k i) = 1/2 e^(4phi.alt) diff_t tilde(Gamma)^i + tensor(tilde(Gamma),+i,-k ell) Sigma^(k ell) -6 Sigma^(i k)diff_k phi.alt.
+  $
+  Using this, one could replace the driver term $diff_t tilde(Gamma)^i$ with the above expression, with the intention of giving the system a tendency to move towards $mnabla_k Sigma^(k i) = 0$. The corresponding gauge subsystem reads
+  $
+    diff_t alpha  &= beta^k diff_k alpha - 2 alpha K,\
+    diff_t beta^i &= mu B^i,\
+    diff_t B^i &= 1/2 e^(4phi.alt) diff_t tilde(Gamma)^i + tensor(tilde(Gamma),+i,-k ell) Sigma^(k ell) -6 Sigma^(i k)diff_k phi.alt - eta B^i.
+  $
+  The main practical drawback is the additional computation to evaluate $Sigma^(i j)$ as well as the combinations it appears in at each evolution step.
 == Initial Data
 In this section, we discuss different approaches used to decompose and solve the constraint equations
 #bottom-number[$
