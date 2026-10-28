@@ -18,5 +18,3 @@
 #include("num-methods.typ")
 #pagebreak()
 #include("num-relativity.typ")
-#pagebreak()
-#include("cas.typ")
